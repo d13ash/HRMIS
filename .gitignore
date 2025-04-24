@@ -1,0 +1,12 @@
+# Node
+server/node_modules/
+server/.env
+
+# Angular
+client/node_modules/
+client/dist/
+client/.angular/
+
+# System files
+.DS_Store
+*.log
