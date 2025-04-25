@@ -1,5 +1,6 @@
 # Node
 server/node_modules/
+server/config/
 server/.env
 
 # Angular
