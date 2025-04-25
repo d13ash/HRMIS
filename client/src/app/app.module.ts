@@ -13,6 +13,14 @@ import { HomeCardComponent } from './components/home-card/home-card.component';
 import { LoginComponent } from './components/login/login.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CollectModule } from './collect/collect.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { StartpageComponent } from './components/startpage/startpage.component';
 
 @NgModule({
   declarations: [
@@ -25,11 +33,25 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HomeComponent,
     HomeCardComponent,
     LoginComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    StartpageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule,
+    BrowserAnimationsModule,
+    CollectModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    SharedModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function tokenGetter() {
+          return localStorage.getItem('token')
+        }
+}
+})
   ],
   providers: [
     provideClientHydration(),

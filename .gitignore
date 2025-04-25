@@ -7,6 +7,8 @@ server/.env
 client/node_modules/
 client/dist/
 client/.angular/
+# client/src/environments/
+# client/src/assets/*
 
 # System files
 .DS_Store
