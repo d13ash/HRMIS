@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
@@ -25,8 +25,13 @@ import { ProjectWorkComponent } from './component/project-work/project-work.comp
 import { ProjectWorkDetailComponent } from './component/project-work-detail/project-work-detail.component';
 import { ResourceStatusComponent } from './component/resource-status/resource-status.component';
 import { StockItemDetailsComponent } from './component/stock-item-details/stock-item-details.component';
+import { CollectModule } from '../collect/collect.module';
+import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { WorkAllotmentComponent } from './component/work-allotment/work-allotment.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
-
+// MAT_DATE_LOCALE
 @NgModule({
   declarations: [
     AdminComponent,
@@ -51,12 +56,17 @@ import { StockItemDetailsComponent } from './component/stock-item-details/stock-
     ProjectWorkComponent,
     ProjectWorkDetailComponent,
     ResourceStatusComponent,
-    StockItemDetailsComponent
+    StockItemDetailsComponent,
+    WorkAllotmentComponent
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
-  ]
+    AdminRoutingModule,
+    CollectModule,
+    SharedModule,
+    ReactiveFormsModule
+  ],
+  providers: [DatePipe, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
 export class AdminModule { }
 

@@ -1,1 +1,192 @@
-<p>pro-post-allot works!</p>
+<div class="container-fluid" id="addnews">
+    <mat-card>
+        <form [formGroup]="projectPostForm" (ngSubmit)="onSubmit()">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 heading">
+                    <h2 style="color:whitesmoke;"> Project Post Setup Allotment</h2>
+                </div>
+            </div>
+            <br>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Project Post Setup Allotment</legend>
+                <div class="control-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="inputfieldsize">
+                        <mat-label> Choose Project </mat-label>
+                        <mat-select formControlName="Project_ID">
+                          <mat-option *ngFor="let c of projectType ;" [value]="c.Project_ID" >
+                            {{c.Project_name}}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="inputfieldsize">
+                    <mat-label>Financial Year</mat-label>
+                    <mat-select formControlName="Financial_id">
+                      <mat-option *ngFor="let c of year ;" [value]="c.Financial_id" >
+                        {{c.Financial_name}}
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline" class="inputfieldsize">
+                        <mat-label>Choose Post </mat-label>
+                        <mat-select formControlName="Post_id">
+                          <mat-option *ngFor="let c of post ;" [value]="c.Post_id" >
+                            {{c.Post_name}}
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="inputfieldsize">
+                        <mat-label>Number of Day neeed</mat-label>
+                        <input matInput type="number" placeholder="ex=45" formControlName="Duration_in_days">
+                      </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="inputfieldsize">
+                        <mat-label>Number of Manpower</mat-label>
+                        <input matInput type="number" placeholder="ex=5" formControlName="Manpower_no" value="Sushi">
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="Start_date">
+                        <mat-hint>DD/MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="End_date">
+                        <mat-hint>DD/MM/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="inputfieldsize">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput placeholder="Description" formControlName="Description"></textarea>
+                      </mat-form-field>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col offset-5">
+                    <button mat-raised-button (click)="onClear()" type="button" >
+                        Clear
+                    </button> &nbsp;&nbsp; 
+                <button mat-raised-button color="primary"  *ngIf="!iseditmode" type="submit">
+                    Submit
+                </button>
+                <button mat-raised-button color="primary"  *ngIf="iseditmode" (click)="onupdate()" type="button">
+                    Update
+                </button>
+            </div>
+            </div>
+        </div>
+    </fieldset>    
+    </div>
+</form>
+    </mat-card>
+</div>
+<br> <br>
+
+
+<!-- mat table -->
+<div class="container-fluid">
+    <mat-card style="margin-bottom: 40px;">
+
+        <mat-toolbar>
+            <p><span ><h5 class="title">All Post Setup Detail</h5></span> </p>
+        </mat-toolbar>
+       <div class="container ">
+  <div class="row table-responsive">
+    
+    <div class="search_container mt-2" >
+        <mat-form-field class="example-full-width">
+        <span matPrefix> </span>
+        <input type="tel" matInput placeholder="Search" autocomplete="off" (keyup)="applyFilter($event)" >
+        <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+    <table class="con-table" mat-table matSort [dataSource]="dataSource" >
+        <ng-container matColumnDef="Project_post_allotment_ID">
+          <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element">{{element.Project_post_allotment_ID}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Project_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Project</th>
+            <td mat-cell *matCellDef="let element"> {{element.Project_name}} </td>
+          </ng-container>
+        <ng-container matColumnDef="Post_name">
+            <th mat-sort-header  mat-header-cell *matHeaderCellDef>Post</th>
+            <td mat-cell *matCellDef="let element"> {{element.Post_name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Duration_in_days">
+            <th mat-sort-header  mat-header-cell *matHeaderCellDef>Duration Day</th>
+            <td mat-cell *matCellDef="let element"> {{element.Duration_in_days}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Manpower_no">
+            <th mat-sort-header  mat-header-cell *matHeaderCellDef>Manpower Number</th>
+            <td mat-cell *matCellDef="let element"> {{element.Manpower_no}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Financial_name">
+            <th mat-sort-header  mat-header-cell *matHeaderCellDef>Financial Year</th>
+            <td mat-cell *matCellDef="let element"> {{element.Financial_name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Start_date">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Start Date</th>
+            <td mat-cell *matCellDef="let element"> {{element.Start_date | date :'dd/MM/YYYY'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="End_date">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>End Date</th>
+            <td mat-cell *matCellDef="let element"> {{element.End_date | date :'dd/MM/YYYY'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Description">
+            <th mat-sort-header  mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
+          </ng-container>
+       
+          <ng-container matColumnDef="Action" stickyEnd="true">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-icon-button color="primary" (click)="onedit(element.Project_post_allotment_ID); scrollToBottom()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn"  (click)="ondelete(element.Project_post_allotment_ID)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+<br>
+      <mat-paginator class="paging"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+     </mat-paginator>
+</div>
+</div>
+    </mat-card>
+</div>
+

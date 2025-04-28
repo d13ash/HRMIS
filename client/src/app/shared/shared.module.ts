@@ -8,6 +8,9 @@ import { MainDashCardComponent } from './main-dash-card/main-dash-card.component
 import { OwlCarouselComponent } from './owl-carousel/owl-carousel.component';
 import { ProgressbarComponent } from './progressbar/progressbar.component';
 import { ResourceAllotmentComponent } from './resource-allotment/resource-allotment.component';
+import { ResourceShowComponent } from './resource-show/resource-show.component';
+import { CollectModule } from '../collect/collect.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,11 +20,22 @@ import { ResourceAllotmentComponent } from './resource-allotment/resource-allotm
     MainDashCardComponent,
     OwlCarouselComponent,
     ProgressbarComponent,
-    ResourceAllotmentComponent
+    ResourceAllotmentComponent,
+    ResourceShowComponent
   ],
   imports: [
     CommonModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    CollectModule,
+    ReactiveFormsModule
+  ],
+  exports:[
+    ProgressbarComponent,
+    LeaveRequestComponent,
+    MainDashCardComponent,
+    ChartComponent,
+    OwlCarouselComponent,
+    ResourceShowComponent
   ]
 })
 export class SharedModule { }

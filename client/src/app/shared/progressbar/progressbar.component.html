@@ -1,1 +1,66 @@
-<p>progressbar works!</p>
+
+<!-- <div class="container-fluid" style="margin-top: 10px; margin-bottom: 6px;">
+    <mat-card>
+        <div class="row" style="margin-bottom: 17px;">
+            <div class="header mt-3">
+              <h4>All Project Progress According to works</h4> 
+            </div>
+            <div class="col-md-6 " style="margin-top: 10px;">
+                    <div class="mt-8 edit" >
+                        <div *ngFor="let a of arr" style="margin-top:20px;">
+                            <div>
+                              {{a.Project_name}}
+                            </div>
+                            <div  class="progress">
+                              <div class="progress-bar"  role="progressbar" [style.width.%]="a.percent" aria-valuemin="0" aria-valuemax="100">
+                                {{a.percent}}%
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </mat-card>
+</div> -->
+
+<section id="skills" style="background-color: rgb(255, 255, 255);">
+    <div class="container" >
+  
+      
+      <div class="row">
+        <h2 class="progress-head"><span style="color: rgb(231, 37, 37);">All Project <span style="color: rgb(8, 8, 8);">Progress</span> According to works</span></h2>
+        <div class="col-lg-6 d-flex align-items-center" data-aos="fade-right" data-aos-delay="100">
+          <img src="https://img.freepik.com/premium-vector/marketing-growth-people-flat-illustration_553411-209.jpg?w=740" width="450rem" height="60px" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left" data-aos-delay="100">
+          <h3 class="responsive-h3">Voluptatem dignissimos provident quasi corporis voluptates</h3>
+          <p class="fst-italic">
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua."
+          </p>
+  
+          <div class="">
+  
+            <div class="mt-8 edit" >
+              <div *ngFor="let a of arr" style="margin-top:20px;">
+                  <div>
+                    {{a.Project_name}}
+                  </div>
+                  <div  class="progress">
+                    <div class="progress-bar"  role="progressbar" [style.width.%]="a.percent" aria-valuemin="0" aria-valuemax="100">
+                      {{a.percent}}%
+                     </div>
+                  </div>
+              </div>
+          </div>
+  
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+  </section><!-- End Skills Section -->
+   
+  
+    

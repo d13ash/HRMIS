@@ -1,0 +1,130 @@
+mat-sidenav{
+    background:white(255, 255, 255);
+    width: 230px;
+    height: 100%;
+}
+
+.nav{
+    position: sticky;
+    top: 0;
+    }
+
+mat-sidenav-content{
+    height: 100vh;
+    background: rgba(221, 228, 228, 0.978);
+    .main{
+        margin-left: 25px;
+    }
+}
+
+mat-toolbar{
+    mat-icon{
+        margin-left: 15px;
+        color: grey;
+    }
+    justify-content: space-between;
+
+    .box{
+        margin-top: 8px;
+    }
+}
+
+
+
+.user{
+    font-size: 13px;
+    text-align: center;
+    font-weight: 600;
+    .profile_img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 5px solid #ccd8e3;
+      margin: 5px auto;
+      object-fit: cover;
+    }
+
+    .name{
+        color: rgb(85, 80, 80);
+    }
+    .mail{
+        font-size: smaller;
+        color: rgb(150, 144, 144);
+    }
+}
+
+.menu-head{
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-left: 30px;
+    color: #030410;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+
+}
+
+:host {
+    .mat-icon {
+      vertical-align: middle;
+      margin-right: 1rem;
+    }
+  }
+  .logo {
+    text-align: center;
+    padding: 2.6rem 1rem;
+    img {
+      width: 200px;
+    }
+  }
+  .mat-divider {
+    border-top-width: 2px;
+    border-color: white;
+  }
+  .mat-list-item {
+    color: #94a3b8 !important;
+    font-size: 0.8rem;
+    height: 44px !important;
+    margin-bottom: 4px;
+    &:hover {
+      color: #f2f5f7 !important;
+    }
+    ::ng-deep {
+      .mat-list-item-content {
+        border-radius: 5px;
+        margin: 0 8px;
+        &:hover {
+          background: #2c3344 !important;
+        }
+      }
+    }
+  }
+  .list-item-active {
+    // background: blue !important;
+    // border-radius: 0 2rem 2rem 0;
+    // &:hover {
+    //   background: blue;
+    // }
+  
+    color: #f2f5f7 !important;
+    ::ng-deep {
+      .mat-list-item-content {
+        background: #2c3344 !important;
+        &:hover {
+          background: #2c3344 !important;
+        }
+     }
+    }
+}
+
+
+.dash{
+  margin-left: -28px;
+  margin-bottom: -10px;
+  background: rgb(184, 215, 223);
+}
+
+
+table, td, th {
+  border:  solid 1px;
+  
+  }
