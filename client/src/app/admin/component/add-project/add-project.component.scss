@@ -1,0 +1,228 @@
+.card-content{
+  
+    padding: 10px;
+    display: flex;
+  }
+  
+  .example-card{
+    margin-right: 20px;
+  }
+  
+  
+  .example-card-new {
+    max-width: 250px;
+    // margin-right: 20px;
+    margin-left: 20px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://images-platform.99static.com/P-fsdjQU-s6B1EHCG9Fog7uV4PU=/500x500/smart/99designs-contests-files/contests/13/1395/139500/brief/b9e6be225d76c21d90a8cabd0239aa61');
+    background-size: cover;
+  }
+  
+  // .card-row{
+  //   background-color: rgb(245, 249, 224);
+  //   margin-top: 20px;
+  //   margin-right: px;
+  // }
+  
+  // .progress-row{
+  //   background-color: rgb(245, 249, 224);
+  //   margin-top: 20px;
+  //   margin-right: 5px;
+  // }
+  
+  
+  // .row-for-detail{
+  //   background-color: rgb(245, 249, 224);
+  //   margin-top: 20px;
+  //   margin-right: 5px;
+  // }
+  
+  
+  
+  
+  // html,
+  // body {
+  //   height: 100%;
+  // }
+  // body {
+  //   margin: 0;
+  //   font-family: Roboto, "Helvetica Neue", sans-serif;
+  //   min-height: 100vh;
+  //   background: #e2e2e2;
+  // }
+  // .app-header {
+  //   justify-content: space-between;
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   z-index: 2;
+  //   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+  // }
+  // .login-wrapper {
+  //   height: 100%;
+  // }
+  // .positronx {
+  //   text-decoration: none;
+  //   color: #ffffff;
+  // }
+  // .box {
+  //   position: relative;
+  //   top: 0;
+  //   opacity: 1;
+  //   float: left;
+  //   padding: 60px 50px 40px 50px;
+  //   width: 100%;
+  //   background: rgb(251, 251, 252);
+  //   border-radius: 10px;
+  //   transform: scale(1);
+  //   -webkit-transform: scale(1);
+  //   -ms-transform: scale(1);
+  //   z-index: 5;
+  //   max-width: 1000px;
+  // }
+  // .box.back {
+  //   transform: scale(.95);
+  //   -webkit-transform: scale(.95);
+  //   -ms-transform: scale(.95);
+  //   top: -20px;
+  //   opacity: .8;
+  //   z-index: -1;
+  // }
+  // .box:before {
+  //   content: "";
+  //   width: 100%;
+  //   height: 30px;
+  //   border-radius: 10px;
+  //   position: absolute;
+  //   top: -10px;
+  //   background: #576CBC;;
+  //   left: 0;
+  //   transform: scale(.95);
+  //   -webkit-transform: scale(.95);
+  //   -ms-transform: scale(.95);
+  //   z-index: -1;
+  // }
+  // .login-wrapper .example-form {
+  //   min-width: 100%;
+  //   max-width: 300px;
+  //   width: 100%;
+  // }
+  // .login-wrapper .example-full-width,
+  // .login-wrapper .btn-block {
+  //   width: 100%;
+  // }
+  // .login-wrapper mat-card-header {
+  //   text-align: center;
+  //   width: 100%;
+  //   display: block;
+  //   font-weight: 700;
+  // }
+  // .login-wrapper mat-card-header mat-card-title {
+  //   font-size: 30px;
+  //   margin: 0;
+  // }
+  // .login-wrapper .mat-card {
+  //   padding: 40px 70px 50px;
+  // }
+  // .login-wrapper .mat-stroked-button {
+  //   border: 1px solid currentColor;
+  //   line-height: 54px;
+  //   background: #FFF7FA;
+  // }
+  // .login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
+  //   padding: 0.8375em 0;
+   
+  // }
+  
+  // .namewidth{
+  //     width: auto;
+  //     min-width: 33%;
+  //     padding: 2px;
+  // }
+  // .full-width{
+  //     width: auto;
+  //     min-width: 50%;
+  //     padding: 2px;
+  // }
+  
+  // .mat-mdc-radio-button ~ .mat-mdc-radio-button {
+  //   margin-left:16px;
+  // }
+  
+  // .heading{
+  //         text-align: center;
+  //         background-color: #576CBC;;
+  //         h3{
+  //             padding-top: 20px;
+  //             color: beige;
+             
+  //         }
+  //     }
+  
+  
+  // mat-card{
+  //     background-color: rgb(255, 255, 255);
+  // }
+  
+  // .heading{
+  //     text-align: center;
+  //     background-color: #576CBC;
+  //     h2{
+  //         padding-top: 10px;
+  //         color: beige;
+  //     }
+  // }
+  mat-card{
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .heading{
+    text-align: center;
+    background-color: #576CBC;
+    h2{
+        padding-top: 10px;
+        color: beige;
+    }
+  }
+  
+  fieldset.scheduler-border {
+    border: 2px solid gray !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+    margin-top: 30px !important;
+  }
+  
+  legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: 500 !important;
+    // text-align: left !important;
+    width: auto;
+    padding: 0 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: none;
+    margin-top: -14px;
+    margin-bottom: 15px;
+    background-color: rgb(203, 206, 249);
+    border-radius: 5px;
+    color: black;
+  }
+  
+  .inputfieldsize{
+    width: 100%;
+  }
+  
+  
+  mat-hint{
+  color:blue;
+  }
+  
+  table, td, th {
+    border:  solid 1px;
+    
+    }

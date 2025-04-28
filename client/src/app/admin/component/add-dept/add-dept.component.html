@@ -1,1 +1,261 @@
-<p>add-dept works!</p>
+<div class="container-fluid" id="addnews">
+    <mat-card>
+        <form [formGroup]="departmentDetailForm" (ngSubmit)="onSubmit()">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading">
+                        <h2 style="color:whitesmoke;">Department</h2>
+                    </div>
+                </div>
+                <br>
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Department Details</legend>
+                    <div class="control-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>
+                                        Department Name
+                                    </mat-label>
+                                    <input matInput placeholder=" Department Name" formControlName="Dept_Name">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Department Type </mat-label>
+                                    <mat-select formControlName="Dept_Type_ID">
+                                        <mat-option *ngFor="let c of deptType ;" [value]="c.Dept_Type_ID">
+                                            {{c.Dept_Type_Name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Parent Department(OP)</mat-label>
+                                    <mat-select formControlName="Parent_Dept_ID">
+                                        <mat-option *ngFor="let r of pDept ;" [value]="r.Dept_ID">
+                                            {{r.Dept_Name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="inputfieldsize" appearance="outline">
+                                    <span matPrefix>+91 &nbsp;</span>
+                                    <input type="tel" matInput placeholder="Contact Number"
+                                        formControlName="Contact_Number">
+                                    <mat-icon matSuffix>mode_edit</mat-icon>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>
+                                        Email ID
+                                    </mat-label>
+                                    <input matInput placeholder="igkv@gmail.com" formControlName="Email_ID">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>
+                                        Website URL
+                                    </mat-label>
+                                    <input matInput placeholder="www.igkv/mis.ac.in" formControlName="Website_Url">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Select State</mat-label>
+                                    <mat-select matNativeControl formControlName="State"
+                                        (valueChange)="onChangeState($event)">
+                                        <mat-option value="" selected>Select State</mat-option>
+                                        <mat-option *ngFor="let State of State" [value]="State.State_id">
+                                            {{State.State_name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Select District</mat-label>
+                                    <mat-select matNativeControl formControlName="District"
+                                        (valueChange)="onChangeDistrict($event)">
+                                        <mat-option value="" selected>Select District</mat-option>
+                                        <mat-option *ngFor="let District of District" [value]="District.Distric_id">
+                                            {{District.Distric_name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Select Block</mat-label>
+                                    <mat-select matNativeControl formControlName="Block">
+                                        <mat-option value="" selected>Select Block</mat-option>
+                                        <mat-option *ngFor="let Block of Block" [value]="Block.Block_id">
+                                            {{Block.Block_name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Department Description</mat-label>
+                                    <textarea matInput formControlName="About_Department"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>Address </mat-label>
+                                    <textarea matInput formControlName="Address"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>
+                                        Pincode
+                                    </mat-label>
+                                    <input matInput placeholder="Pincode" formControlName="Pincode">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+
+                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                    <mat-label>
+                                        Contact Person
+                                    </mat-label>
+                                    <input matInput placeholder="Contact Person(op)"
+                                        formControlName="Contact_Person_ID">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <mat-label *ngIf="iseditmode">edit your Images</mat-label>&nbsp;
+                                <mat-label *ngIf="!iseditmode"><strong>image upload</strong></mat-label>&nbsp;
+                                <input type="file" multiple #profile (change)="selectimage($event)">
+                                <button mat-raised-button color="primary" class=" btn btn-secondary btn-sm"
+                                    (click)="submitfile()" type="button">upload</button>
+                            </div>
+                            <div style="display: contents; ;"><img [src]="uploadedimage" alt="a images"
+                                    style="width: 90px;height: 100%;border: 2px solidgrey"></div>
+                            <br>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col offset-5">
+                                <button mat-raised-button type="button" (click)="onClear()">
+                                    Clear
+                                </button> &nbsp;&nbsp;
+                                <button mat-raised-button color="primary" *ngIf="!iseditmode" type="submit">
+                                    Submit
+                                </button><button mat-raised-button color="primary" *ngIf="iseditmode"
+                                    (click)="onupdate()" type="button">
+                                    Update
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+    </mat-card>
+</div>
+<br> <br>
+
+
+<!-- mat table -->
+<div class="container-fluid" style="overflow: auto;">
+    <mat-card style="margin-bottom: 40px;">
+
+        <mat-toolbar>
+            <p><span>
+                    <h5 class="title">All Department</h5>
+                </span> </p>
+        </mat-toolbar>
+        <div class="container ">
+            <div class="row table-responsive">
+
+                <div class="search_container mt-2">
+                    <mat-form-field class="example-full-width">
+                        <span matPrefix> </span>
+                        <input type="tel" matInput placeholder="Search" autocomplete="off"
+                            (keyup)="applyFilter($event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <table class="con-table" mat-table matSort [dataSource]="dataSource">
+
+                    <ng-container matColumnDef="Dept_ID">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
+                        <td mat-cell *matCellDef="let element">{{element.Dept_ID}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Dept_Name">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Name</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Dept_Name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Dept_Type_Name">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Department Type</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Dept_Type_Name}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Logo_Path">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Logo</th>
+                        <td mat-cell *matCellDef="let element"> <a target="_blank" href={{element.Logo_Path}}><img
+                                    style="height: 60px;width:80px;" target="_blank" src={{element.Logo_Path}}
+                                    alt="logo"></a> </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Email_ID">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Email</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Email_ID}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Contact_Number">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Contact</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Contact_Number}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Website_Url">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Website</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Website_Url}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="About_Department">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>About</th>
+                        <td mat-cell *matCellDef="let element"> {{element.About_Department}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Address">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Address</th>
+                        <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Action" stickyEnd="true">
+                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button color="primary" (click)="onedit(element.Dept_ID)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="ondelete(element.Dept_ID)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <br>
+                <mat-paginator class="paging" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                    aria-label="Select page">
+                </mat-paginator>
+            </div>
+        </div>
+    </mat-card>
+</div>

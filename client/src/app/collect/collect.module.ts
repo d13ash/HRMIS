@@ -27,7 +27,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
-
 @NgModule({
   exports: [
     CommonModule,
@@ -54,7 +53,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     MatMenuModule,
     MatDialogModule,
     MatCheckboxModule,
-    CarouselModule
+    CarouselModule,
+    MatCardModule
   ],
   declarations: [],
 })

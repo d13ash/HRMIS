@@ -8,6 +8,8 @@ import { EmpDashboardComponent } from './component/emp-dashboard/emp-dashboard.c
 import { EmployeeProfileComponent } from './component/employee-profile/employee-profile.component';
 import { MyWorkComponent } from './component/my-work/my-work.component';
 import { ProfileViewComponent } from './component/profile-view/profile-view.component';
+import { CollectModule } from '../collect/collect.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { ProfileViewComponent } from './component/profile-view/profile-view.comp
   ],
   imports: [
     CommonModule,
-    EmployeeRoutingModule
+    EmployeeRoutingModule,
+    CollectModule,
+    ReactiveFormsModule
   ]
 })
 export class EmployeeModule { }

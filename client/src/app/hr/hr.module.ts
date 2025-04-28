@@ -10,6 +10,12 @@ import { HrDashContentComponent } from './component/hr-dash-content/hr-dash-cont
 import { HrDashboardComponent } from './component/hr-dashboard/hr-dashboard.component';
 import { PostDetailComponent } from './component/post-detail/post-detail.component';
 import { ProgressComponent } from './component/progress/progress.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { CollectModule } from '../collect/collect.module';
+import { DatePipe } from '@angular/common';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ProjectAssignComponent } from './component/project-assign/project-assign.component';
 
 
 @NgModule({
@@ -21,11 +27,19 @@ import { ProgressComponent } from './component/progress/progress.component';
     HrDashContentComponent,
     HrDashboardComponent,
     PostDetailComponent,
-    ProgressComponent
+    ProgressComponent,
+    ForgotPasswordComponent,
+    ProjectAssignComponent,
+    
   ],
   imports: [
     CommonModule,
-    HrRoutingModule
-  ]
+    HrRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    CollectModule
+  ],
+  providers: [DatePipe, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+
 })
 export class HrModule { }
