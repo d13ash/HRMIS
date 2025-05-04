@@ -48,4 +48,4 @@ const routes: Routes =  [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HrRoutingModule { }
+export class HRRoutingModule { }

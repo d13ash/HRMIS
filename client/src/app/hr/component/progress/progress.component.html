@@ -1,1 +1,28 @@
-<p>progress works!</p>
+
+<div class="container-fluid" style="margin-top: 10px; margin-bottom: 6px;">
+    <mat-card>
+        <div class="row" style="margin-bottom: 17px;">
+            <div class="header mt-3">
+              <h4>All Project Progress According to works</h4> 
+            </div>
+            <div class="col-md-10 offset-md-1" style="margin-top: 10px;">
+                    <div class="mt-8 edit" >
+                        <div *ngFor="let a of arr" style="margin-top:20px;">
+                            <div>
+                              {{a.Project_name}}
+                            </div>
+                            <div  class="progress">
+                              <div class="progress-bar"  role="progressbar" [style.width.%]="a.percent" aria-valuemin="0" aria-valuemax="100">
+                                {{a.percent}}%
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </mat-card>
+</div>
+
+ 
+
+  

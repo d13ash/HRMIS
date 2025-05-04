@@ -26,6 +26,7 @@ data:any;
 
    @ViewChild(MatPaginator) paginator!: MatPaginator ;
    @ViewChild(MatSort) MatSort!: MatSort ;
+   @ViewChild('topOfForm') topOfForm!: ElementRef;
 
  projectMapmodForm!: FormGroup;
   projectMapDetail: any;
@@ -119,18 +120,22 @@ ondelete(Map_module_id: any){
 // Get single Data into form for update
 onedit(Map_module_id: any){ 
   this.MapDetaiDataByid = this.projectMapDetail.find((f : any) => f.Map_module_id === parseInt(Map_module_id)); 
-  console.log(this.MapDetaiDataByid)
- this.iseditmode=true;
+  console.log(this.MapDetaiDataByid);
+  this.iseditmode = true;
   this.data_id = Map_module_id;
 
-  this.projectMapmodForm.patchValue
-  ({
-    Project_ID:this.MapDetaiDataByid.Project_ID,
-    project_module_id:this.MapDetaiDataByid.project_module_id,
-   Description:this.MapDetaiDataByid.Description
-  })
-  this.iseditmode=true;
+  this.projectMapmodForm.patchValue({
+    Project_ID: this.MapDetaiDataByid.Project_ID,
+    project_module_id: this.MapDetaiDataByid.project_module_id,
+    Description: this.MapDetaiDataByid.Description
+  });
+
+  // Scroll to the form
+  setTimeout(() => {
+    this.topOfForm.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 0);
 }
+
 
 onupdate(){
    this.ds.putData('map_project_module/updateMapProDetail/' + this.data_id,this.projectMapmodForm.value).subscribe((result)=>{

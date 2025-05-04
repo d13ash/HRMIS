@@ -30,8 +30,11 @@ import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WorkAllotmentComponent } from './component/work-allotment/work-allotment.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ConfirmLogoutDialogComponent } from './component/confirm-logout-dialog/confirm-logout-dialog.component';
 
 // MAT_DATE_LOCALE
+// ConfirmLogoutDialogComponent
+
 @NgModule({
   declarations: [
     AdminComponent,
@@ -57,7 +60,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     ProjectWorkDetailComponent,
     ResourceStatusComponent,
     StockItemDetailsComponent,
-    WorkAllotmentComponent
+    WorkAllotmentComponent,
+    ConfirmLogoutDialogComponent
   ],
   imports: [
     CommonModule,

@@ -18,18 +18,7 @@
           </span>
         </div>
         <mat-nav-list>
-          <!-- button profile -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon>person</mat-icon>
-                Profile
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="profile-view"> View Profile</a>
-            </mat-nav-list>
-          </mat-expansion-panel>
+          
   <!-- button 0 -->
           <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
             <mat-expansion-panel-header>
@@ -135,12 +124,26 @@
               <a mat-list-item routerLink="resource-allotment">Resource Allotment</a>
             </mat-nav-list>
           </mat-expansion-panel>
+          <!-- button profile -->
+          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>person</mat-icon>
+                Profile
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <a mat-list-item routerLink="profile-view"> View Profile</a>
+              <a mat-list-item (click)="logout()">Logout</a>
+            </mat-nav-list>
+          </mat-expansion-panel>
           <a mat-list-item routerLink="my-resource"><mat-icon class="design_icon">token</mat-icon>My Resource</a>
           <a mat-list-item routerLink="contact-from"><mat-icon class="design_icon">call_quality</mat-icon>Contact Us</a>
   
         </mat-nav-list>
       </mat-nav-list>
     </mat-sidenav>
+
   
     <mat-sidenav-content>
       <div class="toolbar sticky-top nav">

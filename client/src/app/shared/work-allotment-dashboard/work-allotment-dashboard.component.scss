@@ -1,10 +1,10 @@
 
 mat-card{
-    background-color: rgb(240, 242, 243);
+    background-color: rgb(255, 255, 255);
   }
   .heading{
     text-align: center;
-    background-color: #ffffff;
+    background-color: #576CBC;
     h2{
         padding-top: 10px;
         color: beige;
@@ -46,7 +46,7 @@ mat-card{
   }
 
   
- 
+  
 // table color
 
 tr:nth-child(odd){
@@ -60,11 +60,10 @@ tr:nth-child(even){
 
 table{
   th{
-    color: #333232;
     background-color:hsl(214, 63%, 77%)
   }
-
 }
+
 
 // dropdown
 /* Styling the dropdown container */
@@ -93,9 +92,4 @@ table{
   font-size: 16px;
   background-color: #fff;
   color: #333;
-}
-
-
-.margin{
-  margin-top: -15px;
 }

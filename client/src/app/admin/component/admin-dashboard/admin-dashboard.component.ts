@@ -6,8 +6,11 @@ import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
+import { ConfirmLogoutDialogComponent } from '../confirm-logout-dialog/confirm-logout-dialog.component';
 
 // AuthService
+// ConfirmLogoutDialogComponent
+
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -44,12 +47,24 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-  logout() {
-    // Remove token from local storage
-    localStorage.removeItem('token');
+//   logout() {
+//     // Remove token from local storage
+//     localStorage.removeItem('token');
     
-    // Redirect to login page
-    this.router.navigate(['/login']);
- }
+//     // Redirect to login page
+//     this.router.navigate(['/login']);
+//  }
+    logout(): void {
+      const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent, {
+        width: '300px'
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          localStorage.removeItem('token');
+          this.router.navigate(['/login']);
+        }
+      });
+    }
 
 }

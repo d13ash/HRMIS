@@ -35,7 +35,7 @@ export class FinancialBudgetAllotmentComponent implements OnInit {
   ngOnInit(): void {
     this.Budget_Allotment_Form = this.fb.group({
       budget_head_id: [null, Validators.required],
-      amount: [null, Validators.required],
+      amount: [null,[Validators.required, Validators.pattern("^[0-9]*$")]],
       Financial_id: ['', Validators.required],
 
     });
