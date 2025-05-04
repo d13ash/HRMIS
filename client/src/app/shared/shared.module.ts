@@ -11,6 +11,7 @@ import { ResourceAllotmentComponent } from './resource-allotment/resource-allotm
 import { ResourceShowComponent } from './resource-show/resource-show.component';
 import { CollectModule } from '../collect/collect.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WorkAllotmentDashboardComponent } from './work-allotment-dashboard/work-allotment-dashboard.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     OwlCarouselComponent,
     ProgressbarComponent,
     ResourceAllotmentComponent,
-    ResourceShowComponent
+    ResourceShowComponent,
+    WorkAllotmentDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MainDashCardComponent,
     ChartComponent,
     OwlCarouselComponent,
-    ResourceShowComponent
+    ResourceShowComponent,
+    WorkAllotmentDashboardComponent
   ]
 })
 export class SharedModule { }

@@ -22,6 +22,7 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
+  logoimg = '../../../assets/IGKV_Logo_png_igmis.png'
 
   constructor(private http:HttpClient,private fb: FormBuilder, private ds: DataService, private AS: AuthService, private router: Router) { }
 

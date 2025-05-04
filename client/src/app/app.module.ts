@@ -16,10 +16,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CollectModule } from './collect/collect.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient , withFetch } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { StartpageComponent } from './components/startpage/startpage.component';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +43,6 @@ import { StartpageComponent } from './components/startpage/startpage.component';
     BrowserAnimationsModule,
     CollectModule,
     ReactiveFormsModule,
-    HttpClientModule,
     SharedModule,
     JwtModule.forRoot({
       config: {
@@ -54,7 +54,8 @@ import { StartpageComponent } from './components/startpage/startpage.component';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

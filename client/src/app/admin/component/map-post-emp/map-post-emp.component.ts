@@ -203,12 +203,7 @@ export class MapPostEmpComponent implements OnInit {
   selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not 
     if (event.target.files.length > 0) {
       const file = event.target.files[0];            //it is used to get the input file dom property
-      this.images = file
-      var reader = new FileReader();           //this object is used to read the file
-      reader.readAsDataURL(file);             //to read the dom property of file
-      reader.onload = (event: any) => {            //this will load the selected image
-        this.uploadedimage = event.target.result;
-      }
+      this.uploadedimage = URL.createObjectURL(file)
     }
   }
   submitfile() {                            //multer will accept form data so we here creating a form data

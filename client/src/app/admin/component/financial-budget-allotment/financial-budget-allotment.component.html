@@ -26,7 +26,10 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label>Amount</mat-label>
-                                <input matInput value="9090"  formControlName="amount">
+                                <span matPrefix>
+                                    <span class="ps-1">INR(₹)</span>
+                                </span>
+                                <input matInput type="number" value="9090"  formControlName="amount">
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">

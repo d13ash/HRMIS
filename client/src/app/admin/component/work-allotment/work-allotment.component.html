@@ -14,6 +14,17 @@
                   <div class="row">
                     <div class="col-md-4">
                       <mat-form-field appearance="outline" class="inputfieldsize">
+                        <mat-label>Financial Year</mat-label>
+                        <mat-select matNativeControl formControlName="Financial_id"
+                            (valueChange)="onChangeEmp($event)">
+                            <mat-option  selected>Select Year</mat-option>
+                            <mat-option *ngFor="let year of FYear" [value]="year.Financial_id">
+                                {{year.Financial_name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field appearance="outline" class="inputfieldsize">
                         <mat-label>Choose Project </mat-label>
                         <mat-select formControlName="Project_ID" 
                          (valueChange)="onChangeModule($event)">
@@ -36,33 +47,22 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                  <div class="col-md-4">
-                    <!-- <div *ngFor="let control of worksArray.controls; let i = index"> -->
-                      <form [formGroup]="nestedform" >
-                        <mat-form-field appearance="outline" class="inputfieldsize">
-                          <mat-label>Choose Work</mat-label>
-                          <mat-select
-                           multiple formControlName="Project_work_main_id">
-                            <mat-option *ngFor="let c of projectwork ;" [value]="c.Project_work_main_id" >
-                              {{c.Work_name}}
-                            </mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      </form>
-                  </div>
                   </div>
             <div class="row">
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline" class="inputfieldsize">
-                    <mat-label>Financial Year</mat-label>
-                    <mat-select matNativeControl formControlName="Financial_id"
-                        (valueChange)="onChangeEmp($event)">
-                        <mat-option  selected>Select Year</mat-option>
-                        <mat-option *ngFor="let year of FYear" [value]="year.Financial_id">
-                            {{year.Financial_name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                </div>
+              <div class="col-md-6">
+                <!-- <div *ngFor="let control of worksArray.controls; let i = index"> -->
+                  <form [formGroup]="nestedform" >
+                    <mat-form-field appearance="outline" class="inputfieldsize">
+                      <mat-label>Choose Work</mat-label>
+                      <mat-select
+                       multiple formControlName="Project_work_main_id">
+                        <mat-option *ngFor="let c of projectwork ;" [value]="c.Project_work_main_id" >
+                          {{c.Work_name}}
+                        </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  </form>
+              </div>
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="inputfieldsize">
                         <mat-label>Choose Employee</mat-label>

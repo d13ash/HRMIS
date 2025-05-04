@@ -1,1 +1,120 @@
-<p>project-assign works!</p>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+        <mat-card-header>
+            <mat-card-title>Work Allotment</mat-card-title>
+        </mat-card-header>
+        <hr>
+        <form class="example-form" [formGroup]="workassignForm" (ngSubmit)="onSubmit()">
+            <mat-card-content>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>
+                      EMP  Document ID
+                    </mat-label>
+                    <input matInput placeholder="Emp doc detail id" formControlName="Emp_Document_Detail_Id">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>
+                        Employee ID
+                    </mat-label>
+                    <input matInput placeholder="Employee ID" formControlName="Emp_Id">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>
+                       Project ID
+                    </mat-label>
+                    <input matInput placeholder="Project ID" formControlName="Project_ID">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>
+                        Dept_ID
+                    </mat-label>
+                    <input matInput placeholder=" Dept ID" formControlName="Dept_ID">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="example-full-width">
+                    <mat-label>  Work Description</mat-label>
+                    <textarea matInput formControlName="Work_Description" placeholder="Work Description"></textarea>
+                  </mat-form-field>
+
+                <!-- <div class="full-width"> <mat-label> Gender</mat-label>
+                    <mat-radio-group aria-label="Select an option" matNativeControl formControlName="gender">
+                        <mat-radio-button *ngFor="let gender of gender"
+                            [value]="gender.viewValue">{{gender.viewValue}}</mat-radio-button>
+                    </mat-radio-group>
+                </div> -->
+                
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                <mat-form-field color="primary" appearance="outline" style="width: 100%;" >
+                    <mat-label>Work Assign Date</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="Work_Assigned_Date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                  <mat-form-field color="primary" appearance="outline" style=" width: 100%;" >
+                    <mat-label>Work Target Date</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="Work_Target_Date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                  <mat-form-field color="primary" appearance="outline" style=" width: 100%;">
+                    <mat-label>Review Date</mat-label>
+                    <input matInput [matDatepicker]="picker3" formControlName="Review_Date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3 color="primary"></mat-datepicker>
+                  </mat-form-field>
+                  </div>
+              
+                  <div class="col-lg-6 col-sm-6">
+                    <mat-form-field appearance="outline" style=" width: 100%;">
+                        <mat-label>
+                           Work Allotment_Period
+                        </mat-label>
+                        <input matInput placeholder="Work Allotment Period" formControlName="Work_Allotment_Period">
+                    </mat-form-field>
+                </div>
+                </div>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Additional Work Detail</mat-label>
+                        <textarea matInput formControlName="Additional_Work_Detail" placeholder="Work Description"></textarea>
+                      </mat-form-field>
+                       
+                      <div class="row">
+                        <div class="col-sm-4">
+                    <mat-form-field appearance="outline" style=" width: 100%;">
+                        <mat-label> Work Status</mat-label>
+                        <input matInput formControlName="Work_Status" required>
+                    </mat-form-field>
+                </div>
+    
+                <div class="col-sm-4">
+                    <mat-form-field appearance="outline" style=" width: 100%;">
+                        <mat-label> Reviewer_Remark</mat-label>
+                        <input matInput formControlName="Reviewer_Remark" required>
+                    </mat-form-field>
+                </div>
+                
+                <div class="col-sm-4">
+                    <mat-form-field appearance="outline" style=" width: 100%;">
+                        <mat-label>Review By</mat-label>
+                        <input matInput placeholder="Name id"  formControlName="Review_By" required>
+                    </mat-form-field>
+                </div>
+                </div>
+            </mat-card-content>
+            <button mat-raised-button color="primary" class="btn-block" type="submit">
+                Submit
+            </button>
+        </form>
+    </mat-card>
+</div>

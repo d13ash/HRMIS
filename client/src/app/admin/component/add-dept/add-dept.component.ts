@@ -153,33 +153,73 @@ export class AddDeptComponent implements OnInit {
 
   a:any=5
   // Get single Data into form for update
-  onedit(Dept_ID: any) {
-    this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
-    console.log(this.departmentDataByid)
-    this.iseditmode = true;
-    this.data_id = Dept_ID;
-    document.getElementById("addnews")?.scrollIntoView();
-    this.departmentDetailForm.patchValue
-      ({
-        
-        Dept_Name: this.departmentDataByid.Dept_Name,
-        Parent_Dept_ID: this.departmentDataByid.Parent_Dept_ID,
-        Dept_Type_ID: this.departmentDataByid.Dept_Type_ID,
-        Email_ID: this.departmentDataByid.Email_ID,
-        Website_Url: this.departmentDataByid.Website_Url,
-        About_Department: this.departmentDataByid.About_Department,
-        Address: this.departmentDataByid.Address,
-        State: this.departmentDataByid.State,
-        District: this.departmentDataByid.District,
-        Block: this.departmentDataByid.Block,
-        Pincode: this.departmentDataByid.Pincode,
-        Contact_Number: this.departmentDataByid.Contact_Number,
-        Contact_Person_ID: this.departmentDataByid.Contact_Person_ID,
-        // Logo_Path: [null, Validators.required],
-      })
-    this.iseditmode = true;
-  }
+//   onedit(Dept_ID: any) {
+//     this.imageurl = this.departmentDataByid.Logo_Path;
+//     this.uploadedimage = this.departmentDataByid.Logo_Path;
 
+//     this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
+//     console.log(this.departmentDataByid)
+//     this.iseditmode = true;
+//     this.data_id = Dept_ID;
+//     document.getElementById("addnews")?.scrollIntoView();
+//     this.onChangeState(this.departmentDataByid.State); // fetch Districts
+
+// setTimeout(() => {
+//   this.onChangeDistrict(this.departmentDataByid.District); // fetch Blocks
+// }, 300);
+//     this.departmentDetailForm.patchValue
+//       ({
+        
+//         Dept_Name: this.departmentDataByid.Dept_Name,
+//         Parent_Dept_ID: this.departmentDataByid.Parent_Dept_ID,
+//         Dept_Type_ID: this.departmentDataByid.Dept_Type_ID,
+//         Email_ID: this.departmentDataByid.Email_ID,
+//         Website_Url: this.departmentDataByid.Website_Url,
+//         About_Department: this.departmentDataByid.About_Department,
+//         Address: this.departmentDataByid.Address,
+//         State: this.departmentDataByid.State,
+//         District: this.departmentDataByid.District,
+//         Block: this.departmentDataByid.Block,
+//         Pincode: this.departmentDataByid.Pincode,
+//         Contact_Number: this.departmentDataByid.Contact_Number,
+//         Contact_Person_ID: this.departmentDataByid.Contact_Person_ID,
+//         // Logo_Path: [null, Validators.required],
+//       })
+//     this.iseditmode = true;
+//   }
+
+onedit(Dept_ID: any) {
+  this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
+  this.iseditmode = true;
+  this.data_id = Dept_ID;
+  document.getElementById("addnews")?.scrollIntoView();
+
+  this.onChangeState(this.departmentDataByid.State);
+  setTimeout(() => {
+    this.onChangeDistrict(this.departmentDataByid.District);
+
+    this.departmentDetailForm.patchValue({
+      Dept_Name: this.departmentDataByid.Dept_Name,
+      Parent_Dept_ID: this.departmentDataByid.Parent_Dept_ID,
+      Dept_Type_ID: this.departmentDataByid.Dept_Type_ID,
+      Email_ID: this.departmentDataByid.Email_ID,
+      Website_Url: this.departmentDataByid.Website_Url,
+      About_Department: this.departmentDataByid.About_Department,
+      Address: this.departmentDataByid.Address,
+      State: this.departmentDataByid.State,
+      District: this.departmentDataByid.District,
+      Block: this.departmentDataByid.Block,
+      Pincode: this.departmentDataByid.Pincode,
+      Contact_Number: this.departmentDataByid.Contact_Number,
+      Contact_Person_ID: this.departmentDataByid.Contact_Person_ID
+    });
+
+  }, 300); // Give time for District to load Blocks
+
+  // Load image preview
+  this.imageurl = this.departmentDataByid.Logo_Path;
+  this.uploadedimage = this.departmentDataByid.Logo_Path;
+}
 
 
   onupdate() {
