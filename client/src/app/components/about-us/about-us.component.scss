@@ -1,68 +1,53 @@
-.center-head{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
+.about-us-section {
+  padding: 2rem;
+  background-color: #b8d7df;
+  color: #1e4174;
 
+  .container {
+    max-width: 960px;
+    margin: auto;
+    padding: 1rem;
 
-.center-head:hover{
-  // transform: translateX(0) scale(1.2);
-  background-color: rgb(14, 13, 13);
-  // color: red;
-}
+    .section-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1e4174;
+      text-align: center;
+      border-bottom: 3px solid #1e4174;
+    }
 
-.image-container:hover{
-  transform: translateX(0) scale(1.1);
-}
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      text-align: justify;
+    }
+  }
 
-h3{
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.966);
-}
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
 
-.content-head{
-  background-image:url(../../../assets/sky.jpg) ;
-  height: 8rem;
-}
+      .section-title {
+        font-size: 1.5rem;
+      }
 
-/* animated-image.component.scss */
+      .about-text {
+        font-size: 0.95rem;
+      }
+    }
+  }
 
-.image-container {
-  width: 400px; /* Set the container width */
-  height: 300px; /* Set the container height */
-  overflow: hidden;
-}
+  @media (max-width: 480px) {
+    .container {
+      .section-title {
+        font-size: 1.25rem;
+      }
 
-.animated-image {
-  width: 100%; /* Set the image width to fit the container */
-  height: 100%; /* Set the image height to fit the container */
-  object-fit: cover; /* Adjust the image scaling as needed (cover, contain, etc.) */
-}
-
-/* Optionally, you can add some styling to center the image within the container */
-.image-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* styles.css or your custom stylesheet */
-
-/* For small and extra-small screens (e.g., mobile devices) */
-.image-container {
-  width: 100%;
-  height: 0;
-  padding-bottom: 75%; /* Adjust the aspect ratio as needed for mobile devices */
-  position: relative;
-  overflow: hidden;
-}
-
-.animated-image {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  object-fit: cover;
+      .about-text {
+        font-size: 0.9rem;
+      }
+    }
+  }
 }
