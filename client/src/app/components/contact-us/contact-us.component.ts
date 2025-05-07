@@ -21,7 +21,7 @@ export class ContactUsComponent implements OnInit{
     C_Subject: [null, Validators.required],
     C_Message: [null, Validators.required],
   });
-
+    
   }
 
   Contact_form!:FormGroup;
@@ -37,7 +37,7 @@ export class ContactUsComponent implements OnInit{
       {alert("Data Saved successfully")};
       this.onClear()
     });
-
+  
     }
     onClear(){
       this.Contact_form.reset();

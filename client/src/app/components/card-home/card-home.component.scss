@@ -1,71 +1,70 @@
+/* Base styles for .counts and .count-box */
 .counts {
-  padding: 70px 0 0;
-  position: relative;
-  margin-bottom: -70px;
-}
-
-.counts .row {
-  margin-top: -140px;
-}
-
-.count-box {
-  padding: 40px 20px 30px;
-  text-align: center;
-  background: #ffc1ca;
-  border-radius: 8px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-  border: 3px solid #1e4174;
-  transition: all 0.3s ease;
-  position: relative;
-  margin-bottom: 30px;
-}
-
-.count-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-}
-
-.count-box i {
-  position: absolute;
-  top: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1e4174;
-  color: #fff;
-  width: 56px;
-  height: 56px;
-  line-height: 56px;
-  border-radius: 50%;
-  border: 5px solid #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.count-box i mat-icon {
-  font-size: 24px;
-}
-
-.count-box span {
-  font-size: 36px;
-  font-weight: 600;
-  color: #1e4174;
-  margin: 10px 0;
-  display: block;
-}
-
-.count-box p {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 500;
-  color: #555;
-  letter-spacing: 1px;
-  font-family: "Roboto", sans-serif;
-}
-
-/* Adjust spacing for smaller devices */
-@media (max-width: 576px) {
-  .counts {
-    margin-bottom: -20px;
+    padding: 70px 0 60px;
   }
-}
+  
+  .counts .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .counts .count-box {
+    padding: 30px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    background: #fafafaf6;
+  }
+  
+  .counts .count-box i {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    background: #e41631;
+    color: #fff;
+    width: 56px;
+    height: 56px;
+    line-height: 56px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+  }
+  
+  .counts .count-box span {
+    font-size: 36px;
+    display: block;
+    font-weight: 600;
+    color: #000000;
+  }
+  
+  .counts .count-box p {
+    padding: 0;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+  }
+  
+  /* Media query for screens up to 768px wide (Mobile screens) */
+  @media (max-width: 768px) {
+    .counts .count-box {
+      margin-bottom: 30px;
+      margin-top: 30px;
+    }
+  
+    .counts .count-box i {
+      top: 0;
+      left: 0;
+      transform: none;
+      margin: 0 auto;
+    }
+  
+    .counts .count-box p {
+      font-size: 12px;
+    }
+  
+    .counts .count-box span {
+      font-size: 24px;
+    }
+  }
+  
