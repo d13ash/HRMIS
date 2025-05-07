@@ -1,52 +1,91 @@
-.progress-section {
-  background-color: #fcd5db;
-  padding: 60px 0;
+.header{
+    text-align: center;
+    color: rgb(112, 109, 109);
+}
 
-  h2 {
-    color: #1f3c88;
-    font-size: 32px;
+.table-row {
+    width: 90px; /* Adjust the height value as per your requirement */
+  }
+
+  .table-d {
+    width: 200px; /* Adjust the height value as per your requirement */
+  }
+
+  // ====================================================
+  .skills .content h3 {
     font-weight: 700;
-    margin-bottom: 20px;
+    font-size: 32px;
+    color: #37517e;
+    font-family: "Poppins", sans-serif;
   }
-
-  .description {
-    font-size: 16px;
-    color: #1e4174;
-    margin-bottom: 30px;
+  
+  .skills .content ul {
+    list-style: none;
+    padding: 0;
   }
-
-  .image-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
+  
+  .skills .content ul li {
+    padding-bottom: 10px;
   }
-
-  .project-title {
+  
+  .skills .content ul i {
+    font-size: 20px;
+    padding-right: 4px;
+    color: #47b2e4;
+  }
+  
+  .skills .content p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .skills .progress {
+    height: 60px;
+    display: block;
+    background: none;
+    border-radius: 0;
+  }
+  
+  .skills .progress .skill {
+    padding: 0;
+    margin: 0 0 6px 0;
+    text-transform: uppercase;
+    display: block;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 5px;
+    font-family: "Poppins", sans-serif;
+    color: #37517e;
+  }
+  
+  .skills .progress .skill .val {
+    float: right;
+    font-style: normal;
+  }
+  
+  .skills .progress-bar-wrap {
+    background: #e8edf5;
+    height: 10px;
+  }
+  
+  .skills .progress-bar {
+    width: 1px;
+    height: 10px;
+    transition: 0.9s;
+    background-color: #4668a2;
+  }
+  
+  .progress-head{
+    font-size: 35px;
   }
 
-  .progress {
-    height: 24px;
-    background-color: #e9edf4;
-    // border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 25px;
+  /* Media query for screens up to 768px wide */
+@media (max-width: 768px) {
+  h3.responsive-h3 {
+    font-size: 20px;
+  }
+}
 
-    .progress-bar {
-      background-color: #1e4174;
-      color: #fff;
-      font-weight: bold;
-      text-align: center;
-      line-height: 24px;
-      height: 100%;
-      transition: width 0.5s ease;
-    }
+/* Media query for screens up to 576px wide */
+@media (max-width: 576px) {
+  h3.responsive-h3 {
+    font-size: 16px;
   }
 }

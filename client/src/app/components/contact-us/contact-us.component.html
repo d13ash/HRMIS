@@ -1,51 +1,81 @@
-<section class="contact-section">
-  <div class="container">
-    <div class="contact-wrapper">
-      <!-- Contact Info -->
-      <div class="contact-info">
-        <div class="info-item">
-          <i class="bi bi-geo-alt"></i>
-          <div>
-            <h4>Address</h4>
-            <p>A108 Adam Street, New York, NY 535022</p>
-          </div>
-        </div>
-        <div class="info-item">
-          <i class="bi bi-phone"></i>
-          <div>
-            <h4>Call Us</h4>
-            <p>+1 5589 55488 55</p>
-          </div>
-        </div>
-        <div class="info-item">
-          <i class="bi bi-envelope"></i>
-          <div>
-            <h4>Email Us</h4>
-            <p>info &#64;example.com</p>
-          </div>
-        </div>
-        <div class="map-box">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.943301839938!2d-74.0060153!3d40.7127281!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a19f07a7df5%3A0x8db13b9e55f1f63b!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1631197031481!5m2!1sen!2sus"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
+<section id="contact" class="contact" id="contact-usss">
+    <div class="container">
+
+      <div class="section-header center-head">
+        <h1>Contact Us</h1>
+        <p>The Knowledge and Technology Resource Centre at Indira Gandhi Agriculture University is not just a physical space; it symbolizes a vision of progress, innovation, and collaboration</p>
       </div>
 
-      <!-- Contact Form -->
-      <div class="contact-form">
-        <form [formGroup]="Contact_form" (ngSubmit)="onSubmit()">
-          <div class="form-row">
-            <input type="text" placeholder="Your Name" formControlName="C_Name" required />
-            <input type="email" placeholder="Your Email" formControlName="C_Email" required />
-          </div>
-          <input type="text" placeholder="Subject" formControlName="C_Subject" required />
-          <textarea rows="6" placeholder="Message" formControlName="C_Message" required></textarea>
-          <button type="submit">Send Message</button>
-        </form>
-      </div>
     </div>
-  </div>
-</section>
+
+    <div class="map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14875.422796535991!2d81.705455!3d21.23757!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28c2c4faaf35b5%3A0xa87f28f60a13aa36!2sIndira%20Gandhi%20Agricultural%20University!5e0!3m2!1sen!2sin!4v1690308833543!5m2!1sen!2sin" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="container">
+
+      <div class="row gy-5 gx-lg-5">
+
+        <div class="col-lg-4">
+
+          <div class="info">
+            <h3>Get in touch</h3>
+            <p>Connect with us grow with us </p>
+
+            <div class="info-item d-flex">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h4>Location:</h4>
+                <p>Indira Gandhi Krishi Vishwavidyalaya, Krishak Nagar, Raipur, Chhattisgarh 492012</p>
+              </div>
+            </div>
+
+            <div class="info-item d-flex">
+              <i class="bi bi-envelope flex-shrink-0"></i>
+              <div>
+                <h4>Email:</h4>
+                <p>info&#64;example.com</p>
+              </div>
+            </div>
+
+            <div class="info-item d-flex">
+              <i class="bi bi-phone flex-shrink-0"></i>
+              <div>
+                <h4>Call:</h4>
+                <p>+19 077124 42537</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-lg-8">
+          <form  class="php-email-form" [formGroup]="Contact_form" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <input type="text" name="name" class="form-control" id="name" formControlName="C_Name" placeholder="Your Name" required>
+              </div>
+              <div class="col-md-6 form-group mt-3 mt-md-0">
+                <input type="email" class="form-control" name="email" formControlName="C_Email"  id="email" placeholder="Your Email" required>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <input type="text" class="form-control" name="subject" formControlName="C_Subject"  id="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group mt-3">
+              <textarea class="form-control" name="message" formControlName="C_Message"  placeholder="Message" required></textarea>
+            </div>
+            <div class="my-3">
+              <div class="loading">Loading</div>
+              <div class="error-message"></div>
+              <div class="sent-message">Your message has been sent. Thank you!</div>
+            </div>
+            <div class="text-center" style="color: white;"><button style="background-color: rgb(211, 48, 48);" type="submit">Send Message</button></div>
+          </form>
+        </div>
+
+      </div>
+<br>
+    </div>
+  </section>

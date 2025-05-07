@@ -1,34 +1,41 @@
 <section id="counts" class="counts">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-6 col-md-6 col-lg-3">
-        <div class="count-box">
-          <i><mat-icon>devices</mat-icon></i>
-          <span id="projectCounter">6</span>
-          <p>PROJECTS</p>
+    <div class="container" >
+
+      <div class="row" style="margin-top:-140px;">
+
+        <div class="col-lg-3 col-md-6">
+          <div class="count-box">
+            <i ><mat-icon>devices</mat-icon></i>
+            <span class="purecounter">{{projectCountValue}}</span>
+            <p>PROJECTS</p>
+          </div>
         </div>
-      </div>
-      <div class="col-6 col-md-6 col-lg-3">
-        <div class="count-box">
-          <i><mat-icon>bubble_chart</mat-icon></i>
-          <span id="workCounter">16</span>
-          <p>WORKS</p>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
+          <div class="count-box">
+            <i> <mat-icon>bubble_chart</mat-icon> </i>
+            <span class="purecounter">{{workCountValue}}</span>
+            <p>WORKS</p>
+          </div>
         </div>
-      </div>
-      <div class="col-6 col-md-6 col-lg-3">
-        <div class="count-box">
-          <i><mat-icon>person</mat-icon></i>
-          <span id="empCounter">6</span>
-          <p>EMPLOYEES</p>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i><mat-icon>person</mat-icon></i>
+            <span class="purecounter">{{empCountValue}}</span>
+            <p>EMPLOYEES</p>
+          </div>
         </div>
-      </div>
-      <div class="col-6 col-md-6 col-lg-3">
-        <div class="count-box">
-          <i><mat-icon>insert_invitation</mat-icon></i>
-          <span id="leavesCounter">17</span>
-          <p>LEAVES</p>
+
+        <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+          <div class="count-box">
+            <i><mat-icon>insert_invitation</mat-icon></i>
+            <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter">17</span>
+            <p>LEAVES</p>
+          </div>
         </div>
+
       </div>
+
     </div>
-  </div>
-</section>
+  </section><!-- End Counts Section -->
