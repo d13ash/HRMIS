@@ -1,60 +1,22 @@
+<mat-toolbar class="navbar">
+  <div class="toolbar-content">
+    <a routerLink="/homepage" class="logo-link">
+      <img src="IGKV_Logo_png_igmis.png" alt="logo" class="logo">
 
-<nav class="navbar sticky-top  navbar-expand-md " >
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/homepage"><img class="images" src="IGKV_Logo_png_igmis.png" alt="logo" style="height: 13vh;" /></a>
-      <!-- <a class="navbar-brand" routerLink="/homepage"><span>DIGITAL REPOSISTORY</span> </a> -->
-       
-        <!-- <div style="display: contents;"> -->
-          <button style="margin-right: 10px;" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <!-- <div class="navigation"> -->
-            <div  class="collapse navbar-collapse" id="navbarSupportedContent" style="font-size: 50px;">
-              <ul class="navbar-nav navigation ">
-                <li class="nav-item" >
-                  <a class="nav-link "  style="color: rgb(3, 3, 3); "  >HOME</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link"  (click)="toaboutus()" style="color: rgb(2, 2, 2);" >ABOUT</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link"  (click)="service()" style="color: rgb(2, 2, 2);" >SERVICES</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link"  (click)="portfolio()" style="color: rgb(2, 2, 2);" >PORTFOLIO</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link"  (click)="contactus()" style="color:rgb(3, 3, 3);">CONTACT</a>
-                </li>
-                <li class="nav-item">
-                  <!-- <a class="nav-link" routerLink = "/Login">sign in</a> -->
-                </li>
-              </ul>
-             
-              <form class="d-flex login">
-                <a routerLink="/login" class=" "  aria-pressed="true" routerLinkActive="active">
-                  <button class="btn" type="button" style="border: double 3px transparent;">
-                    <strong>Login</strong>
-                    <div id="container-stars">
-                      <div id="stars"></div>
-                    </div>
-                  
-                    <div id="glow">
-                      <div class="circle"></div>
-                      <div class="circle"></div>
-                    </div>
-                  </button>              
-                </a>
-                
-              </form> 
-          </div>
-          <!-- </div> -->
-          
-  
-      </div>   
-    <!-- </div> -->
-  </nav>
-  
-  
-  
-  
+    </a>
+
+    <span class="spacer"> ई-सृजन</span>
+
+    <nav class="nav-links" *ngIf="!(isMobile | async)">
+      <a mat-button>HOME</a>
+      <a mat-button (click)="toaboutus()">ABOUT</a>
+      <a mat-button (click)="service()">SERVICES</a>
+      <a mat-button (click)="portfolio()">PORTFOLIO</a>
+      <a mat-button (click)="contactus()">CONTACT</a>
+    </nav>
+
+    <a routerLink="/login" class="login-btn">
+      <button mat-raised-button>Login</button>
+    </a>
+  </div>
+</mat-toolbar>

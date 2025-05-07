@@ -10,15 +10,13 @@ var exec = function (query, params) {
 
       return reject("Query not found");
     }
-    console.log('1');
+    
     var connection = mysql.createConnection({
       host: config.get('db.host'),
       user: config.get('db.user'),
-   
-      
-      password: config.get('db.password'),
+      password:config.get('db.password'),
       database: config.get('db.database'),
-
+      port:config.get('db.port'),
       multipleStatements: true
     });
  
