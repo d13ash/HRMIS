@@ -2,6 +2,7 @@
 server/node_modules/
 server/config/
 server/.env
+server/documents
 
 # Angular
 client/node_modules/
