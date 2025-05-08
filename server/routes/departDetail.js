@@ -21,7 +21,7 @@ router.get('/allDepartment', async (req, res) => {
 
 
 router.get('/allDepartmentWithType', async (req, res) => {
-    var query = `SELECT d.Dept_ID,d.Dept_Name,d.Dept_Type_ID,d.Parent_Dept_ID,d.Email_ID,CONCAT('${req.protocol + '://' + req.get('host')}', d.Logo_Path)AS Logo_Path,d.Website_Url,d.About_Department,d.Address,d.State,s.State_id,s.State_name,d.Pincode,d.District,dist.Distric_id,dist.Distric_name,d.Contact_Number,d.Block,d2.Dept_Name AS Parent_Dept_Name,d.Delete_YN,t.Dept_Type_ID,t.Dept_Type_Name FROM m_department d left JOIN m_dept_type t ON t.Dept_Type_ID=d.Dept_Type_ID LEFT JOIN m_department d2 ON d.Parent_Dept_ID = d2.Dept_ID  LEFT JOIN state s ON s.State_id = d.State  LEFT JOIN distric dist ON dist.Distric_id = d.District WHERE d.Delete_YN IS null`;
+    var query = `SELECT d.Dept_ID,d.Dept_Name,d.Dept_Type_ID,d.Parent_Dept_ID,d.Email_ID,CONCAT('${req.protocol + '://' + req.get('host')}', d.Logo_Path)AS Logo_Path,d.Website_Url,d.About_Department,d.Address,d.State,s.State_id,s.State_name,d.Pincode,d.District,dist.Distric_id,dist.Distric_name,d.Contact_Number,d.Block,d.Contact_Person_ID, d2.Dept_Name AS Parent_Dept_Name,d.Delete_YN,t.Dept_Type_ID,t.Dept_Type_Name FROM m_department d left JOIN m_dept_type t ON t.Dept_Type_ID=d.Dept_Type_ID LEFT JOIN m_department d2 ON d.Parent_Dept_ID = d2.Dept_ID  LEFT JOIN state s ON s.State_id = d.State  LEFT JOIN distric dist ON dist.Distric_id = d.District WHERE d.Delete_YN IS null`;
     console.log("called");
     let result = await mysql.exec(query);
     
@@ -93,31 +93,39 @@ router.get('/deptType/:id',async (req,resp)=>{
 
 
 // Update Department Detail
-router.put('/updateDepartmentDetail/:id',async (req,resp)=>{
+router.put('/updateDepartmentDetail/:id', async (req, resp) => {
+  const Dept_ID = req.params.id;
+  let values = req.body;
 
-    // const {error} = validateCourse(req.body)
-    // if (error){
-    //    return resp.status(404).send(error.details[0].message) 
-    // }
-     
-    var query = "UPDATE m_department SET ? WHERE Dept_ID = ? ";
-    var value = req.body;
-    var Dept_ID = req.params.id;
+  try {
+    // Get existing department record
+    const checkQuery = "SELECT Logo_Path FROM m_department WHERE Dept_ID = ?";
+    const existing = await mysql.exec(checkQuery, [Dept_ID]);
 
-    try{
-        
-       let result = await mysql.exec(query,[value, Dept_ID])
-        if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
-            return resp.status(404).send('error....');
-        }
-        return resp.json({status: "success" })    
-     }
-     catch(err){
-            if(err){
-                return resp.status(404).send('error');   
+    if (!existing || existing.length === 0) {
+      return resp.status(404).send('Record not found');
+    }
+
+    const currentLogoPath = existing[0].Logo_Path;
+
+    // Only update Logo_Path if new image was uploaded
+    if (!values.Logo_Path || values.Logo_Path === '' || values.Logo_Path === null) {
+      values.Logo_Path = currentLogoPath;
+    }
+
+    const updateQuery = "UPDATE m_department SET ? WHERE Dept_ID = ?";
+    const result = await mysql.exec(updateQuery, [values, Dept_ID]);
+
+    if (result.affectedRows < 1) {
+      return resp.status(404).send('Update failed');
+    }
+
+    return resp.json({ status: "success" });
+  } catch (err) {
+    return resp.status(500).json({ error: err.message });
   }
-}
-})
+});
+
 
 router.get('/getState', async (req, res) => {
     var query = "SELECT * FROM state";
