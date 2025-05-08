@@ -14,11 +14,9 @@ var exec = function (query, params) {
     var connection = mysql.createConnection({
       host: config.get('db.host'),
       user: config.get('db.user'),
-   
-      
-      password: "12345",
+      password: config.get('db.password'),
       database: config.get('db.database'),
-      port: 3307,
+      port: config.get('db.port'), 
 
       multipleStatements: true
     });
