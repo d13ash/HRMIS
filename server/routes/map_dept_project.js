@@ -6,7 +6,7 @@ require('express-async-errors');
 
 router.get('/getmapData', async (req, res) => {
     
-    var query = 'SELECT map_project_dept.ID,m_project.Project_Name,m_project.Project_ID,m_department.Dept_ID,m_department.Dept_Name,map_project_dept.Description FROM ((map_project_dept LEFT JOIN m_project ON map_project_dept.Project_ID=m_project.Project_ID) LEFT JOIN m_department ON map_project_dept.Parent_Dept_ID = m_department.Dept_ID)';
+    var query = 'SELECT mpd.ID, mp.Project_Name, mp.Project_ID, pd.Dept_ID AS Parent_Dept_ID, pd.Dept_Name AS Parent_Dept_Name, ad.Dept_ID AS Associate_Dept_ID, ad.Dept_Name AS Associate_Dept_Name, mpd.Description FROM map_project_dept mpd LEFT JOIN m_project mp ON mpd.Project_ID = mp.Project_ID LEFT JOIN m_department pd ON mpd.Parent_Dept_ID = pd.Dept_ID LEFT JOIN m_department ad ON mpd.Associate_Dept_ID = ad.Dept_ID;';
 
     let result = await mysql.exec(query);
     if (result.length == 0)
