@@ -59,45 +59,49 @@
       flex-direction: column;
   }
 
-  .content-col {
-      text-align: center;
+  .content {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1; /* Ensure content is on top of the video */
   }
 
-  .logo {
-      font-size: 2rem;
+  .content h1 {
+    font-family: Arial, sans-serif;
+    font-size: 3em;
+    color: white;
+    font-weight: 600;
   }
 
-  .headline {
-      font-size: 1.5rem;
+  p {
+    color: white;
+    font-size: 1.1em;
+    margin: 0.5em 0; /* Adjust margins for spacing */
   }
 
-  .subheadline {
-      font-size: 1.1rem;
+  .secondp {
+    margin-top: 0;
   }
 
-  .hero-image {
-      max-height: 300px;
-  }
-}
-
-@media (max-width: 576px) {
-  .hero-section {
-      padding: 3rem 1rem;
+  @media (max-width: 768px) {
+    .content h1 {
+        font-size: 2em;
+    }
   }
 
-  .logo {
-      font-size: 1.8rem;
+  @media (max-width: 450px) {
+    .content {
+        top: 30%; /* Adjust vertical position for smaller screens */
+    }
+    p, .starting {
+        font-size: smaller;
+        margin: 0; /* Reset margins for consistent spacing */
+    }
+    .content h1 {
+        font-size: 1.5em;
+    }
   }
 
-  .headline {
-      font-size: 1.3rem;
-  }
 
-  .subheadline {
-      font-size: 1rem;
-  }
-
-  .hero-image {
-      max-height: 250px;
-  }
-}

@@ -10,6 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { HomeCardComponent } from './components/home-card/home-card.component';
 import { LoginComponent } from './components/login/login.component';
+import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,6 +33,7 @@ import { StartpageComponent } from './components/startpage/startpage.component';
     HomeComponent,
     HomeCardComponent,
     LoginComponent,
+    PortfolioComponent,
     StartpageComponent
   ],
   imports: [

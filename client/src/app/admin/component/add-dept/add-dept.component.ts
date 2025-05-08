@@ -190,6 +190,7 @@ export class AddDeptComponent implements OnInit {
 
 onedit(Dept_ID: any) {
   this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
+  console.log('Contact_Person_ID:', this.departmentDataByid?.Contact_Person_ID);
   this.iseditmode = true;
   this.data_id = Dept_ID;
   document.getElementById("addnews")?.scrollIntoView();
@@ -213,11 +214,11 @@ onedit(Dept_ID: any) {
       Contact_Number: this.departmentDataByid.Contact_Number,
       Contact_Person_ID: this.departmentDataByid.Contact_Person_ID
     });
-
+    
   }, 300); // Give time for District to load Blocks
 
   // Load image preview
-  this.imageurl = this.departmentDataByid.Logo_Path;
+  this.imageurl = null;
   this.uploadedimage = this.departmentDataByid.Logo_Path;
 }
 

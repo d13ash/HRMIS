@@ -171,7 +171,7 @@ const upload = multer({   //here upload is function
       return next("no file found")
     }
      resp.json({
-          profile_url: `http://localhost:4000/api/images/${req.file.filename}`, //when we are using multer then we get file information on req.file
+          profile_url: `http://localhost:3000/api/images/${req.file.filename}`, //when we are using multer then we get file information on req.file
           // profile_url: `images/${req.file.filename}`,
           sucess:'file uploaded'
       })

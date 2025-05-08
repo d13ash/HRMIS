@@ -66,8 +66,8 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="Action" stickyEnd="true">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element"> 
+            <th style="display: none;" mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
+            <td style="display: none;" mat-cell *matCellDef="let element"> 
                 <button mat-icon-button color="primary" (click)="onedit(element.Project_work_allotment_id)">
                     <mat-icon>edit</mat-icon>
                 </button>

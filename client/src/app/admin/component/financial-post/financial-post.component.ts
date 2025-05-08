@@ -16,7 +16,7 @@ import { DataService } from '../../../services/data.service';
   styleUrls: ['./financial-post.component.scss']
 })
 export class FinancialPostComponent  implements OnInit{
-  displayedColumns=['finance_post_main_id','Project_name','Financial_name','PI_ref_no','Work_order_ref_no','Action'];
+  displayedColumns=['finance_post_main_id','Project_name','Financial_name','PI_ref_no','Work_order_ref_no','View','Action'];
   dataSource!: MatTableDataSource<any>;
 
    @ViewChild(MatPaginator) paginator!: MatPaginator ;
@@ -71,7 +71,8 @@ FYear: any;
   images: any;
   uploadedimage: any;
   imageurl: any;
-  yearly_post_detail_id:any
+  yearly_post_detail_id:any;
+  selectedFinancePost: any
  
   
     constructor(private fb:FormBuilder, private ds : DataService, private datepipe: DatePipe,private elementRef: ElementRef){}
@@ -259,7 +260,45 @@ selectimage(event : any){                          //here on selecting the image
       });
       this.nopath()
       }
-    
+
+      onedit(financialyear_main_id: any) {
+
+      }
+
+      ondelete(finance_post_main_id: any) {
+        console.log(this.allDetail);
+        this.selectedFinancePost = this.allDetail.find((f: any) => f.finance_post_main_id === parseInt(finance_post_main_id)); //here we matching and extracting the selected id
+            console.log(this.selectedFinancePost)
+            this.data_id = finance_post_main_id;
+            this.ds.deleteDataservice(`Financialyear_post/deletedataByid/`+ this.data_id).subscribe((result) => {
+              console.log(result);
+              this.data = result
+        
+              if (this.data) { Swal.fire('Data Deleted...') };
+              this.getonTable();
+            })
+        // Find and store the selected row data if needed later
+        // this.selectedFinancePost = this.allDetail.find((item: any) => item.finance_post_main_id === parseInt(finance_post_main_id));
+        // console.log(this.selectedFinancePost);
+      
+        // // Save ID for deletion
+        // this.data_id = finance_post_main_id;
+      
+        // // Proceed to delete
+        // this.ds.deleteData(`Financialyear_post/deletedataByid/`+ this.data_id).subscribe((result) => {
+        //   console.log(result);
+        //   this.data = result;
+      
+        //   if (this.data) {
+        //     Swal.fire('Deleted!', 'The record has been deleted.', 'success');
+        //     this.getonTable(); // Refresh the table
+        //   }
+        // }, err => {
+        //   Swal.fire('Error', 'Failed to delete record.', 'error');
+        // });
+      }
+      
+
 }
 
 

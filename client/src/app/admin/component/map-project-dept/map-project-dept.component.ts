@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { DataService } from '../../../services/data.service';
@@ -7,7 +7,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { DataService } from '../../../services/data.service';
-
 
 // DataService
 @Component({
@@ -23,7 +22,7 @@ export class MapProjectDeptComponent implements OnInit {
   data: any;
 
 
-  displayedColumns = ['ID', 'Project_Name', 'Dept_Name', 'Description', 'Action'];
+  displayedColumns = ['ID', 'Project_Name', 'Parent_Dept_Name', 'Associate_Dept_Name', 'Description', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -35,7 +34,7 @@ export class MapProjectDeptComponent implements OnInit {
   data_id: any;
   iseditmode: boolean = false
 
-  constructor(private fb: FormBuilder, private ds: DataService, private elementRef: ElementRef) { }
+  constructor(private fb: FormBuilder, private ds: DataService, private elementRef: ElementRef, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.projectMapForm = this.fb.group({
@@ -56,7 +55,13 @@ export class MapProjectDeptComponent implements OnInit {
   // this is scroll function
   scrollToBottom(): void {
     const element = this.elementRef.nativeElement.querySelector('#endOfPage');
-    element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    } else {
+      console.warn('Element with ID "endOfPage" not found in the DOM.');
+      // Optionally, you could try to find it again after a short delay
+      // setTimeout(() => this.scrollToBottom(), 100);
+    }
   }
 
   // mat Table filter
@@ -67,7 +72,7 @@ export class MapProjectDeptComponent implements OnInit {
 
   getDepartmentMap() {
     this.ds.getData('departmentDetail/allDepartmentmap').subscribe((result) => {
-      console.log(result);
+      console.log('deptType data:', result); // Add this line
       this.deptType = result;
     })
   }
@@ -99,13 +104,14 @@ export class MapProjectDeptComponent implements OnInit {
 
   getTable() {
     this.ds.getData('map_dept_project/getmapData').subscribe((result: any) => {
-      this.projectMapDetail = result;
+      this.projectMapDetail = result; // Assuming your backend now returns Parent_Dept_ID and Associate_Dept_ID
       this.dataSource = new MatTableDataSource(result);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.MatSort;
-      console.log(result);
-    })
+      console.log('Raw /getmapData result:', result); // Inspect this to confirm the structure
+    });
   }
+
 
 
   // Delete Department detail
@@ -124,20 +130,24 @@ export class MapProjectDeptComponent implements OnInit {
 
 
   // Get single Data into form for update
+  // Get single Data into form for update
   onedit(ID: any) {
     this.MapDetaiDataByid = this.projectMapDetail.find((f: any) => f.ID === parseInt(ID));
-    console.log(this.MapDetaiDataByid)
+    console.log('MapDetaiDataByid in onedit:', this.MapDetaiDataByid);
+    console.log('Raw Parent_Dept_ID:', this.MapDetaiDataByid.Parent_Dept_ID, typeof this.MapDetaiDataByid.Parent_Dept_ID);
+    console.log('Raw Associate_Dept_ID:', this.MapDetaiDataByid.Associate_Dept_ID, typeof this.MapDetaiDataByid.Associate_Dept_ID);
     this.iseditmode = true;
     this.data_id = ID;
     document.getElementById("addnews")?.scrollIntoView();
-    this.projectMapForm.patchValue
-      ({
-        Project_ID: this.MapDetaiDataByid.Project_ID,
-        Parent_Dept_ID: this.MapDetaiDataByid.Parent_Dept_ID,
-        Associate_Dept_ID: this.MapDetaiDataByid.Associate_Dept_ID,
-        Description: this.MapDetaiDataByid.Description
-      })
+    this.projectMapForm.patchValue({
+      Project_ID: this.MapDetaiDataByid.Project_ID,
+      Parent_Dept_ID: this.MapDetaiDataByid.Parent_Dept_ID,
+      Associate_Dept_ID: this.MapDetaiDataByid.Associate_Dept_ID,
+      Description: this.MapDetaiDataByid.Description,
+    });
     this.iseditmode = true;
+    this.cdr.detectChanges();
+    this.scrollToBottom();
   }
 
   onupdate() {

@@ -163,21 +163,21 @@ router.put('/updateFinancialPost/:id',async (req,resp)=>{
 
   
 // Delete departmetnt detail
-router.delete('/deletedataByid/:id',async (req,res)=>{
-    var query = "update financialyear_post SET Delete_YN ='Y' where financialyear_post_id = ?";
-    var financialyear_post_id = req.params.id;
-try{
-    let result = await mysql.exec(query, financialyear_post_id)
-    if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
-        return res.status(404).send('error...');     
-    }
-    return res.json({status: "data deleted" })
-}
-catch(err){
-    if(err){
-        return res.status(404).send('error'); }
-  }
-})
+// router.delete('/deletedataByid/:id',async (req,res)=>{
+//     var query = "update finance_post_main SET Delete_YN ='Y' where finance_post_main_id = ?";
+//     var financialyear_post_id = req.params.id;
+// try{
+//     let result = await mysql.exec(query, financialyear_post_id)
+//     if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
+//         return res.status(404).send('error...');     
+//     }
+//     return res.json({status: "data deleted" })
+// }
+// catch(err){
+//     if(err){
+//         return res.status(404).send('error'); }
+//   }
+// })
 
 // file Upload
 
