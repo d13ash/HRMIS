@@ -16,8 +16,9 @@ var exec = function (query, params) {
       user: config.get('db.user'),
    
       
-      password: config.get('db.password'),
+      password: "12345",
       database: config.get('db.database'),
+      port: 3307,
 
       multipleStatements: true
     });
