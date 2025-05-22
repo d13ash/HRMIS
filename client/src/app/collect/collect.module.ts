@@ -24,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
@@ -54,7 +55,9 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     MatDialogModule,
     MatCheckboxModule,
     CarouselModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
+
   ],
   declarations: [],
 })

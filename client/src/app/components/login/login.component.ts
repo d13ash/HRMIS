@@ -1,20 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { DataService } from '../../../services/data.service';
-// import { environment } from 'src/environments/environment';
-import * as CryptoJS from 'crypto-js';
-
-// import CryproJS from 'crypto-js';
-import Swal from 'sweetalert2';
-// import { AuthService } from 'src/app/services/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { DataService } from '../../services/data.service';
-import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
+import * as CryptoJS from 'crypto-js';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
+import { HttpClient } from '@angular/common/http';
 
-
-// DataService, AuthService, environment
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,7 +15,6 @@ import { environment } from '../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  logoimg = '../../../assets/IGKV_Logo_png_igmis.png'
 
   constructor(private http:HttpClient,private fb: FormBuilder, private ds: DataService, private AS: AuthService, private router: Router) { }
 
@@ -48,7 +40,7 @@ export class LoginComponent implements OnInit {
       captcha: ['', Validators.required]
     });
   }
-  
+
   getCaptcha() {
     this.ds.getData('captcha').subscribe((res: any) => {
       //if (res.error === false) {

@@ -54,6 +54,7 @@ export class DataService {
 
 
 
+
   deleteProjectData(Project_ID: any) {
     return this.http.delete(`${this.projectURL}/${Project_ID}`)
   }
@@ -61,7 +62,6 @@ export class DataService {
   updateMapData(ID: any, data: any) {
     return this.http.put(`${this.configUrl}/${ID}`, data);
   }
-
 
   putData(ID: any, data: any) {
     return this.http.put(`${this.configUrl}${ID}`, data);
@@ -87,7 +87,8 @@ export class DataService {
     });
 
     return this.http.request(req);
-  }
+     }
+ 
 
   del(functionName: string, id: any) {
     return this.http.delete(this.configUrl + functionName + id)
@@ -97,6 +98,10 @@ export class DataService {
   }
   put(functionName: string,data:any) {
     return this.http.put(this.configUrl + functionName, data)
+  }
+
+ sendContactMessage(data: any): Observable<any> {
+    return this.http.post('/api/contact', data); // update endpoint as needed
   }
   
 }

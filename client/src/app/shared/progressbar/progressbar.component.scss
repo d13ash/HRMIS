@@ -1,91 +1,168 @@
-.header{
-    text-align: center;
-    color: rgb(112, 109, 109);
-}
+.progress-section {
+  background-color: #ecffec;
+  padding: 40px 0;
+  font-family: 'Segoe UI', sans-serif;
 
-.table-row {
-    width: 90px; /* Adjust the height value as per your requirement */
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  .table-d {
-    width: 200px; /* Adjust the height value as per your requirement */
-  }
-
-  // ====================================================
-  .skills .content h3 {
+  h2 {
+    color: #20482a;
+    font-size: 40px;
     font-weight: 700;
-    font-size: 32px;
-    color: #37517e;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  .skills .content ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .skills .content ul li {
-    padding-bottom: 10px;
-  }
-  
-  .skills .content ul i {
-    font-size: 20px;
-    padding-right: 4px;
-    color: #47b2e4;
-  }
-  
-  .skills .content p:last-child {
-    margin-bottom: 0;
-  }
-  
-  .skills .progress {
-    height: 60px;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    width: 100%;
     display: block;
-    background: none;
-    border-radius: 0;
-  }
-  
-  .skills .progress .skill {
-    padding: 0;
-    margin: 0 0 6px 0;
-    text-transform: uppercase;
-    display: block;
-    font-weight: 600;
-    font-family: "Poppins", sans-serif;
-    color: #37517e;
-  }
-  
-  .skills .progress .skill .val {
-    float: right;
-    font-style: normal;
-  }
-  
-  .skills .progress-bar-wrap {
-    background: #e8edf5;
-    height: 10px;
-  }
-  
-  .skills .progress-bar {
-    width: 1px;
-    height: 10px;
-    transition: 0.9s;
-    background-color: #4668a2;
-  }
-  
-  .progress-head{
-    font-size: 35px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 4px;
+      left: 0;
+      bottom: -10px;
+      background-color: #449d49;
+      transition: width 0.4s ease-in-out;
+    }
+
+    &:hover::before {
+      width: 100%;
+    }
   }
 
-  /* Media query for screens up to 768px wide */
-@media (max-width: 768px) {
-  h3.responsive-h3 {
-    font-size: 20px;
-  }
-}
-
-/* Media query for screens up to 576px wide */
-@media (max-width: 576px) {
-  h3.responsive-h3 {
+  .description {
     font-size: 16px;
+    color: #20482a;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 0 15px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 0 15px;
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+  }
+
+  .image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 50px;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      width: 100%;
+      max-height: 450px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  .content {
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .project-title {
+      font-weight: 600;
+      color: #20482a;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    .progress {
+      height: 24px;
+      background-color: #e9edf4;
+      overflow: hidden;
+      margin-bottom: 25px;
+      border-radius: 12px;
+
+      .progress-bar {
+        background-color: #449d49;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        line-height: 24px;
+        height: 100%;
+        transition: width 0.5s ease;
+
+        &:hover {
+          background-color: #20482a;
+        }
+      }
+    }
+  }
+
+  // Responsive breakpoints
+  @media (max-width: 992px) {
+    h2 {
+      font-size: 32px;
+    }
+
+    .row {
+      flex-direction: column;
+    }
+
+    .image-container img {
+      max-width: 90%;
+      max-height: 350px;
+    }
+
+    .content {
+      text-align: left;
+      padding: 10px 20px;
+
+      .project-title {
+        text-align: left;
+      }
+
+      .progress {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    padding: 40px 15px;
+
+    h2 {
+      font-size: 24px;
+    }
+
+    .description {
+      font-size: 14px;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      max-height: 250px;
+    }
+
+    .progress {
+      height: 20px;
+
+      .progress-bar {
+        line-height: 20px;
+        font-size: 12px;
+      }
+    }
   }
 }
