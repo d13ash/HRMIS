@@ -28,10 +28,13 @@ import { EmployeeProfileComponent } from '../employee/component/employee-profile
 import { CategorySubcategoryComponent } from './component/category-subcategory/category-subcategory.component';
 import { ResourceShowComponent } from '../shared/resource-show/resource-show.component';
 import { ContactFromComponent } from './component/contact-from/contact-from.component';
+import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
+import { PostDetailComponent } from './component/post-detail/post-detail.component';
+import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
-{ path: '', redirectTo: 'admindashboard/content', pathMatch: 'full' }, 
+{ path: '', redirectTo: 'admindashboard/content', pathMatch: 'full' },
 
 { path: 'admindashboard', component: AdminDashboardComponent,
   children : [
@@ -59,9 +62,12 @@ const routes: Routes = [
     { path: 'profile-view/employee-profile', component: EmployeeProfileComponent},
     {path: 'R-category', component: CategorySubcategoryComponent},
     {path:'my-resource', component:ResourceShowComponent},
-    {path:'contact-from', component: ContactFromComponent}
+    {path:'contact-from', component: ContactFromComponent},
+    {path:'add-emp',component:AddEmployeeComponent},
+    {path:'post-detail',component:PostDetailComponent},
+    {path:'forgot-password',component:ForgotPasswordComponent}
 
-    
+
 ]},];
 
 @NgModule({

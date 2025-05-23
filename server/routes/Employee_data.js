@@ -166,11 +166,11 @@ router.get('/Statename/:State_id',async (req,resp)=>{
   })
 
 
-  router.get('/sal/salutation', async (req, res) => {
-    var query = "SELECT * FROM salutation";
+  router.get('/sal/salutations', async (req, res) => {
+    var query = "SELECT Id, Salutation_Name FROM salutation";
     let result = await mysql.exec(query);
     if (result.length == 0)
-        return res.status(404).send("Sal Not Found");
+        return res.status(404).send("Salutation Not Found");
     return res.json(result);
 });
 
@@ -260,10 +260,6 @@ router.post('/user/addlogin', async (req, res) => {
     let data = await mysql.exec(query, values);
     let insertedData = await mysql.exec('SELECT * FROM login_table WHERE id = ?', [data.insertId]);
     const { id, username } = insertedData[0];
-    // res.json({
-    //     id: id,
-    //     username: username
-    // });
     const decryptedPassword = passwordDncyt;
 
     const transporter = nodemailer.createTransport({
@@ -295,7 +291,7 @@ router.post('/user/addlogin', async (req, res) => {
   }
 });
 
-  // // Update Department Detail
+ 
   router.put('/updateuserdata/:id', async (req, resp) => {
     var query = "UPDATE manpower_basic_detail SET ? WHERE Emp_Id = ?";
     var value = req.body;
@@ -338,14 +334,7 @@ router.post('/documentsdetail/adddocuments', async (req, res) => {
 });
 
 router.put('/updatelogindata/:ID', async (req, res) => {
-  // const { error } = validateCourse(req.body);
-  // if (error) {
-  //   return res.status(404).send(error.details[0].message);
-  // }
-
-  // var query = "UPDATE MAP_Emp_Post_Dept SET ? WHERE ID = ? ";
-  // var value = req.body;
-  // var ID = req.params.ID;
+ 
 
   const password = req.body.password;
   let passwordKey = '08t16e502526fesanfjh8nasd2';
@@ -420,4 +409,4 @@ function validateusers(users) {
   return schema.validate(users);
 
 }
-module.exports = router;
+module.exports = router;
