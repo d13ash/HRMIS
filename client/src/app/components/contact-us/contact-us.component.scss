@@ -27,7 +27,6 @@
   background-color: #449d49;
   transition: width 0.3s ease;
 }
-
 .contact h1:hover::after {
   width: 100%; /* Adjust as needed (e.g., 60%, 80%) */
 }
@@ -88,7 +87,8 @@
 }
 
 .contact-form button[type=submit] {
-  margin-top: 15px;
+  margin-top: 65px;
+  margin-left:110px;
   background: #449d49;
   color: #fff;
   border: none;
