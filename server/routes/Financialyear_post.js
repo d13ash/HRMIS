@@ -5,6 +5,7 @@ var mysql = require('../mysql');
 require('express-async-errors');
 const multer = require ('multer')
 const path = require('path');
+const config = require('config');
 
 
 router.get('/yearly_post_detail', async (req, res) => {
@@ -204,7 +205,7 @@ const upload = multer({   //here upload is function
       return next("no file found")
     }
      resp.json({
-          profile_url: `http://localhost:4000/api/images/${req.file.filename}`, //when we are using multer then we get file information on req.file
+          profile_url: config.get('apiUrl') + 'images/' + req.file.filename, //when we are using multer then we get file information on req.file
           sucess:'file uploaded'
       })
       // console.log(req.file)
@@ -218,7 +219,7 @@ const upload = multer({   //here upload is function
       return next("no file found")
     }
      resp.json({
-          profile_url: `http://localhost:4000/api/images/${req.file.filename}`, //when we are using multer then we get file information on req.file
+          profile_url: config.get('apiUrl') + 'images/' + req.file.filename, //when we are using multer then we get file information on req.file
           sucess:'file uploaded'
       })
   });
