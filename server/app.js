@@ -60,7 +60,6 @@ app.use(express.json());
 //http://expressjs.com/en/api.html#express.urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-
 //Configuration
 //Note dont store password like things in it.password should be save in environment variable
 //custom-environment-variables : contains only mapping of environment variable

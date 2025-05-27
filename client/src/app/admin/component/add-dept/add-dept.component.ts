@@ -15,7 +15,7 @@ import { DataService } from '../../../services/data.service';
   styleUrls: ['./add-dept.component.scss']
 })
 export class AddDeptComponent implements OnInit {
-
+  @ViewChild ('profile') fileInput!: ElementRef;
 
 
   displayedColumns = ['Dept_ID', 'Dept_Name', 'Dept_Type_Name', 'Email_ID', 'Logo_Path', 'Contact_Number', 'Website_Url', 'About_Department', 'Address', 'Action'];
@@ -99,7 +99,7 @@ export class AddDeptComponent implements OnInit {
       console.log(this.State);
     });
   }
-  
+
   onChangeState(State_id: any) {
     this.ds.getData('departmentDetail/getDistric/' + State_id).subscribe(res => {
       this.District = res;
@@ -128,9 +128,12 @@ export class AddDeptComponent implements OnInit {
         alert("Data saved succesfully..")
     });
     this.getTable();
+    this.onClear();
   }
   onClear() {
     this.departmentDetailForm.reset();
+    this.uploadedimage = null;
+    this.fileInput.nativeElement.value = '';
   }
 
 
@@ -152,41 +155,7 @@ export class AddDeptComponent implements OnInit {
   }
 
   a:any=5
-  // Get single Data into form for update
-//   onedit(Dept_ID: any) {
-//     this.imageurl = this.departmentDataByid.Logo_Path;
-//     this.uploadedimage = this.departmentDataByid.Logo_Path;
 
-//     this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
-//     console.log(this.departmentDataByid)
-//     this.iseditmode = true;
-//     this.data_id = Dept_ID;
-//     document.getElementById("addnews")?.scrollIntoView();
-//     this.onChangeState(this.departmentDataByid.State); // fetch Districts
-
-// setTimeout(() => {
-//   this.onChangeDistrict(this.departmentDataByid.District); // fetch Blocks
-// }, 300);
-//     this.departmentDetailForm.patchValue
-//       ({
-        
-//         Dept_Name: this.departmentDataByid.Dept_Name,
-//         Parent_Dept_ID: this.departmentDataByid.Parent_Dept_ID,
-//         Dept_Type_ID: this.departmentDataByid.Dept_Type_ID,
-//         Email_ID: this.departmentDataByid.Email_ID,
-//         Website_Url: this.departmentDataByid.Website_Url,
-//         About_Department: this.departmentDataByid.About_Department,
-//         Address: this.departmentDataByid.Address,
-//         State: this.departmentDataByid.State,
-//         District: this.departmentDataByid.District,
-//         Block: this.departmentDataByid.Block,
-//         Pincode: this.departmentDataByid.Pincode,
-//         Contact_Number: this.departmentDataByid.Contact_Number,
-//         Contact_Person_ID: this.departmentDataByid.Contact_Person_ID,
-//         // Logo_Path: [null, Validators.required],
-//       })
-//     this.iseditmode = true;
-//   }
 
 onedit(Dept_ID: any) {
   this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
@@ -214,7 +183,7 @@ onedit(Dept_ID: any) {
       Contact_Number: this.departmentDataByid.Contact_Number,
       Contact_Person_ID: this.departmentDataByid.Contact_Person_ID
     });
-    
+
   }, 300); // Give time for District to load Blocks
 
   // Load image preview
@@ -231,10 +200,10 @@ onedit(Dept_ID: any) {
       console.log(result);
       this.data = result
 
-      if (this.data) { Swal.fire("data updated successfully") };
+      if (this.data) { Swal.fire("Data Updated Successfully") };
       this.onClear();
+      this.getTable();
     })
-    this.getTable();
   }
 
 
@@ -254,7 +223,7 @@ onedit(Dept_ID: any) {
   }
 
   // file or image upload
-  selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not 
+  selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not
     if (event.target.files.length > 0) {
       const file = event.target.files[0];            //it is used to get the input file dom property
       this.images = file
@@ -265,7 +234,7 @@ onedit(Dept_ID: any) {
       }
     }
   }
-  
+
   submitfile() {                            //multer will accept form data so we here creating a form data
     if (!this.images) {
       return this.nopath();
@@ -278,14 +247,14 @@ onedit(Dept_ID: any) {
     this.ds.postData('departmentDetail/uploadfile', formData).subscribe((result: any) => {
       console.log(result["profile_url"]);
       this.imageurl = result["profile_url"];
-      Swal.fire("image uploaded successfully")
+      Swal.fire("Image Uploaded Successfully.")
       // this.iseditmode = false;
     });
   }
 
 
   nopath() {
-    Swal.fire("please select a file")
+    Swal.fire("Please select a file")
   }
 
 

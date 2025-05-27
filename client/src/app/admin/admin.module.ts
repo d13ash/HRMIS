@@ -31,6 +31,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WorkAllotmentComponent } from './component/work-allotment/work-allotment.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ConfirmLogoutDialogComponent } from './component/confirm-logout-dialog/confirm-logout-dialog.component';
+import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
+import { PostDetailComponent } from './component/post-detail/post-detail.component';
+import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 
 // MAT_DATE_LOCALE
 // ConfirmLogoutDialogComponent
@@ -61,7 +64,10 @@ import { ConfirmLogoutDialogComponent } from './component/confirm-logout-dialog/
     ResourceStatusComponent,
     StockItemDetailsComponent,
     WorkAllotmentComponent,
-    ConfirmLogoutDialogComponent
+    ConfirmLogoutDialogComponent,
+    PostDetailComponent,
+    AddEmployeeComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,

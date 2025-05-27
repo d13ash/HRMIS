@@ -1,319 +1,476 @@
 <div class="container-fluid">
-    <mat-card>
-        <form [formGroup]="resource_stock_entryform" (ngSubmit)="onsubmit()">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 heading">
-                        <h2 style="color:whitesmoke;">Inventory Entry</h2>
-                    </div>
+  <mat-card>
+    <form [formGroup]="resource_stock_entryform" (ngSubmit)="onsubmit()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 heading">
+            <h2 style="color: whitesmoke">Inventory Entry</h2>
+          </div>
+        </div>
+        <br />
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Inventory Details</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col-md-2" style="padding-right: 0">
+                <div>
+                  <mat-label>
+                    <h6 style="margin-left: 20px"><b>Stock Type :</b></h6>
+                  </mat-label>
                 </div>
-                <br>
-                <fieldset class="scheduler-border">
-                    <legend class="scheduler-border">Inventory Details</legend>
-                    <div class="control-group">
-                        <div class="row">
-                            <div class="col-md-2" style="padding-right: 0;">
-                                <div><mat-label>
-                                        <h6 style="margin-left: 20px;"><b>Stock Type :</b></h6>
-                                    </mat-label> </div>
-                                <mat-radio-group aria-label="Select an option" formControlName="stock_type">
-                                    <mat-radio-button value="O">Old</mat-radio-button>
-                                    <mat-radio-button value="N">New</mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>
-                                        Purchase order_no
-                                    </mat-label>
-                                    <input matInput placeholder="Purchase_order_no" formControlName="purchase_order_no">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label> Purchase name </mat-label>
-                                    <input matInput placeholder="Purchase_Name" formControlName="purachase_name">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>
-                                        Agency_Name
-                                    </mat-label>
-                                    <input matInput placeholder="Agency_Name" formControlName="agency">
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>Billing_Number</mat-label>
-                                    <input matInput formControlName="bill_no">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>
-                                        Amount
-                                    </mat-label>
-                                    <input matInput [(ngModel)]="val3" placeholder="Amount" formControlName="amount">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
-                                    <mat-label>Bill Date</mat-label>
-                                    <input matInput [matDatepicker]="picker" formControlName="bill_date">
-                                    <mat-hint>DD/MM/YYYY</mat-hint>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>Select_Item_Category</mat-label>
-                                    <mat-select matNativeControl formControlName="category_id"
-                                        (valueChange)="onChangeSub_Category($event)">
-
-                                        <mat-option *ngFor="let  item_category of item_category"
-                                            [value]="item_category.category_id">
-                                            {{item_category.category_name}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>Select_Item_SubCategory</mat-label>
-                                    <mat-select matNativeControl formControlName="subcategory_id"
-                                        (valueChange)="onChange_item($event)">
-                                        <mat-option *ngFor="let subcategory of subcategory"
-                                            [value]="subcategory.sub_category_id">
-                                            {{subcategory.sub_category_name}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-2"><mat-label *ngIf="iseditmode">Upload Images</mat-label>&nbsp;
-                                <mat-label *ngIf="!iseditmode"><strong>Payment_Receipt</strong></mat-label>&nbsp;
-                            </div>
-                            <div class="col-md-4" style="margin-top: 20px;">
-                                <input type="file" multiple #profile (change)="selectimage($event)">
-                            </div>
-                            <div class="col-md-2" style="margin-top: 20px;"><button mat-raised-button color="primary"
-                                    class=" btn btn-secondary btn-sm" (click)="submitfile()"
-                                    type="button">upload</button></div>
-                            <div style="display: contents; ;"><img [src]="uploadedimage" alt="a images"
-                                    style="width: 80px;height: 80px;border: 2px solidgrey"></div>
-                            <br>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="scheduler-border">
-                    <legend class="scheduler-border">Stock Entry Detail</legend>
-                    <div class="row" style="margin-top: 2px;">
-
-                        <div class="col-md-2">
-                            <mat-form-field appearance="outline" class="inputfieldsize">
-                                <mat-label>Select_Item</mat-label>
-                                <mat-select #myuser id="item" matNativeControl
-                                    (selectionChange)="logSelectedValue(myuser.value)">
-                                    <mat-option *ngFor="let item of item" [value]="item.item_id">
-                                        {{item.item_name}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="col-md-2">
-                            <mat-form-field appearance="outline" class="inputfieldsize">
-                                <mat-label>Product_Description</mat-label>
-                                <input matInput #myuser1 [value]="val1" placeholder="Product_Description">
-                            </mat-form-field>
-                        </div>
-
-                        <div class="col-md-2">
-                            <mat-form-field appearance="outline" class="inputfieldsize">
-                                <mat-label>RATE</mat-label>
-                                <input matInput #myuser4 [value]="val4" id="rate" placeholder="Product_Description">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-3">
-                            <mat-form-field class="inputfieldsize">
-                                <mat-label>Total_Quantiy</mat-label>
-                                <input matInput type="text" #myuser2 (change)="onChange_quantity($event)">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-3">
-                            <mat-form-field appearance="outline" class="inputfieldsize">
-                                <mat-label> Total_Amount</mat-label>
-                                <input matInput [value]="total" #myuser3 placeholder="Total_Amount" [disabled]>
-                            </mat-form-field>
-                        </div>
-                        <div style="height:80px;width:150px">
-                            <button mat-raised-button color="primary"
-                                (click)="onclick1(myuser.value,myuser1.value,myuser4.value,myuser2.value,myuser3.value,name1)"
-                                type="button">
-                                + Add Item
-                            </button>
-                        </div>
-                    </div>
-                </fieldset>
-                <div class="row">
-                    <div class="col offset-5">
-                        <button mat-raised-button type="button" (click)="onClear()">
-                            Clear
-                        </button> &nbsp;&nbsp;
-                        <button mat-raised-button color="primary" *ngIf="!iseditmode" type="submit">
-                            Submit
-                        </button>
-                    </div>
-                </div><br>
+                <mat-radio-group
+                  aria-label="Select an option"
+                  formControlName="stock_type"
+                >
+                  <mat-radio-button value="O">Old</mat-radio-button>
+                  <mat-radio-button value="N">New</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label> Purchase order_no </mat-label>
+                  <input
+                    matInput
+                    placeholder="Purchase_order_no"
+                    formControlName="purchase_order_no"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label> Purchase name </mat-label>
+                  <input
+                    matInput
+                    placeholder="Purchase_Name"
+                    formControlName="purachase_name"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label> Agency_Name </mat-label>
+                  <input
+                    matInput
+                    placeholder="Agency_Name"
+                    formControlName="agency"
+                  />
+                </mat-form-field>
+              </div>
             </div>
-        </form>
-    </mat-card>
-</div><br><br>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Billing_Number</mat-label>
+                  <input matInput formControlName="bill_no" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Amount</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    placeholder="Amount"
+                    formControlName="amount"
+                    [max]="2147483647"
+                    [min]="0"
+                  />
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('amount')
+                        ?.hasError('required')
+                    "
+                  >
+                    Amount is required.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('amount')
+                        ?.hasError('pattern')
+                    "
+                  >
+                    Only whole numbers are allowed.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field
+                  color="accent"
+                  appearance="outline"
+                  class="inputfieldsize"
+                >
+                  <mat-label>Bill Date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="bill_date"
+                  />
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select_Item_Category</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="category_id"
+                    (valueChange)="onChangeSub_Category($event)"
+                  >
+                    <mat-option
+                      *ngFor="let item_category of item_category"
+                      [value]="item_category.category_id"
+                    >
+                      {{ item_category.category_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select_Item_SubCategory</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="subcategory_id"
+                    (valueChange)="onChange_item($event)"
+                  >
+                    <mat-option
+                      *ngFor="let subcategory of subcategory"
+                      [value]="subcategory.sub_category_id"
+                    >
+                      {{ subcategory.sub_category_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label *ngIf="iseditmode">Upload Images</mat-label>&nbsp;
+                <mat-label *ngIf="!iseditmode"
+                  ><strong>Payment_Receipt</strong></mat-label
+                >&nbsp;
+              </div>
+              <div class="col-md-4" style="margin-top: 20px">
+                <input
+                  type="file"
+                  multiple
+                  #profile
+                  (change)="selectimage($event)"
+                />
+              </div>
+              <div class="col-md-2" style="margin-top: 20px">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="btn btn-secondary btn-sm"
+                  (click)="submitfile()"
+                  type="button"
+                >
+                  upload
+                </button>
+              </div>
+              <div style="display: contents">
+                <img
+                  [src]="uploadedimage"
+                  alt="a images"
+                  style="width: 80px; height: 80px; border: 2px solidgrey"
+                />
+              </div>
+              <br />
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Stock Entry Detail</legend>
+          <div class="row" style="margin-top: 2px">
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Select_Item</mat-label>
+                <mat-select
+                  #myuser
+                  id="item"
+                  matNativeControl
+                  (selectionChange)="logSelectedValue(myuser.value)"
+                >
+                  <mat-option *ngFor="let item of item" [value]="item.item_id">
+                    {{ item.item_name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Product_Description</mat-label>
+                <input
+                  matInput
+                  #myuser1
+                  [value]="val1"
+                  placeholder="Product_Description"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>RATE</mat-label>
+                <input
+                  matInput
+                  #myuser4
+                  [value]="val4"
+                  id="rate"
+                  placeholder="Product_Description"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="inputfieldsize">
+                <mat-label>Total Quantity</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  #myuser2
+                  (change)="onChange_quantity($event)"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Total_Amount</mat-label>
+                <input
+                  matInput
+                  [value]="total"
+                  #myuser3
+                  placeholder="Total_Amount"
+                  [disabled]
+                />
+              </mat-form-field>
+            </div>
+            <div style="height: 80px; width: 150px">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="
+                  onclick1(
+                    myuser.value,
+                    myuser1.value,
+                    myuser4.value,
+                    myuser2.value,
+                    myuser3.value,
+                    name1
+                  )
+                "
+                type="button"
+              >
+                + Add Item
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        <div class="row">
+          <div class="col offset-5">
+            <button mat-raised-button type="button" (click)="onClear()">
+              Clear
+            </button>
+            &nbsp;&nbsp;
+            <button
+              mat-raised-button
+              color="primary"
+              *ngIf="!iseditmode"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+        <br />
+      </div>
+    </form>
+  </mat-card>
+</div>
+<br /><br />
 
 <div class="container-fluid" *ngIf="show_item_details">
-    <mat-card style="margin-bottom: 40px;">
-        <fieldset class="scheduler-borders ">
-            <legend class="scheduler-border">Stock Entry Details</legend>
-            <div class="table-responsive">
-                <table class="table table-bordered create">
-                  <thead >
-                    <tr>
-                        <th>Sr.No</th>
-                        <th>Item_name</th>
-                        <th>description</th>
-                        <th>rate</th>
-                        <th>Quantity</th>
-                        <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- Table rows (data) go here -->
-                    <tr *ngFor="let i of userlist;let ind=index;">
-                        <td>{{ind+1}}</td>
-                        <td>{{i.name1}}</td>
-                        <td>{{i.desc}}</td>
-                        <td>{{i.rate}}</td>
-                        <td>{{i.quant}}</td>
-                        <td>{{i.amount}}</td>
-                    </tr>
-                    <!-- Add more rows as needed -->
-                  </tbody>
-                </table>
-              </div>
-        </fieldset>
-    </mat-card>
+  <mat-card style="margin-bottom: 40px">
+    <fieldset class="scheduler-borders">
+      <legend class="scheduler-border">Stock Entry Details</legend>
+      <div class="table-responsive">
+        <table class="table table-bordered create">
+          <thead>
+            <tr>
+              <th>Sr.No</th>
+              <th>Item_name</th>
+              <th>description</th>
+              <th>rate</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table rows (data) go here -->
+            <tr *ngFor="let i of userlist; let ind = index">
+              <td>{{ ind + 1 }}</td>
+              <td>{{ i.name1 }}</td>
+              <td>{{ i.desc }}</td>
+              <td>{{ i.rate }}</td>
+              <td>{{ i.quant }}</td>
+              <td>{{ i.amount }}</td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+  </mat-card>
 </div>
 
 <div class="container-fluid">
-    <mat-card style="margin-bottom: 40px;">
-        <fieldset class="scheduler-borders ">
-            <legend class="scheduler-border">Stock Details</legend>
-        <div class="container ">
-            <div class="row table-responsive">
-                <div class="search_container mt-2">
-                    <mat-form-field class="example-full-width">
-                        <span matPrefix> </span>
-                        <input type="tel" matInput placeholder="Search" autocomplete="off"
-                            (keyup)="applyFilter($event)">
-                        <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-                </div>
+  <mat-card style="margin-bottom: 40px">
+    <fieldset class="scheduler-borders">
+      <legend class="scheduler-border">Stock Details</legend>
+      <div class="container">
+        <div class="row table-responsive">
+          <div class="search_container mt-2">
+            <mat-form-field class="example-full-width">
+              <span matPrefix> </span>
+              <input
+                type="tel"
+                matInput
+                placeholder="Search"
+                autocomplete="off"
+                (keyup)="applyFilter($event)"
+              />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
 
-                <table class="con-table" mat-table matSort [dataSource]="dataSource">
-
-                    <ng-container matColumnDef="Purchase_id">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Purchase_Id</th>
-                        <td mat-cell *matCellDef="let element">{{element.purchase_id}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="Purchase_name">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.purachase_name}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Purchase_order_no">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Order_No</th>
-                        <td mat-cell *matCellDef="let element"> {{element.purchase_order_no}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Logo_Path">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Logo</th>
-                        <td mat-cell *matCellDef="let element"> <a href="{{element.bill_attachment}}"><i
-                                    class="fa fa-file-pdf-o"></i></a></td>
-                        <!-- <td mat-cell *matCellDef="let element"> <a href="{{element.bill_attachment}}"><mat-icon>home</mat-icon></a></td> -->
-                    </ng-container>
-                    <ng-container matColumnDef="agency">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Agency</th>
-                        <td mat-cell *matCellDef="let element"> {{element.agency}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="bill_no">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Billing Number</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bill_no}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="bill_date">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Billing Date</th>
-                        <td mat-cell *matCellDef="let element"> {{element.bill_date | date :'dd/MM/YYYY'}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="amount">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>Amount</th>
-                        <td mat-cell *matCellDef="let element"> {{element.amount}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="Action" stickyEnd="true">
-                        <th mat-sort-header mat-header-cell *matHeaderCellDef>View_Detail</th>
-                        <td mat-cell *matCellDef="let element">
-                            <button mat-icon-button color="primary" (click)="onview(element.purchase_id)">
-                                <mat-icon>info</mat-icon>
-                            </button>
-
-                        </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-                <br>
-                <mat-paginator class="paging" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
-                    aria-label="Select page">
-                </mat-paginator>
-            </div>
+          <table class="con-table" mat-table matSort [dataSource]="dataSource">
+            <ng-container matColumnDef="Purchase_id">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                Purchase_Id
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.purchase_id }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Purchase_name">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.purachase_name }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Purchase_order_no">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                Order_No
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.purchase_order_no }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Logo_Path">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Logo</th>
+              <td mat-cell *matCellDef="let element">
+                <a href="{{ element.bill_attachment }}"
+                  ><i class="fa fa-file-pdf-o"></i
+                ></a>
+              </td>
+              <!-- <td mat-cell *matCellDef="let element"> <a href="{{element.bill_attachment}}"><mat-icon>home</mat-icon></a></td> -->
+            </ng-container>
+            <ng-container matColumnDef="agency">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Agency</th>
+              <td mat-cell *matCellDef="let element">{{ element.agency }}</td>
+            </ng-container>
+            <ng-container matColumnDef="bill_no">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                Billing Number
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.bill_no }}</td>
+            </ng-container>
+            <ng-container matColumnDef="bill_date">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                Billing Date
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.bill_date | date : "dd/MM/YYYY" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="amount">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Amount</th>
+              <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Action" stickyEnd="true">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                View_Detail
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="onview(element.purchase_id)"
+                >
+                  <mat-icon>info</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <br />
+          <mat-paginator
+            class="paging"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page"
+          >
+          </mat-paginator>
         </div>
-        </fieldset>
-    </mat-card>
-</div> <br> <br>
-
+      </div>
+    </fieldset>
+  </mat-card>
+</div>
+<br />
+<br />
 
 <div class="container-fluid" *ngIf="show_view_details">
-    <mat-card style="margin-bottom: 40px;">
-        <fieldset class="scheduler-borders ">
-            <legend class="scheduler-border">View Detail</legend>
-            <div class="table-responsive">
-                <table class="table table-bordered create">
-                  <thead >
-                    <tr>
-                        <th>Sr.No</th>
-                        <th>Item Name</th>
-                        <th>Description</th>
-                        <th>Rate</th>
-                        <th>Quantity</th>
-                        <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- Table rows (data) go here -->
-                    <tr *ngFor="let i of item_info;let ind=index;">
-                        <td>{{ind+1}}</td>
-                        <td>{{i.item_name}}</td>
-                        <td>{{i.description}}</td>
-                        <td>{{i.rate}}</td>
-                        <td>{{i.quantity}}</td>
-                        <td>{{i.amount}}</td>
-                    </tr>
-                    <!-- Add more rows as needed -->
-                  </tbody>
-                </table>
-              </div>
-        </fieldset>
-    </mat-card>
+  <mat-card style="margin-bottom: 40px">
+    <fieldset class="scheduler-borders">
+      <legend class="scheduler-border">View Detail</legend>
+      <div class="table-responsive">
+        <table class="table table-bordered create">
+          <thead>
+            <tr>
+              <th>Sr.No</th>
+              <th>Item Name</th>
+              <th>Description</th>
+              <th>Rate</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table rows (data) go here -->
+            <tr *ngFor="let i of item_info; let ind = index">
+              <td>{{ ind + 1 }}</td>
+              <td>{{ i.item_name }}</td>
+              <td>{{ i.description }}</td>
+              <td>{{ i.rate }}</td>
+              <td>{{ i.quantity }}</td>
+              <td>{{ i.amount }}</td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+  </mat-card>
 </div>

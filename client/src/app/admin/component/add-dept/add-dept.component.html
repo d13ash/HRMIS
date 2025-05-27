@@ -140,14 +140,14 @@
                         <div class="row">
 
                             <div class="col-md-4">
-                                <mat-label *ngIf="iseditmode">edit your Images</mat-label>&nbsp;
-                                <mat-label *ngIf="!iseditmode"><strong>image upload</strong></mat-label>&nbsp;
+                                <mat-label *ngIf="iseditmode">Edit your Images</mat-label>&nbsp;
+                                <mat-label *ngIf="!iseditmode"><strong>Image Upload</strong></mat-label>&nbsp;
                                 <input type="file" multiple #profile (change)="selectimage($event)">
                                 <button mat-raised-button color="primary" class=" btn btn-secondary btn-sm"
-                                    (click)="submitfile()" type="button">upload</button>
+                                    (click)="submitfile()" type="button">Upload</button>
                             </div>
-                            <div style="display: contents; ;"><img [src]="uploadedimage" alt="a images"
-                                    style="width: 90px;height: 100%;border: 2px solidgrey"></div>
+                            <div style="display: contents; " *ngIf="uploadedimage"><img [src]="uploadedimage" alt="Department Logo"
+                                    style="width:60px; height: 60%; margin-top:13px;"></div>
                             <br>
                         </div>
                         <br>

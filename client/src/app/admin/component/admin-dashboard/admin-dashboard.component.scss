@@ -1,6 +1,6 @@
 mat-sidenav{
     background:white(255, 255, 255);
-    width: 230px;
+    width: 280px;
     height: 100%;
 }
 
@@ -104,7 +104,7 @@ mat-toolbar{
     // &:hover {
     //   background: blue;
     // }
-  
+
     color: #f2f5f7 !important;
     ::ng-deep {
       .mat-list-item-content {
@@ -126,6 +126,7 @@ mat-toolbar{
 
 table, td, th {
   border:  solid 1px;
+
   
   }
 

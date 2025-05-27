@@ -1,160 +1,126 @@
-/* General Font and Colors */
 .contact {
   font-family: 'Segoe UI', sans-serif;
-  color: #20482a;
+  background: #f4fdf4;
   padding: 60px 0;
-  background-color: #f4fdf4;
+  color: #20482a;
 }
 
-/* Section Title */
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
 .contact h1 {
-  font-weight: 700;
+  display: inline-block; /* needed to size ::after to text width */
   position: relative;
-  display: inline-block;
   font-size: 36px;
-  color: #20482a;
+  font-weight: 700;
 }
 
 .contact h1::after {
   content: "";
   position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
   height: 3px;
+  width: 0;
   background-color: #449d49;
   transition: width 0.3s ease;
 }
-
 .contact h1:hover::after {
-  width: 50%;
+  width: 100%; /* Adjust as needed (e.g., 60%, 80%) */
 }
 
-/* Center Header */
-.center-head {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-/* Info Box Styling */
-.contact .info {
-  background-color: #ffffff;
-  border-left: 5px solid #449d49;
-  padding: 30px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.05);
-  border-radius: 10px;
-  transition: box-shadow 0.3s ease;
-}
-
-.contact .info:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.contact .info-item {
+.contact-row {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.contact .info-item i {
-  font-size: 24px;
-  color: #449d49;
-  margin-right: 15px;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.contact .info-item:hover i {
-  color: #20482a;
-  transform: scale(1.2);
-}
-
-.contact .info-item h4 {
-  font-weight: 600;
-  font-size: 16px;
-  margin: 0;
-}
-
-.contact .info-item p {
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-}
-
-/* Form Styling */
-.contact .php-email-form {
-  background-color: #fff;
-  padding: 30px;
+.contact-box {
+  background: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.05);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 25px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 32%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.contact .php-email-form:hover {
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.contact-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
-.contact .php-email-form input,
-.contact .php-email-form textarea {
+.contact-box.info i,
+.contact-box.info h4 {
+  color: #449d49;
+}
+
+.contact-box.info .info-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.contact-box.info .info-item i {
+  font-size: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
   width: 100%;
-  padding: 12px 15px;
-  font-size: 15px;
+  padding: 10px 12px;
+  font-size: 14px;
+  margin-top: 10px;
   border: 1px solid #ccc;
-  margin-top: 15px;
   border-radius: 6px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
-.contact .php-email-form input:focus,
-.contact .php-email-form textarea:focus {
+.contact-form input:focus,
+.contact-form textarea:focus {
   border-color: #449d49;
-  box-shadow: 0 0 5px rgba(68, 157, 73, 0.5);
   outline: none;
 }
 
-/* Submit Button */
-.contact .php-email-form button[type=submit] {
-  background-color: #449d49;
+.contact-form button[type=submit] {
+  margin-top: 65px;
+  margin-left:110px;
+  background: #449d49;
   color: #fff;
-  padding: 12px 30px;
   border: none;
-  border-radius: 30px;
-  margin-top: 20px;
+  padding: 10px 22px;
+  border-radius: 25px;
   font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.contact .php-email-form button[type=submit]:hover {
-  background-color: #20482a;
+.contact-form button[type=submit]:hover {
+  background: #20482a;
   transform: scale(1.05);
 }
 
-/* Responsive Layout */
-@media (max-width: 768px) {
-  .contact .row {
-    flex-direction: column;
-  }
-
-  .contact .col-lg-4,
-  .contact .col-lg-8 {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-}
-
-/* Map Styling */
-.contact .map-wrapper {
-  margin: 30px 0;
-  overflow-x: auto;
-}
-
-.contact .map-wrapper iframe {
-  width: 70%;         
-  height: 400px;
+.contact-box.map iframe {
+  width: 100%;
+  height: 435px;
+  border: 0;
   border-radius: 10px;
-  border: none;
-  transition: transform 0.3s ease;
 }
 
-.contact .map-wrapper iframe:hover {
-  transform: scale(1.01);
+@media (max-width: 991px) {
+  .contact-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-box {
+    max-width: 100%;
+  }
+
+  .contact-box.map iframe {
+    height: 250px;
+  }
 }

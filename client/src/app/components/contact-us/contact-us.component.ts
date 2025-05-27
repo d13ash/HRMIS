@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
-// import { DataService } from 'src/app/services/data.service';
+import Swal from 'sweetalert2';
+
+
 
 // DataService
 @Component({
@@ -21,24 +23,30 @@ export class ContactUsComponent implements OnInit{
     C_Subject: [null, Validators.required],
     C_Message: [null, Validators.required],
   });
-    
+
   }
 
   Contact_form!:FormGroup;
 
   constructor(private fb: FormBuilder, private ds: DataService) { }
 
-  onSubmit(){
+  onSubmit() {
+  console.log(this.Contact_form.value);
 
-    console.log(this.Contact_form.value);
-    this.ds.postData('dashboardContent/Contact',this.Contact_form.value).subscribe(res =>{
-      this.data=res;
-      if (this.data)
-      {alert("Data Saved successfully")};
-      this.onClear()
-    });
-  
+  this.ds.postData('dashboardContent/Contact', this.Contact_form.value).subscribe(res => {
+    this.data = res;
+
+    if (this.data) {
+      Swal.fire({
+        text: 'Your message has been sent. Thank you!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+      this.onClear();
     }
+  });
+}
+
     onClear(){
       this.Contact_form.reset();
     }
