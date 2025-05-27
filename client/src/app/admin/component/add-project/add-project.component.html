@@ -2,10 +2,10 @@
 <div class="container-fluid" id="addnews">
     <mat-card>
         <div class="container">
-            <form [formGroup]="projectDetailForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="projectDetailForm" (ngSubmit)="onSubmit()"  #formDirective="ngForm">
             <div class="row">
                 <div class="col-md-12 heading">
-                    <h2 style="color:whitesmoke;">Project</h2>
+                    <h2 style="color:whitesmoke;"> Add Project</h2>
                 </div>
             </div>
             <br>
@@ -50,23 +50,23 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="row">
                     <div class="col offset-5">
                         <button mat-raised-button  type="button" (click)="onClear()">
                             Clear
-                        </button> &nbsp;&nbsp; 
+                        </button> &nbsp;&nbsp;
                     <button mat-raised-button color="primary"  *ngIf="!iseditmode" type="submit">
                         Submit
                     </button>
                     <button mat-raised-button color="primary"  *ngIf="iseditmode" (click)="onupdate()" type="button">
                         Update
                     </button>
-    
+
                 </div>
                 </div>
             </fieldset>
-</form>  
+</form>
     </div>
     </mat-card>
 </div> <br><br>
@@ -80,7 +80,7 @@
         </mat-toolbar>
        <div class="container ">
   <div class="row table-responsive">
-    
+
     <div class="search_container mt-2" >
         <mat-form-field class="example-full-width">
         <span matPrefix> </span>
@@ -113,7 +113,7 @@
           </ng-container>
           <ng-container matColumnDef="Action">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element"> 
+            <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="primary" (click)="onedit(element.Project_ID); scrollToBottom()">
                     <mat-icon>edit</mat-icon>
                 </button>
@@ -122,7 +122,7 @@
                 </button>
             </td>
           </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
@@ -139,25 +139,25 @@
 
 
 <!-- mat card -->
-       
-<div class="container">
+
+<!-- <div class="container">
     <mat-card>
         <div>
             <p><span ><h5 class="title  mt-3" style="color: rgb(82, 79, 79); margin-left: 10px;">All Project</h5></span> </p>
         </div>
-      
+
     <div class="container card-content" style="margin-bottom: 20px;">
         <div class="row">
-    
+
             <mat-card class="example-card-new" *ngFor=" let us of allProjectDetail" >
-                
+
                 <mat-toolbar>
                  <mat-card-header>
                      <div mat-card-avatar class="example-header-image"></div>
                      <mat-card-title> <h5>{{us.Project_name}}</h5> </mat-card-title>
                    </mat-card-header>
                 </mat-toolbar>
-                
+
                  <img mat-card-image src="https://www.gp-implant.com/wp-content/uploads/2016/06/mis.png" alt="Photo of a Shiba Inu">
                  <mat-card-content style="font-size: 15px;  color: rgb(86, 83, 83);">
                      <p>Description  : {{us.Project_Discription}}</p>
@@ -169,10 +169,10 @@
                      <p>Progress     : 40% <br><br> <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
                      </p>
                  </mat-card-content>
-                
+
                </mat-card>
         </div>
     </div>
     </mat-card>
     </div> <br> <br>
-
+ -->

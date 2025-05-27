@@ -2,7 +2,7 @@
 <div class="container-fluid" id="addnews">
     <mat-card>
         <div class="container">
-            <form [formGroup]="projectMapForm"   (ngSubmit)="onSubmit()">
+            <form [formGroup]="projectMapForm"   (ngSubmit)="onSubmit()" #formDirective="ngForm">
             <div class="row">
                 <div class="col-md-12 heading">
                     <h2 style="color:whitesmoke;">Project Mapping With Department</h2>
@@ -54,23 +54,23 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <div class="row">
                     <div class="col offset-5">
                         <button mat-raised-button  type="button" (click)="onClear()">
                             Clear
-                        </button> &nbsp;&nbsp; 
+                        </button> &nbsp;&nbsp;
                         <button mat-raised-button color="primary"  *ngIf="!iseditmode" type="submit">
                             Submit
                         </button>
                         <button mat-raised-button color="primary"  *ngIf="iseditmode" (click)="onupdate()" type="button">
                             Update
                         </button>
-    
+
                 </div>
                 </div>
             </fieldset>
-</form>  
+</form>
     </div>
     </mat-card>
 </div> <br><br>
@@ -86,7 +86,7 @@
         </mat-toolbar>
        <div class="container ">
   <div class="row table-responsive">
-    
+
     <div class="search_container mt-2" >
         <mat-form-field class="example-full-width">
         <span matPrefix> </span>
@@ -96,7 +96,7 @@
     </div>
 
     <table class="con-table" mat-table matSort [dataSource]="dataSource" >
-           
+
         <ng-container matColumnDef="ID">
             <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
             <td mat-cell *matCellDef="let element">{{element.ID}}</td>
@@ -119,7 +119,7 @@
           </ng-container>
           <ng-container matColumnDef="Action">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element"> 
+            <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="primary" (click)="onedit(element.ID); scrollToBottom()">
                     <mat-icon>edit</mat-icon>
                 </button>
@@ -129,7 +129,7 @@
             </td>
             <div id="endOfPage" style="height: 1px;"></div>
           </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
