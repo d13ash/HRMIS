@@ -46,8 +46,8 @@
                             <div class="col-md-4">
                                 <mat-form-field class="inputfieldsize" appearance="outline">
                                     <span matPrefix>+91 &nbsp;</span>
-                                    <input type="tel" matInput placeholder="Contact Number"
-                                        formControlName="Contact_Number">
+                                    <input type="number" matInput placeholder="Contact Number"
+                                        formControlName="Contact_Number" maxlength="10">
                                     <mat-icon matSuffix>mode_edit</mat-icon>
                                 </mat-form-field>
                             </div>
@@ -128,12 +128,12 @@
                             </div>
                             <div class="col-md-6">
 
-                                <mat-form-field appearance="outline" class="inputfieldsize">
+                                <mat-form-field appearance="outline" class="inputfieldsize" >
                                     <mat-label>
                                         Contact Person
                                     </mat-label>
                                     <input matInput placeholder="Contact Person(op)"
-                                        formControlName="Contact_Person_ID">
+                                        formControlName="Contact_Person_ID" >
                                 </mat-form-field>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                                     (click)="submitfile()" type="button">Upload</button>
                             </div>
                             <div style="display: contents; " *ngIf="uploadedimage"><img [src]="uploadedimage" alt="Department Logo"
-                                    style="width:60px; height: 60%; margin-top:13px;"></div>
+                                    style="width:90px; height: 100%;"></div>
                             <br>
                         </div>
                         <br>

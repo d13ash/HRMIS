@@ -19,12 +19,13 @@ import { DataService } from '../../../services/data.service';
 export class AddProjectComponent implements OnInit{
   constructor(private fb:FormBuilder, private ds : DataService, private elementRef: ElementRef){}
 
-  
+
   displayedColumns=['Project_ID','Project_name','Project_Type_Name','Project_Short_name','Project_Discription','Action'];
   dataSource!: MatTableDataSource<any>;
 
    @ViewChild(MatPaginator) paginator!: MatPaginator ;
    @ViewChild(MatSort) MatSort!: MatSort ;
+@ViewChild('formDirective') formDirective!: any;
 
   // projectDetailForm = this.fb.group({
   //   Project_name: [null, Validators.required],
@@ -33,7 +34,7 @@ export class AddProjectComponent implements OnInit{
   //   Project_Short_name:[null, Validators.required],
   //   Project_Discription: [null, Validators.required],
   // });
-  
+
   projectDetailForm!: FormGroup
 
   deptType: any;
@@ -50,11 +51,10 @@ export class AddProjectComponent implements OnInit{
     this.projectDetailForm = this.fb.group({
       Project_name: [null, Validators.required],
       Project_Type_ID:[null, Validators.required],
-      // Dept_ID: [null, Validators.required],
       Project_Short_name:[null, Validators.required],
       Project_Discription: [null, Validators.required],
     });
-    
+
     this.getDepartment()
     this.getTable()
     this.getProjectType()
@@ -66,7 +66,7 @@ scrollToBottom(): void {
 }
 
 
-  
+
   getDepartment(){
     this.ds.getData('departmentDetail/allDepartment').subscribe((result: any)=>{
       console.log(result);
@@ -74,7 +74,7 @@ scrollToBottom(): void {
     })
   }
 
- 
+
   getProjectType(){
     this.ds.getData('projectTypeDtail').subscribe((result: any)=>{
       console.log(result);
@@ -85,24 +85,35 @@ scrollToBottom(): void {
 
  // post Project Detail
 
-onSubmit(){
+onSubmit() {
+  if (this.projectDetailForm.invalid) {
+    Swal.fire('Please fill all required fields.');
+    return;
+  }
 
-  console.log(this.projectDetailForm.value);
-  this.ds.postData('projectDetail/hello',this.projectDetailForm.value).subscribe(res =>{
-    this.data=res;
-    if (this.data)
-    {Swal.fire("Data Saved successfully")};
-    this.getTable();
-    this.onClear()
+  this.ds.postData('projectDetail/hello', this.projectDetailForm.value).subscribe(res => {
+    this.data = res;
+    if (this.data) {
+      Swal.fire("Data Saved Successfully");
+      this.getTable();
+      this.onClear();
+    }
   });
+}
 
-  }
-  onClear(){
-    this.projectDetailForm.reset();
-  }
-  
+  onClear() {
+  this.projectDetailForm.reset();
+  this.formDirective.resetForm();  // <-- this clears Material styles too
+  this.projectDetailForm.markAsPristine();
+  this.projectDetailForm.markAsUntouched();
+  this.projectDetailForm.updateValueAndValidity();
+}
 
-  
+
+
+
+
+
 // Show data in Mat Table
 getTable(){
   this.ds.getData('projectDetail/allProject' ).subscribe((result:any)=>{
@@ -110,13 +121,13 @@ getTable(){
           this.dataSource = new MatTableDataSource(result);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.MatSort;
-      console.log(result);  
+      console.log(result);
     })
     }
 
 //  Get single Data into form for update
-onedit(Project_ID: any){ 
-  this.projectDataByid = this.allProjectDetail.find((f : any) => f.Project_ID === parseInt(Project_ID)); 
+onedit(Project_ID: any){
+  this.projectDataByid = this.allProjectDetail.find((f : any) => f.Project_ID === parseInt(Project_ID));
   console.log(this.projectDataByid)
  this.iseditmode=true;
   this.data_id = Project_ID;
@@ -139,14 +150,14 @@ onupdate(){
     console.log(result);
     this.data= result
   if(this.data)
-  {Swal.fire("data updated successfully")};
+  {Swal.fire("Data Updated Successfully")};
   this.getTable();
   this.onClear();
    })
   this.iseditmode = false;
  }
 
- 
+
 // Delete Department detail
  ondelete(Project_ID: any){
   this.projectDataByid = this.allProjectDetail.find((f : any) => f.Project_ID === parseInt(Project_ID)); //here we matching and extracting the selected id
@@ -160,11 +171,11 @@ onupdate(){
   {Swal.fire('Data Deleted...')};
   this.getTable();
 
- }) 
+ })
 }
 
 
-  
+
 
 // mat Table filter
 applyFilter(event: Event) {

@@ -1,6 +1,7 @@
 .navbar {
-  // background: linear-gradient(to right, #1F4529, #8EB486);
-  background-color:#1E3A8A;
+
+  // background: linear-gradient(135deg, #1e90ff, #00e5ff);
+  background: linear-gradient(135deg, #186fcc, #00d4ec);
   color: white;
   padding: 0.5rem 1rem;
 
@@ -9,17 +10,17 @@
   }
 
   .title-text {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 600;
     color: #fff;
     white-space: nowrap;
   }
 
   .nav-links a {
-    color: #fff;
+    color:white;
     margin: 0 0.5rem;
     padding-bottom: 4px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     text-decoration: none;
     position: relative;
     transition: color 0.3s ease;
@@ -49,8 +50,8 @@
 
   .login-btn .login-hover {
     background-color: white;
-    color: #20482a;
-    font-size: 1rem;
+    color: #001b3f;
+    font-size: 1.1rem;
     padding: 0.5rem 1.5rem;
     border-radius: 30px;
     border: none;
@@ -58,7 +59,7 @@
     transition: all 0.3s;
 
     &:hover {
-      background-color:#20482a;
+      background-color:#001b3f;
       color: white;
     }
   }
@@ -73,7 +74,7 @@
   .mobile-menu {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, #1f4529, #4caf50);
+  background: linear-gradient(135deg, #186fcc, #00d4ec);
     padding: 0.5rem 1rem;
     position: absolute;
     top: 60px; // Adjust to match navbar height
@@ -93,7 +94,7 @@
 
       &:hover {
         background-color: white;
-        color: #20482a;
+        color: #001b3f
       }
 
       &::after {
@@ -108,7 +109,7 @@
 
       button.login-hover {
         background-color: white;
-        color: #20482a;
+        color: #001b3f;
         font-size: 1rem;
         padding: 0.5rem 1.5rem;
         border-radius: 30px;
@@ -117,7 +118,7 @@
         transition: all 0.3s;
 
         &:hover {
-          background-color: #20482a;
+          background-color: #001b3f;
           color: white;
         }
       }
