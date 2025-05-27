@@ -1,57 +1,107 @@
-<div class="container-fluid ">
-    <div class="row" style="margin-top: 18px;">
-        <div class="col-xl-3 col-lg-6 ">
-            <div class="card l-bg-cherry">
-                <div class="card-statistic-3 p-4 " >
-                    <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">PROJECTS</h4>
-                    </div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">{{projectCountValue}}</h4>
-                    </div>
-                </div>
+<div class="container-fluid">
+  <div class="row mt-4">
+    <!-- PROJECTS -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <a [routerLink]="['/','admin','admindashboard','add-project']" class="text-decoration-none">
+        <div class="card text-white bg-primary">
+          <div class="card-statistic-3 p-4 text-center">
+            <div class="mb-2">
+              <h6 class="card-title mb-0">PROJECTS</h6>
             </div>
-        </div>
-
-        <div class="col-xl-3 col-lg-6">
-            <div class="card l-bg-blue-dark">
-                <div class="card-statistic-3 p-4">
-                    <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">PENDING WORKS</h4>
-                    </div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">{{workCountValue}}</h4>
-                    </div>
-                </div>
+            <div>
+              <h6 class="card-title mb-0">{{ projectCountValue }}</h6>
             </div>
+          </div>
         </div>
-        <div class="col-xl-3 col-lg-6">
-            <div class="card l-bg-green-dark">
-                <div class="card-statistic-3 p-4">
-                    <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">EMPLOYEES</h4>
-                    </div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">{{empCountValue}}</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <div class="card l-bg-orange-dark">
-                <div class="card-statistic-3 p-4">
-                    <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">LEAVES</h4>
-                    </div>
-                    <div class="mb-4" style="text-align:center;">
-                        <h4 class="card-title mb-0">76</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </a>
     </div>
+
+    <!-- PENDING WORKS -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <a [routerLink]="['/','admin','admindashboard','work-allotment']" class="text-decoration-none">
+        <div class="card text-white bg-dark">
+          <div class="card-statistic-3 p-4 text-center">
+            <div class="mb-2">
+              <h6 class="card-title mb-0">PENDING WORKS</h6>
+            </div>
+            <div>
+              <h6 class="card-title mb-0">{{ workCountValue }}</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- EMPLOYEES -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <a [routerLink]="['/','admin','admindashboard','add-employee']" class="text-decoration-none">
+        <div class="card text-white bg-success">
+          <div class="card-statistic-3 p-4 text-center">
+
+            <div class="mb-2">
+              <h6 class="card-title mb-0">EMPLOYEES</h6>
+            </div>
+            <div>
+              <h6 class="card-title mb-0">{{ empCountValue }}</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- LEAVES -->
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <a [routerLink]="['/','admin','admindashboard','add-leave']" class="text-decoration-none">
+        <div class="card text-white bg-danger">
+          <div class="card-statistic-3 p-4 text-center">
+
+            <div class="mb-2">
+              <h6 class="card-title mb-0">LEAVES</h6>
+            </div>
+            <div>
+              <h6 class="card-title mb-0">76</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div>
+    <mat-card *ngIf="currentRow" class="rotating-card mat-elevation-z4">
+    <mat-card-header>
+      <mat-card-title class="title">Work Assignment</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Card Header - First Row -->
+      <div class="card-header-row">
+        <h3>Employee Work Details</h3>
+      </div>
+
+      <!-- Titles Row - Second Row -->
+      <div class="titles-row">
+        <span class="field-title">Employee Name</span>
+        <span class="field-title">Project</span>
+        <span class="field-title">Module</span>
+        <span class="field-title">Work</span>
+        <span class="field-title">Start Date</span>
+        <span class="field-title">End Date</span>
+        <span class="field-title">Status</span>
+        <span class="field-title">Approval</span>
+      </div>
+
+      <!-- Info Row - Third Row -->
+      <div class="info-values-row">
+        <span class="field-value">{{ currentRow.Emp_First_Name }}</span>
+        <span class="field-value">{{ currentRow.Project_name }}</span>
+        <span class="field-value">{{ currentRow.module_name }}</span>
+        <span class="field-value">{{ currentRow.Work_name }}</span>
+        <span class="field-value">{{ currentRow.Start_date | date }}</span>
+        <span class="field-value">{{ currentRow.End_date | date }}</span>
+        <span class="field-value" [ngClass]="statusColor(currentRow.status)">{{ currentRow.is_Work_complete }}</span>
+        <span class="field-value" [ngClass]="approvalColor(currentRow.approval)">{{ currentRow.approval }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  </div>
 </div>
