@@ -1,171 +1,170 @@
 <mat-sidenav-container *ngFor=" let s of roles">
-    <mat-sidenav #sidebar class="sidenav" fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'push' : 'side'"
-    [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #sidebar class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'push' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-nav-list>
+      <div class="user">
+        <img class="profile_img" src="{{s.Emp_Photo_Path}}" alt="admin logo" />
+        <p>
+          <!-- <span class="name">{{allemplogin.Emp_First_Name_E}} </span><br /> -->
+          <span class="name">{{s.FullName}} </span><br />
+          <span claas="mail">{{s.Post_Name}}</span>
+        </p>
+      </div>
+      <div class="menu-head">
+        <span>
+          <h6 class="dash"><a mat-list-item routerLink="content"><mat-icon
+                class="design_icon">dashboard</mat-icon>Dashboard</a></h6>
+        </span>
+      </div>
       <mat-nav-list>
-        <div class="user">
-          <img class="profile_img" src="{{s.Emp_Photo_Path}}" alt="admin logo" />
-          <p>
-            <!-- <span class="name">{{allemplogin.Emp_First_Name_E}} </span><br /> -->
-            <span class="name">{{s.FullName}} </span><br />
-            <span claas="mail">{{s.Post_Name}}</span>
-          </p>
-        </div>
-        <div class="menu-head">
-          <span>
-          <h6 class="dash" ><a mat-list-item routerLink="content"><mat-icon class="design_icon">dashboard</mat-icon>Dashboard</a></h6>
-          </span>
-        </div>
-        <mat-nav-list>
-          
-  <!-- button 0 -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon class="icon-design">domain</mat-icon>
-                Department
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="add-dept">Add Department</a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-          <!-- button 1 -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon class="icon-design">smartphone</mat-icon>
-                Project
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="add-project">Add Project</a>
-              <a mat-list-item routerLink="map-project-dept">Map Project Department</a>
-              <a mat-list-item routerLink="pro-post-allot">Project Post</a>
-              <a mat-list-item routerLink="financial-post">Financial Post</a>
-              <a mat-list-item routerLink="financial-year-pos">Post Detail</a>
-              <a mat-list-item routerLink="map-post-emp">Map post-emp</a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-          <!-- button 2 -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon class="icon-design">add_task</mat-icon>
-                Task
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="project-module"> Module Detail</a>
-              <a mat-list-item routerLink="map-project-module">Map Pro-Module</a>
-              <a mat-list-item routerLink="project-work">Project Work</a>
-              <a mat-list-item routerLink="project-work-detail">Add Work Detail</a>
-              <a mat-list-item routerLink="work-allotment"> Work Allotment</a>            
-            </mat-nav-list>
-          </mat-expansion-panel>
-  
-          <!-- button 2 -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon class="icon-design">rule_setting</mat-icon>
-                Progress
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item>Project Progress</a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-  
-            <!-- button 2 -->
-            <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon class="icon-design">calendar_month</mat-icon>
-                  Leave
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-nav-list>
-                <a mat-list-item routerLink="leave-request">Leave Request</a>
-              </mat-nav-list>
-            </mat-expansion-panel>
-  
-          <!-- button 2 -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon class="icon-design">wallet</mat-icon>
-                Finance
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="financial-budget"> Financial Head Entry</a>
-              <a mat-list-item routerLink="financial-budget-allotment"> Finance Budget Allotment</a>
-  
-             
-            </mat-nav-list>
-          </mat-expansion-panel>
-  
-          <!-- button 2 -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon class="icon-design">devices</mat-icon>
-                Resources
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="R-category">Resource category-subcategory</a>
-              <a mat-list-item routerLink="add-resource">Inventory Entry</a>
-              <a mat-list-item routerLink="stock-item-details">All Resources</a>
-              <a mat-list-item routerLink="resource-status"> Status</a>
-              <a mat-list-item routerLink="assign-resource">Assign </a>
-              <a mat-list-item routerLink="resource-allotment">Resource Allotment</a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-          <!-- button profile -->
-          <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon>person</mat-icon>
-                Profile
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <mat-nav-list>
-              <a mat-list-item routerLink="profile-view"> View Profile</a>
-              <a mat-list-item (click)="logout()">Logout</a>
-            </mat-nav-list>
-          </mat-expansion-panel>
-          <a mat-list-item routerLink="my-resource"><mat-icon class="design_icon">token</mat-icon>My Resource</a>
-          <a mat-list-item routerLink="contact-from"><mat-icon class="design_icon">call_quality</mat-icon>Contact Us</a>
-  
-        </mat-nav-list>
-      </mat-nav-list>
-    </mat-sidenav>
 
-  
-    <mat-sidenav-content>
-      <div class="toolbar sticky-top nav">
-        <mat-toolbar>
-          <!-- Left Side Menu Button -->
-          <button mat-button (click)="sidebar.toggle()">
-            <mat-icon>menu</mat-icon>
-          </button>
-          
-          <!-- Spacer to push logout button to the right -->
-          <span class="spacer"></span>
-          
-          <!-- Right Side Logout Button -->
-          <button mat-button (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon>
-            Logout
-          </button>
+        <!-- button 0 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">domain</mat-icon>
+              Department
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="add-dept" routerLinkActive="active-link"
+              [routerLinkActiveOptions]="{ exact: true }">Add Department</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <!-- button 1 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">smartphone</mat-icon>
+              Project
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="add-project" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Add Project</a>
+            <a mat-list-item routerLink="map-project-dept" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Map Project Department</a>
+            <a mat-list-item routerLink="pro-post-allot" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Project Post</a>
+            <a mat-list-item routerLink="financial-post" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Financial Post</a>
+            <a mat-list-item routerLink="financial-year-pos" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Post Detail</a>
+            <a mat-list-item routerLink="map-post-emp" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Map post-emp</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <!-- button 2 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">add_task</mat-icon>
+              Task
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="project-module" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"> Module Detail</a>
+            <a mat-list-item routerLink="map-project-module" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Map Pro-Module</a>
+            <a mat-list-item routerLink="project-work" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Project Work</a>
+            <a mat-list-item routerLink="project-work-detail" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Add Work Detail</a>
+            <a mat-list-item routerLink="work-allotment" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"> Work Allotment</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <!-- button 2 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">rule_setting</mat-icon>
+              Progress
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Project Progress</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <!-- button 2 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">calendar_month</mat-icon>
+              Leave
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="leave-request" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Leave Request</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <!-- button 2 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">wallet</mat-icon>
+              Finance
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="financial-budget" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"> Financial Head Entry</a>
+            <a mat-list-item routerLink="financial-budget-allotment" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"> Finance Budget Allotment</a>
+
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <!-- button 2 -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon class="icon-design">devices</mat-icon>
+              Resources
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="R-category" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Resource category-subcategory</a>
+            <a mat-list-item routerLink="add-resource" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Inventory Entry</a>
+            <a mat-list-item routerLink="stock-item-details" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">All Resources</a>
+            <a mat-list-item routerLink="resource-status" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"> Status</a>
+            <a mat-list-item routerLink="assign-resource" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Assign </a>
+            <a mat-list-item routerLink="resource-allotment" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Resource Allotment</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <!-- button profile -->
+        <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>person</mat-icon>
+              Profile
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="profile-view" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"> View Profile</a>
+            <a mat-list-item (click)="logout()">Logout</a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <a mat-list-item routerLink="my-resource" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"><mat-icon class="design_icon">token</mat-icon>My Resource</a>
+        <a mat-list-item routerLink="contact-from" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"><mat-icon class="design_icon">call_quality</mat-icon>Contact Us</a>
+
+      </mat-nav-list>
+    </mat-nav-list>
+  </mat-sidenav>
+
+
+  <mat-sidenav-content>
+    <div class="toolbar sticky-top nav">
+      <mat-toolbar>
+        <!-- Left Side Menu Button -->
+        <button mat-button (click)="sidebar.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <!-- Spacer to push logout button to the right -->
+        <span class="spacer"></span>
+
+        <!-- Right Side Logout Button -->
+        <button mat-button (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          Logout
+        </button>
       </mat-toolbar>
-      </div>
-      <div class="main">
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+    </div>
+    <div class="main">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
