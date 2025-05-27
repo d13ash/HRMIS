@@ -73,3 +73,63 @@
     border-right: 1px solid #000; /* Replace with your desired color */
     padding-right: 10px; /* Adjust padding as needed */
 }
+
+/* Card Header Row */
+.card-header-row {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.card-header-row h3 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Titles Row */
+.titles-row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.field-title {
+  font-size: 10px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+/* Info Values Row */
+.info-values-row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+}
+
+.field-value {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  word-wrap: break-word;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .titles-row,
+  .info-values-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .field-title {
+    font-size: 9px;
+  }
+  
+  .field-value {
+    font-size: 12px;
+  }
+}

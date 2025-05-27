@@ -1,178 +1,176 @@
 <div class="container-fluid">
-    <mat-card>
-        <form [formGroup]="projectWorkAllotForm"  >
-        <div class="container">
+  <mat-card>
+    <form [formGroup]="projectWorkAllotForm">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 heading">
+            <h2 style="color:whitesmoke;">Project Work Allotement</h2>
+          </div>
+        </div>
+        <br>
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border"> Work Allotment</legend>
+          <div class="control-group">
             <div class="row">
-                <div class="col-md-12 heading">
-                    <h2 style="color:whitesmoke;">Project Work Allotement</h2>
-                </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Financial Year</mat-label>
+                  <mat-select matNativeControl formControlName="Financial_id" (valueChange)="onChangeEmp($event)">
+                    <mat-option selected>Select Year</mat-option>
+                    <mat-option *ngFor="let year of FYear" [value]="year.Financial_id">
+                      {{year.Financial_name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Choose Project </mat-label>
+                  <mat-select formControlName="Project_ID" (valueChange)="onChangeModule($event)">
+                    <mat-option value="" selected>Select Project</mat-option>
+                    <mat-option *ngFor="let c of project ;" [value]="c.Project_ID">
+                      {{c.Project_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Choose Module </mat-label>
+                  <mat-select formControlName="project_module_id" (valueChange)="onChangeWork($event)">
+                    <mat-option value="" selected>Select Module</mat-option>
+                    <mat-option *ngFor="let c of ModuleData ;" [value]="c.project_module_id">
+                      {{c.module_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
-            <br>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border"> Work Allotment</legend>
-                <div class="control-group">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <mat-form-field appearance="outline" class="inputfieldsize">
-                        <mat-label>Financial Year</mat-label>
-                        <mat-select matNativeControl formControlName="Financial_id"
-                            (valueChange)="onChangeEmp($event)">
-                            <mat-option  selected>Select Year</mat-option>
-                            <mat-option *ngFor="let year of FYear" [value]="year.Financial_id">
-                                {{year.Financial_name}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                      <mat-form-field appearance="outline" class="inputfieldsize">
-                        <mat-label>Choose Project </mat-label>
-                        <mat-select formControlName="Project_ID" 
-                         (valueChange)="onChangeModule($event)">
-                         <mat-option value="" selected>Select Project</mat-option>
-                          <mat-option *ngFor="let c of project ;" [value]="c.Project_ID" >
-                            {{c.Project_name}}
-                          </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" class="inputfieldsize">
-                            <mat-label>Choose Module </mat-label>
-                            <mat-select formControlName="project_module_id"
-                            (valueChange)="onChangeWork($event)">
-                            <mat-option value="" selected>Select Module</mat-option>
-                              <mat-option *ngFor="let c of ModuleData ;" [value]="c.project_module_id" >
-                                {{c.module_name}}
-                              </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                  </div>
             <div class="row">
               <div class="col-md-6">
                 <!-- <div *ngFor="let control of worksArray.controls; let i = index"> -->
-                  <form [formGroup]="nestedform" >
-                    <mat-form-field appearance="outline" class="inputfieldsize">
-                      <mat-label>Choose Work</mat-label>
-                      <mat-select
-                       multiple formControlName="Project_work_main_id">
-                        <mat-option *ngFor="let c of projectwork ;" [value]="c.Project_work_main_id" >
-                          {{c.Work_name}}
-                        </mat-option>
-                      </mat-select>
+                <form [formGroup]="nestedform">
+                  <mat-form-field appearance="outline" class="inputfieldsize">
+                    <mat-label>Choose Work</mat-label>
+                    <mat-select multiple formControlName="Project_work_main_id">
+                      <mat-option *ngFor="let c of projectwork ;" [value]="c.Project_work_main_id">
+                        {{c.Work_name}}
+                      </mat-option>
+                    </mat-select>
                   </mat-form-field>
-                  </form>
+                </form>
               </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline" class="inputfieldsize">
-                        <mat-label>Choose Employee</mat-label>
-                        <mat-select formControlName="Emp_Id">
-                          <!-- <mat-option  selected>Select Employee</mat-option> -->
-                          <mat-option *ngFor="let c of allemp ;" [value]="c.Emp_Id" >
-                            {{c.Emp_First_Name_E}}
-                          </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Choose Employee</mat-label>
+                  <mat-select formControlName="Emp_Id">
+                    <!-- <mat-option  selected>Select Employee</mat-option> -->
+                    <mat-option *ngFor="let c of allemp ;" [value]="c.Emp_Id">
+                      {{c.Emp_First_Name_E}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
-                        <mat-label>Allotment Date</mat-label>
-                        <input matInput [matDatepicker]="picker3" formControlName="Allotment_date">
-                        <mat-hint>DD/MM/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
-                        <mat-datepicker #picker3></mat-datepicker>
-                      </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
-                        <mat-label>Start Date</mat-label>
-                        <input matInput [matDatepicker]="picker1" formControlName="Start_date">
-                        <mat-hint>DD/MM/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                      </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
-                        <mat-label>End Date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="End_date">
-                        <mat-hint>DD/MM/YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
-                </div>
-                
+              <div class="col-md-4">
+                <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
+                  <mat-label>Allotment Date</mat-label>
+                  <input matInput [matDatepicker]="picker3" formControlName="Allotment_date">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
+                  <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
+                  <mat-label>Start Date</mat-label>
+                  <input matInput [matDatepicker]="picker1" formControlName="Start_date">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
+                  <mat-label>End Date</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="End_date">
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
             </div>
             <div class="row">
-                <div class="col">
-                    <mat-form-field appearance="outline" class="inputfieldsize" >
-                        <mat-label> Description</mat-label>
-                        <textarea matInput placeholder="Description" formControlName="Description"></textarea>
-                      </mat-form-field>
-                </div>
+              <div class="col">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label> Description</mat-label>
+                  <textarea matInput placeholder="Description" formControlName="Description"></textarea>
+                </mat-form-field>
+              </div>
             </div>
             <br>
             <div class="row">
-                <div class="col offset-5">
-                    <button mat-raised-button  type="button" (click)="onClear()">
-                        Clear
-                    </button> &nbsp;&nbsp; 
-                <button mat-raised-button color="primary"  *ngIf="!iseditmode" type="submit"  (click)="onSubmit()">
-                    Submit
+              <div class="col offset-5">
+                <button mat-raised-button type="button" (click)="onClear()">
+                  Clear
+                </button> &nbsp;&nbsp;
+                <button mat-raised-button color="primary" *ngIf="!iseditmode" type="submit" (click)="onSubmit()">
+                  Submit
                 </button>
-                <button mat-raised-button color="primary"  *ngIf="iseditmode" (click)="onupdate()" type="button">
-                    Update
+                <button mat-raised-button color="primary" *ngIf="iseditmode" (click)="onupdate()" type="button">
+                  Update
                 </button>
+              </div>
             </div>
-            </div>
+          </div>
+        </fieldset>
+      </div>
+    </form>
+  </mat-card>
+</div>
+<br> <br>
+
+
+
+<!-- mat table -->
+<div class="container-fluid">
+  <mat-card style="margin-bottom: 40px;">
+
+    <mat-toolbar>
+      <p><span>
+          <h5 class="title">Work Allotment</h5>
+        </span> </p>
+    </mat-toolbar>
+    <div class="container ">
+      <div class="row table-responsive">
+
+        <div class="search_container mt-2">
+          <mat-form-field class="example-full-width">
+            <span matPrefix> </span>
+            <input type="tel" matInput placeholder="Search" autocomplete="off" (keyup)="applyFilter($event)">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
         </div>
-    </fieldset>    
-    </div>
-  </form>
-    </mat-card>
-  </div>
-  <br> <br>
-  
-  
-  
-  <!-- mat table -->
-  <div class="container-fluid">
-    <mat-card style="margin-bottom: 40px;">
-  
-        <mat-toolbar>
-            <p><span ><h5 class="title">Work Allotment</h5></span> </p>
-        </mat-toolbar>
-       <div class="container ">
-  <div class="row table-responsive">
-    
-    <div class="search_container mt-2" >
-        <mat-form-field class="example-full-width">
-        <span matPrefix> </span>
-        <input type="tel" matInput placeholder="Search" autocomplete="off" (keyup)="applyFilter($event)" >
-        <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-    </div>
-    <table class="con-table" mat-table matSort [dataSource]="dataSource" >
-        <ng-container matColumnDef="Project_work_allotment_id">
-          <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let element">{{element.Project_work_allotment_id}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Financial_name">
-          <th mat-sort-header mat-header-cell *matHeaderCellDef>Financial Year</th>
-          <td mat-cell *matCellDef="let element"> {{element.Financial_name}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Project_name">
-          <th mat-sort-header mat-header-cell *matHeaderCellDef>Project</th>
-          <td mat-cell *matCellDef="let element"> {{element.Project_name}} </td>
-        </ng-container>
-        <ng-container matColumnDef="module_name">
-          <th mat-sort-header mat-header-cell *matHeaderCellDef>Module</th>
-          <td mat-cell *matCellDef="let element"> {{element.module_name}} </td>
-        </ng-container>
+        <table class="con-table" mat-table matSort [dataSource]="dataSource">
+          <ng-container matColumnDef="Project_work_allotment_id">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element">{{element.Project_work_allotment_id}}</td>
+          </ng-container>
+          <ng-container matColumnDef="Financial_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Financial Year</th>
+            <td mat-cell *matCellDef="let element"> {{element.Financial_name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Project_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Project</th>
+            <td mat-cell *matCellDef="let element"> {{element.Project_name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="module_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Module</th>
+            <td mat-cell *matCellDef="let element"> {{element.module_name}} </td>
+          </ng-container>
           <ng-container matColumnDef="emp_name">
-            <th mat-sort-header  mat-header-cell *matHeaderCellDef>Employee </th>
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Employee </th>
             <td mat-cell *matCellDef="let element"> {{element.Emp_First_Name_E}} </td>
           </ng-container>
           <ng-container matColumnDef="Allotment_date">
@@ -197,7 +195,7 @@
           </ng-container>
           <ng-container matColumnDef="View" stickyEnd="true">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>View</th>
-            <td mat-cell *matCellDef="let element"> 
+            <td mat-cell *matCellDef="let element">
               <button mat-icon-button color="primary" (click)="getPreview(element.Emp_Id);">
                 <mat-icon>visibility</mat-icon>
               </button>
@@ -205,84 +203,104 @@
           </ng-container>
           <ng-container matColumnDef="Action" stickyEnd="true">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element"> 
-                <button mat-icon-button color="primary" (click)="onedit(element.Project_work_allotment_id)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="warn"  (click)="ondelete(element.Project_work_allotment_id)">
-                    <mat-icon>delete</mat-icon>
-                </button>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="onedit(element.Project_work_allotment_id)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="ondelete(element.Project_work_allotment_id)">
+                <mat-icon>delete</mat-icon>
+              </button>
             </td>
           </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-  <br>
-      <mat-paginator class="paging"
-              [pageSize]="5"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page">
-     </mat-paginator>
-  </div>
-  </div>
-    </mat-card>
-  </div>
-  
-  
-  <!-- Data Table -->
-  <div class="container" id="addnews">
-    <div class="row"> 
-      <div >
-        <mat-toolbar style="background-color: rgb(73, 130, 168); ">
-          <p><span ><h6 class="title  mt-3" style="color: rgb(55, 53, 53); margin-left: 15px;">
-            <span style="color: white; font-size: large;">Employee   :   {{useEmpName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            
-          </h6></span> </p>
-        </mat-toolbar>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <br>
+        <mat-paginator class="paging" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+        </mat-paginator>
       </div>
     </div>
-    
-    <div style="overflow-x:auto; margin-top: 0;">
-      <form [formGroup]="WorkApprovalForm">
-        <table class="table table-bordered mt-3 scroll-down ">
-          <thead>
-            <tr >
-              <th>Sr.</th>
-              <th>Project</th>
-              <th>Module</th>
-              <th>Work</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Approval</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let us of previewData; let ind=index;" >
-              <td>{{ind+1}}</td>
-              <td>{{us.Project_name}}</td>
-              <td>{{us.module_name}}</td>
-              <td>{{us.Work_name}}</td>
-              <td>{{us.Start_date | date:'dd/mm/yyyy'}}</td>
-              <td>{{us.End_date | date:'dd/mm/yyyy'}}</td>
-              <td>{{us.Description}}</td>
-              <td>{{us.is_Work_complete}}</td>
-              <td> 
-                <select name="language" id="language" formControlName="approval">
+  </mat-card>
+</div>
+
+
+<!-- Data Table -->
+<div class="container" id="addnews">
+  <div class="row">
+    <div>
+      <mat-toolbar style="background-color: rgb(73, 130, 168); ">
+        <p><span>
+            <h6 class="title  mt-3" style="color: rgb(55, 53, 53); margin-left: 15px;">
+              <span style="color: white; font-size: large;">Employee : {{useEmpName}}</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            </h6>
+          </span> </p>
+      </mat-toolbar>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto; margin-top: 0;">
+    <form [formGroup]="WorkApprovalForm">
+      <table class="table table-bordered mt-3 scroll-down ">
+        <thead>
+          <tr>
+            <th>Sr.</th>
+            <th>Project</th>
+            <th>Module</th>
+            <th>Work</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Approval</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let us of previewData; let ind=index;">
+            <td>{{ind+1}}</td>
+            <td>{{us.Project_name}}</td>
+            <td>{{us.module_name}}</td>
+            <td>{{us.Work_name}}</td>
+            <td>{{us.Start_date | date:'dd/mm/yyyy'}}</td>
+            <td>{{us.End_date | date:'dd/mm/yyyy'}}</td>
+            <td>{{us.Description}}</td>
+            <td>{{us.is_Work_complete}}</td>
+            <td>
+              <!-- <select name="language" id="language" formControlName="approval">
                 <option value="Approved">Approved</option>
                 <option value="Pending">Pending</option>
                 <option value="Reject">Rejected</option>F
               </select> &nbsp;
-              <button  color="primary" type="button" (click)="setUpdate(us.alloted_project_work_id)"> <mat-icon>rule</mat-icon> </button>        
+              <button  color="primary" type="button" (click)="setUpdate(us.alloted_project_work_id)"> <mat-icon>rule</mat-icon> </button>
+                       -->
+              <div class="approval-button-group">
+                <mat-icon class="pending-icon" matTooltip="Pending" *ngIf="us.approval === 'Pending' or us.approval === NULL"
+                  [ngClass]="{'active': us.approval === 'Pending'}">schedule
+                </mat-icon>
+
+                <button mat-button type="button" class="approval-btn approved-btn"
+                  [class.selected]="us.approval === 'Approved'"
+                  (click)="onApprovalChange('Approved', us.alloted_project_work_id)" matTooltip="Approved">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>Approved</span>
+                </button>
+
+                <button mat-button type="button" class="approval-btn rejected-btn"
+                  [class.selected]="us.approval === 'Rejected'"
+                  (click)="onApprovalChange('Rejected', us.alloted_project_work_id)" matTooltip="Rejected">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Rejected</span>
+                </button>
+              </div>
             </td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-     
-    </div>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
   </div>
-  <br>
-  <br>
+</div>
+<br>
+<br>
