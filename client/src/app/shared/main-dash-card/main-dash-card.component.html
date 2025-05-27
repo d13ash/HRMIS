@@ -6,10 +6,10 @@
         <div class="card text-white bg-primary">
           <div class="card-statistic-3 p-4 text-center">
             <div class="mb-2">
-              <h6 class="card-title mb-0">PROJECTS</h6>
+              <h6 class="card-title fs-5 mb-0">PROJECTS</h6>
             </div>
             <div>
-              <h6 class="card-title mb-0">{{ projectCountValue }}</h6>
+              <h6 class="card-title fs-5 mb-0">{{ projectCountValue }}</h6>
             </div>
           </div>
         </div>
@@ -22,10 +22,10 @@
         <div class="card text-white bg-dark">
           <div class="card-statistic-3 p-4 text-center">
             <div class="mb-2">
-              <h6 class="card-title mb-0">PENDING WORKS</h6>
+              <h6 class="card-title fs-5 mb-0">PENDING WORKS</h6>
             </div>
             <div>
-              <h6 class="card-title mb-0">{{ workCountValue }}</h6>
+              <h6 class="card-title fs-5 mb-0">{{ workCountValue }}</h6>
             </div>
           </div>
         </div>
@@ -39,10 +39,10 @@
           <div class="card-statistic-3 p-4 text-center">
 
             <div class="mb-2">
-              <h6 class="card-title mb-0">EMPLOYEES</h6>
+              <h6 class="card-title fs-5 mb-0">EMPLOYEES</h6>
             </div>
             <div>
-              <h6 class="card-title mb-0">{{ empCountValue }}</h6>
+              <h6 class="card-title fs-5 mb-0">{{ empCountValue }}</h6>
             </div>
           </div>
         </div>
@@ -56,10 +56,10 @@
           <div class="card-statistic-3 p-4 text-center">
 
             <div class="mb-2">
-              <h6 class="card-title mb-0">LEAVES</h6>
+              <h6 class="card-title fs-5 mb-0">LEAVES</h6>
             </div>
             <div>
-              <h6 class="card-title mb-0">76</h6>
+              <h6 class="card-title fs-5 mb-0">76</h6>
             </div>
           </div>
         </div>
@@ -92,13 +92,13 @@
 
       <!-- Info Row - Third Row -->
       <div class="info-values-row">
-        <span class="field-value">{{ currentRow.Emp_First_Name }}</span>
+        <span class="field-value">{{ currentRow.Emp_First_Name_E }}</span>
         <span class="field-value">{{ currentRow.Project_name }}</span>
         <span class="field-value">{{ currentRow.module_name }}</span>
         <span class="field-value">{{ currentRow.Work_name }}</span>
         <span class="field-value">{{ currentRow.Start_date | date }}</span>
         <span class="field-value">{{ currentRow.End_date | date }}</span>
-        <span class="field-value" [ngClass]="statusColor(currentRow.status)">{{ currentRow.is_Work_complete }}</span>
+        <span class="field-value" [ngClass]="statusColor(currentRow.is_Work_complete)">{{ currentRow.is_Work_complete }}</span>
         <span class="field-value" [ngClass]="approvalColor(currentRow.approval)">{{ currentRow.approval }}</span>
       </div>
     </mat-card-content>

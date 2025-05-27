@@ -83,14 +83,17 @@ export class MainDashCardComponent implements OnInit, OnDestroy {
   }
 
   statusColor(status: string): string {
-  return status.toLowerCase().includes('completed') ? 'completed' : 'in-progress';
+  const s = status.toLowerCase();
+  if (s.includes('finished')) return 'finished';
+  if (s.includes('running')) return 'running';
+  return 'incomplete';
 }
 
 approvalColor(status: string): string {
   const s = status.toLowerCase();
   if (s.includes('approved')) return 'approved';
-  if (s.includes('pending')) return 'pending';
-  return 'rejected';
+  if (s.includes('rejected')) return 'rejected';
+  return 'pending';
 }
 
 
