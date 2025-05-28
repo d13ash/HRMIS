@@ -41,6 +41,7 @@ export class WorkAllotmentComponent implements OnInit {
   allemp: any;
   project: any;
   FYear: any;
+  aprlEdit: boolean = true; // for approval status edit
 
   approvalStatus: string = 'Pending';
 
@@ -97,20 +98,37 @@ export class WorkAllotmentComponent implements OnInit {
       confirmButtonText: 'Yes, proceed!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.WorkApprovalForm.patchValue({ approval: status }); // Update the form control with the new status
-        this.setUpdate(id); // Call saveUpdate directly
-        Swal.fire(
-          'Updated!',
-          `The status has been set to "${status}".`,
-          'success'
-        );
-      } else {
-        // If the user cancels, revert the radio button selection visually if needed
-        // This is a bit tricky with radio buttons, but you can manage it by
-        // ensuring the [checked] binding keeps the current this.approvalStatus
-        // which hasn't changed if the user canceled.
-      }
+              this.ds.putData("projectWorkAllotment/updateAllotedWork/" + id, { "approval": status }).subscribe((res: any) => {
+                console.log(res)
+              });
+              Swal.fire(
+                'Updated!',
+                `The status has been set to "${status}".`,
+                'success'
+              );
+            }
     });
+  }
+
+   statusColor(status: string): string {
+    const s = status.toLowerCase();
+    if (s.includes('finished')) {
+      this.aprlEdit = false;
+      return 'finished';
+    }
+    if (s.includes('running')) {
+      this.aprlEdit = true;
+      return 'running';
+    }
+    this.aprlEdit = true;
+    return 'incomplete';
+  }
+
+  approvalColor(status: string): string {
+    const s = status.toLowerCase();
+    if (s.includes('approved')) return 'approved';
+    if (s.includes('rejected')) return 'rejected';
+    return 'pending';
   }
 
   arrafunc() {
@@ -252,20 +270,6 @@ export class WorkAllotmentComponent implements OnInit {
   onClear() {
     this.projectWorkAllotForm.reset();
   }
-
-
-
-  setUpdate(alloted_project_work_id: any) {
-    console.log(this.WorkApprovalForm.value)
-    console.log(alloted_project_work_id)
-    console.log(this.WorkApprovalForm.controls['approval'].value);
-
-    this.ds.putData("projectWorkAllotment/updateAllotedWork/" + alloted_project_work_id, { "approval": this.WorkApprovalForm.controls['approval'].value }).subscribe((res: any) => {
-      console.log(res)
-    });
-  }
-
-
 
   //  Get single Data into form for update
   onedit(Project_work_allotment_id: any) {

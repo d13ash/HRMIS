@@ -266,34 +266,14 @@
             <td>{{us.Start_date | date:'dd/mm/yyyy'}}</td>
             <td>{{us.End_date | date:'dd/mm/yyyy'}}</td>
             <td>{{us.Description}}</td>
-            <td>{{us.is_Work_complete}}</td>
+            <td [ngClass]="statusColor(us.is_Work_complete)">{{us.is_Work_complete}}</td>
             <td>
-              <!-- <select name="language" id="language" formControlName="approval">
-                <option value="Approved">Approved</option>
-                <option value="Pending">Pending</option>
-                <option value="Reject">Rejected</option>F
-              </select> &nbsp;
-              <button  color="primary" type="button" (click)="setUpdate(us.alloted_project_work_id)"> <mat-icon>rule</mat-icon> </button>
-                       -->
-              <div class="approval-button-group">
-                <mat-icon class="pending-icon" matTooltip="Pending" *ngIf="us.approval === 'Pending' or us.approval === NULL"
-                  [ngClass]="{'active': us.approval === 'Pending'}">schedule
-                </mat-icon>
-
-                <button mat-button type="button" class="approval-btn approved-btn"
-                  [class.selected]="us.approval === 'Approved'"
-                  (click)="onApprovalChange('Approved', us.alloted_project_work_id)" matTooltip="Approved">
-                  <mat-icon>check_circle</mat-icon>
-                  <span>Approved</span>
-                </button>
-
-                <button mat-button type="button" class="approval-btn rejected-btn"
-                  [class.selected]="us.approval === 'Rejected'"
-                  (click)="onApprovalChange('Rejected', us.alloted_project_work_id)" matTooltip="Rejected">
-                  <mat-icon>cancel</mat-icon>
-                  <span>Rejected</span>
-                </button>
-              </div>
+              <span class="field-value" [ngClass]="approvalColor(us.is_Work_complete)">
+                <button mat-button color="primary" (click)="onApprovalChange('approved', us.alloted_project_work_id)"
+                  [disabled]="aprlEdit">Approve</button>
+                <button mat-button color="warn" (click)="onApprovalChange('rejected', us.alloted_project_work_id)"
+                  [disabled]="aprlEdit">Reject</button>
+              </span>
             </td>
           </tr>
         </tbody>
