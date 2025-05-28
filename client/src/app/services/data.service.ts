@@ -18,12 +18,12 @@ export class DataService {
   configUrl: any = environment.rootUrl;
   constructor(private http: HttpClient) { }
 
- url="http://localhost:3000/api/departmentDetail"
- projectURL="http://localhost:3000/api/projectDetail"
- mapprojecturl='http://localhost:3000/api/map_dept_project'
+  url = "http://localhost:3000/api/departmentDetail"
+  projectURL = "http://localhost:3000/api/projectDetail"
+  mapprojecturl = 'http://localhost:3000/api/map_dept_project'
 
   getData(functionName: any) {
-    return this.http.get(this.configUrl + functionName)
+    return this.http.get<any[]>(this.configUrl + functionName)
   }
 
 
@@ -36,39 +36,39 @@ export class DataService {
 
 
   Delete_Data(ID: any) {
-    return this.http.delete(`${this.configUrl}${ID}` )
+    return this.http.delete(`${this.configUrl}${ID}`)
   }
 
 
-deleteDataservice( ID: any) {
-  return this.http.delete(`${this.mapprojecturl}/${ID}` )
-}
+  deleteDataservice(ID: any) {
+    return this.http.delete(`${this.mapprojecturl}/${ID}`)
+  }
 
- deleteData( Dept_ID: any) {
-    return this.http.delete(`${this.url}/${Dept_ID}` )
+  deleteData(Dept_ID: any) {
+    return this.http.delete(`${this.url}/${Dept_ID}`)
   }
 
   DeleteassignData(resource_assignment_main_ID: any) {
-    return this.http.delete(`${this.configUrl}${resource_assignment_main_ID}` )
+    return this.http.delete(`${this.configUrl}${resource_assignment_main_ID}`)
   }
 
 
 
- deleteProjectData( Project_ID: any) {
-  return this.http.delete(`${this.projectURL}/${Project_ID}` )
-}
 
-updateMapData(ID: any, data: any) {
-  return this.http.put(`${this.configUrl}/${ID}`, data);
+  deleteProjectData(Project_ID: any) {
+    return this.http.delete(`${this.projectURL}/${Project_ID}`)
   }
 
+  updateMapData(ID: any, data: any) {
+    return this.http.put(`${this.configUrl}/${ID}`, data);
+  }
 
   putData(ID: any, data: any) {
     return this.http.put(`${this.configUrl}${ID}`, data);
-    }
+  }
 
   updateData(Dept_ID: any, data: any) {
-  return this.http.put(`${this.url}/${Dept_ID}`, data);
+    return this.http.put(`${this.url}/${Dept_ID}`, data);
   }
   // return this._http.put(`${this.apiUrl}/${id}`,data);
 
@@ -87,10 +87,21 @@ updateMapData(ID: any, data: any) {
     });
 
     return this.http.request(req);
-}
+     }
+ 
+
+  del(functionName: string, id: any) {
+    return this.http.delete(this.configUrl + functionName + id)
+  }
+  getOne(functionName: string, id: any) {
+    return this.http.get<any[]>(this.configUrl + functionName + id)
+  }
+  put(functionName: string,data:any) {
+    return this.http.put(this.configUrl + functionName, data)
+  }
+
  sendContactMessage(data: any): Observable<any> {
     return this.http.post('/api/contact', data); // update endpoint as needed
   }
-
-
+  
 }

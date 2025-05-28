@@ -1,7 +1,7 @@
 <div class="container-fluid" id="addnews">
     <mat-card>
-        <form [formGroup]="projectPostForm" (ngSubmit)="onSubmit()">
-        <div class="container">
+       <form [formGroup]="projectPostForm" (ngSubmit)="onSubmit()" #projectPostFormRef>
+ <div class="container">
             <div class="row">
                 <div class="col-md-12 heading">
                     <h2 style="color:whitesmoke;"> Project Post Setup Allotment</h2>
@@ -47,18 +47,18 @@
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="inputfieldsize">
                         <mat-label>Number of Day neeed</mat-label>
-                        <input matInput type="number" placeholder="ex=45" formControlName="Duration_in_days">
+                        <input matInput type="number" placeholder="Example: 45" formControlName="Duration_in_days">
                       </mat-form-field>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field appearance="outline" class="inputfieldsize">
                         <mat-label>Number of Manpower</mat-label>
-                        <input matInput type="number" placeholder="ex=5" formControlName="Manpower_no" value="Sushi">
+                        <input matInput type="number" placeholder="Example: 5" formControlName="Manpower_no" value="Sushi">
                       </mat-form-field>
                 </div>
             </div>
             <div class="row">
-                
+
                 <div class="col-md-6">
                     <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
                         <mat-label>Start Date</mat-label>
@@ -91,7 +91,7 @@
                 <div class="col offset-5">
                     <button mat-raised-button (click)="onClear()" type="button" >
                         Clear
-                    </button> &nbsp;&nbsp; 
+                    </button> &nbsp;&nbsp;
                 <button mat-raised-button color="primary"  *ngIf="!iseditmode" type="submit">
                     Submit
                 </button>
@@ -101,7 +101,7 @@
             </div>
             </div>
         </div>
-    </fieldset>    
+    </fieldset>
     </div>
 </form>
     </mat-card>
@@ -118,7 +118,7 @@
         </mat-toolbar>
        <div class="container ">
   <div class="row table-responsive">
-    
+
     <div class="search_container mt-2" >
         <mat-form-field class="example-full-width">
         <span matPrefix> </span>
@@ -163,10 +163,10 @@
             <th mat-sort-header  mat-header-cell *matHeaderCellDef>Description</th>
             <td mat-cell *matCellDef="let element"> {{element.Description}} </td>
           </ng-container>
-       
+
           <ng-container matColumnDef="Action" stickyEnd="true">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element"> 
+            <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="primary" (click)="onedit(element.Project_post_allotment_ID); scrollToBottom()">
                     <mat-icon>edit</mat-icon>
                 </button>
@@ -175,7 +175,7 @@
                 </button>
             </td>
           </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

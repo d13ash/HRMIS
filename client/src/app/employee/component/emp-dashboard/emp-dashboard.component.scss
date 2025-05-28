@@ -1,14 +1,14 @@
 mat-sidenav{
     background:white(255, 255, 255);
-    width: 230px;
+    width: 280px;
     height: 100%;
   }
-  
+
   .nav{
       position: sticky;
       top: 0;
       }
-  
+
   mat-sidenav-content{
       height: 100vh;
       background: rgb(250, 252, 252);
@@ -16,19 +16,19 @@ mat-sidenav{
           margin-left: 25px;
       }
   }
-  
+
   mat-toolbar{
       mat-icon{
           margin-left: 15px;
           color: grey;
       }
       justify-content: space-between;
-  
+
       .box{
           margin-top: 8px;
       }
   }
-  
+
   .user{
       font-size: 13px;
       text-align: center;
@@ -41,7 +41,7 @@ mat-sidenav{
         margin: 5px auto;
         object-fit: cover;
       }
-  
+
       .name{
           color: rgb(85, 80, 80);
       }
@@ -50,7 +50,7 @@ mat-sidenav{
           color: rgb(150, 144, 144);
       }
   }
-  
+
   .menu-head{
       text-transform: uppercase;
       font-weight: 700;
@@ -58,9 +58,9 @@ mat-sidenav{
       color: #030410;
       font-size: 0.6rem;
       letter-spacing: 1px;
-  
+
   }
-  
+
   :host {
       .mat-icon {
         vertical-align: middle;
@@ -102,7 +102,7 @@ mat-sidenav{
       // &:hover {
       //   background: blue;
       // }
-    
+
       color: #f2f5f7 !important;
       ::ng-deep {
         .mat-list-item-content {

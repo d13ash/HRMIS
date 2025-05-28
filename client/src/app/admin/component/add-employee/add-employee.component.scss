@@ -1,0 +1,112 @@
+.card-content{
+    padding: 10px;
+    display: flex;
+  }
+
+  .example-card{
+    margin-right: 20px;
+  }
+
+
+  .example-card-new {
+    max-width: 250px;
+    // margin-right: 20px;
+    margin-left: 20px;
+  }
+
+  .example-header-image {
+    background-image: url('https://images-platform.99static.com/P-fsdjQU-s6B1EHCG9Fog7uV4PU=/500x500/smart/99designs-contests-files/contests/13/1395/139500/brief/b9e6be225d76c21d90a8cabd0239aa61');
+    background-size: cover;
+  }
+
+
+  mat-card{
+    background-color: rgb(255, 255, 255);
+  }
+
+  .heading{
+    text-align: center;
+    background-color: #576CBC;
+    h2{
+        padding-top: 10px;
+        color: beige;
+    }
+  }
+
+  fieldset.scheduler-border {
+    border: 2px solid gray !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+    margin-top: 30px !important;
+  }
+
+  fieldset.scheduler-borders{
+    border: 2px solid gray !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 0 0 !important;
+    box-shadow: 0px 0px 0px 0px #000;
+    margin-top: 0px !important;
+  }
+
+  legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: 500 !important;
+    // text-align: left !important;
+    width: auto;
+    padding: 0 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: none;
+    margin-top: -14px;
+    margin-bottom: 15px;
+    background-color: rgb(203, 206, 249);
+    border-radius: 5px;
+    color: black;
+  }
+
+  .inputfieldsize{
+    width: 100%;
+  }
+
+
+  mat-hint{
+  color:blue;
+  }
+
+  .create{
+    th{
+      background-color:lightgray !important;
+      // color: whitesmoke;
+      margin: auto;
+    }
+    width: 100%;
+    overflow: scroll;
+
+  }
+
+  table{
+    th{
+      background-color:lightgray;
+      // color: whitesmoke;
+      margin: auto;
+    }
+    width: 180%;
+    overflow: scroll;
+
+  }
+
+  table, th, td {
+    border: 1px solid;
+  }
+
+  .ssss{
+  margin-top: 40% !important;
+  }
+
+  @media (max-width: 576px) {
+  .table {
+    font-size: 14px;
+  }
+  }

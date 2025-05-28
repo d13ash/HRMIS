@@ -71,7 +71,7 @@ router.get('/allmodulemap/:Project_ID',async (req,resp)=>{
     }
   })
 
-// // Update Department Detail
+// Update Department Detail
 router.put('/updateProjectWork/:id',async (req,resp)=>{
     var query = "UPDATE project_work_main SET ? WHERE Project_work_main_id = ? ";
     var value = req.body;

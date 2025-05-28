@@ -1,4 +1,11 @@
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 // import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
@@ -25,7 +32,7 @@ interface Salutation {
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
-  styleUrls: ['./add-employee.component.scss']
+  styleUrls: ['./add-employee.component.scss'],
 })
 export class AddEmployeeComponent implements OnInit {
   passwordsMatching = false;
@@ -39,18 +46,18 @@ export class AddEmployeeComponent implements OnInit {
     (c: AbstractControl) => Validators.required(c),
     Validators.required,
   ]);
-  Emp_Middle_Name_E = new FormControl(null,);
+  Emp_Middle_Name_E = new FormControl(null);
   Emp_Last_Name_E = new FormControl(null, [
     (c: AbstractControl) => Validators.required(c),
     Validators.required,
   ]);
   Mobile_No = new FormControl(null, [
     (c: AbstractControl) => Validators.required(c),
-    Validators.pattern("^((\\+91-?)|0)?[6789][0-9]{9}$"),
+    Validators.pattern('^((\\+91-?)|0)?[6789][0-9]{9}$'),
   ]);
   Email_Id = new FormControl(null, [
     (c: AbstractControl) => Validators.required(c),
-    Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+    Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
   ]);
   Post_id = new FormControl(null, [
     (c: AbstractControl) => Validators.required(c),
@@ -67,7 +74,14 @@ export class AddEmployeeComponent implements OnInit {
   data: any;
   submitted: boolean = false;
   Emp_Id: any;
-  displayedColumns = ['Emp_Id', 'User Id', 'Name', 'Department','Mobile', 'Action'];
+  displayedColumns = [
+    'Emp_Id',
+    'User Id',
+    'Name',
+    'Department',
+    'Mobile',
+    'Action',
+  ];
   dataSource: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -76,7 +90,12 @@ export class AddEmployeeComponent implements OnInit {
   EmployeeDataByid: any;
   postdata: any;
 
-  constructor(private fb: FormBuilder, private ds: DataService, private router: Router,private dialog: MatDialog) { }
+  constructor(
+    private fb: FormBuilder,
+    private ds: DataService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {}
   RegistationForm!: FormGroup;
   Registationpass!: FormGroup;
   public passwordKey: any = environment.PASSWORD_SECRET_KEY;
@@ -85,9 +104,9 @@ export class AddEmployeeComponent implements OnInit {
     this.createForms();
     this.getTable();
     this.getPostdata();
+    this.getSalutations();
   }
   createForm() {
-
     this.RegistationForm = this.fb.group({
       Salutation_E: this.Salutation_E,
       Emp_First_Name_E: this.Emp_First_Name_E,
@@ -95,10 +114,9 @@ export class AddEmployeeComponent implements OnInit {
       Emp_Last_Name_E: this.Emp_Last_Name_E,
       Mobile_No: this.Mobile_No,
       Email_Id: this.Email_Id,
-      Post_id:this.Post_id
+      Post_id: this.Post_id,
       // Password: this.Password,
       // Confirm_Password: this.Confirm_Password,
-
     });
   }
 
@@ -113,25 +131,32 @@ export class AddEmployeeComponent implements OnInit {
 
   async onSubmit() {
     try {
-      const response1 = await this.ds.postData('Employee_Data/empdetailsadd', this.RegistationForm.value).toPromise();
+      const response1 = await this.ds
+        .postData('Employee_Data/empdetailsadd', this.RegistationForm.value)
+        .toPromise();
       this.Emp_Id = response1;
-      
-    console.log('ID:', this.Emp_Id.id); // Log the ID to the console
-    console.log('Email:', this.Emp_Id.email); //
+
+      console.log('ID:', this.Emp_Id.id); // Log the ID to the console
+      console.log('Email:', this.Emp_Id.email); //
       this.Registationpass.patchValue({ Emp_Id: this.Emp_Id.id });
       this.Registationpass.patchValue({ email: this.Emp_Id.email });
 
-      const password = CryptoJS.AES.encrypt(this.Registationpass.value.password, this.passwordKey);
+      const password = CryptoJS.AES.encrypt(
+        this.Registationpass.value.password,
+        this.passwordKey
+      );
       this.Registationpass.patchValue({ password: `${password}` });
 
-      const response2 = await this.ds.postData('Employee_data/user/addlogin', {
-        Emp_Id: this.Registationpass.value.Emp_Id,
-        password: this.Registationpass.value.password,
-        email:this.Registationpass.value.email
-      }).toPromise();
+      const response2 = await this.ds
+        .postData('Employee_data/user/addlogin', {
+          Emp_Id: this.Registationpass.value.Emp_Id,
+          password: this.Registationpass.value.password,
+          email: this.Registationpass.value.email,
+        })
+        .toPromise();
 
       console.log(response2);
-      Swal.fire("Data Saved successfully");
+      Swal.fire('Data Saved successfully');
       this.getTable();
       this.onReset();
     } catch (error) {
@@ -149,34 +174,38 @@ export class AddEmployeeComponent implements OnInit {
       this.alluserdetail = result;
       this.dataSource = new MatTableDataSource(result);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.MatSort; 
+      this.dataSource.sort = this.MatSort;
       console.log(result);
       if (result && result.length > 0) {
         let pass = 'U2FsdGVkX1+JlC/V7nil0GBx8wgvQTF8g6k8ofbIgAs=';
         let passwordKey = '08t16e502526fesanfjh8nasd2'; // Replace with your actual password secret key
-        let passwordDncyt = CryptoJS.AES.decrypt(pass, passwordKey).toString(CryptoJS.enc.Utf8);
+        let passwordDncyt = CryptoJS.AES.decrypt(pass, passwordKey).toString(
+          CryptoJS.enc.Utf8
+        );
         console.log('Decrypted Password:', passwordDncyt);
         console.log(result[0].password); // Access password at index 0
       }
     });
   }
-  
-  ondelete(Emp_ID: any){
-    this.EmployeeDataByid = this.alluserdetail.find((f : any) => f.Emp_ID === parseInt(Emp_ID)); //here we matching and extracting the selected id
+
+  ondelete(Emp_ID: any) {
+    this.EmployeeDataByid = this.alluserdetail.find(
+      (f: any) => f.Emp_ID === parseInt(Emp_ID)
+    ); //here we matching and extracting the selected id
     console.log(this.EmployeeDataByid.Emp_ID);
     // this.data_id = Emp_Id;
-    this.ds.Delete_Data('Employee_data/deletedByid/'+ this.EmployeeDataByid.Emp_ID,).subscribe((result:any)=>{
-      console.log(result);
-      this.data= result
-  
-      if(this.data)
-      {Swal.fire('Data Deleted...')};
-      this.getTable();
-    })
-  
+    this.ds
+      .Delete_Data('Employee_data/deletedByid/' + this.EmployeeDataByid.Emp_ID)
+      .subscribe((result: any) => {
+        console.log(result);
+        this.data = result;
+
+        if (this.data) {
+          Swal.fire('Data Deleted...');
+        }
+        this.getTable();
+      });
   }
-
-
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -194,36 +223,35 @@ export class AddEmployeeComponent implements OnInit {
     }
   }
 
-  Salutation: Salutation[] = [
-
-    { value: '1', viewValue: 'Mr.' },
-    { value: '2', viewValue: 'Mrs.' },
-    { value: '3', viewValue: 'Miss.' },
-  ];
-
+  SalutationList: Salutation[] = [];
 
   openDialog(empId: any): void {
     console.log(empId);
-    
+
     const dialogRef = this.dialog.open(ForgotPasswordComponent, {
-      data: { empId: empId }  // Dialog configuration options
-     
+      data: { empId: empId }, // Dialog configuration options
+    });
+  }
 
-  });
-}
+  ExportTOExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.alluserdetail);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'All_Department_Report.xlsx');
+  }
 
-ExportTOExcel() {
-  const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.alluserdetail);
-  const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  XLSX.writeFile(wb, 'All_Department_Report.xlsx');
+  getPostdata() {
+    this.ds.getData('Employee_data/postdata').subscribe((res) => {
+      this.postdata = res;
+    });
+  }
 
- }
-
- getPostdata() {
-  this.ds.getData('Employee_data/postdata').subscribe(res => {
-    this.postdata = res;
-  });
-}
-
+  getSalutations() {
+    this.ds.getData('Employee_data/sal/salutations').subscribe((res: any) => {
+      this.SalutationList = res.map((item: any) => ({
+        value: item.Id,
+        viewValue: item.Salutation_Name,
+      }));
+    });
+  }
 }

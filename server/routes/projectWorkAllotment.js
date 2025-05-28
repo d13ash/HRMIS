@@ -7,7 +7,6 @@ const path = require('path');
 
 router.get('/allProjectWorkAllotment', async (req, res) => {
     var query = "SELECT * FROM project_work_allotment";
-    console.log("called");
     let result = await mysql.exec(query);
     
     if (result.length == 0)
@@ -113,6 +112,7 @@ router.put('/updateProjectWorkAllotment/:id',async (req,resp)=>{
 router.put('/updateAllotedWork/:id',async (req,resp)=>{
     var query = "UPDATE alloted_project_work SET ? WHERE alloted_project_work_id = ? ";
     var value = req.body;
+    console.log(value);
     var alloted_project_work_id = req.params.id;
     try{
        let result = await mysql.exec(query,[value, alloted_project_work_id])

@@ -42,6 +42,8 @@ export class WorkAllotmentComponent implements OnInit {
   project: any;
   FYear: any;
 
+  approvalStatus: string = 'Pending';
+
   projectWorkAllotForm!: FormGroup;
   nestedform!: FormGroup
   selectedWorkValue = [];
@@ -84,6 +86,32 @@ export class WorkAllotmentComponent implements OnInit {
     })
   }
 
+  onApprovalChange(status: string,id:any): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to set the status to "${status}".`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, proceed!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.WorkApprovalForm.patchValue({ approval: status }); // Update the form control with the new status
+        this.setUpdate(id); // Call saveUpdate directly
+        Swal.fire(
+          'Updated!',
+          `The status has been set to "${status}".`,
+          'success'
+        );
+      } else {
+        // If the user cancels, revert the radio button selection visually if needed
+        // This is a bit tricky with radio buttons, but you can manage it by
+        // ensuring the [checked] binding keeps the current this.approvalStatus
+        // which hasn't changed if the user canceled.
+      }
+    });
+  }
 
   arrafunc() {
     const numbers: number[] = [1, 2, 3, 4, 5];

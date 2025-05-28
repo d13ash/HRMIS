@@ -132,8 +132,8 @@ useCurrentAddressAsPermanent: boolean = false;
       Current_City: [null, Validators.required],
       Emp_Photo_Path: [null],
       Emp_Signature_Path: [null],
-      
-      
+
+
       Documents_Path_emp: this.fb.array([
         this.fb.group({
           Emp_Id: [null],
@@ -177,7 +177,7 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
 
 
 
-  get documentcontrol(): FormArray {   //this is get the skills(formarray) form demoform(formgroup) 
+  get documentcontrol(): FormArray {   //this is get the skills(formarray) form demoform(formgroup)
     return this.registationForm.get('Documents_Path_emp') as FormArray;
   }
 
@@ -186,7 +186,7 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
   }
 
 
-  Create_Documents(): FormGroup {   //defining formgroup for skills formarray 
+  Create_Documents(): FormGroup {   //defining formgroup for skills formarray
     return this.fb.group({
       Emp_Id: [null],
       Document_Id: [null],
@@ -231,12 +231,12 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
   }
 
 
-  Gender: gender[] = [
+  Gender = [
+  { value: 'M', viewValue: 'Male' },
+  { value: 'F', viewValue: 'Female' },
+  { value: 'O', viewValue: 'Other' }
+];
 
-    { value: '1', viewValue: 'Male' },
-    { value: '2', viewValue: 'Female' },
-    { value: '3', viewValue: 'Other' },
-  ];
 
 
 
@@ -253,7 +253,7 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
     this.submitted = false;
     this.registationForm.reset();
   }
-  selectimages(event: any) {                          //here on selecting the image(event) this will check any images are present or not 
+  selectimages(event: any) {                          //here on selecting the image(event) this will check any images are present or not
     if (event.target.files.length > 0) {
       const file = event.target.files[0];            //it is used to get the input file dom property
       this.images = file
@@ -282,7 +282,7 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
     Swal.fire("please select a file")
   }
 
-  selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not 
+  selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not
     if (event.target.files.length > 0) {
       const file = event.target.files[0];            //it is used to get the input file dom property
       this.images = file
@@ -309,7 +309,7 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
 
   }
 
-  selectimagesss(event: any) {                          //here on selecting the image(event) this will check any images are present or not 
+  selectimagesss(event: any) {                          //here on selecting the image(event) this will check any images are present or not
     if (event.target.files.length > 0) {
       const file = event.target.files[0];            //it is used to get the input file dom property
       this.images = file
@@ -331,7 +331,7 @@ onChangeUseCurrentAddressAsPermanent(event: MatCheckboxChange) {
     this.ds.postData('Employee_data/uploadfilesig', formData).subscribe((result: any) => {
       console.log(result["profile_url"]);
       this.imageurlss = result["profile_url"];
-      Swal.fire("image uploaded successfully")
+      Swal.fire("Image Uploaded Successfully")
       this.iseditmode = false;
     });
 
