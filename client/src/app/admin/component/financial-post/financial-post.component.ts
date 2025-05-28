@@ -38,6 +38,10 @@ FYear: any;
   allPreviwDetail: any;
   useFinancialYear: any;
   useProject: any;
+  editId: number | null = null;
+selectedPIFileName: string = '';
+selectedWorkOrderFileName: string = '';
+
     
      newform!: FormGroup
   name1: any;
@@ -261,9 +265,46 @@ selectimage(event : any){                          //here on selecting the image
       this.nopath()
       }
 
-      onedit(financialyear_main_id: any) {
-
+      onedit(finance_post_main_id: number): void {
+        this.iseditmode = true;
+        this.editId = finance_post_main_id;
+      
+        this.ds.getData('Financialyear_post/getPostSetupById/' + finance_post_main_id).subscribe((res: any) => {
+          if (res && res.data) {
+            const data = res.data;
+      
+            this.newform.patchValue({
+              Project_ID: data.Project_ID,
+              Financial_id: data.Financial_id,
+              PI_ref_no: data.PI_ref_no,
+              Work_order_ref_no: data.Work_order_ref_no,
+              PI_refferal_doc: data.PI_refferal_doc,
+              Work_order_doc: data.Work_order_doc,
+            });
+      
+            this.selectedPIFileName = data.PI_refferal_doc;
+            this.selectedWorkOrderFileName = data.Work_order_doc;
+      
+            // Patch the post detail array
+            this.postDetailarray = data.postDetails.map((item: any) => ({
+              name1: item.Post_name,
+              sdate: item.Start_date,
+              edate: item.End_date,
+              sal: item.Salary,
+              desc: item.Description,
+            }));
+      
+            // Scroll to form section if needed
+            document.getElementById("addnews")?.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            Swal.fire('Error', 'No data found for selected entry.', 'error');
+          }
+        }, error => {
+          console.error(error);
+          Swal.fire('Error', 'Failed to load data for edit.', 'error');
+        });
       }
+      
 
       ondelete(finance_post_main_id: any) {
         console.log(this.allDetail);

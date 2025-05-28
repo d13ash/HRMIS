@@ -114,24 +114,31 @@ export class AddDeptComponent implements OnInit {
     });
   }
 
-
+  onClear() {
+    this.departmentDetailForm.reset();
+    this.iseditmode = false;
+    this.uploadedimage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWq1fCF7KbKYum0PRRMGKnq4EBj-QT_bcSLhLsIphPeQ&s;";
+    this.imageurl = null;
+  }
+  
   // post Department Detail
 
   onSubmit() {
     this.departmentDetailForm.patchValue({
       Logo_Path: this.imageurl
-    }) //this will help to set the date format (for storing in database)
+    });
     console.log(this.departmentDetailForm.value);
+  
     this.ds.postData('departmentDetail', this.departmentDetailForm.value).subscribe(res => {
       this.data = res;
-      if (this.data)
-        alert("Data saved succesfully..")
+      if (this.data) {
+        Swal.fire("Data saved successfully");
+        this.onClear();
+        this.getTable(); // ✅ move this inside
+      }
     });
-    this.getTable();
   }
-  onClear() {
-    this.departmentDetailForm.reset();
-  }
+  
 
 
   // Show data in Mat Table
@@ -152,41 +159,6 @@ export class AddDeptComponent implements OnInit {
   }
 
   a:any=5
-  // Get single Data into form for update
-//   onedit(Dept_ID: any) {
-//     this.imageurl = this.departmentDataByid.Logo_Path;
-//     this.uploadedimage = this.departmentDataByid.Logo_Path;
-
-//     this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
-//     console.log(this.departmentDataByid)
-//     this.iseditmode = true;
-//     this.data_id = Dept_ID;
-//     document.getElementById("addnews")?.scrollIntoView();
-//     this.onChangeState(this.departmentDataByid.State); // fetch Districts
-
-// setTimeout(() => {
-//   this.onChangeDistrict(this.departmentDataByid.District); // fetch Blocks
-// }, 300);
-//     this.departmentDetailForm.patchValue
-//       ({
-        
-//         Dept_Name: this.departmentDataByid.Dept_Name,
-//         Parent_Dept_ID: this.departmentDataByid.Parent_Dept_ID,
-//         Dept_Type_ID: this.departmentDataByid.Dept_Type_ID,
-//         Email_ID: this.departmentDataByid.Email_ID,
-//         Website_Url: this.departmentDataByid.Website_Url,
-//         About_Department: this.departmentDataByid.About_Department,
-//         Address: this.departmentDataByid.Address,
-//         State: this.departmentDataByid.State,
-//         District: this.departmentDataByid.District,
-//         Block: this.departmentDataByid.Block,
-//         Pincode: this.departmentDataByid.Pincode,
-//         Contact_Number: this.departmentDataByid.Contact_Number,
-//         Contact_Person_ID: this.departmentDataByid.Contact_Person_ID,
-//         // Logo_Path: [null, Validators.required],
-//       })
-//     this.iseditmode = true;
-//   }
 
 onedit(Dept_ID: any) {
   this.departmentDataByid = this.allDepartmentDetail.find((f: any) => f.Dept_ID === parseInt(Dept_ID));
@@ -223,19 +195,24 @@ onedit(Dept_ID: any) {
 }
 
 
-  onupdate() {
-    this.departmentDetailForm.patchValue({
-      Logo_Path: this.imageurl
-    })
-    this.ds.updateData('updateDepartmentDetail/' + this.data_id, this.departmentDetailForm.value).subscribe((result) => {
-      console.log(result);
-      this.data = result
+onupdate() {
+  this.departmentDetailForm.patchValue({
+    Logo_Path: this.imageurl
+  });
 
-      if (this.data) { Swal.fire("data updated successfully") };
+  this.ds.updateData('updateDepartmentDetail/' + this.data_id, this.departmentDetailForm.value).subscribe((result) => {
+    this.data = result;
+    if (this.data) {
+      Swal.fire("Data updated successfully");
       this.onClear();
-    })
-    this.getTable();
-  }
+      this.getTable(); // ✅ move this inside
+      this.iseditmode = false;
+      this.uploadedimage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWq1fCF7KbKYum0PRRMGKnq4EBj-QT_bcSLhLsIphPeQ&s;";
+      this.imageurl = null;
+    }
+  });
+}
+
 
 
   // Delete Department detail

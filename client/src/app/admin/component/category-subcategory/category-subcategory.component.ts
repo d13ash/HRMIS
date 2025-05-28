@@ -139,20 +139,23 @@ export class CategorySubcategoryComponent implements OnInit {
   }
 
   onedit(item_id: any) {
-    this.itemDataByid = this.allitem.find((f: any) => f.item_id === parseInt(item_id));
-    console.log(this.itemDataByid)
+  this.ds.getData('category_subcategory/getitembyid/' + item_id).subscribe((res: any) => {
+    this.itemDataByid = res;
     this.iseditmode = true;
     this.data_id = item_id;
-    this.onChangeSub_Category(this.itemDataByid.category_id)
-    this.additemform.patchValue
-      ({
-        category_id: this.itemDataByid.category_id,
-        sub_category_id: this.itemDataByid.sub_category_id,
-        item_name: this.itemDataByid.item_name,
-        Description: this.itemDataByid.Description,
-      })
-    this.iseditmode = true;
-  }
+
+    // Populate subcategories for selected category
+    this.onChangeSub_Category(this.itemDataByid.category_id);
+
+    this.additemform.patchValue({
+      category_id: this.itemDataByid.category_id,
+      sub_category_id: this.itemDataByid.sub_category_id,
+      item_name: this.itemDataByid.item_name,
+      Description: this.itemDataByid.Description,
+    });
+  });
+}
+
 
 
   // Update

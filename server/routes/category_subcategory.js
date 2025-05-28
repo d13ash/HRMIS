@@ -67,6 +67,30 @@ router.post('/additem', async (req, res) => {
     }
   });
 
+  router.get('/getitembyid/:id', async (req, res) => {
+  const query = `
+    SELECT i.item_id, i.item_name, i.Description, 
+           c.category_id, c.category_name, 
+           s.sub_category_id, s.sub_category_name 
+    FROM resource_stock_item_master i
+    LEFT JOIN resource_stock_category c ON i.category_id = c.category_id
+    LEFT JOIN resource_stock_subcategory s ON i.sub_category_id = s.sub_category_id
+    WHERE i.item_id = ?;
+  `;
+  const item_id = req.params.id;
+
+  try {
+    const result = await mysql.exec(query, item_id);
+    if (result.length === 0) {
+      return res.status(404).send("Item not found");
+    }
+    return res.json(result[0]);
+  } catch (err) {
+    return res.status(500).send("Error fetching item");
+  }
+});
+
+
   
 router.get('/allitem', async (req, res) => {
     var query = "SELECT i.item_id,i.item_name,c.category_id,c.category_name,s.sub_category_id,s.sub_category_name,i.Description FROM resource_stock_item_master i LEFT JOIN resource_stock_category c ON i.category_id = c.category_id LEFT JOIN resource_stock_subcategory s ON i.sub_category_id = s.sub_category_id;";

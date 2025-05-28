@@ -125,6 +125,21 @@ router.get('/getTable',async (req,resp)=>{
     }
   })
 
+  router.get('Financialyear_post/getPostSetupById/:id1',async (req,res)=>{
+    var query = "SELECT y.yearly_post_detail_id,y.finance_post_main_id,p.Post_name,y.Start_date,y.End_date,y.Salary,y.Description FROM yearly_post_detail y LEFT JOIN m_post p ON p.Post_id=Y.Post_id WHERE y.Delete_YN IS NULL AND y.finance_post_main_id = ?";
+    var id1 = req.params.id1;
+   try {
+        let result = await mysql.exec(query,[id1])
+        if (result.length == 0){
+        return res.status(405).send("Data not found");    
+        } 
+    return res.json(result);
+  }
+  catch(err){
+         return resp.status(406).json(err);
+    }
+  });
+
    
   router.get('/bbbbbb/:id1',async (req,resp)=>{
     var query = "SELECT * FROM (SELECT y.yearly_post_detail_id,y.finance_post_main_id,p.Post_name,y.Start_date,y.End_date,y.Salary,y.Description FROM yearly_post_detail Y LEFT JOIN m_post p ON p.Post_id=Y.Post_id  WHERE y.Delete_YN IS NULL) TT INNER JOIN (SELECT fp.finance_post_main_id,fp.PI_ref_no,fp.Work_order_ref_no,p.Project_name,f.Financial_name FROM finance_post_main fp   LEFT join m_project p ON p.Project_ID = fp.Project_ID  LEFT JOIN m_financial f ON f.Financial_id=fp.Financial_id) dd ON dd.finance_post_main_id=TT.finance_post_main_id AND dd.finance_post_main_id = ?";
