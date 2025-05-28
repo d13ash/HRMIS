@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import { DataService } from '../../services/data.service';
 import { get } from 'http';
 import { Subscription, interval } from 'rxjs';
+import Swal from 'sweetalert2';
+
 // import { AuthService } from 'src/app/services/auth.service';
 // import { DataService } from 'src/app/services/data.service';
 
@@ -25,6 +27,7 @@ export class MainDashCardComponent implements OnInit, OnDestroy {
   currentRow: any;
   currentIndex = 0;
   private timerSub!: Subscription;
+  aprlEdit: boolean = true;
 
   constructor(private ds: DataService, private as: AuthService, private http: HttpClient) { }
   ngOnInit(): void {
@@ -32,7 +35,7 @@ export class MainDashCardComponent implements OnInit, OnDestroy {
     this.countWork()
     this.countEmp()
     this.getPreview();
-     // Show first row immediately
+    // Show first row immediately
     this.startTimer();
   }
 
@@ -83,18 +86,61 @@ export class MainDashCardComponent implements OnInit, OnDestroy {
   }
 
   statusColor(status: string): string {
-  const s = status.toLowerCase();
-  if (s.includes('finished')) return 'finished';
-  if (s.includes('running')) return 'running';
-  return 'incomplete';
-}
+    const s = status.toLowerCase();
+    if (s.includes('finished')) {
+      this.aprlEdit = false;
+      return 'finished';
+    }
+    if (s.includes('running')) {
+      this.aprlEdit = true;
+      return 'running';
+    }
+    this.aprlEdit = true;
+    return 'incomplete';
+  }
 
-approvalColor(status: string): string {
-  const s = status.toLowerCase();
-  if (s.includes('approved')) return 'approved';
-  if (s.includes('rejected')) return 'rejected';
-  return 'pending';
-}
+  approvalColor(status: string): string {
+    const s = status.toLowerCase();
+    if (s.includes('approved')) return 'approved';
+    if (s.includes('rejected')) return 'rejected';
+    return 'pending';
+  }
+
+  canShowApprovalActions(): boolean {
+    if (!this.currentRow) return false;
+    const status = this.currentRow.is_Work_complete?.toLowerCase();
+    return status === 'finished' || !this.currentRow.approval;
+  }
+
+  updateApproval(status: string) {
+    if (!this.currentRow) return;
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to set the status to "${status}".`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, proceed!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ds.putData("projectWorkAllotment/updateAllotedWork/" + this.currentRow.alloted_project_work_id, { "approval": status }).subscribe((res: any) => {
+          console.log(res)
+        });
+        Swal.fire(
+          'Updated!',
+          `The status has been set to "${status}".`,
+          'success'
+        );
+      } else {
+        // If the user cancels, revert the radio button selection visually if needed
+        // This is a bit tricky with radio buttons, but you can manage it by
+        // ensuring the [checked] binding keeps the current this.approvalStatus
+        // which hasn't changed if the user canceled.
+      }
+    });
+  }
 
 
   ngOnDestroy(): void {
