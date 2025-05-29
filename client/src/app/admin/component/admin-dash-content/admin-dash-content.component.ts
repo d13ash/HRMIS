@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../../services/data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ReminderComponent } from '../reminder/reminder.component';
 
 // DataService
 @Component({
@@ -14,34 +16,24 @@ import { DataService } from '../../../services/data.service';
 })
 export class AdminDashContentComponent implements OnInit {
 
-  displayedColumns=['Project_work_main_id','Project_name','module_name','Work_name','StartDate','EndDate'];
-  dataSource: any;
+  mapData: any[] = [];
 
-   @ViewChild(MatPaginator) paginator!: MatPaginator ;
-   @ViewChild(MatSort) MatSort!: MatSort ;
-
-
-  projectWorkDetail: any;
-  
-  constructor(private ds:DataService, private datepipe: DatePipe){}
+  constructor(private ds: DataService, private datepipe: DatePipe, private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getTable()
+    this.openRelievingPopup();
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+  openRelievingPopup() {
 
-getTable(){
-  this.ds.getData('ProjectWork/allProjectWorkdata').subscribe((result:any)=>{
-      this.projectWorkDetail=result;
-          this.dataSource = new MatTableDataSource(result);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.MatSort;
-      console.log(result);  
+    this.ds.getData('dashboardContent/postMap').subscribe((result: any) => {
+      // console.log(result);
+
+      this.dialog.open(ReminderComponent, {
+        width: '500px',
+        data: result
+      });
     })
-    }
+  }
 
 }

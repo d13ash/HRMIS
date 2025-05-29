@@ -268,12 +268,17 @@
             <td>{{us.Description}}</td>
             <td [ngClass]="statusColor(us.is_Work_complete)">{{us.is_Work_complete}}</td>
             <td>
-              <span class="field-value" [ngClass]="approvalColor(us.is_Work_complete)">
-                <button mat-button color="primary" (click)="onApprovalChange('approved', us.alloted_project_work_id)"
-                  [disabled]="aprlEdit">Approve</button>
-                <button mat-button color="warn" (click)="onApprovalChange('rejected', us.alloted_project_work_id)"
-                  [disabled]="aprlEdit">Reject</button>
-              </span>
+              <span style="color: grey;"><i>{{us.approval}}</i></span>
+                <button mat-icon-button color="primary" aria-label="Approve"
+                  (click)="onApprovalChange('approved', us.alloted_project_work_id)"
+                  [disabled]="isEditable(us.is_Work_complete)">
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" aria-label="Reject"
+                  (click)="onApprovalChange('rejected', us.alloted_project_work_id)"
+                  [disabled]="isEditable(us.is_Work_complete)">
+                  <mat-icon>cancel</mat-icon>
+                </button>
             </td>
           </tr>
         </tbody>
