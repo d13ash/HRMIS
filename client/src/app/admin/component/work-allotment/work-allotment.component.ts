@@ -54,6 +54,7 @@ export class WorkAllotmentComponent implements OnInit {
   response2: any;
   previewData: any;
   useEmpName: any;
+  useEmpId: any;
   WorkApprovalForm: any;
 
 
@@ -87,6 +88,12 @@ export class WorkAllotmentComponent implements OnInit {
     })
   }
 
+  isEditable(status: string) {
+    const s = status.toLowerCase();
+    if (s.includes('finished')) return false;
+    else return true;
+  }
+
   onApprovalChange(status: string,id:any): void {
     Swal.fire({
       title: 'Are you sure?',
@@ -99,13 +106,13 @@ export class WorkAllotmentComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
               this.ds.putData("projectWorkAllotment/updateAllotedWork/" + id, { "approval": status }).subscribe((res: any) => {
-                console.log(res)
-              });
-              Swal.fire(
-                'Updated!',
-                `The status has been set to "${status}".`,
-                'success'
-              );
+                        Swal.fire(
+                        'Updated!',
+                        `The status has been set to "${status}".`,
+                        'success'
+                      );
+                      this.getPreview(this.useEmpId);
+                      });
             }
     });
   }
@@ -198,7 +205,8 @@ export class WorkAllotmentComponent implements OnInit {
   // preview in table
   getPreview(Emp_Id: any) {
     this.ds.getData('projectWorkAllotment/view/' + Emp_Id).subscribe((result: any) => {
-      console.log(result)
+      // console.log(result)
+      this.useEmpId = Emp_Id;
       this.previewData = result;
       this.useEmpName = this.previewData[0]['Emp_First_Name_E']
       document.getElementById("addnews")?.scrollIntoView();
