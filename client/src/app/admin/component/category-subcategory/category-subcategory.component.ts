@@ -9,10 +9,11 @@ import { DataService } from '../../../services/data.service';
 @Component({
   selector: 'app-category-subcategory',
   templateUrl: './category-subcategory.component.html',
-  styleUrls: ['./category-subcategory.component.scss']
+  styleUrls: ['./category-subcategory.component.scss'],
 })
 export class CategorySubcategoryComponent implements OnInit {
   displayedColumns = ['Item_ID', 'Category_Name', 'Sub_Category_Name', 'item_name', 'Item_Discription', 'Action'];
+
   dataSource!: MatTableDataSource<any>;
   submitted: boolean = false;
 
@@ -32,6 +33,7 @@ export class CategorySubcategoryComponent implements OnInit {
   data_id: any;
 
   constructor(private fb: FormBuilder, private ds: DataService, private elementRef: ElementRef) {}
+
 
   ngOnInit(): void {
     this.getcategory();
@@ -124,8 +126,6 @@ export class CategorySubcategoryComponent implements OnInit {
   });
 }
 
-
-
   onClears() {
     this.addcategoryform.reset();
   }
@@ -182,6 +182,7 @@ export class CategorySubcategoryComponent implements OnInit {
 
 
 
+
   ondeletes() {
     this.addcategoryform.reset();
   }
@@ -198,10 +199,10 @@ export class CategorySubcategoryComponent implements OnInit {
   }
 
   onChangeSub_Category(category_id: any) {
-    this.ds.getData('resource_stock_entry/getstock_subcategory/' + category_id).subscribe(res => {
-      this.subcategory = res;
-      console.log(this.subcategory);
-    });
+    this.ds.getData('resource_stock_entry/getstock_subcategory/' + category_id).subscribe((res) => {
+        this.subcategory = res;
+        console.log(this.subcategory);
+      });
   }
 
   onSubmit(): void {
@@ -250,11 +251,13 @@ export class CategorySubcategoryComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.MatSort;
       console.log('table', this.allitem);
+
     });
   }
 
   onedit(item_id: any) {
     this.itemDataByid = this.allitem.find((f: any) => f.item_id === parseInt(item_id));
+
     console.log(this.itemDataByid);
     this.iseditmode = true;
     this.data_id = item_id;
@@ -265,6 +268,7 @@ export class CategorySubcategoryComponent implements OnInit {
       item_name: this.itemDataByid.item_name,
       Description: this.itemDataByid.Description,
     });
+
     this.addcategoryform.patchValue({
       category_name: this.itemDataByid.category_name,
       Description: this.itemDataByid.Description
@@ -302,6 +306,7 @@ export class CategorySubcategoryComponent implements OnInit {
       if (this.data) { Swal.fire('Data Deleted...'); }
       this.getTable();
     });
+
   }
 
   applyFilter(event: Event) {

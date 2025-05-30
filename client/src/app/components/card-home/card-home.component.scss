@@ -1,5 +1,4 @@
-// Counts Section Styles
-.counts {
+#counts {
   padding: 70px 0 0;
   position: relative;
   z-index: 10;
@@ -9,21 +8,19 @@
     margin: 0 auto;
   }
 
-  .row {
+  .counts-wrapper {
+    margin-top: -370px;
+    margin-left: 340px;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -15px;
-    position: relative;
-    top: -120px; // Removed overlap cleanly
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
   }
 
   .col-lg-3,
   .col-md-6,
   .col-sm-6 {
-    padding: 0 15px;
-    margin-bottom: 30px;
-
-    // Responsive grid: 4 on desktop, 2 on mobile
     flex: 0 0 25%;
     max-width: 25%;
 
@@ -33,80 +30,60 @@
     }
 
     @media (max-width: 576px) {
-      flex: 0 0 50%;
-      max-width: 50%;
+      flex: 0 0 100%;
+      max-width: 100%;
     }
   }
 
   .count-box {
-    padding: 40px 20px 30px;
-    width: 100%;
-    position: relative;
+    width: 130px;
+    height: 130px;
+    border-radius:12px;
+    // background: linear-gradient(135deg, #000214, #025ba9);
+    background-color: #fff;
+    color: #186fcc;
     text-align: center;
-    background: linear-gradient(135deg, #1F4529, #4CAF50); // Green gradient
-    border-radius: 8px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px 10px;
+    margin: auto;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    border: 3px solid transparent;
-    color: #fff;
 
     &:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
-      border-color: #ffffff80;
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     }
 
     i {
-      position: absolute;
-      top: -28px;
-      left: 50%;
-      transform: translateX(-50%);
       background: #fff;
-      color: #1F4529;
-      width: 56px;
-      height: 56px;
-      line-height: 56px;
+      color: #186fcc;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
-      border: 5px solid #1F4529;
+      border: 4px solid #00d4ec;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
-
-      &:hover {
-        background: #e0f2e9;
-      }
-
-      mat-icon {
-        font-size: clamp(18px, 2vw, 24px);
-        width: clamp(18px, 2vw, 24px);
-        height: clamp(18px, 2vw, 24px);
-      }
+      font-size: 22px;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     span {
-      font-size: clamp(24px, 4vw, 36px);
+      font-size: 36px;
+      font-weight: bold;
       display: block;
-      font-weight: 700;
-      margin-top: 10px;
-      margin-bottom: 10px;
-      color: #fff;
+      margin-top: 18px;
     }
 
     p {
-      padding: 0;
-      margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-      font-size: clamp(12px, 1.5vw, 14px);
+      font-size: 14px;
+      margin: 5px 0 0;
       font-weight: 500;
-      color: #e0f2e9;
       letter-spacing: 1px;
+      color: #186fcc;
     }
   }
-}
-
-/* Ensure next section appears immediately after counts */
-#about {
-  padding-top: 0;
-  margin-top: 0;
 }

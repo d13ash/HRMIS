@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
 import { ConfirmLogoutDialogComponent } from '../confirm-logout-dialog/confirm-logout-dialog.component';
+import Swal from 'sweetalert2';
+
 
 // AuthService
 // ConfirmLogoutDialogComponent
@@ -20,10 +22,10 @@ export class AdminDashboardComponent implements OnInit {
   role: any;
   Emp_Id: any;
   roles: any = [];
-  
+
   constructor(private breakpointObserver: BreakpointObserver,private AS: AuthService,private dialog: MatDialog,private router:Router) {}
 
-  
+
   isHandset$: Observable<boolean> | undefined;
 
 
@@ -33,10 +35,8 @@ export class AdminDashboardComponent implements OnInit {
       map(result => result.matches),
       shareReplay()
     );
-    
+
     console.log(this.AS.currentUser);
-    // this.AS.getAactiveuserdata();
-    // this.Full_name = this.AS.getAactiveuserdata().get('Emp_Detail')
     this.getAactiveuserdata();
   }
 
@@ -47,24 +47,33 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
-//   logout() {
-//     // Remove token from local storage
-//     localStorage.removeItem('token');
-    
-//     // Redirect to login page
-//     this.router.navigate(['/login']);
-//  }
-    logout(): void {
-      const dialogRef = this.dialog.open(ConfirmLogoutDialogComponent, {
-        width: '300px'
+
+logout(): void {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will be logged out of the system.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Logout',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem('token');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged out',
+        text: 'You have been successfully logged out.',
+        timer: 1000,
+        showConfirmButton: false
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          localStorage.removeItem('token');
-          this.router.navigate(['/login']);
-        }
-      });
+      this.router.navigate(['/home']);
     }
+  });
+}
+
 
 }

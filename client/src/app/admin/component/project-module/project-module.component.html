@@ -1,7 +1,16 @@
 <div class="container-fluid" id="addnews">
-    <mat-card>
-        <form [formGroup]="project_moduleform" (ngSubmit)="onSubmit()">
-        <div class="container">
+  <mat-card>
+    <form [formGroup]="project_moduleform" (ngSubmit)="onSubmit()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 heading">
+            <h2 style="color: whitesmoke">Add Module Detail</h2>
+          </div>
+        </div>
+        <br />
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Module Detail</legend>
+          <div class="control-group">
             <div class="row">
                 <div class="col-md-12 heading">
                     <h2 style="color:whitesmoke;">Add Module Detail</h2>
@@ -73,99 +82,135 @@
                       </mat-form-field>
                 </div>
             </div> <br>
+
             <div class="row">
-                <div class="col offset-5">
-                    <button mat-raised-button  type="button" (click)="onClear()">
-                        Clear
-                    </button> &nbsp;&nbsp; 
-                    <button mat-raised-button color="primary"  *ngIf="!iseditmode" type="submit">
-                        Submit
-                    </button>
-                    <button mat-raised-button color="primary"  *ngIf="iseditmode" (click)="onupdate()" type="button">
-                        Update
-                    </button>
-
+              <div class="col">
+                <mat-form-field class="inputfieldsize">
+                  <mat-label>Description</mat-label>
+                  <textarea
+                    matInput
+                    placeholder="Description"
+                    formControlName="Description"
+                  ></textarea>
+                </mat-form-field>
+              </div>
             </div>
+            <br />
+            <div class="row">
+              <div class="col offset-5">
+                <button mat-raised-button type="button" (click)="onClear()">
+                  Clear
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="!iseditmode"
+                  type="submit"
+                >
+                  Submit
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="iseditmode"
+                  (click)="onupdate()"
+                  type="button"
+                >
+                  Update
+                </button>
+              </div>
             </div>
-        </div>
-    </fieldset>    
-    </div>
-</form>
-    </mat-card>
+          </div>
+        </fieldset>
+      </div>
+    </form>
+  </mat-card>
 </div>
-<br> <br>
+<br />
+<br />
 
+<!-- table -->
 
-
- 
-
-    <!-- table -->
-
-            
 <div class="container-fluid">
-<mat-card style="margin-bottom: 40px;">
-
+  <mat-card style="margin-bottom: 40px">
     <mat-toolbar>
-        <p><span ><h5 class="title">Module Detail</h5></span> </p>
+      <p>
+        <span><h5 class="title">Module Detail</h5></span>
+      </p>
     </mat-toolbar>
-   <div class="container ">
-<div class="row table-responsive">
+    <div class="container">
+      <div class="row table-responsive">
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Search"
+            #input
+          />
+        </mat-form-field>
+        <div class="mat-elevation-z8" style="overflow: auto"></div>
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="project_module_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.project_module_id }}</td>
+          </ng-container>
+          <ng-container matColumnDef="module_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let row">{{ row.module_name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="module_Short_Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Short Name
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.module_Short_Name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Project_type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.project_module_type_name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Description
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.Description }}</td>
+          </ng-container>
 
-<mat-form-field>
-    <mat-label>Search</mat-label>
-    <input matInput  (keyup)="applyFilter($event)" placeholder="Search" #input>
-</mat-form-field>
-<div class="mat-elevation-z8" style="overflow: auto"></div>
-<table mat-table [dataSource]="dataSource" matSort >
-
-  <ng-container matColumnDef="project_module_id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        ID
-    </th>
-    <td mat-cell *matCellDef ="let row"> {{row.project_module_id }} </td>
-  </ng-container>
-  <ng-container matColumnDef="module_name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Name
-    </th>
-    <td mat-cell *matCellDef ="let row"> {{row.module_name}} </td>
-  </ng-container>
-  <ng-container matColumnDef="module_Short_Name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Short Name
-    </th>
-    <td mat-cell *matCellDef ="let row"> {{row.module_Short_Name}} </td>
-  </ng-container>
-  <ng-container matColumnDef="Project_type">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Type</th>
-    <td mat-cell *matCellDef ="let row"> {{row.project_module_type_name}} </td>
-  </ng-container>
-  <ng-container matColumnDef="Description">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Description</th>
-    <td mat-cell *matCellDef ="let row"> {{row.Description}} </td>
-  </ng-container>
-  
-  <ng-container matColumnDef="Action"stickyEnd="true" >
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-        <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="onedit(element.project_module_id)">
+          <ng-container matColumnDef="Action" stickyEnd="true">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onedit(element.project_module_id)"
+              >
                 <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="ondelete(element.project_module_id)" >
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="ondelete(element.project_module_id)"
+              >
                 <mat-icon>delete</mat-icon>
-            </button>
-        </td>
-    <td mat-cell *matCellDef ="let row"> {{row.Project_Discription}} </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-   <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="6">no data matched the filter "{{input.value}}"</td>
-  </tr> 
-</table>
-<mat-paginator [pageSizeOptions]="[10 ,20 ,100]"></mat-paginator>
-</div>
-</div>
-</mat-card>
-
+              </button>
+            </td>
+            <td mat-cell *matCellDef="let row">
+              {{ row.Project_Discription }}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">
+              no data matched the filter "{{ input.value }}"
+            </td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 20, 100]"></mat-paginator>
+      </div>
+    </div>
+  </mat-card>
 </div>

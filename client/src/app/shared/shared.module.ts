@@ -23,7 +23,7 @@ import { WorkAllotmentDashboardComponent } from './work-allotment-dashboard/work
     ProgressbarComponent,
     ResourceAllotmentComponent,
     ResourceShowComponent,
-    WorkAllotmentDashboardComponent
+    WorkAllotmentDashboardComponent,
   ],
   imports: [
     CommonModule,

@@ -1,23 +1,32 @@
-<div class="hero-section">
-  <div class="background-image">
-    <img src="hero-banner.jpg" alt="HRVerse team" />
-  </div>
-  <div class="overlay">
-    <div class="container">
-      <div class="title-block">
-        <div class="title">
-          <u>HRVerse:</u>
-          <span class="brand">Unified Human Resource Management Information System</span>
-        </div>
-      </div>
+<div class="hero-wrapper">
+  <div class="hero-container">
+    <div class="image-circle">
+      <img src="heroimg.jpg" alt="HR Image" />
+    </div>
 
-      <div class="intro-text">
-        <div class="tagline">Explore a Universe of HR Possibilities.</div>
-        <div class="description">
-          A powerful platform to manage the complete employee journey — from hiring to retirement.<br />
-          Automate, centralize, and streamline your HR operations.
-        </div>
-      </div>
+    <div class="text-content">
+      <h2 class="main-heading">
+        <span> HRVerse: Human Resource Management Information System</span><br />
+      </h2>
+      <p class="description">
+        An integrated platform to efficiently manage projects, employees, resources, and finances across the entire HR lifecycle.
+      </p>
+
+      <div class="gradient-bar"></div>
+
+      <!-- Login Button for Hero Section -->
+      <div class="hero-login-btn">
+  <a  (click)="openLoginBox()">
+    <button mat-button class="login-hover">
+      <mat-icon class="login-icon">arrow_forward</mat-icon>
+       LOGIN
+    </button>
+  </a>
+</div>
+
     </div>
   </div>
 </div>
+
+<!-- Login Dialog -->
+<app-login *ngIf="showLoginBox" (close)="closeLoginBox()"></app-login>

@@ -41,6 +41,9 @@ export class WorkAllotmentComponent implements OnInit {
   allemp: any;
   project: any;
   FYear: any;
+  aprlEdit: boolean = true; // for approval status edit
+
+  approvalStatus: string = 'Pending';
 
   projectWorkAllotForm!: FormGroup;
   nestedform!: FormGroup
@@ -51,6 +54,7 @@ export class WorkAllotmentComponent implements OnInit {
   response2: any;
   previewData: any;
   useEmpName: any;
+  useEmpId: any;
   WorkApprovalForm: any;
 
 
@@ -92,6 +96,55 @@ export class WorkAllotmentComponent implements OnInit {
     })
   }
 
+  isEditable(status: string) {
+    const s = status.toLowerCase();
+    if (s.includes('finished')) return false;
+    else return true;
+  }
+
+  onApprovalChange(status: string,id:any): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are about to set the status to "${status}".`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, proceed!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+              this.ds.putData("projectWorkAllotment/updateAllotedWork/" + id, { "approval": status }).subscribe((res: any) => {
+                        Swal.fire(
+                        'Updated!',
+                        `The status has been set to "${status}".`,
+                        'success'
+                      );
+                      this.getPreview(this.useEmpId);
+                      });
+            }
+    });
+  }
+
+   statusColor(status: string): string {
+    const s = status.toLowerCase();
+    if (s.includes('finished')) {
+      this.aprlEdit = false;
+      return 'finished';
+    }
+    if (s.includes('running')) {
+      this.aprlEdit = true;
+      return 'running';
+    }
+    this.aprlEdit = true;
+    return 'incomplete';
+  }
+
+  approvalColor(status: string): string {
+    const s = status.toLowerCase();
+    if (s.includes('approved')) return 'approved';
+    if (s.includes('rejected')) return 'rejected';
+    return 'pending';
+  }
 
   arrafunc() {
     const numbers: number[] = [1, 2, 3, 4, 5];
@@ -160,7 +213,8 @@ export class WorkAllotmentComponent implements OnInit {
   // preview in table
   getPreview(Emp_Id: any) {
     this.ds.getData('projectWorkAllotment/view/' + Emp_Id).subscribe((result: any) => {
-      console.log(result)
+      // console.log(result)
+      this.useEmpId = Emp_Id;
       this.previewData = result;
       this.useEmpName = this.previewData[0]['Emp_First_Name_E']
       document.getElementById("addnews")?.scrollIntoView();
@@ -251,20 +305,6 @@ async onSubmit() {
   onClear() {
     this.projectWorkAllotForm.reset();
   }
-
-
-
-  setUpdate(alloted_project_work_id: any) {
-    console.log(this.WorkApprovalForm.value)
-    console.log(alloted_project_work_id)
-    console.log(this.WorkApprovalForm.controls['approval'].value);
-
-    this.ds.putData("projectWorkAllotment/updateAllotedWork/" + alloted_project_work_id, { "approval": this.WorkApprovalForm.controls['approval'].value }).subscribe((res: any) => {
-      console.log(res)
-    });
-  }
-
-
 
   //  Get single Data into form for update
   onedit(Project_work_allotment_id: any) {

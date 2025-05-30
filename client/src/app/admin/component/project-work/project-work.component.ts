@@ -12,37 +12,46 @@ import { DataService } from '../../../services/data.service';
 @Component({
   selector: 'app-project-work',
   templateUrl: './project-work.component.html',
-  styleUrls: ['./project-work.component.scss']
+  styleUrls: ['./project-work.component.scss'],
 })
-export class ProjectWorkComponent implements OnInit{
-
-  displayedColumns=['Project_work_main_id','Project_name','module_name','Work_name','Description','StartDate','EndDate','Action'];
+export class ProjectWorkComponent implements OnInit {
+  displayedColumns = [
+    'Project_work_main_id',
+    'Project_name',
+    'module_name',
+    'Work_name',
+    'Description',
+    'StartDate',
+    'EndDate',
+    'Action',
+  ];
   dataSource!: MatTableDataSource<any>;
 
-   @ViewChild(MatPaginator) paginator!: MatPaginator ;
-   @ViewChild(MatSort) MatSort!: MatSort ;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) MatSort!: MatSort;
 
+  projrctWorkForm!: FormGroup;
 
-   projrctWorkForm! : FormGroup;
-
-
-ResType: any;
-CategoryData: any;
-UnitData: any;
+  ResType: any;
+  CategoryData: any;
+  UnitData: any;
   projectWorkDetail: any;
   datePipe: any;
   data: any;
-  iseditmode: boolean=false;
+  iseditmode: boolean = false;
   WorkDataByid: any;
   data_id: any;
-project: any;
-  ModuleData: any;
-  
+  project: any;
 
-  constructor(private fb:FormBuilder, private ds:DataService, private datepipe: DatePipe){}
+  modules: any;
+
+  constructor(
+    private fb: FormBuilder,
+    private ds: DataService,
+    private datepipe: DatePipe
+  ) {}
   ngOnInit(): void {
     this.projrctWorkForm = this.fb.group({
-
       Project_ID: [null, Validators.required],
       Description: [
     null,
@@ -62,61 +71,58 @@ project: any;
       Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
     ]
   ],
+
       project_module_id: [null, Validators.required],
       StartDate: [null, Validators.required],
       EndDate: [null, Validators.required],
     });
-this.getTable();
-this.getProject()
-// this.getModule()
+    this.getTable();
+    this.getProject();
+    // this.getModule()
   }
 
-// get Project in dropdown
-getProject(){
-  this.ds.getData('ProjectWork/allProjectmap').subscribe((result)=>{
-    console.log(result);
-    this.project=result;
-  })
-}
+  // get Project in dropdown
+  getProject() {
+    this.ds.getData('ProjectWork/allProjectmap').subscribe((result) => {
+      console.log(result);
+      this.project = result;
+    });
+  }
 
-// get module in dropdown
-onChangeModule(Project_id:any){
-  this.ds.getData('ProjectWork/allmodulemap/' + Project_id).subscribe((result)=>{
-    console.log(result);
-    this.ModuleData=result;
-  })
-}
+  // get module in dropdown
+  onChangeModule(Project_id: any) {
+    this.ds
+      .getData('ProjectWork/allmodulemap/' + Project_id)
+      .subscribe((result) => {
+        console.log(result);
+        this.modules = result;
+      });
+  }
 
-// onChangeDistrict(Dist_Id: any) {
-//   this.ds.getData('Employee_data/Districtname/' + Dist_Id).subscribe(res => {
-//     this.Block = res;
-//   });
-// }
+  // onChangeDistrict(Dist_Id: any) {
+  //   this.ds.getData('Employee_data/Districtname/' + Dist_Id).subscribe(res => {
+  //     this.Block = res;
+  //   });
+  // }
 
+  // Show data in Mat Table
+  getTable() {
+    this.ds
+      .getData('ProjectWork/allProjectWorkdata')
+      .subscribe((result: any) => {
+        this.projectWorkDetail = result;
+        this.dataSource = new MatTableDataSource(result);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.MatSort;
+        console.log(result);
+      });
+  }
 
-
-// Show data in Mat Table
-getTable(){
-  this.ds.getData('ProjectWork/allProjectWorkdata').subscribe((result:any)=>{
-      this.projectWorkDetail=result;
-          this.dataSource = new MatTableDataSource(result);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.MatSort;
-      console.log(result);  
-    })
-    }
-
-  
-// mat Table filter
-applyFilter(event: Event) {
-  const filterValue = (event.target as HTMLInputElement).value;
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-}
-
-
-
-
-
+  // mat Table filter
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 onSubmit() {
   if (this.projrctWorkForm.invalid) {
@@ -223,7 +229,8 @@ onupdate(){
   if(this.data)
   {Swal.fire('Data Deleted...')};
   this.getTable();
- }) 
+ }); 
 }
 
+  
 }
