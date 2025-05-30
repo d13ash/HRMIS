@@ -34,10 +34,10 @@
                 </mat-form-field>
                 </div>
                 <div class="col-md-4">
-                    <!-- <mat-form-field appearance="outline" class="inputfieldsize">
+                    <mat-form-field appearance="outline" class="inputfieldsize">
                         <mat-label>Choose Module </mat-label>
                         <mat-select formControlName="project_module_id">
-                          <mat-option *ngFor="let c of ModuleData ;" [value]="c.project_module_id" >
+                          <mat-option *ngFor="let c of modules ;" [value]="c.project_module_id" >
                             {{c.module_name}}
                           </mat-option>
                         </mat-select>
@@ -50,7 +50,7 @@
                   >
                     Choose module is required
                     </mat-error>
-                    </mat-form-field> -->
+                    </mat-form-field>
 
 
                 </div>
