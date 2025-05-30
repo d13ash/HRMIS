@@ -9,14 +9,15 @@ const config = require('config');
 const { json } = require('stream/consumers');
 const fd = require('../fileDelete');
 
-router.use('/documents', express.static('documents'));
+
+router.use('/uploads', express.static('uploads'));
 
 
 // Multer for two files: pi_file and wo_file
 const uploadfiles = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "documents");
+      cb(null, "uploads");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + path.extname(file.originalname));
@@ -25,21 +26,13 @@ const uploadfiles = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 });
 
-
 router.post('/addFinancialPost', uploadfiles.fields([
   { name: "PI_refferal_doc", maxCount: 1 },
   { name: "Work_order_doc", maxCount: 1 }
 ]), async (req, res) => {
   let { Project_ID, Financial_id, PI_ref_no, Work_order_ref_no, postArray } = req.body;
 
-  let values = {
-    Project_ID,
-    Financial_id,
-    PI_ref_no,
-    Work_order_ref_no
-  };
-
-  // Parse postArray if sent as string
+  // Parse postArray if sent as JSON string
   if (typeof postArray === 'string') {
     try {
       postArray = JSON.parse(postArray);
@@ -48,21 +41,41 @@ router.post('/addFinancialPost', uploadfiles.fields([
     }
   }
 
+  // Validate postArray structure
+  if (!Array.isArray(postArray) || postArray.length === 0) {
+    return res.status(400).json({ error: "postArray must be a non-empty array" });
+  }
+
+  // Validate required fields in each post
+  for (const post of postArray) {
+    if (!post.Post_id || !post.Start_date || !post.End_date || !post.Salary) {
+      return res.status(400).json({ error: "Each post must contain Post_id, Start_date, End_date, and Salary" });
+    }
+  }
+
+  // Prepare values for finance_post_main (exclude postArray!)
+  let values = {
+    Project_ID,
+    Financial_id,
+    PI_ref_no,
+    Work_order_ref_no
+  };
+
   // Handle file uploads
   const files = req.files;
   Object.keys(files).forEach(field => {
-    values[field] = files[field][0].path.replace(/\\/, '/');
+    values[field] = files[field][0].path.replace(/\\/g, '/'); // Normalize path
   });
 
-  console.log(values);
-  console.log(postArray);
-  // Insert into finance_post_main
+  // console.log("Main values:", values);
+  // console.log("Post entries:", postArray);
+
   let query = "INSERT INTO finance_post_main SET ?";
+
   try {
     let mainResult = await mysql.exec(query, values);
     const insertedId = mainResult.insertId;
 
-    // Prepare bulk insert into yearly_post_detail
     const postInsertQuery = `
       INSERT INTO yearly_post_detail 
       (finance_post_main_id, Post_id, Start_date, End_date, Salary, Description) 
@@ -78,7 +91,6 @@ router.post('/addFinancialPost', uploadfiles.fields([
       post.Description || null
     ]);
 
-    // Perform bulk insert
     await mysql.exec(postInsertQuery, [postValues]);
 
     return res.json({
@@ -87,7 +99,7 @@ router.post('/addFinancialPost', uploadfiles.fields([
     });
 
   } catch (err) {
-    console.error("Insert Error:", err);
+    console.error("Insert Error:", JSON.stringify(err, null, 2));
     return res.status(500).json({ error: "Failed to save data", details: err });
   }
 });
@@ -304,10 +316,10 @@ router.put('/updateFinancialPost/:id', uploadfiles.fields([
   Object.keys(files).forEach(field => {
     values[field] = files[field][0].path.replace(/\\/, '/');
   });
-
-  if(files){
-    fd.deleteFiles([data[0].PI_refferal_doc, data[0].Work_order_doc]);
-  }
+// function to delete existing files
+  // if(files){
+  //   fd.deleteFiles([data[0].PI_refferal_doc, data[0].Work_order_doc]);
+  // }
   console.log(values);
   console.log(postArray);
   // Insert into finance_post_main
@@ -371,7 +383,7 @@ const upload = multer({   //here upload is function
   storage: multer.diskStorage({
     destination: function (req, file, cb) {   //it decide where we want to store our file //cb is a call back function
 
-      cb(null, "documents"); //it contain two parameter second one is upload path(****uploads is a folder name*****)
+      cb(null, "uploads"); //it contain two parameter second one is upload path(****uploads is a folder name*****)
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname + Date.now() + path.extname(file.originalname)); //here first parameter is error ,second parameter is filename(which can be modify)

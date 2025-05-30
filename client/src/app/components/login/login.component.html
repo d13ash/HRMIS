@@ -1,56 +1,62 @@
+<mat-card class="slide-in-login">
+  <button mat-icon-button class="close-button" (click)="closeLogin()">
+    <mat-icon>close</mat-icon>
+  </button>
 
-<mat-card class=" gradient-custom" >
-<form class="example-form" [formGroup]="loginForm" (ngSubmit)="login()">
-<div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-80">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card bg-light text-black" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
-              <div >
-                    <div class="slider mb-2">
-                        <!-- <img src="../../../assets/IGKV_Logo_png_igmis.png" id="slideImg"> -->
-                     <img src="IGKV_Logo_png_igmis.png" id="slideImg">
-                </div>
-                <p class=" mt-md-4 "> <span class=" mt-md-2  Project-title">HRVerse</span> <br>
-                    <span class=" mb-2 Project-title">Unified Human Resource Management Information System</span>
-                </p>
-
-                <h3 class="mt-md-2 mb-4 text-black-50 text-uppercase">Login</h3>
-
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Enter User Id</mat-label>
-                    <input matInput placeholder="User ID" formControlName="username">
-                </mat-form-field>
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Enter Password</mat-label>
-                    <input matInput placeholder="Password" formControlName="password" type="password">
-                </mat-form-field>
-                <mat-form-field appearance="outline" style="width: 40%">
-                    <mat-label>Captcha</mat-label>
-                    <input matInput placeholder="Captcha" formControlName="captcha">
-                </mat-form-field>
-                <button mat-icon-button (click)="getCaptcha()" type="button" color="primary">
-                    <mat-icon class="mat-18">autorenew</mat-icon>
-                </button>
-                <span #captchaContainer></span>
-
-                <!-- <p class="small mb-3 pb-lg-2"><a class="text-black-50" href="#!">Forgot password?</a></p> -->
-
-                <button mat-raised-button class=" btn btn-lg px-5 coloinButton noDecor" type="submit">Login</button>
-
-
-
-
-              </div>
-
-
-
-            </div>
+  <form class="example-form" [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="login-container">
+      <div class="card-body text-center">
+        <div>
+          <div class="slider mb-2">
+            <img src="IGKV_Logo_png_igmis.png" id="slideImg" />
           </div>
+          <p class="mt-md-4">
+            <span class="md-2 mt-1 Project-title">HRVerse :</span> <br />
+            <span class="mb-2 Project-title"
+              >Unified Human Resource Management Information System</span
+            >
+          </p>
+
+          <h3 class="mt-md-2 mb-2 text-black-50 text-uppercase">Login</h3>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Enter User Id</mat-label>
+            <input matInput placeholder="User ID" formControlName="username" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Enter Password</mat-label>
+            <input
+              matInput
+              placeholder="Password"
+              formControlName="password"
+              type="password"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 40%">
+            <mat-label>Captcha</mat-label>
+            <input matInput placeholder="Captcha" formControlName="captcha" />
+          </mat-form-field>
+          <button
+            mat-icon-button
+            (click)="getCaptcha()"
+            type="button"
+            color="primary"
+          >
+            <mat-icon class="mat-18">autorenew</mat-icon>
+          </button>
+          <span #captchaContainer></span>
+
+          <button
+            mat-raised-button
+            class="btn btn-lg px-5 mt-4 coloinButton noDecor"
+            type="submit"
+          >
+            LOGIN
+          </button>
         </div>
       </div>
     </div>
-</form>
+  </form>
 </mat-card>
-
-
