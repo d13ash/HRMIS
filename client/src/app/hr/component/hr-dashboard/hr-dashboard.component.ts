@@ -6,6 +6,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../services/auth.service';
+import Swal from 'sweetalert2';
 // AuthService
 @Component({
   selector: 'app-hr-dashboard',
@@ -16,7 +17,7 @@ export class HrDashboardComponent implements OnInit {
   role: any;
   Emp_Id: any;
   roles: any = [];
-  
+
 
   isHandset$!: Observable<boolean>
 
@@ -40,14 +41,38 @@ getAactiveuserdata() {
   });
 }
 
-logout() {
-  // Remove token from local storage
-  localStorage.removeItem('token');
-  
-  // Redirect to login page
-  this.router.navigate(['/login']);
+
+logout(): void {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will be logged out of the system.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, Logout',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem('token');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged out',
+        text: 'You have been successfully logged out.',
+        timer: 1000,
+        showConfirmButton: false
+      });
+
+      this.router.navigate(['/home']);
+    }
+  });
+}
+
+
 }
 
 
 
-}
+
+

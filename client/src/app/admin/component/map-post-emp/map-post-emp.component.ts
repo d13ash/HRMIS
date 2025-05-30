@@ -51,7 +51,7 @@ export class MapPostEmpComponent implements OnInit {
       Financial_id: [null, Validators.required],
       Emp_Id: [null, Validators.required],
       Post_id: [null, Validators.required],
-      Remark: [null, Validators.required],
+      Remark: [null],
       Active_yn: [null, Validators.required],
       Join_date: [null, Validators.required],
       Reliving_order: [null, Validators.required],
@@ -67,10 +67,11 @@ export class MapPostEmpComponent implements OnInit {
   }
 
   // this is scroll function
-  scrollToBottom(): void {
-    const element = this.elementRef.nativeElement.querySelector('#endOfPage');
-    element.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }
+  scrollToBottom() {
+  const element = document.getElementById('bottom');
+  element?.scrollIntoView({ behavior: 'smooth' });
+}
+
 
   // mat Table filter
   applyFilter(event: Event) {
@@ -101,6 +102,11 @@ export class MapPostEmpComponent implements OnInit {
 
   // post Department Detail
   onSubmit() {
+
+     if (this.postMapForm.invalid) {
+    this.postMapForm.markAllAsTouched();
+    return;
+  }
     this.postMapForm.patchValue //this will help to set the date format (for storing in database)
       ({
         Join_date: this.datepipe.transform(this.postMapForm.get("Join_date")?.value, "yyyy-MM-dd"),
@@ -112,19 +118,33 @@ export class MapPostEmpComponent implements OnInit {
     this.postMapForm.patchValue({
       NOC_reliving: this.imageurl
     })
-    console.log(this.postMapForm.value);
+    // console.log(this.postMapForm.value);
     this.ds.postData('map_post_emp/postMapPostEmp', this.postMapForm.value).subscribe(res => {
       this.data = res;
       if (this.data)
-        alert("Data saved succesfully..")
+        Swal.fire({
+  icon: 'success',
+  title: 'Success!',
+  text: 'Data saved successfully.',
+  confirmButtonColor: '#3085d6'
+});
+
     });
     this.getTable();
     this.onClear()
   }
 
   onClear() {
-    this.postMapForm.reset();
-  }
+  this.postMapForm.reset();
+
+  // Clear validators' state: pristine and untouched
+  Object.keys(this.postMapForm.controls).forEach(key => {
+    this.postMapForm.get(key)?.markAsPristine();
+    this.postMapForm.get(key)?.markAsUntouched();
+    this.postMapForm.get(key)?.updateValueAndValidity();
+  });
+}
+
 
 
 
@@ -200,7 +220,7 @@ export class MapPostEmpComponent implements OnInit {
   }
 
   // file or image upload
-  selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not 
+  selectimage(event: any) {                          //here on selecting the image(event) this will check any images are present or not
     if (event.target.files.length > 0) {
       const file = event.target.files[0];            //it is used to get the input file dom property
       this.uploadedimage = URL.createObjectURL(file)
@@ -223,6 +243,7 @@ export class MapPostEmpComponent implements OnInit {
     });
 
   }
+
   nopath() {
     Swal.fire("please select a file")
   }

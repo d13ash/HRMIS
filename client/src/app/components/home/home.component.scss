@@ -1,11 +1,11 @@
 .hero-wrapper {
   background: linear-gradient(135deg, #000214, #025ba9);
   color: white;
-  padding: 2rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 85vh;
 
   .hero-container {
     display: flex;
@@ -26,7 +26,7 @@
       align-items: center;
       justify-content: center;
       transition: transform 0.3s ease;
-
+      margin-left: -40px;
       img {
         width: 90%;
         height: 90%;
@@ -66,12 +66,12 @@
       }
 
       .gradient-bar {
-        margin-top: 1.5rem;
+        margin-top: 1.8rem;
         width: 100%;
         max-width: 700px;
-        height: 9rem;
+        height: 11rem;
         background: linear-gradient(to right, #186fcc, #00d4ec);
-        border-radius: 80px;
+        border-radius: 18px;
       }
     }
   }
@@ -99,8 +99,8 @@
         }
 
         .gradient-bar {
-          margin-left: auto;
-          margin-right: auto;
+          // margin-left: auto;
+          // margin-right: auto;
           height: 8rem;
         }
       }
@@ -129,6 +129,69 @@
         .gradient-bar {
           height: 6rem;
         }
+      }
+    }
+  }
+  .login-btn .login-hover {
+    background-color: white;
+    color: #001b3f;
+    font-size: 1.1rem;
+    padding:1rem 1.5rem;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+
+
+    &:hover {
+      background-color: #001b3f;
+      color: white;
+    }
+  }
+}
+.hero-login-btn {
+  margin-top: 20px;
+
+  a {
+    text-decoration: none;
+
+    .login-hover {
+      background-color: #025ba9;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 0.6rem 1.6rem;
+      border: none;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+
+      .login-icon {
+        font-size: 24px;
+        margin-right: 10px;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(to right, #ffffff, #fffcf9);
+        color: #000214;
+      }
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-login-btn {
+    .login-hover {
+      width: 100%;
+      justify-content: center;
+      font-size: 0.95rem;
+
+      .login-icon {
+        height: 20px;
+        margin-right: 6px;
       }
     }
   }

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './startpage.component.scss'
 })
 export class StartpageComponent {
-
+ 
 }

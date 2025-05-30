@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {  EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../../services/data.service';
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   @ViewChild('captchaContainer', { static: false }) dataContainer!: ElementRef;
+   @Output() close = new EventEmitter<void>();
   // public apiRootUrl: any = environment.api;
   public captchaKey: any = environment.CAPTCHA_SECRET_KEY;
   public passwordKey: any = environment.PASSWORD_SECRET_KEY;
@@ -53,7 +55,7 @@ export class LoginComponent implements OnInit {
   sendData() {
     this.AS.messageEmitter.emit({
       "role": this.AS.currentUser.role,
-      "Emp_Id": this.AS.currentUser.Emp_Id, // Assuming 'username' represents the employee ID
+      "Emp_Id": this.AS.currentUser.Emp_Id,
     });
   }
 
@@ -94,7 +96,7 @@ export class LoginComponent implements OnInit {
             }
           } else {
              {
-              Swal.fire({ icon: 'error', text: "यूजर आईडी अथवा पासवर्ड गलत", timer: 1000 });
+              Swal.fire({ icon: 'error', text: "User ID or Password is incorrect.", timer: 1000 });
               this.getCaptcha()
               this.loginForm.reset();
             }
@@ -103,11 +105,17 @@ export class LoginComponent implements OnInit {
         })
       }
       else {
-        Swal.fire({ icon: 'error', text: "कृपया सही कैप्चा दर्ज करें |", timer: 1000 });
+        Swal.fire({ icon: 'error', text: "Please enter the correct captcha.", timer: 1000 });
 
       }
      }
 
   }
+
+
+  closeLogin() {
+    this.close.emit();
+  }
+
 
 }
