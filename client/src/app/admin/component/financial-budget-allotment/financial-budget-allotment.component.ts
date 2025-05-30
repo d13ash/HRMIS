@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from '../../../services/data.service';
+import Swal from 'sweetalert2';
 
 
 // DataService
@@ -32,14 +33,15 @@ export class FinancialBudgetAllotmentComponent implements OnInit {
   editproject: any;
   update1: any;
   isEditMode: boolean = false;
+  submitted: boolean = false;
   ngOnInit(): void {
     this.Budget_Allotment_Form = this.fb.group({
       budget_head_id: [null, Validators.required],
       amount: [null,[Validators.required, Validators.pattern("^[0-9]*$")]],
-      Financial_id: ['', Validators.required],
+      Financial_year: ['', Validators.required],
 
     });
-    this.getyear(),
+    this.getyear();
       this.gethead_name()
     this.getTable()
   }
@@ -60,15 +62,34 @@ export class FinancialBudgetAllotmentComponent implements OnInit {
     })
   }
 
-  onSubmit() {
-    console.log(this.Budget_Allotment_Form.value);
-    this.ds.postData('financial_budget_allotment/Postfinance_budget_allotment', this.Budget_Allotment_Form.value).subscribe(res => {
-      this.data = res;
-      if (this.data)
-        alert("Data saved succesfully..")
-    });
-    this.onClear()
+ onSubmit(): void {
+  this.submitted = true;
+
+  if (this.Budget_Allotment_Form.invalid) {
+    return;
   }
+
+  this.ds.postData('financial_budget_allotment/Postfinance_budget_allotment', this.Budget_Allotment_Form.value).subscribe(
+    (res) => {
+       if (res) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Data saved successfully.'
+                });
+                this.getTable();
+                this.onClear();
+              }
+            },
+            (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while saving data.'
+              });
+            }
+          );
+        }
   onClear() {
     this.Budget_Allotment_Form.reset();
   }
@@ -132,7 +153,7 @@ export class FinancialBudgetAllotmentComponent implements OnInit {
 
   ondelete(updateid: any) {
     console.log(updateid)
-    this.ds.Delete_Data('financial_budget_allotment/delete/' + updateid,).subscribe((result) => {
+    this.ds.Delete_Data('financial_budget_allotment/delete/' + updateid).subscribe((result) => {
       if (result)
         this.getTable();
       alert('Data Deleted...')

@@ -73,7 +73,7 @@ router.post('/Postfinance_budget_allotment', async (req, res) => {
 
 // for table
 router.get('/mattable', async (req, res) => {
-    var query = "SELECT fba.budget_allotment_id,fba.amount,mf.Financial_id,fba.budget_head_id,mf.Financial_name,fbm.budget_head_name FROM finance_budget_allotment fba LEFT JOIN m_financial mf ON  fba.Financial_id = mf.Financial_id LEFT JOIN finance_budget_master fbm ON fbm.budget_head_id = fba.budget_head_id WHERE fba.Delete_YN IS null";
+    var query = "SELECT fba.* ,fbm.budget_head_name FROM finance_budget_allotment as fba left join finance_budget_master as fbm on  fba.budget_head_id=fbm.budget_head_id where fba.Delete_YN='N'";
     console.log("called");
     let result = await mysql.exec(query);
     return res.json(result);

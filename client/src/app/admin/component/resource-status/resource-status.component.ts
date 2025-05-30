@@ -102,8 +102,25 @@ export class ResourceStatusComponent implements OnInit {
     console.log(this.resourceStatusForm.value);
     this.ds.postData('resourceStatus/PostResorcestatus', this.resourceStatusForm.value).subscribe(res => {
       this.data = res;
-      if (this.data)
-        alert("Data saved succesfully..")
+      if (this.data){ 
+        Swal.fire({
+    
+    title: 'submitted',
+   
+  });
+        
+      }
+        if (this.resourceStatusForm.get('Resource_Main_ID')?.invalid) {
+  Swal.fire({
+    icon: 'error',
+    title: 'validation error',
+    text: 'Please fill all required fields correctly',
+  });
+  return;
+}
+
+        // alert("Data saved succesfully..")
+      // alert('Please fill all required fields correctly.');
     });
     this.getTable();
   }

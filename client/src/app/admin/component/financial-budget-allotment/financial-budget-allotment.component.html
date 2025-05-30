@@ -21,6 +21,9 @@
                                            {{c.budget_head_name}}
                                          </mat-option>
                                        </mat-select>
+                                        <mat-error *ngIf="Budget_Allotment_Form.get('Resource_Main_ID')?.hasError('required')">
+        Budget head name is required
+      </mat-error>    
                                    </mat-form-field>
                                </div> 
                         <div class="col-md-4">
@@ -31,15 +34,21 @@
                                 </span>
                                 <input matInput type="number" value="9090"  formControlName="amount">
                             </mat-form-field>
+                            <mat-error *ngIf="Budget_Allotment_Form.get('Resource_Main_ID')?.hasError('required')">
+        INR is required
+      </mat-error>    
                         </div>
                         <div class="col-md-4">
                      <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label>financial Year</mat-label>
-                                <mat-select formControlName="Financial_id">
-                                  <mat-option *ngFor="let c of year ;" [value]="c.Financial_id">
+                                <mat-select formControlName="Financial_year">
+                                  <mat-option *ngFor="let c of year ;" [value]="c.Financial_name">
                                     {{c.Financial_name}}
                                   </mat-option>
                                 </mat-select>
+                                <mat-error *ngIf="Budget_Allotment_Form.get('Resource_Main_ID')?.hasError('required')">
+       financial Year is  required
+      </mat-error>    
                             </mat-form-field>
                         </div> 
                     </div>
@@ -96,7 +105,7 @@
               </ng-container>
             <ng-container matColumnDef="Financial_name">
                 <th mat-sort-header  mat-header-cell *matHeaderCellDef>Financial year</th>
-                <td mat-cell *matCellDef="let element"> {{element.Financial_name}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.Financial_year}} </td>
             </ng-container> 
            
              <ng-container matColumnDef="Action">

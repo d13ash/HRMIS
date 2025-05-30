@@ -21,6 +21,9 @@
                                             {{c.Emp_name}}
                                         </mat-option>
                                     </mat-select>
+                                    <mat-error *ngIf="Resource_Allotment_Form.get('Resource_Main_ID')?.hasError('required') && Resource_Allotment_Form.get('Resource_Main_ID')?.touched">
+      employee_name is required
+    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-4">
@@ -31,6 +34,9 @@
                                             {{c.item_name}}
                                         </mat-option>
                                     </mat-select>
+                             <mat-error *ngIf="Resource_Allotment_Form.get('Resource_Main_ID')?.hasError('required') && Resource_Allotment_Form.get('Resource_Main_ID')?.touched">
+      resource name is required
+    </mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -42,6 +48,9 @@
                                             {{c.Project_name}}
                                         </mat-option>
                                     </mat-select>
+              <mat-error *ngIf="Resource_Allotment_Form.get('Resource_Main_ID')?.hasError('required') && Resource_Allotment_Form.get('Resource_Main_ID')?.touched">
+      project name is required
+    </mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -54,6 +63,9 @@
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
+                                                                <mat-error *ngIf="Resource_Allotment_Form.get('Resource_Main_ID')?.hasError('required') && Resource_Allotment_Form.get('Resource_Main_ID')?.touched">
+      allotment_date is required
+    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-4">
@@ -63,6 +75,9 @@
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker3"></mat-datepicker-toggle>
                                     <mat-datepicker #picker3></mat-datepicker>
+                                                 <mat-error *ngIf="Resource_Allotment_Form.get('Resource_Main_ID')?.hasError('required') && Resource_Allotment_Form.get('Resource_Main_ID')?.touched">
+      allot is required
+    </mat-error>               
                                 </mat-form-field>
                             </div>
                             <div class="col-md-4">
@@ -80,7 +95,7 @@
                               <button mat-raised-button color="primary" *ngIf="!isEditMode" type="submit">
                                 Submit
                               </button>
-                              <button mat-raised-button color="primary" [disabled]="!Resource_Allotment_Form.valid" *ngIf="isEditMode" type="button">
+                              <button mat-raised-button color="primary" [disabled]="!Resource_Allotment_Form.valid" *ngIf="isEditMode" type="button" (click)="onUpdate()">
                                 Update
                               </button>
                             </div>

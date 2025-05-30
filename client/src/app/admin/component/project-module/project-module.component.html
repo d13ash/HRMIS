@@ -12,37 +12,77 @@
           <legend class="scheduler-border">Module Detail</legend>
           <div class="control-group">
             <div class="row">
-              <div class="col-md-4">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Module name</mat-label>
-                  <input matInput value="1258" formControlName="module_name" />
-                </mat-form-field>
-              </div>
-              <div class="col-md-4">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Module Shortname</mat-label>
-                  <input
-                    matInput
-                    value="xyz"
-                    formControlName="module_Short_Name"
-                  />
-                </mat-form-field>
-              </div>
-
-              <div class="col-md-4">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>module type </mat-label>
-                  <mat-select formControlName="project_module_type_id">
-                    <mat-option
-                      *ngFor="let c of posmodule"
-                      [value]="c.project_module_type_id"
-                    >
-                      {{ c.project_module_type_name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                <div class="col-md-12 heading">
+                    <h2 style="color:whitesmoke;">Add Module Detail</h2>
+                </div>
             </div>
+            <br>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border">Module Detail</legend>
+                <div class="control-group">
+         
+                    <div class="row">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="inputfieldsize">
+                                <mat-label>Module name</mat-label>
+                                <input matInput value="text" formControlName="module_name">
+                                <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform.get('module_name')?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module name is required
+                            </mat-error>
+                            </mat-form-field>
+                            
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="inputfieldsize">
+                                <mat-label>Module Shortname</mat-label>
+                                <input matInput value="xyz"  formControlName="module_Short_Name">
+                                <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform.get('module_name')?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module shortname is required
+                            </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                     <mat-form-field appearance="outline" class="inputfieldsize">
+                                <mat-label>module type </mat-label>
+                                <mat-select formControlName="project_module_type_id">
+                                  <mat-option *ngFor="let c of posmodule ;" [value]="c.project_module_type_id" >
+                                    {{c.project_module_type_name}}
+                                  </mat-option>
+                                </mat-select>
+                                <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform.get('module_name')?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module type is required
+                            </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="inputfieldsize">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput placeholder="Description" formControlName="Description"></textarea>
+                      </mat-form-field>
+                </div>
+            </div> <br>
+
             <div class="row">
               <div class="col">
                 <mat-form-field class="inputfieldsize">

@@ -30,12 +30,29 @@ export class FinancialBudgetComponent implements OnInit {
   isEditMode: boolean = false;
   update1:any;
   data2:any;
+  submitted: boolean = false;
  
   ngOnInit(): void {
     this.BudgetForm = this.fb.group({
-      budget_head_name:[null,Validators.required],
-      description:[null,Validators.required],
-      Financial_id:['',Validators.required],
+      budget_head_name: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
+      description: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
+      Financial_year:['',Validators.required],
       
     });
     this.getyear(),
@@ -45,17 +62,35 @@ export class FinancialBudgetComponent implements OnInit {
 
   constructor(private fb:FormBuilder, private ds : DataService,){}
  //submit of BudgetForm..
-  onSubmit(){
-    console.log(this.BudgetForm.value);
-    this.ds.postData('financial_budget/Postfinance_budget_master',this.BudgetForm.value).subscribe(res =>{
-    this.data=res;
-    if (this.data)
-    alert("Data saved succesfully..")
-    });
+   onSubmit(): void {
+    this.submitted = true;
 
-     this.getTable();
-     this.onClear();
+    if (this.BudgetForm.invalid) {
+      return;
     }
+
+    this.ds.postData('financial_budget/Postfinance_budget_master', this.BudgetForm.value).subscribe(
+      (res) => {
+        if (res) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Data saved successfully.'
+          });
+          this.getTable();
+          this.onClear();
+          
+        }
+      },
+      (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'fill all the required fields correctly .'
+        });
+      }
+    );
+  }
     onClear(){
       this.BudgetForm.reset();
     }
@@ -72,6 +107,7 @@ getyear(){
 getTable(){
   this.ds.getData('financial_budget/mattable' ).subscribe((result:any)=>{
       this.allprojectBudgetDetail = result;
+      console.log('finance:',this)
   
       if (result) {
         this.dataSource = new MatTableDataSource(result);

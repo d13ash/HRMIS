@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../services/data.service';
+import Swal from 'sweetalert2';
 
 // DataService
 @Component({
@@ -25,6 +26,7 @@ export class ResourceAllotmentComponent implements OnInit {
   resource_name:any;
   employee_name:any;
   project_name:any;
+  selectedResource: any;
   data: any;
   allResource_Allotment_Details:any 
 allprojectResourceDetail:any;
@@ -79,20 +81,57 @@ getproject_name(){
 }
 
 // post the data ....
-onSubmit(){
-  this.Resource_Allotment_Form.patchValue //this will help to set the date format (for storing in database)
-  ({     
-    allotment_date : this.datepipe.transform(this.Resource_Allotment_Form.get("allotment_date")?.value, "yyyy-MM-dd"), 
+onSubmit() {
+  // Check if the form is invalid
+  if (this.Resource_Allotment_Form.invalid) {
+    // Mark all controls as touched to trigger validation messages
+    this.Resource_Allotment_Form.markAllAsTouched();
+
+    // Display validation error alert
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Please fill all required fields correctly.',
+    });
+    return;
+  }
+
+  // Format the allotment_date and allotment_date_end fields
+  this.Resource_Allotment_Form.patchValue({
+    allotment_date: this.datepipe.transform(this.Resource_Allotment_Form.get("allotment_date")?.value, "yyyy-MM-dd"),
     allotment_date_end: this.datepipe.transform(this.Resource_Allotment_Form.get("allotment_date_end")?.value, "yyyy-MM-dd"),
   });
 
-console.log(this.Resource_Allotment_Form.value);
-this.ds.postData('employee_resource_allotment/post_resource_allotment',this.Resource_Allotment_Form.value).subscribe(res =>{
-  this.data=res;
-  if (this.data)
-  alert("Data saved succesfully..")
-});
+  console.log(this.Resource_Allotment_Form.value);
+
+  // Submit the form data
+  this.ds.postData('employee_resource_allotment/post_resource_allotment', this.Resource_Allotment_Form.value).subscribe(
+    res => {
+      this.data = res;
+      if (this.data) {
+        // Display success alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data saved successfully.',
+        }).then(() => {
+          // Refresh the table or perform any other necessary actions
+          this.getTable();
+          this.onClear(); // Clear the form
+        });
+      }
+    },
+    error => {
+      // Display error alert for data saving failure
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Error',
+        text: 'Failed to save data. Please try again later.',
+      });
+    }
+  );
 }
+
 
 
 
@@ -105,6 +144,7 @@ onedit(updatedit: any){
    //console.log(this.resources_1.Financial_id)
   this.editproject = updatedit
   this.isEditMode = true;
+  this.selectedResource = this.resources_1.allotment_id; // Set the selected resource for the dropdown
   this.Resource_Allotment_Form.patchValue
   ({
     Emp_Id:this.resources_1.Emp_Id,
@@ -127,14 +167,17 @@ onUpdate(){
   console.log(this.editproject)
   console.log(this.Resource_Allotment_Form.value);
 
-  this.ds.putData('employee_resource_allotment/update/'+this.editproject, this.Resource_Allotment_Form.value).subscribe(res =>
+  this.ds.putData('employee_resource_allotment/update/'+this.selectedResource, this.Resource_Allotment_Form.value).subscribe(res =>
     {
       this.update1 = res;
       if(this.update1)
+      { 
       this.getTable();
       this.onClear()
-          alert('Data updated successfully');
+      alert('Data updated successfully');
+      }
     });  
+  
 
   }
 

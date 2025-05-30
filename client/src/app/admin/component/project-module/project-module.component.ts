@@ -41,12 +41,34 @@ export class ProjectModuleComponent implements OnInit {
 
   ngOnInit(): void {
     this.project_moduleform = this.fb.group({
-      module_name: [null, Validators.required],
-      module_Short_Name: [null, Validators.required],
+      module_name:  [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
+      module_Short_Name:  [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
       project_module_type_id: ['', Validators.required],
-      Description: ['', Validators.required],
-
-
+      Description: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ]
     });
     this.getTable()
     this.getModule()
@@ -79,15 +101,34 @@ export class ProjectModuleComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onSubmit() {
-    console.log(this.project_moduleform.value);
-    this.ds.postData('projectmodule/postprojectmodule', this.project_moduleform.value).subscribe(res => {
+
+
+onSubmit() {
+  console.log(this.project_moduleform.value);
+  this.ds.postData('projectmodule/postprojectmodule', this.project_moduleform.value).subscribe(
+    res => {
       this.data = res;
-      if (this.data)
-        alert("Data saved succesfully..")
-    });
-    this.getTable();
-  }
+      if (this.data) {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Data saved successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.getTable();
+      }
+    },
+    error => {
+      Swal.fire({
+        title: 'validation error',
+        text: 'please fill all fields correctly',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  );
+}
+
   onClear() {
     this.project_moduleform.reset();
   }

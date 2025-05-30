@@ -43,6 +43,7 @@ router.get('/getalldata', async (req, res) => {
 //for post all the value in table finance_budget_master
 router.post('/Postfinance_budget_master', async (req, res) => {
     var values = req.body;
+    console.log(values);
     var query = "INSERT INTO finance_budget_master SET ? ";
     try {
         let data = await mysql.exec(query, values);
@@ -56,8 +57,9 @@ router.post('/Postfinance_budget_master', async (req, res) => {
 
 // for table
 router.get('/mattable', async (req, res) => {
-    var query = "SELECT * FROM finance_budget_master p INNER JOIN m_financial m ON p.financial_id=m.financial_id where p.Delete_YN is null";
-    console.log("called");
+    //  var query = "SELECT * FROM finance_budget_master p INNER JOIN m_financial m ON p.financial_id=m.financial_id where p.Delete_YN is null";
+  var query = "SELECT * FROM finance_budget_master where  Delete_YN='N'";
+ console.log("called");
     let result = await mysql.exec(query);
     return res.json(result);
 });
