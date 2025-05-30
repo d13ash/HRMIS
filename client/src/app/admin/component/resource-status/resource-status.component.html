@@ -1,62 +1,59 @@
-<div class="container-fluid" id="endOfPage" id="endOfPage">
-    <mat-card>
-        <form [formGroup]="resourceStatusForm" (ngSubmit)="onSubmit()">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 heading">
-                    <h2 style="color:whitesmoke;"> Resource Status</h2>
-                </div>
-            </div>
-            <br>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">Resource Status</legend>
-                <div class="control-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline" class="inputfieldsize">
-                        <mat-label>Resource </mat-label>
-                        <mat-select formControlName="Resource_Main_ID" #select>
-                          <mat-option *ngFor="let c of resource ;" [value]="c.Resource_Main_ID" >
-                            {{c.Resource_Name}}
-                          </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline" class="inputfieldsize">
-                        <mat-label>Status </mat-label>
-                        <mat-select formControlName="Availability_Status_ID">
-                          <mat-option *ngFor="let c of status ;" [value]="c.Availability_Status_ID" >
-                            {{c.Availability_Status}}
-                          </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="col-md-4" >
-               
-              </div> 
-            <br>
-            <div class="row">
-                <div class="col offset-5">
-                    <button mat-raised-button  type="button" >
-                        Clear
-                    </button> &nbsp;&nbsp; 
-                <button mat-raised-button color="primary"  *ngIf="!iseditmode" >
-                    Submit
-                </button>
-                <button mat-raised-button color="primary"  *ngIf="iseditmode" (click)="onupdate()" type="button">
-                    Update
-                </button>
-            </div>
-            </div>
+<div class="container-fluid">
+  <mat-card>
+    <form [formGroup]="resourceStatusForm" (ngSubmit)="onSubmit()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 heading">
+            <h2 style="color:whitesmoke;">Resource Status</h2>
+          </div>
         </div>
-    </fieldset>    
-    </div>
-</form>
-    </mat-card>
+        <br />
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Resource Status</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Resource</mat-label>
+                  <mat-select formControlName="Resource_Main_ID">
+                    <mat-option *ngFor="let c of resource" [value]="c.Resource_Main_ID">
+                      {{ c.Resource_Name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="resourceStatusForm.get('Resource_Main_ID')?.hasError('required') && (resourceStatusForm.get('Resource_Main_ID')?.touched || resourceStatusForm.get('Resource_Main_ID')?.dirty)">
+                    Resource is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Status</mat-label>
+                  <mat-select formControlName="Availability_Status_ID">
+                    <mat-option *ngFor="let c of status" [value]="c.Availability_Status_ID">
+                      {{ c.Availability_Status }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="resourceStatusForm.get('Availability_Status_ID')?.hasError('required') && (resourceStatusForm.get('Availability_Status_ID')?.touched || resourceStatusForm.get('Availability_Status_ID')?.dirty)">
+                    Status is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col offset-5">
+                <button mat-raised-button type="button" (click)="onClear()">Clear</button>
+                &nbsp;&nbsp;
+                <button mat-raised-button color="primary" type="submit" *ngIf="!iseditmode">Submit</button>
+                <button mat-raised-button color="primary" type="button" *ngIf="iseditmode" (click)="onupdate()">Update</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </form>
+  </mat-card>
 </div>
-<br> <br>
 
 
 

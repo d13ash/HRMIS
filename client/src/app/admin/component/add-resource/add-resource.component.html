@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid" id="inventryentry" >
     <mat-card>
         <form [formGroup]="resource_stock_entryform" (ngSubmit)="onsubmit()">
-            <div class="container">
+            <div class="container" >
                 <div class="row">
                     <div class="col-md-12 heading">
                         <h2 style="color:whitesmoke;">Inventory Entry</h2>
@@ -21,43 +21,75 @@
                                     <mat-radio-button value="N">New</mat-radio-button>
                                 </mat-radio-group>
                             </div>
-                            <div class="col-md-3">
-                                <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label>
-                                        Purchase order_no
-                                    </mat-label>
-                                    <input matInput placeholder="Purchase_order_no" formControlName="purchase_order_no">
-                                </mat-form-field>
+                           <div class="col-md-3">
+                          <mat-form-field appearance="outline" class="inputfieldsize">
+                         <mat-label>Purchase Order No</mat-label>
+                         <input matInput
+                         type="number"
+                         placeholder="Purchase Order No"
+                         formControlName="purchase_order_no">
+                     <mat-error *ngIf="resource_stock_entryform.get('purchase_order_no')?.hasError('required') && resource_stock_entryform.get('purchase_order_no')?.touched">
+                     Purchase Order No is required
+                     </mat-error>
+                     </mat-form-field>
                             </div>
+
                             <div class="col-md-3">
                                 <mat-form-field appearance="outline" class="inputfieldsize">
-                                    <mat-label> Purchase name </mat-label>
-                                    <input matInput placeholder="Purchase_Name" formControlName="purachase_name">
+                                    <mat-label>Purchase_Name </mat-label>
+                                   <input matInput
+                         type="text"
+                         placeholder="Purchase name"
+                         formControlName="purchase_name">
+                     <mat-error *ngIf="resource_stock_entryform.get('purchase_name')?.hasError('required') && resource_stock_entryform.get('purchase_order_no')?.touched">
+                     Purchase name is required
+                     </mat-error>
                                 </mat-form-field>
+                                 <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        purchase Name is required
+      </mat-error>
                             </div>
                             <div class="col-md-3">
                                 <mat-form-field appearance="outline" class="inputfieldsize">
                                     <mat-label>
                                         Agency_Name
                                     </mat-label>
+                                    
                                     <input matInput placeholder="Agency_Name" formControlName="agency">
                                 </mat-form-field>
+                                 <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        agency name is required
+      </mat-error>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <mat-form-field appearance="outline" class="inputfieldsize">
                                     <mat-label>Billing_Number</mat-label>
+                                    <input matInput
+                                    type="number"
+                                placeholder=""
+                                formControlName="">
                                     <input matInput formControlName="bill_no">
                                 </mat-form-field>
+                                 <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        Billing_Numbers required
+      </mat-error>
                             </div>
                             <div class="col-md-4">
                                 <mat-form-field appearance="outline" class="inputfieldsize">
                                     <mat-label>
                                         Amount
                                     </mat-label>
-                                    <input matInput [(ngModel)]="val3" placeholder="Amount" formControlName="amount">
+                                    <input matInput
+                                type="number"
+                                placeholder=""
+                                formControlName="">
+                                    <input matInput [(ngModel)]="val3" placeholder="" formControlName="">
                                 </mat-form-field>
+                                 <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        amount is required
+      </mat-error>
                             </div>
                             <div class="col-md-4">
                                 <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
@@ -66,7 +98,11 @@
                                     <mat-hint>DD/MM/YYYY</mat-hint>
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
+                                                           <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        date is required
+      </mat-error>
                                 </mat-form-field>
+          
                             </div>
                         </div>
                         <div class="row">
@@ -80,6 +116,9 @@
                                             [value]="item_category.category_id">
                                             {{item_category.category_name}}</mat-option>
                                     </mat-select>
+                                                           <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        Category is required
+      </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-6">
@@ -91,6 +130,9 @@
                                             [value]="subcategory.sub_category_id">
                                             {{subcategory.sub_category_name}}</mat-option>
                                     </mat-select>
+                                                           <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        subcategory is required
+      </mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -99,6 +141,9 @@
                         <div class="row">
                             <div class="col-md-2"><mat-label *ngIf="iseditmode">Upload Images</mat-label>&nbsp;
                                 <mat-label *ngIf="!iseditmode"><strong>Payment_Receipt</strong></mat-label>&nbsp;
+                                                       <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        imagesis required
+      </mat-error>
                             </div>
                             <div class="col-md-4" style="margin-top: 20px;">
                                 <input type="file" multiple #profile (change)="selectimage($event)">
@@ -124,6 +169,9 @@
                                     <mat-option *ngFor="let item of item" [value]="item.item_id">
                                         {{item.item_name}}</mat-option>
                                 </mat-select>
+                                                       <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        select Item is required
+      </mat-error>
                             </mat-form-field>
                         </div>
 
@@ -131,25 +179,38 @@
                             <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label>Product_Description</mat-label>
                                 <input matInput #myuser1 [value]="val1" placeholder="Product_Description">
+                                
                             </mat-form-field>
+                                                   <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        product descriptionis required
+      </mat-error>
                         </div>
 
                         <div class="col-md-2">
                             <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label>RATE</mat-label>
                                 <input matInput #myuser4 [value]="val4" id="rate" placeholder="Product_Description">
+                                                       <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        Rate is required
+      </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-3">
                             <mat-form-field class="inputfieldsize">
                                 <mat-label>Total_Quantiy</mat-label>
                                 <input matInput type="text" #myuser2 (change)="onChange_quantity($event)">
+                                                       <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        Total_Quantiy is required
+      </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-3">
                             <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label> Total_Amount</mat-label>
                                 <input matInput [value]="total" #myuser3 placeholder="Total_Amount" [disabled]>
+                                                       <mat-error *ngIf="resource_stock_entryform.get('Resource_Main_ID')?.hasError('required')">
+        Total_Amounts required
+      </mat-error>
                             </mat-form-field>
                         </div>
                         <div style="height:80px;width:150px">
@@ -164,10 +225,13 @@
                 <div class="row">
                     <div class="col offset-5">
                         <button mat-raised-button type="button" (click)="onClear()">
-                            Clear
+                        Clear
                         </button> &nbsp;&nbsp;
                         <button mat-raised-button color="primary" *ngIf="!iseditmode" type="submit">
                             Submit
+                        </button>
+                       <button mat-raised-button color="primary" *ngIf="iseditmode" (click)="onupdate()" type="button">
+                          Update
                         </button>
                     </div>
                 </div><br>
@@ -267,6 +331,14 @@
                             <button mat-icon-button color="primary" (click)="onview(element.purchase_id)">
                                 <mat-icon>info</mat-icon>
                             </button>
+                             <button mat-icon-button color="warn" (click)="ondelete(element.purchase_id)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                                                         <button mat-icon-button color="primary"
+                                    (click)="onedit(element.purchase_id); scrollToBottom()">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+
 
                         </td>
                     </ng-container>

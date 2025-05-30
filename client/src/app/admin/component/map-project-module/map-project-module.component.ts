@@ -42,7 +42,15 @@ data:any;
 
       Project_ID: [null, Validators.required],
       project_module_id:[null, Validators.required],
-      Description:[null, Validators.required],
+      Description: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ]
        
       });
     this.getModule()
@@ -74,18 +82,40 @@ applyFilter(event: Event) {
       }
 
 // post Department Detail
-onSubmit(){
+
+
+
+
+onSubmit() {
+  if (this.projectMapmodForm.invalid) {
+    Swal.fire({
+      title: 'Validation Error!',
+      text: 'Please fill all the fields correctly.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+
   console.log(this.projectMapmodForm.value);
-  this.ds.postData('map_project_module/postMapData',this.projectMapmodForm.value).subscribe(res =>{
-    this.data=res;
-    if (this.data)
-    alert("Data saved succesfully..")
-  });
-  this.getTable();
-  }
-  onClear(){
-    this.projectMapmodForm.reset();
-  }
+  this.ds.postData('map_project_module/postMapData', this.projectMapmodForm.value).subscribe(
+    res => {
+      this.data = res;
+      if (this.data) {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Data saved successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.getTable(); // Refresh the table data
+        this.projectMapmodForm.reset(); // Reset the form
+      }
+    },
+   
+  );
+}
+
 
 
 
@@ -148,6 +178,11 @@ onupdate(){
   this.onClear();
    })
   this.iseditmode = false;
+ }
+
+ onClear() {
+   this.projectMapmodForm.reset();
+   this.iseditmode = false;
  }
 
 

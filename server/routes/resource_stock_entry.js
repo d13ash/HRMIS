@@ -29,7 +29,7 @@ router.get('/getstock_category', async (req, res) => {
 
 // veiw in stock detail entry
 router.get('/view/:id',async (req,resp)=>{
-  var query = "SELECT c.item_name AS name,a.description,a.rate,a.quantity,a.amount FROM resource_stock_detail a INNER JOIN resource_stock_entry b ON a.purchase_id=b.purchase_id INNER JOIN resource_stock_item_master c ON c.category_id=b.category_id AND c.subcategory_id=b.subcategory_id WHERE b.purchase_id= ?";
+  var query = "SELECT c.item_name AS name,a.description,a.rate,a.quantity,a.amount FROM resource_stock_detail as a INNER JOIN resource_stock_entry as b ON a.purchase_id=b.purchase_id INNER JOIN resource_stock_item_master as c ON c.category_id=b.category_id AND c.sub_category_id=b.subcategory_id WHERE b.purchase_id= ?";
   var getitem = req.params.id;
   try {
       let result = await mysql.exec(query,[getitem])
@@ -39,6 +39,7 @@ router.get('/view/:id',async (req,resp)=>{
   return resp.json(result);
   }
   catch(err){
+    console.log('error',err);
        return resp.status(406).json(err);
   }
   });
@@ -115,12 +116,31 @@ catch(err){
        return resp.status(406).json(err);
   }
 });
+router.delete('/delete/:ID',async (req,res)=>{
+    var query = "DELETE FROM resource_stock_entry WHERE purchase_id = ?";
+    var Employee_ID = req.params.ID;
+  try{
+    let result = await mysql.exec(query, Employee_ID)
+    if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
+       
+        console.log("error")
+      return res.status(404).send('error...');     
+    }
+    return res.json({status: "data deleted" })
+  }
+  
+  catch(err){
+    if(err){
+        console.log("error",err)
+        return res.status(404).send('error'); }
+  }
+  })
 
 
 //get all the item on the basic of their category and subcategory
 
 router.get('/getitem/:id',async (req,resp)=>{
-    var query = "SELECT * FROM resource_stock_item_master WHERE category_id AND sub_category_id= ?";
+    var query = "SELECT * FROM resource_stock_entry WHERE purchase_id= ?";
     var getitem = req.params.id;
    try {
         let result = await mysql.exec(query,[getitem])

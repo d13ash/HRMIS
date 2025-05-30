@@ -16,13 +16,32 @@
                         <div class="col-md-4">
                             <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label>Module name</mat-label>
-                                <input matInput value="1258"  formControlName="module_name">
+                                <input matInput value="text" formControlName="module_name">
+                                <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform.get('module_name')?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module name is required
+                            </mat-error>
                             </mat-form-field>
+                            
                         </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="outline" class="inputfieldsize">
                                 <mat-label>Module Shortname</mat-label>
                                 <input matInput value="xyz"  formControlName="module_Short_Name">
+                                <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform.get('module_name')?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module shortname is required
+                            </mat-error>
                             </mat-form-field>
                         </div>
 
@@ -34,6 +53,15 @@
                                     {{c.project_module_type_name}}
                                   </mat-option>
                                 </mat-select>
+                                <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform.get('module_name')?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module type is required
+                            </mat-error>
                             </mat-form-field>
                         </div>
                     </div>

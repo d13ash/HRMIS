@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 
 // DataService
@@ -67,7 +67,15 @@ export class WorkAllotmentComponent implements OnInit {
       Project_ID: [null, Validators.required],
       project_module_id: [null, Validators.required],
       Emp_Id: [null, Validators.required],
-      Description: ['', Validators.required],
+     Description: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
       Allotment_date: [null, Validators.required],
       Start_date: [null, Validators.required],
       End_date: [null, Validators.required],
@@ -178,47 +186,66 @@ export class WorkAllotmentComponent implements OnInit {
   }
 
 
-  async onSubmit() {
-    try {
-      this.projectWorkAllotForm.patchValue //this will help to set the date format (for storing in database)
-        ({
-          Allotment_date: this.datepipe.transform(this.projectWorkAllotForm.get("Allotment_date")?.value, "yyyy-MM-dd"),
-        });
-      this.projectWorkAllotForm.patchValue //this will help to set the date format (for storing in database)
-        ({
-          Start_date: this.datepipe.transform(this.projectWorkAllotForm.get("Start_date")?.value, "yyyy-MM-dd"),
-        });
-      this.projectWorkAllotForm.patchValue //this will help to set the date format (for storing in database)
-        ({
-          End_date: this.datepipe.transform(this.projectWorkAllotForm.get("End_date")?.value, "yyyy-MM-dd"),
-        });
+ 
 
-
-      console.log(this.projectWorkAllotForm.value);
-      let formdata1 = this.projectWorkAllotForm.value
-      console.log(this.nestedform.value);
-      let formdata2 = this.nestedform.value
-      console.log(formdata2);
-
-      this.newfunc()
-
-      let response1: any = await this.ds.postData('projectWorkAllotment/PostProjectWorkAllotment', formdata1).toPromise();
-      console.log(response1.id);
-      console.log(formdata2.Project_work_main_id.length);
-      for (let i = 0; i < formdata2.Project_work_main_id.length; i++) {
-        // console.log(formdata2.Project_work_main_id[i]);
-
-        this.ds.postData('projectWorkAllotment/postWorkAllotment', { "Project_work_main_id": formdata2.Project_work_main_id[i], "Project_work_allotment_id": response1.id }).subscribe((res: any) => {
-          console.log(res);
-          if (res) { Swal.fire("data updated successfully") };
-        })
-      }
-    } catch (error) {
-      console.error('Error', error);
-    }
-    this.getTable();
-    this.onClear();
+async onSubmit() {
+  if (this.projectWorkAllotForm.invalid || this.nestedform.invalid) {
+    Swal.fire({
+      title: 'Validation Error!',
+      text: 'Please fill all required fields correctly.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+    return;
   }
+
+  try {
+    // Format dates before submission
+    this.projectWorkAllotForm.patchValue({
+      Allotment_date: formatDate(this.projectWorkAllotForm.get("Allotment_date")?.value, "yyyy-MM-dd", 'en'),
+      Start_date: (this.projectWorkAllotForm.get("Start_date")?.value, "yyyy-MM-dd", 'en'),
+      End_date: formatDate(this.projectWorkAllotForm.get("End_date")?.value, "yyyy-MM-dd", 'en')
+    });
+
+    const formdata1 = this.projectWorkAllotForm.value;
+    const formdata2 = this.nestedform.value;
+
+    this.newfunc(); // if this prepares your nestedform or performs any checks
+
+    const response1: any = await this.ds.postData('projectWorkAllotment/PostProjectWorkAllotment', formdata1).toPromise();
+    
+    if (response1?.id) {
+      const promises = formdata2.Project_work_main_id.map((mainId: any) => {
+        return this.ds.postData('projectWorkAllotment/postWorkAllotment', {
+          Project_work_main_id: mainId,
+          Project_work_allotment_id: response1.id
+        }).toPromise();
+      });
+
+      await Promise.all(promises);
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Project work allotment saved successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        this.getTable(); // Refresh the table
+        this.onClear(); // Reset forms
+        window.location.reload(); // Reload after all is done
+      });
+    }
+
+  } catch (error) {
+    console.error('Submission error:', error);
+    Swal.fire({
+      title: 'Error!',
+      text: 'An error occurred while saving the data.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  }
+}
 
 
   onClear() {

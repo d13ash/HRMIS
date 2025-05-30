@@ -11,26 +11,8 @@
         <div class="container ">
             <div class="row table-responsive">
               <div class="row">
-                  <div class="col-md-3">
-                <div class="search_container mt-2">
-                    <mat-form-field class="example-full-width">
-                        <span matPrefix> </span>
-                        <input type="tel" matInput placeholder="Search" autocomplete="off"
-                            (keyup)="applyFilter($event)">
-                        <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-                </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="search_container mt-2">
-                      <mat-form-field class="example-full-width">
-                          <span matPrefix> </span>
-                          <input type="tel" matInput placeholder="Search" autocomplete="off"
-                              (keyup)="applyFilter($event)">
-                          <mat-icon matSuffix>search</mat-icon>
-                      </mat-form-field>
-                  </div>
-                </div>
+                 
+              
                 <div class="col-md-3">
                   <div class="search_container mt-2">
                       <mat-form-field class="example-full-width">
@@ -40,12 +22,12 @@
                           <mat-icon matSuffix>search</mat-icon>
                       </mat-form-field>
                   </div>
-                </div>
+                <!-- </div>
                 <div class="col-md-3 mt-3" >
                 <button mat-raised-button color="accent" type="button"> search <mat-icon>search</mat-icon>
                   
-              </button>
-          </div>
+              </button> -->
+          <!-- </div> -->
                 </div>
                
   
@@ -104,7 +86,7 @@
             </div>
         </div>
         
-    </mat-card>
+   
   </div>
 
   <div class="container mt-5">
@@ -128,7 +110,7 @@
       
       <tbody>
           <tr *ngFor="let i of itemlist;let ind=index;">
-              <td>{{ind+1}}</td>
+              <td>{{i.id}}</td>
               <td >{{i.name}}</td>
               <td>{{i.description}}</td>
               <td>{{i.rate}}</td>

@@ -20,6 +20,9 @@
                             {{c.Resource_Name}}
                           </mat-option>
                         </mat-select>
+       <mat-error *ngIf="resourceAssignForm.get('Resource_Main_ID')?.hasError('required') && resourceAssignForm.get('Resource_Main_ID')?.touched">
+      Resource is required
+    </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="col-md-4">

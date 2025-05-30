@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 
 // DataService
@@ -44,8 +44,24 @@ project: any;
     this.projrctWorkForm = this.fb.group({
 
       Project_ID: [null, Validators.required],
-      Description:[null, Validators.required],
-      Work_name:[null, Validators.required],
+      Description: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
+      Work_name: [
+    null,
+    [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(200),
+      Validators.pattern(/^[a-zA-Z ]+$/) // only letters and spaces
+    ]
+  ],
       project_module_id: [null, Validators.required],
       StartDate: [null, Validators.required],
       EndDate: [null, Validators.required],
@@ -98,25 +114,57 @@ applyFilter(event: Event) {
 }
 
 
-onSubmit(){
 
-  this.projrctWorkForm.patchValue //this will help to set the date format (for storing in database)
-  ({     
-    StartDate : this.datepipe.transform(this.projrctWorkForm.get("StartDate")?.value, "yyyy-MM-dd"), 
-   });
-   this.projrctWorkForm.patchValue //this will help to set the date format (for storing in database)
-   ({     
-    EndDate : this.datepipe.transform(this.projrctWorkForm.get("EndDate")?.value, "yyyy-MM-dd"), 
+
+
+
+onSubmit() {
+  if (this.projrctWorkForm.invalid) {
+    Swal.fire({
+      title: 'Validation Error!',
+      text: 'Please fill all required fields correctly.',
+      icon: 'error',
+      confirmButtonText: 'OK'
     });
+    return;
+  }
 
-console.log(this.projrctWorkForm.value);
-this.ds.postData('ProjectWork/PostallProjectWork',this.projrctWorkForm.value).subscribe(res =>{
-  this.data=res;
-  if (this.data)
-  alert("Data saved succesfully..")
-});
-this.getTable();
+  // Format StartDate and EndDate to 'yyyy-MM-dd'
+  const startDate = this.projrctWorkForm.get('StartDate')?.value;
+  const endDate = this.projrctWorkForm.get('EndDate')?.value;
+
+  this.projrctWorkForm.patchValue({
+    StartDate: formatDate(startDate, 'yyyy-MM-dd', 'en'),
+    EndDate: formatDate(endDate, 'yyyy-MM-dd', 'en')
+  });
+
+  console.log(this.projrctWorkForm.value);
+
+  this.ds.postData('ProjectWork/PostallProjectWork', this.projrctWorkForm.value).subscribe(
+    res => {
+      this.data = res;
+      if (this.data) {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Data saved successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+        this.getTable(); // Refresh the table data
+        this.projrctWorkForm.reset(); // Reset the form
+      }
+    },
+    error => {
+      Swal.fire({
+        title: 'Error!',
+        text: 'There was a problem saving the data.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  );
 }
+
 onClear(){
   this.projrctWorkForm.reset();
 }

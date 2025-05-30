@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { DataService } from '../../../services/data.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -38,16 +38,21 @@ export class AssignResourceComponent implements OnInit {
   ngOnInit(): void {
     this.resourceAssignForm = this.fb.group({
 
-      Project_ID: [null, Validators.required],
-      Resource_Main_ID: [null, Validators.required],
-      Quantity: [null, Validators.required],
-      From_Date: [null, Validators.required],
-      To_Date: [null, Validators.required],
+Project_ID: [null, Validators.required],
+Resource_Main_ID: [null, Validators.required],
+Quantity: [null, [Validators.required, this.positiveNumberValidator]],
+From_Date: [null, Validators.required],
+To_Date: [null, Validators.required],
     });
     this.getTable()
     this.assignResource()
     this.getProject()
   }
+  positiveNumberValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value;
+  if (value === null || value === '') return null;
+  return value > 0 ? null : { notPositive: true };
+}
 
   // get resource in dropdown
   assignResource() {
@@ -90,24 +95,55 @@ export class AssignResourceComponent implements OnInit {
   }
 
   onSubmit() {
-    this.resourceAssignForm.patchValue //this will help to set the date format (for storing in database)
-      ({
-        From_Date: this.datepipe.transform(this.resourceAssignForm.get("From_Date")?.value, "yyyy-MM-dd"),
-      });
+  // Check if the form is invalid
+  if (this.resourceAssignForm.invalid) {
+    // Mark all controls as touched to trigger validation messages
+    this.resourceAssignForm.markAllAsTouched();
 
-    this.resourceAssignForm.patchValue //this will help to set the date format (for storing in database)
-      ({
-        To_Date: this.datepipe.transform(this.resourceAssignForm.get("To_Date")?.value, "yyyy-MM-dd"),
-      });
-
-    console.log(this.resourceAssignForm.value);
-    this.ds.postData('resource_assign/PostAssignRes', this.resourceAssignForm.value).subscribe(res => {
-      this.data = res;
-      if (this.data)
-        alert("Data saved succesfully..")
+    // Display validation error alert
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Please fill all required fields correctly.',
     });
-    this.getTable();
+    return;
   }
+
+  // Format the From_Date and To_Date fields
+  this.resourceAssignForm.patchValue({
+    From_Date: this.datepipe.transform(this.resourceAssignForm.get("From_Date")?.value, "yyyy-MM-dd"),
+    To_Date: this.datepipe.transform(this.resourceAssignForm.get("To_Date")?.value, "yyyy-MM-dd"),
+  });
+
+  console.log(this.resourceAssignForm.value);
+
+  // Submit the form data
+  this.ds.postData('resource_assign/PostAssignRes', this.resourceAssignForm.value).subscribe(
+    res => {
+      this.data = res;
+      if (this.data) {
+        // Display success alert
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data saved successfully.',
+        }).then(() => {
+          // Refresh the table or perform any other necessary actions
+          this.getTable();
+        });
+      }
+    },
+    error => {
+      // Display error alert for data saving failure
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Error',
+        text: 'Failed to save data. Please try again later.',
+      });
+    }
+  );
+}
+
   onClear() {
     this.resourceAssignForm.reset();
   }

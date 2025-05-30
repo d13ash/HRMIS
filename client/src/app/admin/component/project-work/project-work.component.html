@@ -21,6 +21,15 @@
                       <mat-option *ngFor="let c of project ;" [value]="c.Project_ID" >
                         {{c.Project_name}}
                       </mat-option>
+                      <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      projrctWorkForm.get('module_name')?.hasError('required') &&
+                      projrctWorkForm.get('module_name')?.touched
+                    "
+                  >
+                    Choose project is required
+                    </mat-error>
                     </mat-select>
                 </mat-form-field>
                 </div>
@@ -32,6 +41,14 @@
                             {{c.module_name}}
                           </mat-option>
                         </mat-select>
+                         <mat-error
+                    *ngIf="
+                      projrctWorkForm.get('module_name')?.hasError('required') &&
+                      projrctWorkForm.get('module_name')?.touched
+                    "
+                  >
+                    Choose module is required
+                    </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="col-md-4">
@@ -41,6 +58,14 @@
                         </mat-label>
                         <input matInput placeholder=" Work Name" formControlName="Work_name">
                     </mat-form-field>
+                     <mat-error
+                    *ngIf="
+                      projrctWorkForm.get('module_name')?.hasError('required') &&
+                      projrctWorkForm.get('module_name')?.touched
+                    "
+                  >
+                    work name is required
+                    </mat-error>
                 </div>
             </div>
             <div class="row">
