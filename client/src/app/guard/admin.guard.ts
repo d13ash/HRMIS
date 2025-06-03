@@ -15,10 +15,10 @@ export class AdminGuard implements CanActivate {
       return true;
     }
     else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
       return false;
    }
-  
+
  }
-  
+
 }

@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild , ChangeDetectorRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { DataService } from 'src/app/services/data.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -37,14 +37,14 @@ export class ProjectModuleComponent implements OnInit {
   posmodule: any;
   projectPostDataByidd: any;
 
-  constructor(private fb: FormBuilder, private ds: DataService,) { }
+  constructor(private fb: FormBuilder, private ds: DataService, private cdRef: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.project_moduleform = this.fb.group({
-      module_name: [null, Validators.required],
-      module_Short_Name: [null, Validators.required],
-      project_module_type_id: ['', Validators.required],
-      Description: ['', Validators.required],
+     module_name: [null, [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+  module_Short_Name: [null, [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+  project_module_type_id: ['', Validators.required],
+      Description: [''],
 
 
     });
@@ -79,18 +79,47 @@ export class ProjectModuleComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onSubmit() {
-    console.log(this.project_moduleform.value);
-    this.ds.postData('projectmodule/postprojectmodule', this.project_moduleform.value).subscribe(res => {
-      this.data = res;
-      if (this.data)
-        alert("Data saved succesfully..")
-    });
-    this.getTable();
+ onSubmit() {
+  if (this.project_moduleform.invalid) {
+    this.project_moduleform.markAllAsTouched();
+    Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            text: 'Please fill all required fields correctly.',
+          }); // shows validation messages
+    return;
   }
-  onClear() {
-    this.project_moduleform.reset();
-  }
+
+  // console.log(this.project_moduleform.value);
+
+  this.ds.postData('projectmodule/postprojectmodule', this.project_moduleform.value).subscribe(res => {
+    this.data = res;
+
+    if (this.data) {
+      Swal.fire('Data Saved successfully');
+
+      // ✅ Clear and reset form after successful submit
+      this.project_moduleform.reset();
+       Object.keys(this.project_moduleform.controls).forEach(key => {
+        const control = this.project_moduleform.get(key);
+        control?.markAsPristine();
+        control?.markAsUntouched();
+        control?.updateValueAndValidity(); // optional: re-evaluate validators
+      });
+    }
+this.cdRef.detectChanges();
+    this.getTable(); // refresh table
+  });
+}
+
+onClear() {
+  this.project_moduleform.reset();
+  this.project_moduleform.markAsPristine();
+  this.project_moduleform.markAsUntouched();
+  this.project_moduleform.updateValueAndValidity();
+  this.iseditmode = false;
+}
+
 
   //  Get single Data into form for update
   onedit(project_module_id: any) {
@@ -108,17 +137,23 @@ export class ProjectModuleComponent implements OnInit {
         Description: this.projectPostDataByidd.Description,
       })
   }
-
-  onupdate() {
-    this.ds.putData('projectmodule/updatemodule/' + this.data_id, this.project_moduleform.value).subscribe((result) => {
+onupdate() {
+  this.ds.putData('projectmodule/updatemodule/' + this.data_id, this.project_moduleform.value)
+    .subscribe((result) => {
       console.log(result);
-      this.data = result
-      if (this.data) { Swal.fire("data updated successfully") };
-      this.getTable()
-      this.onClear();
-    })
-    this.iseditmode = false;
-  }
+      this.data = result;
+
+      if (this.data) {
+        Swal.fire("Data Updated Successfully");
+        this.getTable();
+        this.onClear();  // Clear form state
+        this.iseditmode = false;
+
+        this.cdRef.detectChanges();  // Force view update to remove red errors
+      }
+    });
+}
+
 
   // Delete Resource detail
   ondelete(project_module_id: any) {

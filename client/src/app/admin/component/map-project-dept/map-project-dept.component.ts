@@ -54,7 +54,7 @@ export class MapProjectDeptComponent implements OnInit {
       Project_ID: [null, Validators.required],
       Parent_Dept_ID: [null, Validators.required],
       Associate_Dept_ID: [null, Validators.required],
-      Description: [null, Validators.required],
+      Description: [null],
     });
 
     this.getDepartmentMap();
@@ -93,7 +93,7 @@ export class MapProjectDeptComponent implements OnInit {
             icon: 'warning',
             title: 'Validation Error',
             text: 'Please fill all required fields correctly.',
-          }); 
+          });
     return;
   }
 
@@ -129,22 +129,21 @@ export class MapProjectDeptComponent implements OnInit {
     });
   }
 
-  ondelete(Dept_ID: any) {
-    this.MapDetaiDataByid = this.projectMapDetail.find(
-      (f: any) => f.Dept_ID === parseInt(Dept_ID)
-    );
-    this.data_id = Dept_ID;
+  ondelete(id: any) {
+  // console.log("Delete called with ID:", id);
+  this.ds.deleteDataservice('deleteMapdataByid/' + id)
+    .subscribe((result) => {
+      // console.log("Delete API result:", result);
+      if (result) {
+        Swal.fire('Deleted!', 'Data deleted successfully.', 'success');
+        this.getTable();
+      }
+    }, error => {
+      // console.error("Delete API error:", error);
+      Swal.fire('Error!', 'Failed to delete data.', 'error');
+    });
+}
 
-    this.ds
-      .deleteDataservice('map_dept_project/deleteMapdataByid/' + this.data_id)
-      .subscribe((result) => {
-        this.data = result;
-        if (this.data) {
-          Swal.fire('Deleted!', 'Data deleted successfully.', 'success');
-          this.getTable();
-        }
-      });
-  }
 
   onedit(ID: any) {
     this.MapDetaiDataByid = this.projectMapDetail.find(

@@ -17,7 +17,7 @@
                     <mat-label>Choose Project </mat-label>
                     <mat-select formControlName="Project_ID"
                      (valueChange)="onChangeModule($event)">
-                     <mat-option value="" selected>Select Country</mat-option>
+                     <mat-option value="" selected>Select Project</mat-option>
                       <mat-option *ngFor="let c of project ;" [value]="c.Project_ID" >
                         {{c.Project_name}}
                       </mat-option>
@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col">
                     <mat-form-field appearance="outline" class="inputfieldsize" >
-                        <mat-label>Resource Description</mat-label>
+                        <mat-label> Task Description</mat-label>
                         <textarea matInput formControlName="Description"></textarea>
                       </mat-form-field>
                 </div>

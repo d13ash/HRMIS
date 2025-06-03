@@ -6,7 +6,7 @@ require("express-async-errors");
 
 router.get("/allpostdetails", async (req, res) => {
   var query =
-    "SELECT p.Post_id,p.Post_name,p.Post_short_name,p.Post_name_hindi,p.Post_leval,mp.Post_type_name FROM m_post p RIGHT JOIN m_post_type mp ON p.Post_Type_ID = mp.Post_Type_ID";
+    "SELECT p.Post_id,p.Post_name,p.Post_short_name,p.Post_name_hindi,p.Post_leval,mp.Post_type_name,p.Post_Type_ID,p.Display_order FROM m_post p RIGHT JOIN m_post_type mp ON p.Post_Type_ID = mp.Post_Type_ID";
   let result = await mysql.exec(query);
 
   if (result.length == 0) return res.status(404).send("Data Not Found");

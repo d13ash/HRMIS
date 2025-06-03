@@ -10,14 +10,14 @@ const { json } = require('stream/consumers');
 const fd = require('../fileDelete');
 
 
-router.use('/uploads', express.static('uploads'));
+router.use('/documents', express.static('documents'));
 
 
 // Multer for two files: pi_file and wo_file
 const uploadfiles = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "uploads");
+      cb(null, "documents");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + path.extname(file.originalname));
@@ -516,7 +516,6 @@ router.delete('/deletedataByid/:id', async (req, res) => {
   if (!id) {
     return res.status(400).json({ success: false, message: 'ID not provided' });
   }
-
   try {
     const selectQuery = 'SELECT * FROM finance_post_main WHERE finance_post_main_id = ?';
     const selectResult = await mysql.exec(selectQuery, [id]);

@@ -429,17 +429,23 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="Logo_Path">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Logo</th>
-            <td mat-cell *matCellDef="let element">
-              <a target="_blank" href="{{ element.Logo_Path }}"
-                ><img
-                  style="height: 60px; width: 80px"
-                  target="_blank"
-                  src="{{ element.Logo_Path }}"
-                  alt="logo"
-              /></a>
-            </td>
-          </ng-container>
+  <th mat-sort-header mat-header-cell *matHeaderCellDef>Logo</th>
+  <td mat-cell *matCellDef="let element">
+    <ng-container *ngIf="element.Logo_Path; else noLogo">
+      <a target="_blank" [href]="element.Logo_Path">
+        <img
+          style="height: 60px; width: 80px"
+          [src]="element.Logo_Path"
+          alt="logo"
+        />
+      </a>
+    </ng-container>
+    <ng-template #noLogo>
+      <span style="color: gray;">No logo</span>
+    </ng-template>
+  </td>
+</ng-container>
+
           <ng-container matColumnDef="Email_ID">
             <th mat-sort-header mat-header-cell *matHeaderCellDef>Email</th>
             <td mat-cell *matCellDef="let element">{{ element.Email_ID }}</td>

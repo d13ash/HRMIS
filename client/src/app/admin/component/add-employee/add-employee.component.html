@@ -22,34 +22,19 @@
                       {{ sal.viewValue }}
                     </mat-option>
                   </mat-select>
-
-                  <mat-error *ngIf="Salutation_E.errors?.['required']">
-                    Field is required
-                  </mat-error>
+                  <mat-error *ngIf="Salutation_E.hasError('required')"
+                    >Salutation is required</mat-error
+                  >
                 </mat-form-field>
-                <div
-                  *ngIf="
-                    Salutation_E.invalid &&
-                    (Salutation_E.dirty || Salutation_E.touched)
-                  "
-                  class="form-text text-danger"
-                ></div>
               </div>
               <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> First Name </mat-label>
+                <mat-form-field appearance="fill">
+                  <mat-label>First Name</mat-label>
                   <input matInput formControlName="Emp_First_Name_E" />
-                  <mat-error *ngIf="Emp_First_Name_E.errors?.['required']">
-                    Field is required
-                  </mat-error>
+                  <mat-error *ngIf="Emp_First_Name_E.hasError('required')"
+                    >First name is required</mat-error
+                  >
                 </mat-form-field>
-                <div
-                  *ngIf="
-                    Emp_First_Name_E.invalid &&
-                    (Emp_First_Name_E.dirty || Emp_First_Name_E.touched)
-                  "
-                  class="form-text text-danger"
-                ></div>
               </div>
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="namewidth">
@@ -61,17 +46,10 @@
                 <mat-form-field appearance="outline" class="namewidth">
                   <mat-label> Last Name </mat-label>
                   <input matInput formControlName="Emp_Last_Name_E" />
-                  <mat-error *ngIf="Emp_Last_Name_E.errors?.['required']">
-                    Field is required
-                  </mat-error>
+                  <mat-error *ngIf="Emp_Last_Name_E.hasError('required')"
+                    >Last name is required</mat-error
+                  >
                 </mat-form-field>
-                <div
-                  *ngIf="
-                    Emp_Last_Name_E.invalid &&
-                    (Emp_Last_Name_E.dirty || Emp_Last_Name_E.touched)
-                  "
-                  class="form-text text-danger"
-                ></div>
               </div>
             </div>
             <div class="row">
@@ -79,31 +57,25 @@
                 <mat-form-field appearance="outline" class="namewidth">
                   <mat-label> Mobile No</mat-label>
                   <input matInput formControlName="Mobile_No" required />
-                  <mat-error *ngIf="Mobile_No.errors?.['required']">
-                    Field is required
-                  </mat-error>
+                  <mat-error *ngIf="Mobile_No.hasError('required')"
+                    >Mobile number is required</mat-error
+                  >
+                  <mat-error *ngIf="Mobile_No.hasError('pattern')"
+                    >Invalid mobile number</mat-error
+                  >
                 </mat-form-field>
-                <div
-                  *ngIf="
-                    Mobile_No.invalid && (Mobile_No.dirty || Mobile_No.touched)
-                  "
-                  class="form-text text-danger"
-                ></div>
               </div>
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Email_Id</mat-label>
+                  <mat-label>Email_Id</mat-label>
                   <input matInput formControlName="Email_Id" required />
-                  <mat-error *ngIf="Email_Id.errors?.['required']">
-                    Field is required
-                  </mat-error>
+                  <mat-error *ngIf="Email_Id.hasError('required')"
+                    >Email is required</mat-error
+                  >
+                  <mat-error *ngIf="Email_Id.hasError('email')"
+                    >Enter a valid email</mat-error
+                  >
                 </mat-form-field>
-                <div
-                  *ngIf="
-                    Email_Id.invalid && (Email_Id.dirty || Email_Id.touched)
-                  "
-                  class="form-text text-danger"
-                ></div>
               </div>
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
@@ -117,6 +89,10 @@
                       {{ postdata.Post_name }}</mat-option
                     >
                   </mat-select>
+                  <mat-error *ngIf="Post_id.hasError('required')"
+                    >Post is required</mat-error
+                  >
+                  
                 </mat-form-field>
               </div>
             </div>
@@ -132,17 +108,13 @@
                   formControlName="password"
                   #pw
                 />
-                <mat-error *ngIf="password.errors?.['required']">
-                  Field is required
+                <mat-error *ngIf="password.hasError('required')">
+                  Password is required
                 </mat-error>
-                <!-- <mat-error *ngIf="password.errors?.['pattern']">
-                                    Write Correct password format
-                                </mat-error> -->
+                <mat-error *ngIf="password.hasError('pattern')">
+                  Password must be at least 6 characters
+                </mat-error>
               </mat-form-field>
-              <div
-                *ngIf="password.invalid && (password.dirty || password.touched)"
-                class="form-text text-danger"
-              ></div>
             </div>
             <div class="col-md-4">
               <mat-form-field appearance="outline" style="width: 100%">
@@ -156,36 +128,29 @@
                   #cpw
                   (keyup)="checkPasswords(pw.value, cpw.value)"
                 />
-                <mat-error *ngIf="password.errors?.['required']">
-                  Field is required
+                <mat-error *ngIf="Confirm_Password.hasError('required')">
+                  Confirm Password is required
                 </mat-error>
-                <mat-error *ngIf="password.errors?.['pattern']">
-                  Write Correct password format
+                <mat-error *ngIf="Confirm_Password.hasError('pattern')">
+                  Confirm Password must be at least 6 characters
                 </mat-error>
                 <mat-error *ngIf="!passwordsMatching && isConfirmPasswordDirty">
-                  Password and Confirm Password must be match.
+                  Passwords do not match
                 </mat-error>
               </mat-form-field>
-              <div
-                *ngIf="
-                  Confirm_Password.invalid &&
-                  (Confirm_Password.dirty || Confirm_Password.touched)
-                "
-                class="form-text text-danger"
-              ></div>
             </div>
           </div>
           <div class="d-flex align-items-center">
             <button
               type="button"
               (click)="onSubmit()"
-              class="btn btn-primary col-5 mx-auto"
+              class="btn btn-primary col-2 mx-auto"
             >
               Submit
             </button>
             <button
               type="button"
-              class="btn btn-light col-5 mx-auto"
+              class="btn btn-dark col-2 mx-auto"
               appBackButton
             >
               Back

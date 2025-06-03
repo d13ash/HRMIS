@@ -22,13 +22,23 @@ router.get('/getallProject', async (req, res) => {
 });
 
 router.get('/getallModule', async (req, res) => {
-    var query = " SELECT project_module_id,module_name FROM  project_module";
+    const query = `
+        SELECT project_module_id, module_name 
+        FROM project_module 
+        WHERE (Delete_YN IS NULL OR Delete_YN != 'Y')
+    `;
     console.log("called");
-    let result = await mysql.exec(query);
-    if (result.length == 0)
-        return res.status(404).send("Data Not Found");
-    return res.json(result);
+
+    try {
+        let result = await mysql.exec(query);
+        if (result.length === 0) return res.status(404).send("Data Not Found");
+        return res.json(result);
+    } catch (err) {
+        console.error("DB error:", err);
+        return res.status(500).send("Server Error");
+    }
 });
+
 
 
 

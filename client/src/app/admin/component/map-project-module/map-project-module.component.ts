@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { DataService } from '../../../services/data.service';
-
+import { ChangeDetectorRef } from '@angular/core';
 // DataService
 @Component({
   selector: 'app-map-project-module',
@@ -15,12 +15,12 @@ import { DataService } from '../../../services/data.service';
   styleUrls: ['./map-project-module.component.scss']
 })
 export class MapProjectModuleComponent implements OnInit{
- 
+
 deptType:any
 projectType: any;
 data:any;
 
-  
+
   displayedColumns=['ID','Project_Name','module_name','Description','Action'];
   dataSource!: MatTableDataSource<any>;
 
@@ -35,23 +35,23 @@ data:any;
   iseditmode: boolean =false
   modules: any;
 
-  constructor(private fb:FormBuilder, private ds : DataService){}
+  constructor(private fb:FormBuilder,private cdRef: ChangeDetectorRef, private ds : DataService){}
 
   ngOnInit(): void {
     this.projectMapmodForm = this.fb.group({
 
       Project_ID: [null, Validators.required],
       project_module_id:[null, Validators.required],
-      Description:[null, Validators.required],
-       
+      Description:[null],
+
       });
     this.getModule()
    this.getProjectMap()
    this.getTable()
-   
+
   }
 
-  
+
 
 // mat Table filter
 applyFilter(event: Event) {
@@ -61,31 +61,47 @@ applyFilter(event: Event) {
 
   getModule(){
     this.ds.getData('map_project_module/getallModule').subscribe((result)=>{
-      console.log(result);  
+      console.log(result);
       this.modules=result;
     })
     }
 
     getProjectMap(){
       this.ds.getData('map_project_module/getallProject').subscribe((result)=>{
-        console.log(result);  
+        console.log(result);
         this.projectType=result;
       })
       }
 
 // post Department Detail
 onSubmit(){
+
+    if (this.projectMapmodForm.invalid) {
+    this.projectMapmodForm.markAllAsTouched(); // This highlights all invalid fields
+    return;
+  }
   console.log(this.projectMapmodForm.value);
   this.ds.postData('map_project_module/postMapData',this.projectMapmodForm.value).subscribe(res =>{
     this.data=res;
     if (this.data)
-    alert("Data saved succesfully..")
+     Swal.fire("Data Added Successfully");
   });
   this.getTable();
+  this.onClear();
   }
-  onClear(){
-    this.projectMapmodForm.reset();
-  }
+ onClear() {
+  this.projectMapmodForm.reset();
+
+  // Optional: Reset form state completely
+  Object.keys(this.projectMapmodForm.controls).forEach(key => {
+    this.projectMapmodForm.get(key)?.setErrors(null);
+    this.projectMapmodForm.get(key)?.markAsPristine();
+    this.projectMapmodForm.get(key)?.markAsUntouched();
+  });
+
+  // Detect changes to clear UI error states
+  this.cdRef.detectChanges();
+}
 
 
 
@@ -96,7 +112,7 @@ onSubmit(){
           this.dataSource = new MatTableDataSource(result);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.MatSort;
-      console.log(result);  
+      console.log(result);
     })
   }
 
@@ -113,13 +129,13 @@ ondelete(Map_module_id: any){
   if(this.data)
   {Swal.fire('Data Deleted...')};
   this.getTable();
- }) 
+ })
 }
 
 
 // Get single Data into form for update
-onedit(Map_module_id: any){ 
-  this.MapDetaiDataByid = this.projectMapDetail.find((f : any) => f.Map_module_id === parseInt(Map_module_id)); 
+onedit(Map_module_id: any){
+  this.MapDetaiDataByid = this.projectMapDetail.find((f : any) => f.Map_module_id === parseInt(Map_module_id));
   console.log(this.MapDetaiDataByid);
   this.iseditmode = true;
   this.data_id = Map_module_id;
@@ -143,7 +159,7 @@ onupdate(){
     this.data= result
 
   if(this.data)
-  {Swal.fire("data updated successfully")};
+  {Swal.fire("Data Updated Successfully")};
   this.getTable();
   this.onClear();
    })

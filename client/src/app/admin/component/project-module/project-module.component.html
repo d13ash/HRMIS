@@ -15,17 +15,53 @@
               <div class="col-md-4">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Module name</mat-label>
-                  <input matInput value="1258" formControlName="module_name" />
+                  <input matInput formControlName="module_name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_name')
+                        ?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_name')
+                        ?.hasError('pattern') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    It can include Alphabets Only.
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Module Shortname</mat-label>
-                  <input
-                    matInput
-                    value="xyz"
-                    formControlName="module_Short_Name"
-                  />
+                  <input matInput formControlName="module_Short_Name" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_Short_Name')
+                        ?.hasError('required') &&
+                      project_moduleform.get('module_Short_Name')?.touched
+                    "
+                  >
+                    Module short name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_Short_Name')
+                        ?.hasError('pattern') &&
+                      project_moduleform.get('module_Short_Name')?.touched
+                    "
+                  >
+                    It can include Alphabets Only.
+                  </mat-error>
                 </mat-form-field>
               </div>
 
@@ -40,6 +76,16 @@
                       {{ c.project_module_type_name }}
                     </mat-option>
                   </mat-select>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('project_module_type_id')
+                        ?.hasError('required') &&
+                      project_moduleform.get('project_module_type_id')?.touched
+                    "
+                  >
+                    Module type is required
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>

@@ -1,11 +1,11 @@
 .hero-wrapper {
-  background: linear-gradient(135deg, #000214, #025ba9);
+  background: linear-gradient(135deg, #000426, #026bc7);
   color: white;
-  padding: 1rem;
+  padding: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 85vh;
+  min-height: 80vh;
 
   .hero-container {
     display: flex;
@@ -26,7 +26,8 @@
       align-items: center;
       justify-content: center;
       transition: transform 0.3s ease;
-      margin-left: -40px;
+      margin-left: -60px;
+      margin-top:-50px;
       img {
         width: 90%;
         height: 90%;
@@ -149,50 +150,53 @@
     }
   }
 }
+
+
+
+
+
+
+
 .hero-login-btn {
-  margin-top: 20px;
+  margin-top: 30px;
 
-  a {
-    text-decoration: none;
+  .login-hover {
+    background-color: #ffffff;
+    color: #0b3d91;
+    font-weight: 600;
+    font-size: 1.4rem;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    height: 50px;
 
-    .login-hover {
-      background-color: #025ba9;
-      color: white;
-      font-weight: bold;
-      font-size: 1.1rem;
-      padding: 0.6rem 1.6rem;
-      border: none;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-
-      .login-icon {
-        font-size: 24px;
-        margin-right: 10px;
-      }
-
-      &:hover {
-        transform: translateY(-2px);
-        background: linear-gradient(to right, #ffffff, #fffcf9);
-        color: #000214;
-      }
+    .login-text {
+      white-space: nowrap;
     }
-  }
-}
 
-@media (max-width: 767.98px) {
-  .hero-login-btn {
-    .login-hover {
-      width: 100%;
-      justify-content: center;
-      font-size: 0.95rem;
+    &:hover {
+      background: linear-gradient(to right, #186fcc, #00d4ec);
+      color: #ffffff;
+      box-shadow: 0 6px 16px rgba(0, 51, 102, 0.3);
+      transform: translateY(-2px);
+    }
 
-      .login-icon {
-        height: 20px;
-        margin-right: 6px;
-      }
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 51, 102, 0.2);
     }
   }
 }

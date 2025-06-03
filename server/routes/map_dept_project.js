@@ -77,7 +77,7 @@ router.put('/updateMapProDetail/:id',async (req,resp)=>{
         if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
             return res.status(404).send('error...');     
         }
-        return res.json({status: "data deleted" })
+        return res.json({status: "Data Deleted" })
     }
     catch(err){
         if(err){

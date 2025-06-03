@@ -3,10 +3,14 @@ const router = express.Router();
 const Joi = require('joi');//joi module return a Class and By covention class name start with capital letter
 var mysql = require('../mysql');
 require('express-async-errors');
-const bcrypt = require('bcryptjs');
+
+const bcrypt = require('bcrypt');
+// console.log('Bcrypt loaded:', bcrypt);
+
+
 const CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
-
+const { promisify } = require('util');
 const multer = require ('multer')
 const path = require('path')
 
@@ -247,7 +251,7 @@ router.post('/user/addlogin', async (req, res) => {
   console.log(hashed);
   const { error } = validateusers(req.body);
   if (error) {
-    res.status(404).send(error.details[0].message);
+     return res.status(404).send(error.details[0].message);
   }
   var values = {
     password: hashed,
@@ -265,30 +269,27 @@ router.post('/user/addlogin', async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'printalbum04@gmail.com', // generated ethereal user
-        pass: 'tklsxobceoyxhhvm', // generated ethereal password
+        user: 'mahim.test29@gmail.com', // generated ethereal user
+        pass: 'ijiu gqcu pxaq oxlt', // generated ethereal password
       }
     });
 
     const mailOptions = {
-      from: 'printalbum04@gmail.com',
+      from: 'mahim.test29@gmail.com',
       to: req.body.email,
       subject: 'Your Userid And Password ',
       text: `Your User ID is ${username}. Your Password is ${decryptedPassword}.`
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log('Error sending email:', error);
-        res.status(500).json({ success: false, message: 'Failed to send OTP.' });
-      } else {
-        console.log('Email sent:', info.response);
-        res.status(200).json({ success: true, message: 'OTP sent successfully.' });
-      }
-    });
-  } catch (err) {
-    return res.status(404).json(err);
-  }
+    const sendMail = promisify(transporter.sendMail).bind(transporter);
+  await sendMail(mailOptions);
+
+  return res.status(200).json({ success: true, message: 'OTP sent successfully.' });
+
+} catch (err) {
+  console.error(err);
+  return res.status(500).json({ success: false, message: 'Something went wrong', error: err.message });
+}
 });
 
  

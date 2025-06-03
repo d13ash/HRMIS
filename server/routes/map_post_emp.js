@@ -104,16 +104,16 @@ router.put('/updategetMapPostEmp/:id',async (req,resp)=>{
         storage: multer.diskStorage({
           destination: function (req, file, cb) {   //it decide where we want to store our file //cb is a call back function
            
-            cb(null, "documents"); //it contain two parameter second one is upload path(****uploads is a folder name*****)
+            cb(null, "uploads"); //it contain two parameter second one is upload path(****uploads is a folder name*****)
           },
-          filename: function (req, file, cb) {
-            cb(null, file.originalname+Date.now()+path.extname(file.originalname)); //here first parameter is error ,second parameter is filename(which can be modify)
-          }
+         filename: function (req, file, cb) {
+        cb(null, file.originalname + Date.now() + path.extname(file.originalname));
+      }
         }),
         limits:{fileSize:1000000000000000}   //this for limiting file size
       });   
               //.single("user")///here we have to define that we have to upload single file or multiple file and also define the key name(field name)
-      router.use('/api/images', express.static('documents'));//by using this we can access the node file outside the application  // here we have to pass two parameter first is reference of image path and second is actual image path
+      router.use('/api/images', express.static('uploads'));//by using this we can access the node file outside the application  // here we have to pass two parameter first is reference of image path and second is actual image path
       router.post("/uploadfile",upload.single("NOC_reliving"),(req, resp,next) => {  //here file_Path is the key for image which must be same in frotend(angular)
         const file = req.file;
         if(!file){

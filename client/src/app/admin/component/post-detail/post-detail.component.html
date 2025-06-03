@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <mat-card>
-    <div class="container">
+    <div class="container" id="postFormSection">
       <div class="row">
         <div class="col-md-12 heading">
           <h2 style="color: whitesmoke">ADD POST DETAILS</h2>
@@ -20,18 +20,43 @@
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Post Name</mat-label>
                   <input matInput formControlName="Post_name" />
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_name')?.hasError('required')
+                    "
+                  >
+                    Post Name is required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Post Name Hindi</mat-label>
                   <input matInput formControlName="Post_name_hindi" />
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_name_hindi')?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    Post Name Hindi is required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Post Short Name </mat-label>
                   <input matInput formControlName="Post_short_name" />
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_short_name')?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    Post Short Name is required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
@@ -45,18 +70,40 @@
                       {{ pt.Post_type_name }}
                     </mat-option>
                   </mat-select>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_Type_ID')?.hasError('required')
+                    "
+                  >
+                    Post Type is required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label> Post Leval </mat-label>
                   <input matInput formControlName="Post_leval" />
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_leval')?.hasError('required')
+                    "
+                  >
+                    Post Level is required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Display Order Post </mat-label>
                   <input matInput formControlName="Display_order" />
+
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Display_order')?.hasError('required')
+                    "
+                  >
+                    Display Order is required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <!-- <div class="row">

@@ -12,7 +12,6 @@ import { DataService } from '../../../services/data.service';
   templateUrl: './post-detail.component.html',
   styleUrls: ['./post-detail.component.scss'],
 })
-
 export class PostDetailComponent implements OnInit {
   displayedColumns = [
     'Post Id',
@@ -76,95 +75,164 @@ export class PostDetailComponent implements OnInit {
   }
 
   getposttype() {
-  this.ds.getData('postType').subscribe((result) => {
-  console.log("Post Types:", result);
-  this.posttype = result as any[]; // or more specific type if known
-}, (error) => {
-  console.error("Error fetching post types:", error);
-});
-
-}
+    this.ds.getData('post/postType').subscribe(
+      (result) => {
+        console.log('Post Types:', result);
+        this.posttype = result as any[]; // or more specific type if known
+      },
+      (error) => {
+        console.error('Error fetching post types:', error);
+      }
+    );
+  }
 
   onSubmit() {
     if (this.PostdetailsForm.invalid) {
-      Swal.fire('Please fill all required fields');
+      this.PostdetailsForm.markAllAsTouched();
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Validation Error',
+        text: 'Please fill all required fields correctly.',
+      });
       return;
     }
 
-    this.ds
-      .postData('post/submitPost', this.PostdetailsForm.value)
-      .subscribe((res) => {
+    this.ds.postData('post/submitPost', this.PostdetailsForm.value).subscribe({
+      next: (res) => {
         this.data = res;
         Swal.fire('Data saved successfully');
         this.getTable();
-        this.onReset();
-      });
+        this.onReset(); // clears form and validation states
+      },
+      error: (err) => {
+        console.error('Save failed', err);
+        Swal.fire('Save failed', '', 'error');
+      },
+    });
   }
 
   onReset() {
     this.PostdetailsForm.reset();
+
+    this.PostdetailsForm.setValue({
+      Post_name: '',
+      Post_name_hindi: '',
+      Post_short_name: '',
+      Post_Type_ID: '',
+      Post_leval: '',
+      Display_order: '',
+      Is_hod: '',
+    });
+
+    Object.keys(this.PostdetailsForm.controls).forEach((key) => {
+      const control = this.PostdetailsForm.get(key);
+      if (control) {
+        control.setErrors(null);
+        control.markAsPristine();
+        control.markAsUntouched();
+      }
+    });
+
     this.iseditmode = false;
     this.data_id = null;
   }
 
- onedit(Post_id: number) {
-  // Find the selected post by ID
-  this.postDataByid = this.allPostDetail.find(
-    (f: any) => f.Post_id === Post_id
-  );
+  // onedit(Post_id: number) {
+  //   // Find the selected post by ID
+  //   this.postDataByid = this.allPostDetail.find(
+  //     (f: any) => f.Post_id === Post_id
+  //   );
 
-  console.log("Edit Data:", this.postDataByid);
+  //   console.log('Edit Data:', this.postDataByid);
 
-  if (!this.postDataByid) return;
+  //   if (!this.postDataByid) return;
 
-  this.data_id = Post_id;
-  this.iseditmode = true;
+  //   this.data_id = Post_id;
+  //   this.iseditmode = true;
 
-  // Load post types if not already loaded
-  if (this.posttype.length === 0) {
+  //   // Load post types if not already loaded
+  //   if (this.posttype.length === 0) {
+  //   // load post types first, then patch form
+  //   this.ds.getData('post/postType').subscribe(result => {
+  //     this.posttype = result as any[];
+  //     this.patchForm();
+  //   });
+  // } else {
+  //   this.patchForm();
+  // }
+
+  //   // Patch form values after slight delay to ensure form is ready
+  //   setTimeout(() => {
+  //     this.PostdetailsForm.patchValue({
+  //       Post_name: this.postDataByid.Post_name,
+  //       Post_name_hindi: this.postDataByid.Post_name_hindi,
+  //       Post_short_name: this.postDataByid.Post_short_name,
+  //       Post_Type_ID: this.postDataByid.Post_Type_ID,
+  //       Post_leval: this.postDataByid.Post_leval,
+  //       Display_order: this.postDataByid.Display_order,
+  //       Is_hod: this.postDataByid.Is_hod,
+  //     });
+
+  //     // Scroll to form section
+  //     const formSection = document.getElementById('postFormSection');
+  //     formSection?.scrollIntoView({ behavior: 'smooth' });
+  //   }, 200);
+  // }
+
+  onedit(Post_id: number) {
+    let postDataByid = this.allPostDetail.find(
+      (f) => f.Post_id === Post_id || f.Post_ID === Post_id
+    );
+    if (!postDataByid) return;
+    console.log('Edit Data:', postDataByid);
+
+    this.data_id = Post_id;
+    this.iseditmode = true;
     this.getposttype();
-  }
 
-  // Patch form values after slight delay to ensure form is ready
-  setTimeout(() => {
     this.PostdetailsForm.patchValue({
-      Post_name: this.postDataByid.Post_name,
-      Post_name_hindi: this.postDataByid.Post_name_hindi,
-      Post_short_name: this.postDataByid.Post_short_name,
-      Post_Type_ID: this.postDataByid.Post_Type_ID,
-      Post_leval: this.postDataByid.Post_leval,
-      Display_order: this.postDataByid.Display_order,
-      Is_hod: this.postDataByid.Is_hod,
+      Post_name: postDataByid.Post_name,
+      Post_name_hindi: postDataByid.Post_name_hindi,
+      Post_short_name: postDataByid.Post_short_name,
+      Post_Type_ID: postDataByid.Post_Type_ID,
+      Post_leval: postDataByid.Post_leval,
+      Display_order: postDataByid.Display_order,
+      Is_hod: postDataByid.Is_hod,
     });
 
-    // Scroll to form section
     const formSection = document.getElementById('postFormSection');
     formSection?.scrollIntoView({ behavior: 'smooth' });
-  }, 200);
-}
-onupdate() {
-  if (!this.data_id) return;
-
-  if (this.PostdetailsForm.invalid) {
-    Swal.fire('Please fill all required fields');
-    return;
   }
 
-  const updatedData = this.PostdetailsForm.value;
+  onupdate() {
+    if (!this.data_id) return;
 
-  this.ds.putData(`post/updatePost/${this.data_id}`, updatedData).subscribe({
-    next: (result) => {
-      Swal.fire('Data updated successfully');
-      this.getTable();  // Refresh the list/table
-      this.onReset();   // Clear the form and exit edit mode
-    },
-    error: (err) => {
-      console.error('Update failed', err);
-      Swal.fire('Update failed', '', 'error');
-    },
-  });
-}
+    if (this.PostdetailsForm.invalid) {
+      this.PostdetailsForm.markAllAsTouched();
 
+      Swal.fire({
+        icon: 'warning',
+        title: 'Validation Error',
+        text: 'Please fill all required fields correctly.',
+      });
+      return;
+    }
+
+    const updatedData = this.PostdetailsForm.value;
+
+    this.ds.putData(`post/updatePost/${this.data_id}`, updatedData).subscribe({
+      next: (result) => {
+        Swal.fire('Data updated successfully');
+        this.getTable(); // Refresh the list/table
+        this.onReset(); // Clear the form and exit edit mode
+      },
+      error: (err) => {
+        console.error('Update failed', err);
+        Swal.fire('Update failed', '', 'error');
+      },
+    });
+  }
 
   ondelete(Post_id: number) {
     this.postDataByid = this.allPostDetail.find(

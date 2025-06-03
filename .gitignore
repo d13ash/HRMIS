@@ -3,6 +3,9 @@ server/node_modules/
 server/config/
 server/.env
 server/documents/
+server/uploads/
+server/upload/
+server/upload_section/
 
 # Angular
 client/node_modules/

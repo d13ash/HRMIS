@@ -272,7 +272,7 @@ export class AddDeptComponent implements OnInit {
         Pincode: this.departmentDataByid.Pincode,
         Contact_Number: this.departmentDataByid.Contact_Number,
         Contact_Person_ID: this.departmentDataByid.Contact_Person_ID,
-         Logo_Path: this.imageurl,
+        Logo_Path: this.imageurl,
       });
     }, 300); // Give time for District to load Blocks
 
@@ -284,8 +284,11 @@ this.uploadedimage = this.imageurl;
  onupdate() {
   // Ensure Logo_Path is set from new image (imageurl) or fallback to existing one (uploadedimage)
   const finalImage = this.imageurl || this.uploadedimage;
+  if (!finalImage) {
+    console.warn('No image selected or available, preserving old image');
+  }
 
-  this.departmentDetailForm.patchValue({
+   this.departmentDetailForm.patchValue({
     Logo_Path: finalImage,
   });
 

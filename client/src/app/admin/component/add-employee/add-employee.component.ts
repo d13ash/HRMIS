@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 // import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
@@ -38,39 +38,28 @@ export class AddEmployeeComponent implements OnInit {
   passwordsMatching = false;
   isConfirmPasswordDirty = false;
   confirmPasswordClass = 'form-control';
-  Salutation_E = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.required,
-  ]);
-  Emp_First_Name_E = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.required,
-  ]);
-  Emp_Middle_Name_E = new FormControl(null);
-  Emp_Last_Name_E = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.required,
-  ]);
+  Salutation_E = new FormControl(null, Validators.required);
+  Emp_First_Name_E = new FormControl(null, Validators.required);
+  Emp_Middle_Name_E = new FormControl(null); // Optional
+  Emp_Last_Name_E = new FormControl(null, Validators.required);
   Mobile_No = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.pattern('^((\\+91-?)|0)?[6789][0-9]{9}$'),
-  ]);
-  Email_Id = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-  ]);
-  Post_id = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
     Validators.required,
+    Validators.pattern(/^[6-9]\d{9}$/),
   ]);
+  Email_Id = new FormControl(null, [Validators.required, Validators.email]);
+  Post_id = new FormControl(null, Validators.required);
   password = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.pattern('^((?!.*[s])(?=.*[A-Z])(?=.*d).{8,99})'),
-  ]);
-  Confirm_Password = new FormControl(null, [
-    (c: AbstractControl) => Validators.required(c),
-    Validators.pattern('^((?!.*[s])(?=.*[A-Z])(?=.*d).{8,99})'),
-  ]);
+  Validators.required,
+  Validators.pattern(/^.{6,}$/), // At least 6 characters, any type
+]);
+
+Confirm_Password = new FormControl(null, [
+  Validators.required,
+  Validators.pattern(/^.{6,}$/),
+
+]);
+
+
   data: any;
   submitted: boolean = false;
   Emp_Id: any;
@@ -94,7 +83,8 @@ export class AddEmployeeComponent implements OnInit {
     private fb: FormBuilder,
     private ds: DataService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+     private cdRef: ChangeDetectorRef
   ) {}
   RegistationForm!: FormGroup;
   Registationpass!: FormGroup;
@@ -130,6 +120,26 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   async onSubmit() {
+
+    this.submitted = true;
+
+  // Mark all controls as touched to trigger validation UI
+  this.RegistationForm.markAllAsTouched();
+  this.Registationpass.markAllAsTouched();
+
+  // Check if either form is invalid
+  if (this.RegistationForm.invalid || this.Registationpass.invalid) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Validation Error',
+      text: 'Please fill all required fields correctly.',
+    }).then(() => {
+      // After alert closes, remove red dirty error states
+      this.onReset();
+    });
+    return; // Stop form submission
+  }
+
     try {
       const response1 = await this.ds
         .postData('Employee_Data/empdetailsadd', this.RegistationForm.value)
@@ -164,10 +174,28 @@ export class AddEmployeeComponent implements OnInit {
     }
   }
 
-  onReset() {
-    this.RegistationForm.reset();
-    this.Registationpass.reset();
-  }
+
+
+onReset() {
+  // Reset all controls to pristine and untouched to clear red borders
+  Object.values(this.RegistationForm.controls).forEach(control => {
+    control.markAsPristine();
+    control.markAsUntouched();
+    control.updateValueAndValidity();
+  });
+
+  Object.values(this.Registationpass.controls).forEach(control => {
+    control.markAsPristine();
+    control.markAsUntouched();
+    control.updateValueAndValidity();
+  });
+
+  this.passwordsMatching = false;
+  this.isConfirmPasswordDirty = false;
+  this.confirmPasswordClass = 'form-control';
+
+  this.cdRef.detectChanges();
+}
 
   getTable() {
     this.ds.getData('Employee_data/allempdetails').subscribe((result: any) => {

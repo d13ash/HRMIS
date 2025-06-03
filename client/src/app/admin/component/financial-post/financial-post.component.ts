@@ -226,7 +226,7 @@ onClear() {
   this.form.markAsPristine();
   this.form.markAsUntouched();
 
-  
+
   // Optional: trigger UI update if needed
   this.cdRef.detectChanges(); // Uncomment if using ChangeDetectorRef
 }
@@ -272,9 +272,28 @@ onClear() {
     }
 
   }
-  ondelete(f_id: any) {
+ondelete(f_id: any) {
+  console.log('Delete requested for ID:', f_id);
 
-  }
+  this.ds.deleteFinancePostById(f_id).subscribe({
+    next: (res: any) => {
+      // console.log('Delete response:', res);
+      if (res.success) {
+        Swal.fire('Deleted!', 'Data deleted successfully.', 'success');
+        this.getonTable();
+      } else {
+        // console.error('Delete failed:', res.message);
+        Swal.fire('Failed', 'Failed to delete data', 'error');
+      }
+    },
+    error: (err) => {
+      // console.error('Delete API error:', err);
+      Swal.fire('Error', 'Failed to delete data due to server error.', 'error');
+    }
+  });
+}
+
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

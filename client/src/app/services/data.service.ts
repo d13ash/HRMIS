@@ -5,11 +5,20 @@ import { environment } from '../../environments/environment';
 // import { environment } from 'src/environments/environment';
 
 // environment
+// data.service.ts
+export interface Salutation {
+  Id: number;
+  Salutation_Name: string;
+}
 
 
 @Injectable({
   providedIn: 'root'
 })
+
+
+
+
 export class DataService {
   postapi: any;
   updateDataa(arg0: string, value: any) {
@@ -21,6 +30,8 @@ export class DataService {
   url = "http://localhost:3000/api/departmentDetail"
   projectURL = "http://localhost:3000/api/projectDetail"
   mapprojecturl = 'http://localhost:3000/api/map_dept_project'
+
+
 
   getData(functionName: any) {
     return this.http.get<any[]>(this.configUrl + functionName)
@@ -38,6 +49,13 @@ export class DataService {
   Delete_Data(ID: any) {
     return this.http.delete(`${this.configUrl}${ID}`)
   }
+deleteFinancePostById(id: any) {
+  return this.http.delete(`${this.configUrl}Financialyear_post/deletedataByid/${id}`);
+}
+getSalutations(): Observable<Salutation[]> {
+  return this.http.get<Salutation[]>(`${this.configUrl}Employee_data/sal/salutations`);
+}
+
 
 
   deleteDataservice(ID: any) {
@@ -88,7 +106,7 @@ export class DataService {
 
     return this.http.request(req);
      }
- 
+
 
   del(functionName: string, id: any) {
     return this.http.delete(this.configUrl + functionName + id)
@@ -103,5 +121,5 @@ export class DataService {
  sendContactMessage(data: any): Observable<any> {
     return this.http.post('/api/contact', data); // update endpoint as needed
   }
-  
+
 }
