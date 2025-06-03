@@ -2,7 +2,7 @@
 mat-card{
     background-color: rgb(255, 255, 255);
   }
-
+  
   .heading{
     text-align: center;
     background-color: #576CBC;
@@ -11,9 +11,7 @@ mat-card{
         color: beige;
     }
   }
-  mat-form-field{
-    margin-bottom:16px;
-  }
+  
   fieldset.scheduler-border {
     border: 2px solid gray !important;
     padding: 0 1.4em 1.4em 1.4em !important;
@@ -22,7 +20,7 @@ mat-card{
     box-shadow: 0px 0px 0px 0px #000;
     margin-top: 30px !important;
   }
-
+  
   legend.scheduler-border {
     font-size: 1.2em !important;
     font-weight: 500 !important;
@@ -38,20 +36,20 @@ mat-card{
     border-radius: 5px;
     color: black;
   }
-
+  
   .inputfieldsize{
     width: 100%;
   }
-
-
+  
+  
   mat-hint{
   color:blue;
   }
-
+  
 .dateis{
   width: 100%;
 }
-
+  
 
 .custom-select .mat-select-trigger {
   min-height: 24px; /* Set the desired minimum height */
@@ -73,5 +71,5 @@ mat-card{
 
 table, td, th {
   border:  solid 1px;
-
+  
   }

@@ -87,15 +87,7 @@ export class MapProjectDeptComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.projectMapForm.invalid) {
-    this.projectMapForm.markAllAsTouched();
-     Swal.fire({
-            icon: 'warning',
-            title: 'Validation Error',
-            text: 'Please fill all required fields correctly.',
-          }); 
-    return;
-  }
+    if (this.projectMapForm.invalid) return;
 
     this.ds
       .postData('map_dept_project', this.projectMapForm.value)

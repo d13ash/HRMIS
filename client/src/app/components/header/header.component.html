@@ -22,7 +22,9 @@
     </nav>
 
     <!-- Submit Button Desktop -->
-
+    <a routerLink="/login" class="login-btn d-none d-md-block">
+      <button mat-raised-button color="accent" class="login-hover">LOGIN</button>
+    </a>
   </div>
 
   <!-- Mobile Nav -->
@@ -32,6 +34,8 @@
     <a mat-button (click)="service()">SERVICES</a>
     <a mat-button (click)="portfolio()">PORTFOLIO</a>
     <a mat-button (click)="contactus()">CONTACT</a>
-
+    <a routerLink="/login" class="login-link-mobile">
+      <button mat-raised-button class="login-hover w-100 mt-2">LOGIN</button>
+    </a>
   </div>
 </mat-toolbar>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef,Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { DataService } from 'src/app/services/data.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -19,10 +19,11 @@ export class FinancialPostComponent implements OnInit {
 
   displayedColumns = ['finance_post_main_id', 'Project_name', 'Financial_name', 'PI_ref_no', 'Work_order_ref_no', 'View', 'Action'];
   dataSource!: MatTableDataSource<any>;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) MatSort!: MatSort;
-  @ViewChild('fileInput') fileInput!: ElementRef;
-form!: FormGroup;
+
+  form!: FormGroup;
   projectType: any;
   FYear: any;
   postList: any;
@@ -36,7 +37,7 @@ form!: FormGroup;
   files: { pi?: any, wo?: any } = {};
   formData: FormData = new FormData();
 
-  constructor(private fb: FormBuilder, private ds: DataService, private datepipe: DatePipe,private cdRef: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private ds: DataService, private datepipe: DatePipe,) {
 
   }
 
@@ -50,14 +51,14 @@ form!: FormGroup;
 
   postDetailsGroup() {
     this.form = this.fb.group({
-     Project_ID: [null, Validators.required],
-  PI_ref_no: [null, Validators.required],
-  Work_order_ref_no: [null, Validators.required],
-  PI_refferal_doc: [null, Validators.required],
-  Work_order_doc: [null, Validators.required],
-  Financial_id: [null, Validators.required],
-  postArray: this.fb.array([this.createPost()], Validators.minLength(1)) // ✅ At least one required
- });
+      Project_ID: [null, Validators.required],
+      PI_ref_no: [null, Validators.required],
+      Work_order_ref_no: [null, Validators.required],
+      PI_refferal_doc: [null, Validators.required],
+      Work_order_doc: [null, Validators.required],
+      Financial_id: [null, Validators.required],
+      postArray: this.fb.array([this.createPost()]),
+    });
   }
   getProjectMap() {
     this.ds.getData('Financialyear_post/getProject').subscribe((result) => {
@@ -91,7 +92,7 @@ form!: FormGroup;
       Post_id: ['', Validators.required],
       Start_date: ['', [Validators.required]],
       End_date: ['', Validators.required],
-      Salary: [null, [Validators.required, Validators.min(0)]],
+      Salary: ['', Validators.required],
       Description: [''],
     });
   }
@@ -131,47 +132,38 @@ form!: FormGroup;
     });
     this.formData.append('postArray', JSON.stringify(postArray));
   }
-onSubmit() {
-  if (this.form.valid) {
-    this.convertFormToFormData();
-    this.ds.postData('Financialyear_post/addFinancialPost', this.formData).subscribe({
-      next: (res) => {
-        Swal.fire('Success', 'Financial Post Added Successfully!', 'success');
-        this.getonTable();
-        this.form.reset();
-        (this.form.get('postArray') as FormArray).clear();
-        this.addPost();
-        this.fileUrl = {};
-        this.files = {};
-        this.formData = new FormData();
-        this.form.markAsPristine();
-        this.form.markAsUntouched();
-this.cdRef.detectChanges();
-        // ✅ Mark form as untouched after reset
 
-      },
-      error: (err) => {
-        Swal.fire('Error', 'Failed to add Financial Post', 'error');
-      }
-    });
-  } else {
-    // ✅ Trigger validation messages
-    this.form.markAllAsTouched();
-    Swal.fire('Invalid', 'Please fill all required fields.', 'warning');
+  onSubmit() {
+    if (this.form.valid) {
+      this.convertFormToFormData();
+      this.ds.postData('Financialyear_post/addFinancialPost', this.formData).subscribe({
+        next: (res) => {
+          Swal.fire('Success', 'Financial Post added successfully!', 'success');
+          this.getonTable();
+          this.form.reset();
+          (this.form.get('postArray') as FormArray).clear();
+          this.addPost();
+          this.fileUrl = {};
+          this.files = {};
+          this.formData = new FormData();
+        },
+        error: (err) => {
+          Swal.fire('Error', 'Failed to add Financial Post', 'error');
+        }
+      });
+    } else {
+      Swal.fire('Invalid', 'Please fill all required fields.', 'warning');
+    }
+
   }
-this.form.markAsPristine();
-this.form.markAsUntouched();
-this.form.updateValueAndValidity();
 
-}
-
-  async onedit(f_id: any) {
+  onedit(f_id: any) {
     this.isEdit = true;
     this.f_id = f_id;
-    this.ds.getOne('Financialyear_post/PostPreviewDetail/', f_id).subscribe(async (result: any) => {
+    this.ds.getOne('Financialyear_post/PostPreviewDetail/', f_id).subscribe((result: any) => {
       console.log(result);
-      document.getElementById("projectform")?.scrollIntoView({ behavior: 'smooth', block: 'start' });
- this.form.patchValue({
+      document.getElementById("projectform")?.scrollIntoView();
+      this.form.patchValue({
         Project_ID: result[0].Project_ID,
         Financial_id: result[0].Financial_id,
         PI_ref_no: result[0].PI_ref_no,
@@ -179,10 +171,10 @@ this.form.updateValueAndValidity();
       });
       // Set URLs for preview
       this.fileUrl['pi'] = result[0].PI_refferal_doc;
-      this.files['pi'] = await this.fetchFile(result[0].PI_refferal_doc, 'Pi_refferal_doc');
+      this.files['pi'] = this.fetchFile(result[0].PI_refferal_doc, 'Pi_refferal_doc');
       this.form.patchValue({ PI_refferal_doc: this.files['pi'] });
       this.fileUrl['wo'] = result[0].Work_order_doc;
-      this.files['wo'] = await this.fetchFile(result[0].Work_order_doc, 'Work_order_doc');
+      this.files['wo'] = this.fetchFile(result[0].Work_order_doc, 'Work_order_doc');
       this.form.patchValue({ Work_order_doc: this.files['wo'] });
       this.form.get('Work_order_doc')?.updateValueAndValidity();
       this.form.get('PI_refferal_doc')?.updateValueAndValidity();
@@ -195,42 +187,8 @@ this.form.updateValueAndValidity();
       Swal.fire('Error', 'Failed to get Post', 'error');
       console.log(err);
     });
-this.form.markAsPristine();
-this.form.markAsUntouched();
-this.form.updateValueAndValidity();
+
   }
-onClear() {
-  // Reset the entire form (sets all values to null or default)
-  this.form.reset();
-
-  // Clear the FormArray (postArray) completely
-  (this.form.get('postArray') as FormArray).clear();
-
-  // Add initial empty FormGroup to FormArray
-  this.addPost();
-
-  // Reset file preview and uploaded file storage
-  this.fileUrl = {};
-  this.files = {};
-
-  // Clear FormData (if you're using it for uploads)
-  this.formData = new FormData();
-   this.isEdit = false;
-  this.f_id = null;
-
-  if (this.fileInput?.nativeElement) {
-    this.fileInput.nativeElement.value = '';
-  }
-
-  // Reset validation states and mark form pristine
-  this.form.markAsPristine();
-  this.form.markAsUntouched();
-
-  
-  // Optional: trigger UI update if needed
-  this.cdRef.detectChanges(); // Uncomment if using ChangeDetectorRef
-}
-
 
   onUpdate() {
     if (this.f_id == null) {
@@ -249,7 +207,7 @@ onClear() {
       this.convertFormToFormData();
       this.ds.put('Financialyear_post/updateFinancialPost/' + this.f_id, this.formData).subscribe({
         next: (res) => {
-          Swal.fire('Success', 'Financial Post Updated Successfully!', 'success');
+          Swal.fire('Success', 'Financial Post added successfully!', 'success');
           this.getonTable();
           this.form.reset();
           (this.form.get('postArray') as FormArray).clear();
@@ -259,9 +217,6 @@ onClear() {
           this.formData = new FormData();
           this.isEdit = false;
           this.f_id = null;
-          this.form.markAsPristine();
-        this.form.markAsUntouched();
-          this.cdRef.detectChanges();
         },
         error: (err) => {
           Swal.fire('Error', 'Failed to add Financial Post', 'error');
@@ -330,7 +285,6 @@ onClear() {
       }));
     });
   }
-
 
 }
 

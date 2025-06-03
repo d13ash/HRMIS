@@ -120,21 +120,7 @@ export class ProPostAllotComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-onSubmit() {
-  // Check if form is invalid
-  if (this.projectPostForm.invalid) {
-     this.projectPostForm.markAllAsTouched();
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Please fill all required fields correctly!',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'OK'
-    });
-    return; // Stop form submission
-  }
-
-  // Format the dates before submission
+ onSubmit() {
   this.projectPostForm.patchValue({
     Start_date: this.datepipe.transform(this.projectPostForm.get('Start_date')?.value, 'yyyy-MM-dd'),
     End_date: this.datepipe.transform(this.projectPostForm.get('End_date')?.value, 'yyyy-MM-dd'),
@@ -142,7 +128,6 @@ onSubmit() {
 
   console.log(this.projectPostForm.value);
 
-  // Submit data to backend
   this.ds.postData('projectPostDetail/postProjecPost', this.projectPostForm.value)
     .subscribe((res) => {
       this.data = res;
@@ -155,12 +140,11 @@ onSubmit() {
           showConfirmButton: true,
         }).then(() => {
           this.getTable();
-          this.onClear(); // Clear form after success
+          this.onClear(); // <- Only reset after confirmation is done
         });
       }
     });
 }
-
 
  onClear() {
   this.projectPostForm.reset();

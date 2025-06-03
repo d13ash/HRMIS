@@ -1,49 +1,47 @@
 .card-content{
-
+  
     padding: 10px;
     display: flex;
   }
-
+  
   .example-card{
     margin-right: 20px;
   }
-
-  mat-form-field{
-    margin-bottom:16px;
-  }
+  
+  
   .example-card-new {
     max-width: 250px;
     // margin-right: 20px;
     margin-left: 20px;
   }
-
+  
   .example-header-image {
     background-image: url('https://images-platform.99static.com/P-fsdjQU-s6B1EHCG9Fog7uV4PU=/500x500/smart/99designs-contests-files/contests/13/1395/139500/brief/b9e6be225d76c21d90a8cabd0239aa61');
     background-size: cover;
   }
-
+  
   // .card-row{
   //   background-color: rgb(245, 249, 224);
   //   margin-top: 20px;
   //   margin-right: px;
   // }
-
+  
   // .progress-row{
   //   background-color: rgb(245, 249, 224);
   //   margin-top: 20px;
   //   margin-right: 5px;
   // }
-
-
+  
+  
   // .row-for-detail{
   //   background-color: rgb(245, 249, 224);
   //   margin-top: 20px;
   //   margin-right: 5px;
   // }
-
-
-
-
+  
+  
+  
+  
   // html,
   // body {
   //   height: 100%;
@@ -136,9 +134,9 @@
   // }
   // .login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
   //   padding: 0.8375em 0;
-
+   
   // }
-
+  
   // .namewidth{
   //     width: auto;
   //     min-width: 33%;
@@ -149,26 +147,26 @@
   //     min-width: 50%;
   //     padding: 2px;
   // }
-
+  
   // .mat-mdc-radio-button ~ .mat-mdc-radio-button {
   //   margin-left:16px;
   // }
-
+  
   // .heading{
   //         text-align: center;
   //         background-color: #576CBC;;
   //         h3{
   //             padding-top: 20px;
   //             color: beige;
-
+             
   //         }
   //     }
-
-
+  
+  
   // mat-card{
   //     background-color: rgb(255, 255, 255);
   // }
-
+  
   // .heading{
   //     text-align: center;
   //     background-color: #576CBC;
@@ -180,7 +178,7 @@
   mat-card{
     background-color: rgb(255, 255, 255);
   }
-
+  
   .heading{
     text-align: center;
     background-color: #576CBC;
@@ -189,7 +187,7 @@
         color: beige;
     }
   }
-
+  
   fieldset.scheduler-border {
     border: 2px solid gray !important;
     padding: 0 1.4em 1.4em 1.4em !important;
@@ -198,7 +196,7 @@
     box-shadow: 0px 0px 0px 0px #000;
     margin-top: 30px !important;
   }
-
+  
   legend.scheduler-border {
     font-size: 1.2em !important;
     font-weight: 500 !important;
@@ -214,17 +212,17 @@
     border-radius: 5px;
     color: black;
   }
-
+  
   .inputfieldsize{
     width: 100%;
   }
-
-
+  
+  
   mat-hint{
   color:blue;
   }
-
+  
   table, td, th {
     border:  solid 1px;
-
+    
     }

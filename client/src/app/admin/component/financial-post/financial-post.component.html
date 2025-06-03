@@ -17,8 +17,6 @@
                   {{ c.Project_Name }}
                 </mat-option>
               </mat-select>
-               <mat-error *ngIf="form.get('Project_ID')?.hasError('required')">Project is required</mat-error>
-
             </mat-form-field>
           </div>
           <div class="col-md-6">
@@ -29,24 +27,18 @@
                 <mat-option *ngFor="let year of FYear" [value]="year.Financial_id">
                   {{year.Financial_name}}</mat-option>
               </mat-select>
-               <mat-error *ngIf="form.get('Financial_id')?.hasError('required')">Financial Year is required</mat-error>
-
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field appearance="outline" class="form-field w-100">
               <mat-label>PI Referral No</mat-label>
               <input matInput formControlName="PI_ref_no" placeholder="Enter PI Referral No" />
-            <mat-error *ngIf="form.get('PI_ref_no')?.hasError('required')">PI Referral No is required</mat-error>
-
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field appearance="outline" class="form-field w-100">
               <mat-label>Work Order Referral No</mat-label>
               <input matInput formControlName="Work_order_ref_no" placeholder="Enter Work Order Referral No" />
-            <mat-error *ngIf="form.get('Work_order_ref_no')?.hasError('required')">Work Order No is required</mat-error>
-
             </mat-form-field>
           </div>
 
@@ -68,7 +60,7 @@
             <a *ngIf="fileUrl['wo']" [href]="fileUrl['wo']" target="_blank" rel="noopener noreferrer">View File</a>
             <!-- </mat-form-field> -->
           </div>
-
+          
         </div>
         <hr>
         <fieldset class="scheduler-border">
@@ -84,8 +76,6 @@
                         {{ c.Post_name }}
                       </mat-option>
                     </mat-select>
-                     <mat-error *ngIf="p.get('Post_id')?.hasError('required')">Post is required</mat-error>
-
                   </mat-form-field>
                 </div>
 
@@ -95,8 +85,7 @@
                     <input matInput [matDatepicker]="pickerStart" formControlName="Start_date" required readonly />
                     <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                     <mat-datepicker #pickerStart></mat-datepicker>
-                  <mat-error *ngIf="p.get('Start_date')?.hasError('required')">Start Date is required</mat-error>
-</mat-form-field>
+                  </mat-form-field>
                 </div>
 
                 <div class="col-md-2 mt-2">
@@ -105,17 +94,14 @@
                     <input matInput [matDatepicker]="pickerEnd" formControlName="End_date" required readonly />
                     <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                     <mat-datepicker #pickerEnd></mat-datepicker>
-                 <mat-error *ngIf="p.get('End_date')?.hasError('required')">End Date is required</mat-error>
-                 </mat-form-field>
+                  </mat-form-field>
                 </div>
 
                 <div class="col-md-2 mt-2">
                   <mat-form-field appearance="outline" class="form-field w-100">
                     <mat-label>Salary</mat-label>
                     <input matInput type="number" formControlName="Salary" placeholder="Enter salary" />
-                  <mat-error *ngIf="p.get('Salary')?.hasError('required')">Salary is required</mat-error>
-
-                </mat-form-field>
+                  </mat-form-field>
                 </div>
 
                 <div class="col-md-3 mt-2">
@@ -143,10 +129,6 @@
 
       <div class="d-flex justify-content-center mb-10">
         <button *ngIf="!isEdit" mat-raised-button color="primary" type="submit">Submit</button>
-
-
-        <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
-
         <button *ngIf="isEdit" mat-raised-button color="primary" (click)="onUpdate()" type="button">Update</button>
       </div>
     </form>

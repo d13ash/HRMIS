@@ -6,7 +6,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
-import Swal from 'sweetalert2';
 // AuthService
 @Component({
   selector: 'app-emp-dashboard',
@@ -17,7 +16,7 @@ export class EmpDashboardComponent implements OnInit {
   role: any;
   Emp_Id: any;
   roles: any = [];
-
+  
 
   isHandset$: Observable<boolean> | undefined;
   constructor(private breakpointObserver: BreakpointObserver,private AS: AuthService,private dialog: MatDialog,private router:Router) {
@@ -42,35 +41,12 @@ export class EmpDashboardComponent implements OnInit {
     });
   }
 
-
- logout(): void {
-   Swal.fire({
-     title: 'Are you sure?',
-     text: 'You will be logged out of the system.',
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-     confirmButtonText: 'Yes, Logout',
-     cancelButtonText: 'Cancel'
-   }).then((result) => {
-     if (result.isConfirmed) {
-       localStorage.removeItem('token');
-
-       Swal.fire({
-         icon: 'success',
-         title: 'Logged out',
-         text: 'You have been successfully logged out.',
-         timer: 1000,
-         showConfirmButton: false
-       });
-
-       this.router.navigate(['/home']);
-     }
-   });
+  logout() {
+    // Remove token from local storage
+    localStorage.removeItem('token');
+    
+    // Redirect to login page
+    this.router.navigate(['/login']);
  }
 
-
- }
-
-
+}

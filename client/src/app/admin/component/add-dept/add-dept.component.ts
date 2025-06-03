@@ -11,7 +11,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { DataService } from '../../../services/data.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 // DataService
 @Component({
@@ -62,28 +61,41 @@ export class AddDeptComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private ds: DataService,
-    private elementRef: ElementRef,
-      private cdRef: ChangeDetectorRef
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit(): void {
     this.departmentDetailForm = this.fb.group({
-  Dept_Name: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
-  Dept_Type_ID: ['', Validators.required],
-   Parent_Dept_ID: ['', Validators.required],
-  Contact_Number: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-  Email_ID: ['', [Validators.required, Validators.email]],
-  Website_Url: ['', [Validators.required, Validators.pattern(/^(https?:\/\/)?([\w\-]+\.)+[a-z]{2,6}(:\d+)?(\/.*)?$/i)]],
-  State: ['', Validators.required],
-  District: ['', Validators.required],
-  Block: ['', Validators.required],
-  About_Department: [''],
-  Address: ['', Validators.required],
-  Pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
-  Contact_Person_ID: ['', [Validators.required, Validators.pattern(/^[A-Za-z ]+$/)]],
-  Logo_Path: ['', Validators.required],
-});
-
+      Dept_Name: [null, [Validators.required, Validators.maxLength(20)]],
+      Parent_Dept_ID: [null, Validators.required],
+      Dept_Type_ID: [null, Validators.required],
+      Email_ID: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
+          Validators.maxLength(50),
+        ],
+      ],
+      Website_Url: [null, [Validators.required, Validators.maxLength(100)]],
+      Logo_Path: [null, Validators.required],
+      About_Department: [
+        null,
+        [Validators.required, Validators.maxLength(200)],
+      ],
+      Address: [null, [Validators.required, Validators.maxLength(99)]],
+      State: [null, Validators.required],
+      District: [null, Validators.required],
+      Block: [null, Validators.required],
+      Pincode: [null, [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      Contact_Number: [
+        '',
+        [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')],
+      ],
+      Contact_Person_ID: [null, Validators.required],
+    });
     this.getDept_type();
     this.getTable();
     this.getState();
@@ -188,38 +200,18 @@ export class AddDeptComponent implements OnInit {
           });
         },
       });
+    this.getTable();
+    this.onClear();
   }
 
   onClear() {
-  this.departmentDetailForm.reset();
-
-  // Reset specific default values if required
-  this.departmentDetailForm.patchValue({
-    Dept_Type_ID: '',
-    Parent_Dept_ID: '',
-    State: '',
-    District: '',
-    Block: '',
-    Logo_Path: '',
-  });
-
-  // Clear validation states
-  Object.keys(this.departmentDetailForm.controls).forEach((key) => {
-    const control = this.departmentDetailForm.get(key);
-    control?.setErrors(null);
-    control?.markAsPristine();
-    control?.markAsUntouched();
-  });
-
-  // Reset image
-  this.uploadedimage = null;
-  this.imageurl = null;
-  this.fileInput.nativeElement.value = '';
-
-  // Force change detection to refresh form UI
-  this.cdRef.detectChanges();
-}
-
+    this.departmentDetailForm.reset();
+    this.uploadedimage = null;
+    this.fileInput.nativeElement.value = '';
+    this.departmentDetailForm.markAsPristine();
+    this.departmentDetailForm.markAsUntouched();
+    this.departmentDetailForm.updateValueAndValidity();
+  }
 
   // Show data in Mat Table
   getTable() {
@@ -272,56 +264,34 @@ export class AddDeptComponent implements OnInit {
         Pincode: this.departmentDataByid.Pincode,
         Contact_Number: this.departmentDataByid.Contact_Number,
         Contact_Person_ID: this.departmentDataByid.Contact_Person_ID,
-         Logo_Path: this.imageurl,
       });
     }, 300); // Give time for District to load Blocks
 
     // Load image preview
-    this.imageurl = this.departmentDataByid.Logo_Path; // <-- Existing image path
-this.uploadedimage = this.imageurl;
-}
-
- onupdate() {
-  // Ensure Logo_Path is set from new image (imageurl) or fallback to existing one (uploadedimage)
-  const finalImage = this.imageurl || this.uploadedimage;
-
-  this.departmentDetailForm.patchValue({
-    Logo_Path: finalImage,
-  });
-
-  if (this.departmentDetailForm.invalid) {
-    console.log('Form is invalid', this.departmentDetailForm.errors);
-    console.log('Form values:', this.departmentDetailForm.value);
-
-    // Debug: Print which controls are invalid
-    Object.keys(this.departmentDetailForm.controls).forEach((key) => {
-      const control = this.departmentDetailForm.get(key);
-      if (control && control.invalid) {
-        console.log(`Invalid control: ${key}`, control.errors);
-      }
-    });
-
-    this.departmentDetailForm.markAllAsTouched();
-    return;
+    this.imageurl = null;
+    this.uploadedimage = this.departmentDataByid.Logo_Path;
   }
 
-  this.ds
-    .updateData(
-      'updateDepartmentDetail/' + this.data_id,
-      this.departmentDetailForm.value
-    )
-    .subscribe((result) => {
-      console.log(result);
-      this.data = result;
-
-      if (this.data) {
-        Swal.fire('Data Updated Successfully');
-      }
-
-      this.onClear();
-      this.getTable();
+  onupdate() {
+    this.departmentDetailForm.patchValue({
+      Logo_Path: this.imageurl,
     });
-}
+    this.ds
+      .updateData(
+        'updateDepartmentDetail/' + this.data_id,
+        this.departmentDetailForm.value
+      )
+      .subscribe((result) => {
+        console.log(result);
+        this.data = result;
+
+        if (this.data) {
+          Swal.fire('Data Updated Successfully');
+        }
+        this.onClear();
+        this.getTable();
+      });
+  }
 
   // Delete Department detail
   ondelete(Dept_ID: any) {

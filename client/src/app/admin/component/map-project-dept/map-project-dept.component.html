@@ -22,10 +22,7 @@
                                     {{c.Project_name}}
                                   </mat-option>
                                 </mat-select>
-                                 <mat-error *ngIf="projectMapForm.get('Project_ID')?.hasError('required') && projectMapForm.get('Project_ID')?.touched">
-    Project is required
-  </mat-error>
-    </mat-form-field>
+                            </mat-form-field>
                         </div>
                         <div class="col-md-4">
                             <mat-form-field appearance="outline" class="inputfieldsize">
@@ -35,9 +32,6 @@
                                       {{c.Dept_Name}}
                                     </mat-option>
                                 </mat-select>
-                                 <mat-error *ngIf="projectMapForm.get('Parent_Dept_ID')?.hasError('required') && projectMapForm.get('Parent_Dept_ID')?.touched">
-    Parent Department is required
-  </mat-error>
                             </mat-form-field>
                         </div>
                         <div class="col-md-4">
@@ -48,9 +42,6 @@
                                       {{c.Dept_Name}}
                                     </mat-option>
                                   </mat-select>
-                                   <mat-error *ngIf="projectMapForm.get('Associate_Dept_ID')?.hasError('required') && projectMapForm.get('Associate_Dept_ID')?.touched">
-    Associate Department is required
-  </mat-error>
                             </mat-form-field>
                         </div>
                     </div>
