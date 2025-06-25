@@ -8,6 +8,7 @@ server/uploads/
 !server/uploads/**/.gitkeep
 !server/uploads/**/**/.gitkeep
 server/upload_section/**
+server/upload/
 
 
 # Angular
