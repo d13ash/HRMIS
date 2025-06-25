@@ -1,0 +1,85 @@
+<div class="container-fluid" *ngFor="let s of roles">
+  <mat-card>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 heading">
+          <h2>Employee Profile</h2>
+        </div>
+      </div>
+      <form>
+        <!-- Employee Profile -->
+        <div class="student-profile py-4">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-transparent text-center">
+                    <img
+                      class="profile-img"
+                      src="{{ s.Emp_Photo_Path }}"
+                      alt=""
+                    />
+                    <h3>{{ s.FullName }}</h3>
+                    <h3>{{ s.Post_Name }}</h3>
+                  </div>
+                  <div class="card-body">
+                    <p class="mb-0">
+                      <strong>Employee ID:</strong> {{ s.username }}
+                    </p>
+
+                    <!-- <p class="mb-0"><strong>Father Name:</strong> {{s.Father_Name_E}}</p>
+                      <p class="mb-0"><strong>Mother Name:</strong> {{s.Mother_Name_E}}</p>
+                      <p class="mb-0"><strong>Guardian Name:</strong> {{s.Guardian_Name_E}}</p> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-transparent border-0">
+                    <h3 class="mb-0">
+                      <i class="far fa-clone pr-1"></i>General Information
+                    </h3>
+                  </div>
+                  <div class="card-body pt-0">
+                    <table class="table table-bordered">
+                      <tr>
+                        <th>Father Name:</th>
+                        <td>{{ s.Father_Name_E }}</td>
+                      </tr>
+                      <tr>
+                        <th>Mother Name:</th>
+                        <td>{{ s.Mother_Name_E }}</td>
+                      </tr>
+                      <tr>
+                        <th>Date of Birth:</th>
+                        <td>{{ s.DOB | date : "dd-MM-yyyy" }}</td>
+                      </tr>
+
+                      <tr>
+                        <th>Email :</th>
+                        <td>{{ s.Email_Id }}</td>
+                      </tr>
+                      <tr>
+                        <th>Mobile No. :</th>
+                        <td>{{ s.Mobile_No }}</td>
+                      </tr>
+                    </table>
+                    <div class="text-center">
+                      <button
+                        mat-raised-button
+                        color="warn"
+                        routerLink="employee-profile"
+                      >
+                        UPDATE PROFILE
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>

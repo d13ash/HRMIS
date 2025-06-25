@@ -1,0 +1,139 @@
+#about {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f0f6ff, #dcefff); // Light blue gradient background
+
+  .container {
+    max-width: 1200px;
+    margin: -30px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 40px 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(30px, 5vw, 40px);
+    font-weight: 700;
+    color: #1c3d6e;
+    margin-bottom: 40px;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 110px;
+      height: 4px;
+      background-color: #0077cc;
+      margin: 10px auto 0;
+      border-radius: 4px;
+    }
+  }
+
+  .about-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: stretch;
+    justify-content: center;
+
+    .image-box {
+      flex: 0 0 350px;
+      max-width: 350px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .text {
+      flex: 1 1 500px;
+      font-size: clamp(15px, 2vw, 17px);
+      line-height: 1.6;
+      color: #1c3d6e;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      p {
+        margin-bottom: 20px;
+      }
+
+      .quote-box {
+        margin-top: 20px;
+        padding: 16px 20px;
+        border: 2px solid #004d99;
+        border-radius: 10px;
+        background-color: #ffffff;
+        font-style: italic;
+        font-size: clamp(16px, 2.5vw, 18px);
+        text-align: center;
+        color: #004d99;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: #dcefff;
+          color: #002b5c;
+        }
+
+        .quote-mark {
+          font-size: 24px;
+          font-weight: bold;
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    .about-content {
+      flex-direction: column;
+      align-items: center;
+
+      .image-box {
+        max-width: 80%;
+      }
+
+      .text {
+        text-align: center;
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .container {
+      padding: 30px 20px;
+    }
+
+    .section-title::after {
+      width: 60px;
+    }
+
+    .about-content {
+      gap: 30px;
+
+      .image-box {
+        max-width: 100%;
+      }
+
+      .text {
+        font-size: 15px;
+      }
+    }
+  }
+}

@@ -1,0 +1,136 @@
+
+mat-card{
+    background-color: rgb(255, 255, 255);
+  }
+  .heading{
+    text-align: center;
+    background-color: #576CBC;
+    h2{
+        padding-top: 10px;
+        color: beige;
+    }
+  }
+
+  fieldset.scheduler-border {
+    border: 2px solid gray !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+    margin-top: 30px !important;
+  }
+
+  legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: 500 !important;
+    // text-align: left !important;
+    width: auto;
+    padding: 0 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: none;
+    margin-top: -14px;
+    margin-bottom: 15px;
+    background-color: rgb(203, 206, 249);
+    border-radius: 5px;
+    color: black;
+  }
+
+  .inputfieldsize{
+    width: 100%;
+  }
+
+
+  mat-hint{
+  color:blue;
+  }
+
+
+
+// table color
+
+tr:nth-child(odd){
+  background-color:#f9f9f9;
+}
+
+tr:nth-child(even){
+  background-color:  rgb(228, 228, 228);
+}
+
+
+table{
+  th{
+    background-color:hsl(214, 63%, 77%)
+  }
+}
+
+
+// dropdown
+/* Styling the dropdown container */
+#language {
+  width: 150px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Styling the dropdown arrow */
+#language::after {
+  content: '\25BE'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+/* Styling the dropdown options */
+#language option {
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+.finished {
+  color: green;
+  font-weight: bold;
+}
+
+.running {
+  color: orange;
+  font-weight: bold;
+}
+
+.incomplete {
+  color: red;
+  font-weight: bold;
+}
+
+/* Approval Status Classes */
+.approved {
+  // background-color: #d4edda;
+  color: #155724;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.rejected {
+  // background-color: #f8d7da;
+  color: #721c24;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.pending {
+  // background-color: #fff3cd;
+  color: #856404;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+

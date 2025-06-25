@@ -1,0 +1,110 @@
+<div class="leave-hr-container">
+  <!-- Leave Request Form Section -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Submit Leave Request</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <app-leave-request></app-leave-request>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Leave Request Management Section -->
+  <mat-card style="margin-top: 20px;">
+    <mat-card-header>
+      <mat-card-title>Leave Requests Management</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <!-- Leave ID Column -->
+          <ng-container matColumnDef="leaveId">
+            <th mat-header-cell *matHeaderCellDef>Leave ID</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_id}}</td>
+          </ng-container>
+
+          <!-- Employee ID Column -->
+          <ng-container matColumnDef="employeeId">
+            <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+            <td mat-cell *matCellDef="let element">{{element.Emp_Id}}</td>
+          </ng-container>
+
+          <!-- Employee Name Column -->
+          <ng-container matColumnDef="employeeName">
+            <th mat-header-cell *matHeaderCellDef>Employee Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.Emp_First_Name_E}} {{element.Emp_Middle_Name_E}} {{element.Emp_Last_Name_E}} </td>
+          </ng-container>
+
+          <!-- Leave Type Column -->
+          <ng-container matColumnDef="leaveType">
+            <th mat-header-cell *matHeaderCellDef>Leave Type</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_type}}</td>
+          </ng-container>
+
+          <!-- Leave Reason Column -->
+          <ng-container matColumnDef="leaveReason">
+            <th mat-header-cell *matHeaderCellDef>Leave Reason</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_reason}}</td>
+          </ng-container>
+
+          <!-- Leave From Column -->
+          <ng-container matColumnDef="leaveFrom">
+            <th mat-header-cell *matHeaderCellDef>From Date</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_from | date}}</td>
+          </ng-container>
+
+          <!-- Leave To Column -->
+          <ng-container matColumnDef="leaveTo">
+            <th mat-header-cell *matHeaderCellDef>To Date</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_to | date}}</td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <span [class]="'status-' + element.status.toLowerCase()">
+                {{element.status}}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Document Column -->
+          <ng-container matColumnDef="document">
+            <th mat-header-cell *matHeaderCellDef>Document</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="viewDocument(element.supporting_document)"
+                      [disabled]="!element.supporting_document">
+                <mat-icon>description</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <div class="action-buttons" *ngIf="element.status && element.status.toLowerCase() === 'pending'">
+                <button mat-icon-button color="primary" (click)="approveLeave(element.leave_id)"
+                        matTooltip="Approve Leave">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="rejectLeave(element.leave_id)"
+                        matTooltip="Reject Leave">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <span *ngIf="!element.status || element.status.toLowerCase() !== 'pending'">{{element.status}}</span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

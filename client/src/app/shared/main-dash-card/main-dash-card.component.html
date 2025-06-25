@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <div class="row mt-4">
+    <!-- PROJECTS -->
+    <div class="col-xl-3 col-lg-3col-md-6 col-sm-6 mb-4 links">
+      <a [routerLink]="['/','admin','admindashboard','add-project']" class="text-decoration-none">
+        <div class="card text-white ">
+          <div class="card-statistic-3 p-4 text-center">
+            <div class="mb-2">
+              <h6 class="card-title fs-5 mb-0">PROJECTS</h6>
+            </div>
+            <div>
+              <h6 class="card-title fs-5 mb-0">{{ projectCountValue }}</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- PENDING WORKS -->
+    <div class="col-xl-3 col-lg-3col-md-6 col-sm-6 mb-4 links">
+      <a [routerLink]="['/','admin','admindashboard','work-allotment']" class="text-decoration-none">
+        <div class="card text-white ">
+          <div class="card-statistic-3 p-4 text-center">
+            <div class="mb-2">
+              <h6 class="card-title fs-5 mb-0">PENDING WORKS</h6>
+            </div>
+            <div>
+              <h6 class="card-title fs-5 mb-0">{{ workCountValue }}</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- EMPLOYEES -->
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-4 links">
+      <a [routerLink]="['/','admin','admindashboard','add-employee']" class="text-decoration-none">
+        <div class="card text-white ">
+          <div class="card-statistic-3 p-4 text-center">
+
+            <div class="mb-2">
+              <h6 class="card-title fs-5 mb-0">EMPLOYEES</h6>
+            </div>
+            <div>
+              <h6 class="card-title fs-5 mb-0">{{ empCountValue }}</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- LEAVES -->
+    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 mb-4 links">
+      <a [routerLink]="['/','admin','admindashboard','add-leave']" class="text-decoration-none">
+        <div class="card text-white ">
+          <div class="card-statistic-3 p-4 text-center">
+
+            <div class="mb-2">
+              <h6 class="card-title fs-5 mb-0">LEAVES</h6>
+            </div>
+            <div>
+              <h6 class="card-title fs-5 mb-0">76</h6>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

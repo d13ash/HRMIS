@@ -1,0 +1,142 @@
+<mat-sidenav-container *ngFor=" let s of roles">
+    <mat-sidenav #sidebar class="sidenav" fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'push' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+        <mat-nav-list>
+            <div class="user">
+              <img class="profile_img" src="{{s.Emp_Photo_Path}}" alt="admin logo" />
+              <p>
+                <span class="name">{{s.FullName}} </span><br>
+                <span claas="mail">{{s.Post_Name}}</span>
+              </p>
+            </div>
+            <!-- <mat-divider></mat-divider> -->
+            <div class="menu-head">
+              <span>
+              <h6 class="dash" ><a mat-list-item routerLink="content"><mat-icon class="design_icon">dashboard</mat-icon>Dashboard</a></h6>
+              </span>
+            </div>
+            <mat-nav-list>
+
+              <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>person</mat-icon>
+                    Profile
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                  <a mat-list-item routerLink="profile-view"> View Profile</a>
+                </mat-nav-list>
+              </mat-expansion-panel>
+
+                <!-- button 2 -->
+                  <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                 <mat-expansion-panel-header>
+                   <mat-panel-title>
+                     <mat-icon>group</mat-icon>
+                     Employee
+                   </mat-panel-title>
+                 </mat-expansion-panel-header>
+                 <mat-nav-list>
+                   <a mat-list-item routerLink="add-emp">Add Employee</a>
+                   <a mat-list-item routerLink="post-detail">Add Post</a>
+                 </mat-nav-list>
+               </mat-expansion-panel>
+
+               <!-- button -->
+               <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon class="icon-design">add_task</mat-icon>
+                    Task
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                  <a mat-list-item routerLink="project-module"> Module Detail</a>
+                  <a mat-list-item routerLink="map-project-module">Map Pro-Module</a>
+                  <a mat-list-item routerLink="project-work">Project Work</a>
+                  <a mat-list-item routerLink="project-work-detail">Add Work Detail</a>
+                  <a mat-list-item routerLink="work-allotment"> Work Allotment</a>
+                </mat-nav-list>
+              </mat-expansion-panel>
+
+               <!-- button 2 -->
+               <a mat-list-item routerLink="progress"><mat-icon style="margin-left: 7px;" class="design_icon">cached</mat-icon>Progress</a>
+
+              <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                 <mat-expansion-panel-header>
+                   <mat-panel-title>
+                     <mat-icon>bedge</mat-icon>
+                     Leave
+                   </mat-panel-title>
+                 </mat-expansion-panel-header>
+                 <mat-nav-list>
+                  <a mat-list-item routerLink="leave-request">Leave Request</a>
+                  <a mat-list-item routerLink="leave-status">Leave Status</a>
+                 </mat-nav-list>
+               </mat-expansion-panel>
+
+                <!-- button 2 -->
+              <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                 <mat-expansion-panel-header>
+                   <mat-panel-title>
+                     <mat-icon>account_balance_wallet</mat-icon>
+                     Salary
+                   </mat-panel-title>
+                 </mat-expansion-panel-header>
+                 <mat-nav-list>
+                   <a mat-list-item >Salary</a>
+                 </mat-nav-list>
+               </mat-expansion-panel>
+
+
+                   </mat-nav-list>
+          </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+
+                <!-- <mat-toolbar style="background-image: linear-gradient(90deg, #e0e5e6 0%, #e3f6ff 74%);" class="toolbar sticky-top nav ">
+                    <mat-icon (click)="sidebar.toggle()">menu</mat-icon>
+
+                      <div class="box ">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item ><mat-icon>person</mat-icon></button>
+                            <button mat-button (click)="logout()">
+                              <mat-icon>exit_to_app</mat-icon>
+                              Logout
+                            </button>
+                          </mat-menu>
+                    </div>
+
+                </mat-toolbar> -->
+                <div class="toolbar sticky-top nav">
+                  <mat-toolbar>
+                    <!-- Left Side Menu Button -->
+                    <button mat-button (click)="sidebar.toggle()">
+                      <mat-icon>menu</mat-icon>
+                    </button>
+
+                    <!-- Spacer to push logout button to the right -->
+                    <span class="spacer"></span>
+
+                    <!-- Right Side Logout Button -->
+                    <button mat-button (click)="logout()">
+                      <mat-icon>exit_to_app</mat-icon>
+                      Logout
+                    </button>
+                </mat-toolbar>
+                </div>
+            <div class="main">
+                <router-outlet></router-outlet>
+            </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

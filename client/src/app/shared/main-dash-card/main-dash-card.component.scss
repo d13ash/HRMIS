@@ -1,0 +1,64 @@
+// Minimal Dashboard SCSS
+.links {
+  a {
+    display: block;
+    text-decoration: none !important;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.card {
+  border-width: 10px 0 0 0;
+  // border-color: aliceblue;
+  border-style: solid;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  color: white !important;
+  transition: box-shadow 0.2s ease;
+  height: 100%;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  
+  // Card colors by position
+  // .links:nth-child(1) & { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  // .links:nth-child(2) & { background: linear-gradient(135deg, #ff8801, #ff5101); }
+  // .links:nth-child(3) & { background: linear-gradient(135deg, #05961d, #047838); }
+  // .links:nth-child(4) & { background: linear-gradient(135deg, #ff016b, #ff0101); }
+
+  .links:nth-child(1) & { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .links:nth-child(2) & { background: linear-gradient(135deg, #ff8801, #ff5101); }
+  .links:nth-child(3) & { background: linear-gradient(135deg, #05961d, #257804); }
+  .links:nth-child(4) & { background: linear-gradient(135deg, #ff016b, #ff0101); }
+
+  .links:nth-child(1) & { border-color:   #1d4ed8; }
+  .links:nth-child(2) & { border-color:  #ff5101; }
+  .links:nth-child(3) & { border-color:  #047838; }
+  .links:nth-child(4) & { border-color: #ff0101; }
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 0 !important;
+  
+  &:first-child {
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    line-height: 1.2;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  &:last-child {
+    font-size: 1.5rem !important;
+    font-weight: 700;
+    margin-top: 0.5rem;
+  }
+}

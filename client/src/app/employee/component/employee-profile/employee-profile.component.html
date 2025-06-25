@@ -1,0 +1,516 @@
+<div class="container-fluid">
+  <mat-card>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 heading">
+          <h2 style="color: whitesmoke">Add Employee</h2>
+        </div>
+      </div>
+      <form
+        class="my-form"
+        [formGroup]="registationForm"
+        (ngSubmit)="Registration()"
+      >
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Employee Details</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label>Select Salutation</mat-label>
+                  <mat-select
+                    [disabled]="isReadOnly"
+                    formControlName="Salutation_E"
+                  >
+                    <mat-option
+                      *ngFor="let salutation of salutationdata"
+                      [value]="salutation.Id"
+                    >
+                      {{ salutation.Salutation_Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> First Name </mat-label>
+                  <input
+                    matInput
+                    formControlName="Emp_First_Name_E"
+                    [readonly]="isReadOnly"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Middle Name </mat-label>
+                  <input
+                    matInput
+                    formControlName="Emp_Middle_Name_E"
+                    [readonly]="isReadOnly"
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Last Name </mat-label>
+                  <input
+                    matInput
+                    formControlName="Emp_Last_Name_E"
+                    [readonly]="isReadOnly"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Father Name </mat-label>
+                  <input matInput formControlName="Father_Name_E" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Mother Name </mat-label>
+                  <input matInput formControlName="Mother_Name_E" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label>Guardian_Name</mat-label>
+                  <input matInput formControlName="Guardian_Name_E" required />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Mobile No</mat-label>
+                  <input
+                    matInput
+                    formControlName="Mobile_No"
+                    [readonly]="isReadOnly"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Email_Id</mat-label>
+                  <input
+                    matInput
+                    formControlName="Email_Id"
+                    [readonly]="isReadOnly"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-label><b> Gender :</b></mat-label>
+                <mat-radio-group
+                  aria-label="Select an option"
+                  matNativeControl
+                  formControlName="Gender_Id"
+                >
+                  <mat-radio-button
+                    *ngFor="let g of Gender"
+                    [value]="g.value"
+                    >{{ g.viewValue }}</mat-radio-button
+                  >
+                </mat-radio-group>
+              </div>
+              <div class="col-md-4">
+                <mat-label><b> DOB : </b></mat-label>
+                <mat-form-field appearance="outline">
+                  <mat-label>Choose a date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="DOB"
+                  />
+                  <mat-hint>DD/MM/YYYY</mat-hint>
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Current Address</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Current Address</mat-label>
+                  <textarea matInput formControlName="Current_Address" required>
+                  </textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select Country</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Current_Country_Id"
+                    (valueChange)="onChangeCountry($event)"
+                  >
+                    <mat-option value="" selected>Select Country</mat-option>
+                    <mat-option
+                      *ngFor="let country of country"
+                      [value]="country.Country_id"
+                    >
+                      {{ country.Country_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select State</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Current_State_Id"
+                    (valueChange)="onChangeState($event)"
+                  >
+                    <mat-option value="" selected>Select State</mat-option>
+                    <mat-option
+                      *ngFor="let State of State"
+                      [value]="State.State_id"
+                    >
+                      {{ State.State_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select District</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Current_District_Id"
+                    (valueChange)="onChangeDistrict($event)"
+                  >
+                    <mat-option value="" selected>Select District</mat-option>
+                    <mat-option
+                      *ngFor="let District of District"
+                      [value]="District.Distric_id"
+                    >
+                      {{ District.Distric_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select Block</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Current_Block_Id"
+                  >
+                    <mat-option value="" selected>Select Block</mat-option>
+                    <mat-option
+                      *ngFor="let Block of Block"
+                      [value]="Block.Block_id"
+                    >
+                      {{ Block.Block_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Pin Code</mat-label>
+                  <input matInput formControlName="Current_Pin_Code" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="Current_City" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <mat-checkbox (change)="onChangeUseCurrentAddressAsPermanent($event)">
+          Use Current Address as Permanent Address
+        </mat-checkbox>
+
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Permanent Address</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Permanent Address</mat-label>
+                  <textarea
+                    matInput
+                    formControlName="Permanent_Address"
+                    required
+                  >
+                  </textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select Country</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Permanent_Country_Id"
+                    (valueChange)="onChangeCountry($event)"
+                  >
+                    <mat-option value="" selected>Select Country</mat-option>
+                    <mat-option
+                      *ngFor="let country of country"
+                      [value]="country.Country_id"
+                    >
+                      {{ country.Country_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select State</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Permanent_State_Id"
+                    (valueChange)="onChangeState($event)"
+                  >
+                    <mat-option value="" selected>Select State</mat-option>
+                    <mat-option
+                      *ngFor="let State of State"
+                      [value]="State.State_id"
+                    >
+                      {{ State.State_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select District</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Permanent_District_Id"
+                    (valueChange)="onChangeDistrict($event)"
+                  >
+                    <mat-option value="" selected>Select District</mat-option>
+                    <mat-option
+                      *ngFor="let District of District"
+                      [value]="District.Distric_id"
+                    >
+                      {{ District.Distric_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select Block</mat-label>
+                  <mat-select
+                    matNativeControl
+                    formControlName="Permanent_Block_Id"
+                  >
+                    <mat-option value="" selected>Select Block</mat-option>
+                    <mat-option
+                      *ngFor="let Block of Block"
+                      [value]="Block.Block_id"
+                    >
+                      {{ Block.Block_name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Pin Code</mat-label>
+                  <input matInput formControlName="Permanent_Pin_Code" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="Permanent_City" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Uploads</legend>
+          <div class="control-group">
+            <div class="row">
+              <div
+                class="col-md-6"
+                style="margin-top: 5px; margin-bottom: 5px; width: 100%"
+              >
+                <mat-label *ngIf="iseditmode">Upload your Photo :</mat-label
+                >&nbsp;
+                <mat-label *ngIf="!iseditmode"
+                  ><strong>Image Uploaded:</strong></mat-label
+                >&nbsp;
+                <input
+                  type="file"
+                  multiple
+                  #profile
+                  (change)="selectimage($event)"
+                />
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="btn btn-secondary btn-sm"
+                  (click)="submitfile()"
+                  type="button"
+                >
+                  Upload
+                </button>
+                <div style="display: contents">
+                  <img
+                    [src]="uploadedimage"
+                    alt="Profile Photo "
+                    class="imgicon"
+                  />
+                </div>
+              </div>
+              <div
+                class="col-md-6"
+                style="margin-top: 5px; margin-bottom: 5px; width: 100%"
+              >
+                <mat-label *ngIf="iseditmode">Upload your Signature :</mat-label
+                >&nbsp;
+                <mat-label *ngIf="!iseditmode"
+                  ><strong>Image uploaded:</strong></mat-label
+                >&nbsp;
+                <input
+                  type="file"
+                  multiple
+                  #profile
+                  (change)="selectimagesss($event)"
+                />
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="btn btn-secondary btn-sm"
+                  (click)="submitfilesig()"
+                  type="button"
+                >
+                  Upload
+                </button>
+                <div style="display: contents">
+                  <img
+                    [src]="uploadedimagess"
+                    alt=" Signature"
+                    class="imgicon"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Documents</legend>
+          <div class="control-group">
+            <div formArrayName="Documents_Path_emp">
+              <ng-container
+                *ngFor="
+                  let addressGroup of documentcontrol.controls;
+                  let i = index
+                "
+                [formGroupName]="i"
+              >
+                <!--this is run as much we have formgroup in array-->
+                <div class="row">
+                  <div
+                    class="col-md-6"
+                    style="margin-top: 5px; margin-bottom: 5px; width: 100%"
+                  >
+                    <mat-form-field appearance="outline" style="width: 30%">
+                      <mat-label>Select Documents</mat-label>
+
+                      <mat-select
+                        matNativeControl
+                        formControlName="Document_Id"
+                      >
+                        <mat-option
+                          *ngFor="let Documents of documentsdata"
+                          [value]="Documents.Document_Id"
+                        >
+                          {{ Documents.Document_Name }}</mat-option
+                        >
+                      </mat-select> </mat-form-field
+                    >&nbsp;
+                    <input
+                      type="file"
+                      multiple
+                      #profile
+                      (change)="selectimages($event)"
+                    />
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      class="btn btn-secondary btn-sm"
+                      (click)="submitfiles()"
+                      type="button"
+                    >
+                      upload
+                    </button>
+                    <div style="display: contents">
+                      <img
+                        [src]="imagesphoto[i]"
+                        alt="Selected Image"
+                        *ngIf="imagesphoto[i]"
+                        class="imgicon"
+                      />
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWq1fCF7KbKYum0PRRMGKnq4EBj-QT_bcSLhLsIphPeQ&s"
+                        alt="Image Icon"
+                        class="imgicon"
+                        *ngIf="!imagesphoto[i]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <button
+                btn-sm
+                class="primary"
+                type="button"
+                (click)="addDocuments()"
+              >
+                Add More
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        <div class="row">
+          <div class="col offset-5">
+            <button mat-raised-button type="button">Clear</button> &nbsp;&nbsp;
+            <button mat-raised-button color="primary" type="submit">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>

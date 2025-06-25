@@ -1,0 +1,100 @@
+.slide-in-login {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 30vw;
+  height: 78vh;
+  margin-top:80px;
+  background: white;
+  z-index: 999;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  animation: slideInRight 0.8s ease forwards;
+  overflow-y: hidden;
+  padding: 1.5rem;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  color: black;
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#slideImg {
+  width: 75px;
+  height: 100%;
+  animation: zoom 3s linear infinite;
+
+}
+
+.Project-title {
+  color: #423f3f;
+  margin-top: 0;
+}
+
+.coloinButton {
+    background: linear-gradient(135deg, #186fcc, #00d4ec);
+  color: white !important;
+  font-size: 17px;
+}
+@media (max-width: 768px) {
+  .slide-in-login {
+    width: 90vw; /* Full width for mobile view */
+    height: 85vh; /* Adjusted height for mobile */
+    top: 10%;
+    right:0;
+    margin-top: 0; /* Remove margin for mobile */
+    padding: 1rem; /* Smaller padding for compactness */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    border-radius: 8px; /* Add rounded corners for mobile */
+  }
+
+  .close-button {
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.2rem; /* Slightly larger for easier tapping */
+  }
+
+  .login-container {
+    padding: 1rem 0; /* Add padding for a cleaner layout */
+  }
+
+  #slideImg {
+    width: 60px; /* Smaller image for mobile */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .Project-title {
+    font-size: 1rem; /* Slightly smaller for mobile */
+    text-align: center; /* Center align text */
+  }
+
+  mat-form-field {
+    width: 100% !important; /* Ensure form fields are full width */
+
+  }
+
+  .coloinButton {
+    font-size: 15px; /* Slightly smaller font for the button */
+    width: 50%; /* Full-width button for easier access */
+    padding: 0.8rem 0; /* Adjust padding for mobile ergonomics */
+  }
+}

@@ -1,0 +1,224 @@
+<div class="container-fluid" id="addnews">
+  <mat-card>
+    <form [formGroup]="project_moduleform" (ngSubmit)="onSubmit()">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 heading">
+            <h2 style="color: whitesmoke">Add Module Detail</h2>
+          </div>
+        </div>
+        <br />
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Module Detail</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Module name</mat-label>
+                  <input matInput formControlName="module_name" (keyup)="onInputChange('module_name')"
+                    autocomplete="off" />
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_name')
+                        ?.hasError('required') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    Module name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_name')
+                        ?.hasError('pattern') &&
+                      project_moduleform.get('module_name')?.touched
+                    "
+                  >
+                    It can include Alphabets Only.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Module Shortname</mat-label>
+                  <input matInput formControlName="module_Short_Name" (keyup)="onInputChange('module_Short_Name')"
+                    autocomplete="off"/>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_Short_Name')
+                        ?.hasError('required') &&
+                      project_moduleform.get('module_Short_Name')?.touched
+                    "
+                  >
+                    Module short name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('module_Short_Name')
+                        ?.hasError('pattern') &&
+                      project_moduleform.get('module_Short_Name')?.touched
+                    "
+                  >
+                    It can include Alphabets Only.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Module type </mat-label>
+                  <mat-select formControlName="project_module_type_id">
+                    <mat-option
+                      *ngFor="let c of posmodule"
+                      [value]="c.project_module_type_id"
+                    >
+                      {{ c.project_module_type_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      project_moduleform
+                        .get('project_module_type_id')
+                        ?.hasError('required') &&
+                      project_moduleform.get('project_module_type_id')?.touched
+                    "
+                  >
+                    Module type is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="inputfieldsize">
+                  <mat-label>Description</mat-label>
+                  <textarea
+                    matInput
+                    placeholder="Description"
+                    formControlName="Description"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col offset-5">
+                <button mat-raised-button type="button" (click)="onClear()">
+                  Clear
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="!iseditmode"
+                  type="submit"
+                >
+                  Submit
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="iseditmode"
+                  (click)="onupdate()"
+                  type="button"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </form>
+  </mat-card>
+</div>
+<br />
+<br />
+
+<!-- table -->
+
+<div class="container-fluid">
+  <mat-card style="margin-bottom: 40px">
+    <mat-toolbar>
+      <p>
+        <span><h5 class="title">Module Detail</h5></span>
+      </p>
+    </mat-toolbar>
+    <div class="container">
+      <div class="row table-responsive">
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Search"
+            #input
+          />
+        </mat-form-field>
+        <div class="mat-elevation-z8" style="overflow: auto"></div>
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="project_module_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.project_module_id }}</td>
+          </ng-container>
+          <ng-container matColumnDef="module_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let row">{{ row.module_name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="module_Short_Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Short Name
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.module_Short_Name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="Project_type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.project_module_type_name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Description
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.Description }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Action" stickyEnd="true">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="onedit(element.project_module_id)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="ondelete(element.project_module_id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+            <td mat-cell *matCellDef="let row">
+              {{ row.Project_Discription }}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="6">
+              no data matched the filter "{{ input.value }}"
+            </td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 20, 100]"></mat-paginator>
+      </div>
+    </div>
+  </mat-card>
+</div>

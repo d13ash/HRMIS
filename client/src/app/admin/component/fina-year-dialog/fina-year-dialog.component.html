@@ -1,0 +1,64 @@
+<div class="container" id="endOfPage">
+    <mat-card>
+        
+          <mat-toolbar>
+            <p><span ><h5 class="title  mt-3" style="color: rgb(55, 53, 53); margin-left: 50px;">
+              <span>Project   : {{useProject}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>Financial Year   : {{useFinancialYear}}</span>
+            </h5></span> </p>
+         
+           
+          </mat-toolbar>
+       
+    <div class="container card-content" style="margin-bottom: 20px;">
+        <div class="row">
+    
+            <mat-card class="example-card-new mt-3" *ngFor=" let us of allPreviwDetail" >
+                
+                <mat-toolbar>
+                 <mat-card-header>
+                     <div mat-card-avatar class="example-header-image"></div>
+                     <mat-card-title> <h5>{{us.Post_name}}</h5> </mat-card-title>
+                   </mat-card-header>
+                </mat-toolbar>
+                
+                 <img mat-card-image src="https://www.gp-implant.com/wp-content/uploads/2016/06/mis.png" alt="Photo of a Shiba Inu">
+                 <mat-card-content style="font-size: 15px;  color: rgb(49, 46, 46);">
+                  <table style="width: 100%;">
+                    <tr>
+                      
+                    </tr>
+                    <tr>
+                      <td>Post Name   :</td>
+                      <td>{{us.Post_name}}</td>
+                    </tr>
+                    <tr>
+                      <td>Salary   :</td>
+                      <td>{{us.Salary}}</td>
+                    </tr>
+                    <tr>
+                      <td>Start Date   </td>
+                      <td>{{us.Start_date | date:'dd/MM/YYYY'}}</td>
+                    </tr>
+                    <tr>
+                      <td>End Date   :</td>
+                      <td>{{us.End_date | date:'dd/MM/YYYY'}}</td>
+                    </tr>
+                    <tr>
+                      <td>Description   :</td>
+                      <td>{{us.Description}}</td>
+                    </tr>
+                  </table>
+                     
+                 </mat-card-content>
+                
+               </mat-card>
+        </div>
+    </div>
+    </mat-card>
+    </div> <br> <br>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions>
+

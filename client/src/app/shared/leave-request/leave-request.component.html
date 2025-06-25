@@ -1,0 +1,98 @@
+<div class="leave-request-container">
+  <h2 mat-dialog-title>{{ data && data.leave ? 'Update Leave Request' : 'New Leave Request' }}</h2>
+
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="leaveForm">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Leave Type</mat-label>
+          <mat-select formControlName="leaveType" (selectionChange)="onLeaveTypeChange()">
+            <mat-option *ngFor="let type of leaveTypes" [value]="type.leave_type_id">
+              {{type.leave_type}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="leaveForm.get('leaveType')?.hasError('required')">
+            Leave type is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Days Available</mat-label>
+          <input matInput formControlName="daysAvailable" readonly>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>From Date</mat-label>
+          <input matInput [matDatepicker]="fromPicker" formControlName="leaveFrom">
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+          <mat-error *ngIf="leaveForm.get('leaveFrom')?.hasError('required')">
+            From date is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>To Date</mat-label>
+          <input matInput [matDatepicker]="toPicker" formControlName="leaveTo">
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+          <mat-error *ngIf="leaveForm.get('leaveTo')?.hasError('required')">
+            To date is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Days Required</mat-label>
+          <input matInput formControlName="daysRequired" readonly>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Leave Reason</mat-label>
+          <mat-select formControlName="leaveReason" (selectionChange)="onLeaveReasonChange()">
+            <mat-option *ngFor="let reason of leaveReasons" [value]="reason.leave_reason_id">
+              {{reason.leave_reason}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="leaveForm.get('leaveReason')?.hasError('required')">
+            Leave reason is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="purpose-field" *ngIf="showPurposeField">
+        <mat-form-field appearance="outline">
+          <mat-label>Purpose of Leave</mat-label>
+          <textarea matInput formControlName="purpose" rows="3"></textarea>
+          <mat-error *ngIf="leaveForm.get('purpose')?.hasError('required')">
+            Purpose is required for this reason
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="file-upload-section">
+        <label for="fileInput" class="upload-label">
+          <button type="button" mat-stroked-button color="primary" (click)="fileInput.click()">
+            <mat-icon>attach_file</mat-icon>
+            Upload Document
+          </button>
+        </label>
+        <input hidden #fileInput id="fileInput" type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.jpg,.png">
+
+        <div class="selected-file-display" *ngIf="selectedFile">
+          <span class="file-name-text">{{selectedFile.name}}</span>
+          <button mat-icon-button (click)="removeFile()" aria-label="Remove selected file">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!leaveForm.valid">
+      {{ data && data.leave ? 'Update' : 'Submit' }}
+    </button>
+  </mat-dialog-actions>
+</div>
+

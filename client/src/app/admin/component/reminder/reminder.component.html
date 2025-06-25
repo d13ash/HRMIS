@@ -1,0 +1,57 @@
+<!-- Template File: relieving-dialog.component.html -->
+
+<h2 mat-dialog-title class="dialog-title">Relieving Employees</h2>
+
+<mat-dialog-content *ngIf="data?.length; else noData">
+  <div class="employee-list">
+    <mat-card *ngFor="let emp of data" class="employee-card">
+      <mat-card-header>
+        <mat-card-title class="employee-name">
+          {{ emp.Emp_First_Name_E }}
+          <ng-container *ngIf="emp.Emp_Middle_Name_E">{{ emp.Emp_Middle_Name_E }} </ng-container>
+          {{ emp.Emp_Last_Name_E }}
+        </mat-card-title>
+        <mat-card-subtitle>ID: {{ emp.Emp_Id }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="employee-details">
+          <div class="detail-row">
+            <span class="label">Position:</span>
+            <span class="value">{{ emp.Post_name }}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="label">Financial Year:</span>
+            <span class="value">{{ emp.Financial_name }}</span>
+          </div>
+          
+          <div class="dates-section">
+            <div class="date-item">
+              <span class="label">Join Date:</span>
+              <span class="value">{{ emp.Join_date | date: 'mediumDate' }}</span>
+            </div>
+            
+            <div class="date-item relieving-date">
+              <span class="label">Relieving Date:</span>
+              <span class="value">{{ emp.Reliving_date | date: 'mediumDate' }}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+
+<ng-template #noData>
+  <mat-dialog-content class="no-data">
+    <div class="no-data-message">
+      <mat-icon>info_outline</mat-icon>
+      <p>No employees relieving in 15 days.</p>
+    </div>
+  </mat-dialog-content>
+</ng-template>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="primary">Close</button>
+</mat-dialog-actions>

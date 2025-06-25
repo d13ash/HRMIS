@@ -1,0 +1,122 @@
+#hrmis-features {
+  padding: 70px 20px;
+  background: linear-gradient(135deg, #f0f6ff, #dcefff);
+
+
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+  }
+
+  .section-heading {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 800;
+    color: #102a43;
+    margin-bottom: 50px;
+
+    span {
+      color: #0077cc;
+    }
+
+    &::after {
+      content: "";
+      width: 170px;
+      height: 4px;
+      background-color: #0077cc;
+      display: block;
+      margin: 12px auto 0;
+      border-radius: 3px;
+    }
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+
+  .feature-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px 25px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .icon-box {
+      background-color: #e6f0fa;
+      border-radius: 50%;
+      width: 72px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      .material-icons-outlined {
+        font-size: 36px;
+        color: #0077cc;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1c3d6e;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #4a4a4a;
+      margin-bottom: 20px;
+    }
+
+    .learn-more {
+      font-weight: 600;
+      color: #0077cc;
+      text-decoration: none;
+      position: relative;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .feature-card {
+      padding: 25px 20px;
+
+      .icon-box {
+        width: 60px;
+        height: 60px;
+
+        .material-icons-outlined {
+          font-size: 30px;
+        }
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 15px;
+      }
+    }
+
+    .section-heading::after {
+      width: 60px;
+    }
+  }
+}

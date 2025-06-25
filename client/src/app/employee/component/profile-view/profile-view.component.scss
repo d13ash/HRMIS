@@ -1,0 +1,95 @@
+.container-fluid {
+    padding: 20px;
+  }
+
+  mat-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  .heading {
+    text-align: center;
+    background-color: #576CBC;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+
+  .heading h2 {
+    color: beige;
+    margin: 0;
+  }
+
+  .student-profile {
+    padding: 20px;
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+
+  .card-header {
+    background-color: transparent;
+    text-align: center;
+  }
+
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 10px auto;
+    border: 10px solid #ccc;
+    border-radius: 50%;
+  }
+
+  .card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 10px 0;
+  }
+
+  .card p {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .table th,
+  .table td {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #d32f2f;
+    color:white;
+  }
+
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+    }
+
+    .col-lg-4,
+    .col-lg-8 {
+      width: 100%;
+    }
+  }

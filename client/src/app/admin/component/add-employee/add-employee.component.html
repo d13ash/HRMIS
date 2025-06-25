@@ -1,0 +1,326 @@
+<div class="container-fluid">
+  <mat-card>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 heading">
+          <h2 style="color: whitesmoke">Add Employee</h2>
+        </div>
+      </div>
+      <form class="form">
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Employee Details</legend>
+          <div [formGroup]="RegistationForm">
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label>Select Salutation</mat-label>
+                  <mat-select formControlName="Salutation_E">
+                    <mat-option
+                      *ngFor="let sal of SalutationList"
+                      [value]="sal.value"
+                    >
+                      {{ sal.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="Salutation_E.hasError('required')"
+                    >Salutation is required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Name</mat-label>
+
+                  <input
+                    matInput
+                    [formControl]="Emp_First_Name_E"
+                    (keyup)="onInputChange('Emp_First_Name_E')"
+                  />
+
+                  <mat-error
+                    *ngIf="
+                      RegistationForm.get('Emp_First_Name_E')?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    First name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      RegistationForm.get('Emp_First_Name_E')?.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    It should include letters only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Middle Name </mat-label>
+
+                  <input
+                    matInput
+                    [formControl]="Emp_Middle_Name_E"
+                    (keyup)="onInputChange('Emp_Middle_Name_E')"
+                  />
+                  <mat-error
+                    *ngIf="
+                      RegistationForm.get('Emp_Middle_Name_E')?.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    It should include letters only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Last Name </mat-label>
+
+                  <input
+                    matInput
+                    [formControl]="Emp_Last_Name_E"
+                    (keyup)="onInputChange('Emp_Last_Name_E')"
+                  />
+
+                  <mat-error
+                    *ngIf="
+                      RegistationForm.get('Emp_Last_Name_E')?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    First name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      RegistationForm.get('Emp_Last_Name_E')?.hasError(
+                        'pattern'
+                      )
+                    "
+                  >
+                    It should include letters only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label> Mobile No</mat-label>
+                  <input
+                    matInput
+                    formControlName="Mobile_No"
+                    (keyup)="onInputChange('Mobile_No')"
+                    autocomplete="off"
+                    required
+                  />
+                  <mat-error *ngIf="Mobile_No.hasError('required')"
+                    >Mobile number is required</mat-error
+                  >
+                  <mat-error *ngIf="Mobile_No.hasError('pattern')"
+                    >Mobile No. must be 10 digits</mat-error
+                  >
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="namewidth">
+                  <mat-label>Email_Id</mat-label>
+                  <input
+                    matInput
+                    formControlName="Email_Id"
+                    (keyup)="onInputChange('Email_Id')"
+                    autocomplete="off"
+                    required
+                  />
+                  <mat-error *ngIf="Email_Id.hasError('required')"
+                    >Email is required</mat-error
+                  >
+                  <mat-error *ngIf="Email_Id.hasError('email')"
+                    >Enter a valid email</mat-error
+                  >
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Select Post</mat-label>
+                  <mat-select matNativeControl formControlName="Post_id">
+                    <mat-option value="" selected>Select Post</mat-option>
+                    <mat-option
+                      *ngFor="let postdata of postdata"
+                      [value]="postdata.Post_id"
+                    >
+                      {{ postdata.Post_name }}</mat-option
+                    >
+                  </mat-select>
+                  <mat-error *ngIf="Post_id.hasError('required')"
+                    >Post is required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row" [formGroup]="Registationpass">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>New password:</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  class="form-control"
+                  formControlName="password"
+                  #pw
+                />
+                <mat-error *ngIf="password.hasError('required')">
+                  Password is required
+                </mat-error>
+                <mat-error *ngIf="password.hasError('pattern')">
+                  Password must be at least 6 characters
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" style="width: 100%">
+                <mat-label>Confirm Password :</mat-label>
+                <input
+                  matInput
+                  type="password"
+                  class="form-control"
+                  [ngClass]="confirmPasswordClass"
+                  formControlName="Confirm_Password"
+                  #cpw
+                  (keyup)="checkPasswords(pw.value, cpw.value)"
+                />
+                <mat-error *ngIf="Confirm_Password.hasError('required')">
+                  Confirm Password is required
+                </mat-error>
+                <mat-error *ngIf="Confirm_Password.hasError('pattern')">
+                  Confirm Password must be at least 6 characters
+                </mat-error>
+                <mat-error *ngIf="!passwordsMatching && isConfirmPasswordDirty">
+                  Passwords do not match
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <button
+              type="button"
+              (click)="onSubmit()"
+              class="btn btn-primary col-2 mx-auto"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn-dark col-2 mx-auto"
+              appBackButton
+            >
+              Back
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </mat-card>
+</div>
+
+<div class="container-fluid">
+  <mat-card style="margin-top: 30px">
+    <fieldset class="scheduler-borders">
+      <legend class="scheduler-border">All Employees</legend>
+      <div class="container">
+        <div class="row table-responsive">
+          <div class="row">
+            <div class="col-md-4 search_container mt-2">
+              <mat-form-field class="example-full-width">
+                <span matPrefix> </span>
+                <input
+                  type="tel"
+                  matInput
+                  placeholder="Search"
+                  autocomplete="off"
+                  (keyup)="applyFilter($event)"
+                />
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-1 offset-7 printbutton">
+              <button
+                class="printbutton"
+                mat-icon-button
+                (click)="ExportTOExcel()"
+              >
+                <mat-icon>print</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <table class="con-table" mat-table matSort [dataSource]="dataSource">
+            <ng-container matColumnDef="Emp_Id">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Emp_Id</th>
+              <td mat-cell *matCellDef="let element">{{ element.Emp_ID }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Name">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.FullName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Department">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                Father Name
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.Father_Name_E }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Mobile">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>Mobile</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.Mobile_No }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="User Id">
+              <th mat-sort-header mat-header-cell *matHeaderCellDef>User Id</th>
+              <td mat-cell *matCellDef="let element">{{ element.username }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="openDialog(element.username)"
+                >
+                  <mat-icon>lock_open</mat-icon>
+                </button>
+                &nbsp;
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="ondelete(element.Emp_ID)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <br />
+          <mat-paginator
+            class="paging"
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            aria-label="Select page"
+          >
+          </mat-paginator>
+        </div>
+      </div>
+    </fieldset>
+  </mat-card>
+</div>
+ <br /> <br />

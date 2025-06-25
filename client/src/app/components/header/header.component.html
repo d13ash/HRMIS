@@ -1,0 +1,31 @@
+<mat-toolbar class="navbar" color="primary">
+  <div class="container-fluid toolbar-content d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <a routerLink="/homepage" class="logo-link d-flex align-items-center">
+        <img src="IGKV_Logo_png_igmis.png" alt="logo" class="logo me-2">
+      </a>
+      <span class="title-text ms-2">HRVerse</span>
+    </div>
+
+    <!-- Menu toggle button for small screens -->
+    <button class="menu-toggle d-md-none" (click)="menuOpen = !menuOpen">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- Desktop nav -->
+    <nav class="nav-links d-none d-md-flex">
+      <a mat-button routerLink="/" routerLinkActive="active">HOME</a>
+      <a mat-button (click)="toaboutus()">ABOUT</a>
+      <a mat-button (click)="features()">FEATURES</a>
+      <a mat-button (click)="contactus()">CONTACT</a>
+    </nav>
+  </div>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-menu d-md-none" *ngIf="menuOpen">
+    <a mat-button routerLink="/" routerLinkActive="active">HOME</a>
+    <a mat-button (click)="toaboutus()">ABOUT</a>
+    <a mat-button (click)="features()">FEATURES</a>
+    <a mat-button (click)="contactus()">CONTACT</a>
+  </div>
+</mat-toolbar>

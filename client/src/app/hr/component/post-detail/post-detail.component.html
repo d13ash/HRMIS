@@ -1,0 +1,307 @@
+<div class="container-fluid">
+  <mat-card>
+    <div class="container" id="postFormSection">
+      <div class="row">
+        <div class="col-md-12 heading">
+          <h2 style="color: whitesmoke">ADD POST DETAILS</h2>
+        </div>
+      </div>
+
+      <form
+        class="my-form"
+        [formGroup]="PostdetailsForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Post Details</legend>
+          <div class="control-group">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Post Name</mat-label>
+                  <input matInput formControlName="Post_name"  (keyup)="onInputChange('Post_name')"
+                    autocomplete="off"/>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_name')?.hasError('required')
+                    "
+                  >
+                    Post Name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_name')?.hasError('pattern')
+                    "
+                  >
+                    It should contain letters only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Post Name Hindi</mat-label>
+                  <input matInput formControlName="Post_name_hindi"   (keyup)="onInputChange('Post_name_hindi')"
+                    autocomplete="off"/>
+
+
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_name_hindi')?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    Post Name Hindi is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_name_hindi')?.hasError('pattern')
+                    "
+                  >
+                    It should contain hindi letters only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Post Short Name </mat-label>
+                  <input matInput formControlName="Post_short_name"  (keyup)="onInputChange('Post_short_name')"
+                    autocomplete="off"/>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_short_name')?.hasError(
+                        'required'
+                      )
+                    "
+                  >
+                    Post Short Name is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_short_name')?.hasError('pattern')
+                    "
+                  >
+                    It should contain letters only
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Post Type</mat-label>
+                  <mat-select formControlName="Post_Type_ID">
+                    <mat-option
+                      *ngFor="let pt of posttype"
+                      [value]="pt.Post_Type_ID"
+                    >
+                      {{ pt.Post_type_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_Type_ID')?.hasError('required')
+                    "
+                  >
+                    Post Type is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label> Post Leval </mat-label>
+                  <input matInput formControlName="Post_leval"  (keyup)="onInputChange('Post_leval')"
+                    autocomplete="off" />
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_leval')?.hasError('required')
+                    "
+                  >
+                    Post Level is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Post_leval')?.hasError('pattern')
+                    ">  It Should contain a Character Value</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Display Order Post </mat-label>
+                  <input matInput formControlName="Display_order"  (keyup)="onInputChange('Display_order')"
+                    autocomplete="off" />
+
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Display_order')?.hasError('required')
+                    "
+                  >
+                    Display Order is required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      PostdetailsForm.get('Display_order')?.hasError('pattern')
+                    "
+                  >
+                    It should contain float values
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <!-- <div class="row">
+                                <div class="col-md-4"> <mat-label>  <b>Is_HOD :</b></mat-label>
+                                    <mat-radio-group aria-label="Select an option" matNativeControl
+                                        formControlName="Is_hod">
+                                        <mat-radio-button *ngFor="let hodtype of hodtype"
+                                            [value]="hodtype.m_hod_id">{{hodtype.m_hod_name}}</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div> -->
+            </div>
+            <div class="row">
+              <div class="col offset-5">
+                <button mat-raised-button type="button" (click)="onReset()">
+                  Clear
+                </button>
+                &nbsp;&nbsp;
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="!iseditmode"
+                  type="submit"
+                >
+                  Submit
+                </button>
+
+                <button
+                  mat-raised-button
+                  color="primary"
+                  *ngIf="iseditmode"
+                  (click)="onupdate()"
+                  type="button"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+    <!-- mat table -->
+    <div class="container-fluid">
+      <mat-card style="margin-bottom: 40px">
+        <mat-toolbar>
+          <p>
+            <span><h5 class="title">All Posts</h5></span>
+          </p>
+        </mat-toolbar>
+        <div class="container">
+          <div class="row table-responsive">
+            <div class="search_container mt-2">
+              <mat-form-field class="example-full-width">
+                <span matPrefix> </span>
+                <input
+                  type="tel"
+                  matInput
+                  placeholder="Search"
+                  autocomplete="off"
+                  (keyup)="applyFilter($event)"
+                />
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <table
+              class="con-table"
+              mat-table
+              matSort
+              [dataSource]="dataSource"
+            >
+              <ng-container matColumnDef="Post Id">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Post_id }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Post Name">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Post Name
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Post_name }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Post Name Hindi">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Post Name (Hindi)
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Post_name_hindi }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Post Short Name">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Post Short Name
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Post_short_name }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Post_type_name">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Post Type
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Post_type_name }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Post_leval">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                  Post Level
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.Post_leval }}
+                </td>
+              </ng-container>
+              <!-- <ng-container matColumnDef="Is_hod">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Is_hod</th>
+            <td mat-cell *matCellDef="let element"> {{element.Is_hod}} </td>
+        </ng-container> -->
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Action
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <button
+                    mat-icon-button
+                    color="primary"
+                    (click)="onedit(element.Post_id)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  &nbsp;
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="ondelete(element.Post_id)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <br />
+            <mat-paginator
+              class="paging"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </mat-card>
+</div>
