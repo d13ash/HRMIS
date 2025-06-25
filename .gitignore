@@ -4,6 +4,10 @@ server/config/
 server/.env
 server/documents/
 
+server/uploads/**
+!server/uploads/**/.gitkeep
+
+
 # Angular
 client/node_modules/
 client/dist/
