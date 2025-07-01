@@ -95,86 +95,97 @@ export class EmployeeProfileComponent implements OnInit {
       this.onedit(this.roless);
     });
   }
-onedit(roless: any) {
-  const value = roless[0];
+  onedit(roless: any) {
+    const value = roless[0];
 
-  // Fetch and populate dependent dropdowns
-  if (value.Permanent_Country_Id) {
-    this.onChangeCountry(value.Permanent_Country_Id); // Fetch states
-    if (value.Permanent_State_Id) {
-      this.onChangeState(value.Permanent_State_Id); // Fetch districts
-      if (value.Permanent_District_Id) {
-        this.onChangeDistrict(value.Permanent_District_Id); // Fetch blocks
+    // Fetch and populate dependent dropdowns for Permanent Address
+    if (value.Permanent_Country_Id) {
+      this.onChangeCountry(value.Permanent_Country_Id); // Fetch states
+      if (value.Permanent_State_Id) {
+        this.onChangeState(value.Permanent_State_Id); // Fetch districts
+        if (value.Permanent_District_Id) {
+          this.onChangeDistrict(value.Permanent_District_Id); // Fetch blocks
+        }
       }
     }
-  }
 
-  // Fetch current address dropdowns if applicable
-  if (value.Current_Country_Id) {
-    this.onChangeCountry(value.Current_Country_Id); // Fetch states
-    if (value.Current_State_Id) {
-      this.onChangeState(value.Current_State_Id); // Fetch districts
-      if (value.Current_District_Id) {
-        this.onChangeDistrict(value.Current_District_Id); // Fetch blocks
+    // Fetch and populate dependent dropdowns for Current Address
+    if (value.Current_Country_Id) {
+      this.onChangeCountry(value.Current_Country_Id); // Fetch states
+      if (value.Current_State_Id) {
+        this.onChangeState(value.Current_State_Id); // Fetch districts
+        if (value.Current_District_Id) {
+          this.onChangeDistrict(value.Current_District_Id); // Fetch blocks
+        }
       }
     }
-  }
 
-  // Patch form values
-  this.registationForm.patchValue({
-    Salutation_E: value.Salutation_E,
-    Emp_First_Name_E: value.Emp_First_Name_E,
-    Emp_Middle_Name_E: value.Emp_Middle_Name_E,
-    Emp_Last_Name_E: value.Emp_Last_Name_E,
-    Father_Name_E: value.Father_Name_E,
-    Mother_Name_E: value.Mother_Name_E,
-    Guardian_Name_E: value.Guardian_Name_E,
-    Mobile_No: value.Mobile_No,
-    Email_Id: value.Email_Id,
-    Gender_Id: value.Gender_Id,
-    DOB: value.DOB,
-    Permanent_Address: value.Permanent_Address,
-    Permanent_Country_Id: value.Permanent_Country_Id,
-    Permanent_State_Id: value.Permanent_State_Id,
-    Permanent_District_Id: value.Permanent_District_Id,
-    Permanent_Block_Id: value.Permanent_Block_Id,
-    Permanent_Pin_Code: value.Permanent_Pin_Code,
-    Permanent_City: value.Permanent_City,
-    Current_Address: value.Current_Address,
-    Current_Country_Id: value.Current_Country_Id,
-    Current_State_Id: value.Current_State_Id,
-    Current_District_Id: value.Current_District_Id,
-    Current_Block_Id: value.Current_Block_Id,
-    Current_Pin_Code: value.Current_Pin_Code,
-    Current_City: value.Current_City,
-    Emp_Photo_Path: value.Emp_Photo_Path,
-    Emp_Signature_Path: value.Emp_Signature_Path,
-  });
-
-  // Patch image paths
-  this.uploadedimage = value.Emp_Photo_Path;
-  this.uploadedimagess = value.Emp_Signature_Path;
-
-  // Patch the Documents_Path_emp FormArray
-  const documentsArray = this.registationForm.get('Documents_Path_emp') as FormArray;
-  documentsArray.clear(); // Clear existing FormArray
-
-  if (value.Documents_Path_emp && value.Documents_Path_emp.length > 0) {
-    value.Documents_Path_emp.forEach((doc: any) => {
-      documentsArray.push(this.fb.group({
-        Emp_Id: [doc.Emp_Id],
-        Document_Id: [doc.Document_Id],
-        Document_Path: [doc.Document_Path],
-      }));
-      this.imageurl.push(doc.Document_Path); // Populate the uploaded file URLs
+    // Patch basic form values
+    this.registationForm.patchValue({
+      Salutation_E: value.Salutation_E,
+      Emp_First_Name_E: value.Emp_First_Name_E,
+      Emp_Middle_Name_E: value.Emp_Middle_Name_E,
+      Emp_Last_Name_E: value.Emp_Last_Name_E,
+      Father_Name_E: value.Father_Name_E,
+      Mother_Name_E: value.Mother_Name_E,
+      Guardian_Name_E: value.Guardian_Name_E,
+      Mobile_No: value.Mobile_No,
+      Email_Id: value.Email_Id,
+      Gender_Id: value.Gender_Id,
+      DOB: value.DOB,
+      Permanent_Address: value.Permanent_Address,
+      Permanent_Country_Id: value.Permanent_Country_Id,
+      Permanent_State_Id: value.Permanent_State_Id,
+      Permanent_District_Id: value.Permanent_District_Id,
+      Permanent_Block_Id: value.Permanent_Block_Id,
+      Permanent_Pin_Code: value.Permanent_Pin_Code,
+      Permanent_City: value.Permanent_City,
+      Current_Address: value.Current_Address,
+      Current_Country_Id: value.Current_Country_Id,
+      Current_State_Id: value.Current_State_Id,
+      Current_District_Id: value.Current_District_Id,
+      Current_Block_Id: value.Current_Block_Id,
+      Current_Pin_Code: value.Current_Pin_Code,
+      Current_City: value.Current_City,
+      Emp_Photo_Path: value.Emp_Photo_Path,
+      Emp_Signature_Path: value.Emp_Signature_Path,
     });
+
+    // Update image paths for preview
+    this.uploadedimage = value.Emp_Photo_Path;
+    this.uploadedimagess = value.Emp_Signature_Path;
+
+    // Fetch and populate documents dynamically using Emp_Id
+    this.ds
+      .getData(`Employee_data/documentsdetail/getdocuments/${value.Emp_Id}`)
+      .subscribe(
+        (documents: any[]) => {
+          const documentsArray = this.registationForm.get(
+            'Documents_Path_emp'
+          ) as FormArray;
+          documentsArray.clear(); // Clear existing FormArray
+
+          if (documents && documents.length > 0) {
+            documents.forEach((doc: any) => {
+              documentsArray.push(
+                this.fb.group({
+                  Emp_Id: [doc.Emp_Id],
+                  Document_Id: [doc.Document_Id],
+                  Document_Path: [doc.Document_Path],
+                })
+              );
+              this.imageurl.push(doc.Document_Path); // Store document URLs
+            });
+          }
+        },
+        (error) => {
+          console.error('Failed to fetch documents:', error);
+          Swal.fire('Error', 'Failed to fetch documents', 'error');
+        }
+      );
+
+    this.iseditmode = true;
   }
-
-  this.iseditmode = true;
-}
-
-
-
 
   createForm() {
     this.registationForm = this.fb.group({
@@ -187,10 +198,7 @@ onedit(roless: any) {
       Guardian_Name_E: [null],
       Mobile_No: [
         null,
-        [
-          Validators.required,
-          Validators.pattern('^[6-9][0-9]{9}$'),
-        ],
+        [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')],
       ],
       Email_Id: [null, [Validators.required, Validators.email]],
       Gender_Id: [null, Validators.required],
@@ -338,122 +346,166 @@ onedit(roless: any) {
     this.submitted = false;
     this.registationForm.reset();
   }
-  selectimages(event: any) {
-    //here on selecting the image(event) this will check any images are present or not
+  selectDocument(event: any) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0]; //it is used to get the input file dom property
-      this.images = file;
-      var reader = new FileReader(); //this object is used to read the file
-      reader.readAsDataURL(file); //to read the dom property of file
-      reader.onload = (event: any) => {
-        //this will load the selected image
-        this.uploadedimages = event.target.result;
-        this.imagesphoto.push(this.uploadedimages);
-      };
+      const file = event.target.files[0];
+
+      // Validate file type (e.g., allow PDFs, images, etc.)
+      const allowedTypes = [
+        'application/pdf',
+        'image/png',
+        'image/jpeg',
+        'image/jpg',
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        Swal.fire(
+          'Invalid file type',
+          'Please select a valid document',
+          'error'
+        );
+        return;
+      }
+
+      this.images = file; // Store file for blob upload
     }
   }
-  submitfiles() {
-    //multer will accept form data so we here creating a form data
+
+  uploadDocument(index: number) {
     if (!this.images) {
-      return this.nopath();
+      Swal.fire(
+        'No file selected',
+        'Please select a document to upload',
+        'error'
+      );
+      return;
     }
+
     const formData = new FormData();
-    formData.append('Document_Path', this.images); //the name of key is to be same as provide in backend(node js)
-    this.ds
-      .postData('Employee_data/uploadfiles', formData)
-      .subscribe((result: any) => {
-        this.imageurl.push(result['profile_url']);
-        Swal.fire('image uploaded successfully');
-      });
+    formData.append('Document_Path', this.images);
+
+    this.ds.postData('Employee_data/uploadfiles', formData).subscribe(
+      (result: any) => {
+        const documentPath = result['profile_url'];
+        (this.registationForm.get('Documents_Path_emp') as FormArray)
+          .at(index)
+          .patchValue({ Document_Path: documentPath });
+
+        Swal.fire('Document uploaded successfully');
+      },
+      (error) => {
+        Swal.fire('Upload failed', 'An error occurred during upload', 'error');
+      }
+    );
   }
+
   nopath() {
     Swal.fire('please select a file');
   }
-
-  selectimage(event: any) {
-  // Check if any file is selected
-  if (event.target.files.length > 0) {
-    const file = event.target.files[0];
-
-    // Validate file type (allow only images)
-    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-    if (!allowedTypes.includes(file.type)) {
-      Swal.fire('Invalid file type', 'Please select an image file', 'error');
-      return;
-    }
-
-    // Validate file size (e.g., max 100 KB)
-    const maxSize = 100 * 1024; // 100 KB
-    if (file.size > maxSize) {
-      Swal.fire('File too large', 'Please select a file smaller than 100 KB', 'error');
-      return;
-    }
-
-    this.images = file;
-
-    // Preview the image using FileReader
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event: any) => {
-      this.uploadedimage = event.target.result;
-    };
-  }
-}
-
-submitfile() {
-  // Check if an image is selected
-  if (!this.images) {
-    Swal.fire('No file selected', 'Please select an image to upload', 'error');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('Emp_Photo_Path', this.images); // Backend key must match
-
-  this.ds.postData('Employee_data/uploadfile', formData).subscribe(
-    (result: any) => {
-      // On success, show the image URL and success message
-      this.imageurls = result['profile_url'];
-      Swal.fire('Image uploaded successfully');
-      this.iseditmode = false;
-    },
-    (error) => {
-      // On error, show an error message
-      Swal.fire('Upload failed', 'An error occurred during upload', 'error');
-    }
-  );
-}
-
-
-  selectimagesss(event: any) {
-    //here on selecting the image(event) this will check any images are present or not
+  selectPhoto(event: any) {
     if (event.target.files.length > 0) {
-      const file = event.target.files[0]; //it is used to get the input file dom property
-      this.images = file;
+      const file = event.target.files[0];
 
-      var reader = new FileReader(); //this object is used to read the file
-      reader.readAsDataURL(file); //to read the dom property of file
+      // Validate file type and size
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      const maxSize = 100 * 1024; // 100 KB
+      if (!allowedTypes.includes(file.type)) {
+        Swal.fire('Invalid file type', 'Please select an image file', 'error');
+        return;
+      }
+      if (file.size > maxSize) {
+        Swal.fire(
+          'File too large',
+          'Please select a file smaller than 100 KB',
+          'error'
+        );
+        return;
+      }
+
+      // Convert to Blob and preview
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = (event: any) => {
-        //this will load the selected image
-        this.uploadedimagess = event.target.result;
+        this.uploadedimage = event.target.result;
+        this.images = file; // Store file for blob upload
       };
     }
   }
-  submitfilesig() {
-    //multer will accept form data so we here creating a form data
+
+  uploadPhoto() {
     if (!this.images) {
-      return this.nopath();
+      Swal.fire(
+        'No file selected',
+        'Please select an image to upload',
+        'error'
+      );
+      return;
     }
+
     const formData = new FormData();
-    formData.append('Emp_Signature_Path', this.images); //the name of key is to be same as provide in backend(node js)
-    this.ds
-      .postData('Employee_data/uploadfilesig', formData)
-      .subscribe((result: any) => {
-        console.log(result['profile_url']);
+    formData.append('Emp_Photo_Path', this.images);
+
+    this.ds.postData('Employee_data/uploadfile', formData).subscribe(
+      (result: any) => {
+        this.imageurls = result['profile_url'];
+        Swal.fire('Photo uploaded successfully');
+      },
+      (error) => {
+        Swal.fire('Upload failed', 'An error occurred during upload', 'error');
+      }
+    );
+  }
+
+  selectSignature(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+
+      // Validate file type and size
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      const maxSize = 100 * 1024; // 100 KB
+      if (!allowedTypes.includes(file.type)) {
+        Swal.fire('Invalid file type', 'Please select an image file', 'error');
+        return;
+      }
+      if (file.size > maxSize) {
+        Swal.fire(
+          'File too large',
+          'Please select a file smaller than 100 KB',
+          'error'
+        );
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: any) => {
+        this.uploadedimagess = event.target.result;
+        this.images = file; // Store file for blob upload
+      };
+    }
+  }
+
+  uploadSignature() {
+    if (!this.images) {
+      Swal.fire(
+        'No file selected',
+        'Please select an image to upload',
+        'error'
+      );
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('Emp_Signature_Path', this.images);
+
+    this.ds.postData('Employee_data/uploadfilesig', formData).subscribe(
+      (result: any) => {
         this.imageurlss = result['profile_url'];
-        Swal.fire('Image Uploaded Successfully');
-        this.iseditmode = false;
-      });
+        Swal.fire('Signature uploaded successfully');
+      },
+      (error) => {
+        Swal.fire('Upload failed', 'An error occurred during upload', 'error');
+      }
+    );
   }
 
   patchStdIdValue(index: number, stdId: any) {

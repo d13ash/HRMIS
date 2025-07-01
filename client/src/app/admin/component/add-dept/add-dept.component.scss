@@ -1,6 +1,9 @@
 mat-card {
   background-color: rgb(255, 255, 255);
+
 }
+
+
 
 .heading {
   text-align: center;
@@ -23,7 +26,6 @@ fieldset.scheduler-border {
 legend.scheduler-border {
   font-size: 1.2em !important;
   font-weight: 500 !important;
-  // text-align: left !important;
   width: auto;
   padding: 0 5px;
   padding-top: 6px;
@@ -39,27 +41,11 @@ legend.scheduler-border {
 .inputfieldsize {
   width: 100%;
 }
+
 mat-form-field {
   margin-bottom: 16px; /* Adjust as needed */
 }
 
 mat-hint {
   color: blue;
-}
-
-// table color
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-// tr:nth-child(odd){
-//   background-color:  rgb(133, 147, 236);
-// }
-
-table,
-td,
-th {
-  border: solid 1px;
-  font-size: 12px;
 }

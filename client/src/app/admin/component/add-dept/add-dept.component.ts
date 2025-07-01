@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component,ViewEncapsulation, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,6 +12,7 @@ import { ChangeDetectorRef } from '@angular/core';
   selector: 'app-add-dept',
   templateUrl: './add-dept.component.html',
   styleUrls: ['./add-dept.component.scss'],
+   encapsulation: ViewEncapsulation.None
 })
 export class AddDeptComponent implements OnInit {
   @ViewChild('profile') fileInput!: ElementRef;

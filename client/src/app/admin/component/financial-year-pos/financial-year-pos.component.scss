@@ -5,7 +5,7 @@
 mat-card{
     background-color: rgb(255, 255, 255);
   }
-  
+
   .heading{
     text-align: center;
     background-color: #576CBC;
@@ -14,7 +14,7 @@ mat-card{
         color: beige;
     }
   }
-  
+
   fieldset.scheduler-border {
     border: 2px solid gray !important;
     padding: 0 1.4em 1.4em 1.4em !important;
@@ -23,7 +23,7 @@ mat-card{
     box-shadow: 0px 0px 0px 0px #000;
     margin-top: 30px !important;
   }
-  
+
   legend.scheduler-border {
     font-size: 1.2em !important;
     font-weight: 500 !important;
@@ -39,27 +39,27 @@ mat-card{
     border-radius: 5px;
     color: black;
   }
-  
+
   .inputfieldsize{
     width: 100%;
   }
-  
-  
+
+
   mat-hint{
   color:blue;
   }
-  
+
 
   // table
   // tr:nth-child(odd){
   //   background-color:#f9f9f9;
   // }
-  
+
   // tr:nth-child(even){
   //   background-color:  rgb(228, 228, 228);
   // }
-  
-  
+
+
   // table{
   //   th{
   //     background-color:hsl(240, 13%, 72%)
@@ -68,7 +68,7 @@ mat-card{
 
 // mat card
 .card-content{
-  
+
   padding: 10px;
   display: flex;
 }
@@ -100,7 +100,3 @@ font-family: 'Roboto Slab', serif;
   scroll-behavior: smooth;
 }
 
-table, td, th {
-  border:  solid 1px;
-  
-  }

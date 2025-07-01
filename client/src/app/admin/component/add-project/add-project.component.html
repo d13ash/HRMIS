@@ -143,6 +143,8 @@
 </div>
 <br /><br />
 
+
+
 <!-- mat table -->
 <div class="container-fluid">
   <mat-card style="margin-bottom: 40px">
@@ -222,7 +224,7 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
         <br />
@@ -240,41 +242,5 @@
 <br />
 <br />
 
-<!-- mat card -->
 
-<!-- <div class="container">
-    <mat-card>
-        <div>
-            <p><span ><h5 class="title  mt-3" style="color: rgb(82, 79, 79); margin-left: 10px;">All Project</h5></span> </p>
-        </div>
 
-    <div class="container card-content" style="margin-bottom: 20px;">
-        <div class="row">
-
-            <mat-card class="example-card-new" *ngFor=" let us of allProjectDetail" >
-
-                <mat-toolbar>
-                 <mat-card-header>
-                     <div mat-card-avatar class="example-header-image"></div>
-                     <mat-card-title> <h5>{{us.Project_name}}</h5> </mat-card-title>
-                   </mat-card-header>
-                </mat-toolbar>
-
-                 <img mat-card-image src="https://www.gp-implant.com/wp-content/uploads/2016/06/mis.png" alt="Photo of a Shiba Inu">
-                 <mat-card-content style="font-size: 15px;  color: rgb(86, 83, 83);">
-                     <p>Description  : {{us.Project_Discription}}</p>
-                     <p>ID  :   {{us.Project_ID}} </p>
-                     <p>Name   :  {{us.Project_Name}}</p>
-                     <p>Type       :  {{us.Project_Type_Name}}</p>
-                     <p>Department   : {{us.Dept_ID}} </p>
-                     <p>Short Name   : {{us.Project_Short_name}} </p>
-                     <p>Progress     : 40% <br><br> <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-                     </p>
-                 </mat-card-content>
-
-               </mat-card>
-        </div>
-    </div>
-    </mat-card>
-    </div> <br> <br>
- -->

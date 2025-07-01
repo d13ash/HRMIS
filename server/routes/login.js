@@ -194,7 +194,7 @@ router.get("/userlogindetail/:id", async (req, resp) => {
     mbd.Current_Pin_Code,
     mbd.Current_City,
     md.Document_Id,
-    md.Document_Path
+     GROUP_CONCAT(CONCAT('${req.protocol}://${req.get("host")}', md.Document_Path) SEPARATOR ',') AS Document_Paths
 FROM 
     manpower_basic_detail mbd
 LEFT JOIN 
