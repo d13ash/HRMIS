@@ -6,6 +6,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { DataService } from '../../services/data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LeaveRequestComponent } from '../leave-request/leave-request.component';
+import { Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-leave-request-check',
@@ -18,7 +22,8 @@ export class LeaveRequestCheckComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private ds: DataService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -108,6 +113,14 @@ export class LeaveRequestCheckComponent implements OnInit {
           }
         );
       }
+    });
+  }
+
+  viewLeaveRequest(leave: any) {
+    this.dialog.open(LeaveRequestComponent, {
+      width: '600px',
+      data: { leave, viewOnly: true },
+      disableClose: true
     });
   }
 }

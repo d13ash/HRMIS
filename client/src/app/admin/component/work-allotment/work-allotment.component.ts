@@ -10,6 +10,7 @@ import { DataService } from '../../../services/data.service';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { AuthService } from '../../../services/auth.service';
 
 // DataService
 @Component({
@@ -66,11 +67,13 @@ export class WorkAllotmentComponent implements OnInit {
   useEmpName: any;
   useEmpId: any;
   WorkApprovalForm: any;
+  designation: string = '';
 
   constructor(
     private fb: FormBuilder,
     private ds: DataService,
-    private datepipe: DatePipe
+    private datepipe: DatePipe,
+    private AS: AuthService
   ) {}
   ngOnInit(): void {
     this.getTable();
@@ -438,40 +441,68 @@ export class WorkAllotmentComponent implements OnInit {
       });
   }
 
-  // Download Excel
+    // Helper to get current month/year and work period
+  getHeaderInfo() {
+    const now = new Date();
+    const monthYear = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+    const startPeriod = new Date(now);
+    startPeriod.setDate(now.getDate() - 15);
+    const endPeriod = new Date(now);
+    endPeriod.setDate(now.getDate() + 15);
+    return {
+      monthYear,
+      startPeriod,
+      endPeriod,
+      workPeriod: `Work period: Date ${startPeriod.toLocaleDateString()} to ${endPeriod.toLocaleDateString()}`
+    };
+  }
+
   downloadExcel() {
     if (!this.previewData || this.previewData.length === 0) {
       return;
     }
     const projectName = this.previewData[0].Project_name || '';
     const empName = this.useEmpName || '';
-    const designation = this.previewData[0].Designation || '';
-    const session = this.previewData[0].Session || '';
-    const address = 'Indra Gandhi Krishi Vishwavidyalaya';
-
+    const designation = this.designation || this.AS.currentUser?.Designation || '';
+    const { monthYear, startPeriod, endPeriod, workPeriod } = this.getHeaderInfo();
+    const address = 'Indira Gandhi Krishi Vishwavidyalaya, Raipur';
+    // Filter data by work period
+    const filtered = this.previewData.filter((row: any) => {
+      const sd = new Date(row.Start_date);
+      return sd >= startPeriod && sd <= endPeriod;
+    });
     // Prepare data for Excel
     const wsData = [
-      [projectName],
       [address],
-      [empName],
-      [designation],
-      [session],
+      [projectName],
+      ['MONTHLY PROGRESS REPORT'],
+      [`Name of Employee: ${empName}`],
+      [`Designation: ${designation}`],
+      [`Month & year: ${monthYear}`],
+      [workPeriod],
       [],
-      ['Module', 'Work', 'Start Date', 'End Date', 'Status']
+      ['S No', 'Module Name', 'Work to be done', 'Start Date', 'End Date', 'Status', 'Remark']
     ];
-    this.previewData.forEach((row: any) => {
+    filtered.forEach((row: any, idx: number) => {
       wsData.push([
+        idx + 1,
         row.module_name,
         row.Work_name,
         row.Start_date ? new Date(row.Start_date).toLocaleDateString() : '',
         row.End_date ? new Date(row.End_date).toLocaleDateString() : '',
-        row.is_Work_complete || ''
+        row.is_Work_complete || '',
+        row.remark || ''
       ]);
     });
-    wsData.push([]);
-    wsData.push(['', '', '', '', 'Signature:']);
-
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(wsData);
+    // Add grid/borders
+    const range = XLSX.utils.decode_range(ws['!ref']!);
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
+        if (cell) cell.s = { border: { top: { style: 'thin' }, bottom: { style: 'thin' }, left: { style: 'thin' }, right: { style: 'thin' } } };
+      }
+    }
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Work Allotment');
     XLSX.writeFile(wb, `${projectName}_WorkAllotment.xlsx`);
@@ -482,43 +513,59 @@ export class WorkAllotmentComponent implements OnInit {
     if (!this.previewData || this.previewData.length === 0) {
       return;
     }
+    const doc = new jsPDF();
     const projectName = this.previewData[0].Project_name || '';
     const empName = this.useEmpName || '';
-    const designation = this.previewData[0].Designation || '';
-    const session = this.previewData[0].Session || '';
-    const address = 'Indra Gandhi Krishi Vishwavidyalaya';
-
-    const doc = new jsPDF();
-    let y = 10;
-    doc.setFontSize(16);
-    doc.text(projectName, 10, y);
-    y += 8;
-    doc.setFontSize(12);
-    doc.text(address, 10, y);
-    y += 8;
-    doc.text(`Name: ${empName}`, 10, y);
-    y += 8;
-    doc.text(`Designation: ${designation}`, 10, y);
-    y += 8;
-    doc.text(`Session: ${session}`, 10, y);
-    y += 8;
-
-    // Table
-    const tableData = this.previewData.map((row: any) => [
+    const designation = this.designation || this.AS.currentUser?.Designation || '';
+    const { monthYear, startPeriod, endPeriod, workPeriod } = this.getHeaderInfo();
+    const address = 'Indira Gandhi Krishi Vishwavidyalaya, Raipur';
+    // Filter data by work period
+    const filtered = this.previewData.filter((row: any) => {
+      const sd = new Date(row.Start_date);
+      return sd >= startPeriod && sd <= endPeriod;
+    });
+    // Prepare table data
+    const head = [['S No', 'Module Name', 'Work to be done', 'Start Date', 'End Date', 'Status', 'Remark']];
+    const body = filtered.map((row: any, idx: number) => [
+      idx + 1,
       row.module_name,
       row.Work_name,
       row.Start_date ? new Date(row.Start_date).toLocaleDateString() : '',
       row.End_date ? new Date(row.End_date).toLocaleDateString() : '',
-      row.is_Work_complete || ''
+      row.is_Work_complete || '',
+      row.remark || ''
     ]);
+
+    // Set text for headers
+    doc.setFontSize(12);
+    doc.text(address, 14, 15);
+    doc.text(projectName, 14, 22);
+    doc.setFontSize(14).setFont('helvetica','bold');
+    doc.text('MONTHLY PROGRESS REPORT', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
+    doc.setFontSize(10).setFont('helvetica','normal');
+    doc.text(`Name of Employee: ${empName}`, 14, 40);
+    doc.text(`Designation: ${designation}`, 14, 45);
+    doc.text(`Month & year: ${monthYear}`, 14, 50);
+    doc.text(workPeriod, 14, 55);
+    
+    // Generate table with dark black borders
     autoTable(doc, {
-      head: [['Module', 'Work', 'Start Date', 'End Date', 'Status']],
-      body: tableData,
-      startY: y + 2
+      head: head,
+      body: body,
+      startY: 60,
+      theme: 'grid',
+      styles: {
+        lineWidth: 0.4, 
+        lineColor: [0, 0, 0], 
+      },
+      headStyles: {
+        fillColor: [200, 200, 200],
+        textColor: [0, 0, 0],
+        fontStyle: 'bold'
+      }
     });
-    // Signature space
-    const finalY = (doc as any).lastAutoTable.finalY || y + 30;
-    doc.text('Signature:', 150, finalY + 20);
-    doc.save(`${projectName}_WorkAllotment.pdf`);
+
+    doc.save(`${empName}_Progress_Report.pdf`);
   }
+
 }

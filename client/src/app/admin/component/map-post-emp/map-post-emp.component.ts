@@ -25,6 +25,7 @@ export class MapPostEmpComponent implements OnInit {
   deptType: any;
   projectType: any;
   data: any;
+  f_id: any;
 
   displayedColumns = [
     'Map_post_emp_id',
@@ -53,25 +54,26 @@ export class MapPostEmpComponent implements OnInit {
   allemp: any;
   allPost: any;
   uploadedimage: any;
- imageurl: string | null = null;
+  imageurl: string | null = null;
   images: any;
   post: any;
   FYear: any;
   selectedFile: File | null = null;
-fileError: string | null = null;
+  fileError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private ds: DataService,
     private datepipe: DatePipe,
     private elementRef: ElementRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.postMapForm = this.fb.group({
       Financial_id: [null, Validators.required],
+      Project_ID: [null, Validators.required],
       Emp_Id: [null, Validators.required],
-      Post_id: [null, Validators.required],
+      yearly_post_detail_id: [null, Validators.required],
       Remark: [null],
       Active_yn: [null, Validators.required],
       Join_date: [null, Validators.required],
@@ -116,124 +118,136 @@ fileError: string | null = null;
   }
 
   onChangeFYear(Financial_id: any) {
-    this.ds
-      .getData('Financialyear_post/getPost/' + Financial_id)
-      .subscribe((res) => {
-        this.post = res;
-      });
-  }
-
-selectimage(event: any) {
-  this.fileError = null; // reset error
-
-  if (event.target.files.length > 0) {
-    const file = event.target.files[0];
-    const fileType = file.type;
-
-    // Validate PDF
-    if (fileType !== 'application/pdf') {
-      this.fileError = 'Only PDF files are allowed.';
-      this.selectedFile = null;
-      this.uploadedimage = null;
-      this.imageurl = null;
+    if (!Financial_id) {
+      Swal.fire('Invalid', 'Financial year not selected.', 'warning');
       return;
     }
-
-    this.selectedFile = file;
-    this.images = file;
-    this.uploadedimage = URL.createObjectURL(file);
-    this.imageurl = null;
-    // console.log('PDF file selected:', file.name);
-  }
-}
-
-submitfile() {
-  if (!this.selectedFile) {
-    return this.nopath();
+    this.f_id = Financial_id;
+    this.postMapForm.patchValue({ Financial_id });
+    this.ds.getData('map_post_emp/getProject/' + Financial_id).subscribe((result) => {
+      this.projectType = result;
+    });
   }
 
-  const formData = new FormData();
-  formData.append('NOC_reliving', this.selectedFile);
-
-  this.ds.postData('map_post_emp/uploadfile', formData).subscribe(
-    (result: any) => {
-      this.imageurl = result['profile_url'];
-
-      // Set uploaded URL to form
-      this.postMapForm.patchValue({
-        NOC_reliving: this.imageurl,
-      });
-
-      Swal.fire('File uploaded successfully');
-    },
-    (error) => {
-      console.error('Upload error:', error);
-      Swal.fire('Upload failed', 'Please try again', 'error');
+  onChangeProject(pid: any) {
+    if (!pid) {
+      Swal.fire('Invalid', 'Project not selected.', 'warning');
+      return;
     }
-  );
-}
-
-onSubmit() {
-
-
-  if (this.postMapForm.invalid) {
-    this.postMapForm.markAllAsTouched();
-    return;
+    this.postMapForm.patchValue({ Project_ID: pid });
+    this.ds.getData('map_post_emp/getPost/' + this.f_id + '/' + pid).subscribe((result) => {
+      this.allPost = result;
+      console.log(result);
+      this.f_id = null;
+    });
   }
 
-  // ✅ IF FILE IS SELECTED BUT NOT UPLOADED, UPLOAD IT FIRST
-  if (this.selectedFile && !this.imageurl) {
-    return this.submitfile(); // This will call onSubmit() after upload
-  }
+  selectimage(event: any) {
+    this.fileError = null; // reset error
 
-  // Format dates
-  this.postMapForm.patchValue({
-    Join_date: this.datepipe.transform(
-      this.postMapForm.get('Join_date')?.value,
-      'yyyy-MM-dd'
-    ),
-    Reliving_date: this.datepipe.transform(
-      this.postMapForm.get('Reliving_date')?.value,
-      'yyyy-MM-dd'
-    ),
-   NOC_reliving: this.imageurl ?? ''
- // ✅ USE UPLOADED FILE URL
-  });
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const fileType = file.type;
 
-  console.log('Form data being submitted:', this.postMapForm.value);
-
-
-  this.ds.postData('map_post_emp/postMapPostEmp', this.postMapForm.value)
-    .subscribe((res) => {
-      this.data = res;
-      if (this.data) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Data saved successfully.',
-          confirmButtonColor: '#3085d6',
-        });
-        // console.log('NOC_reliving value:', this.postMapForm.get('NOC_reliving')?.value);
-
+      // Validate PDF
+      if (fileType !== 'application/pdf') {
+        this.fileError = 'Only PDF files are allowed.';
+        this.selectedFile = null;
+        this.uploadedimage = null;
+        this.imageurl = null;
+        return;
       }
-      this.getTable();
-      this.onClear();
-    },
-  );
-}
+
+      this.selectedFile = file;
+      this.images = file;
+      this.uploadedimage = URL.createObjectURL(file);
+      this.imageurl = null;
+      // console.log('PDF file selected:', file.name);
+    }
+  }
+
+  submitfile() {
+    if (!this.selectedFile) {
+      return this.nopath();
+    }
+
+    const formData = new FormData();
+    formData.append('NOC_reliving', this.selectedFile);
+
+    this.ds.postData('map_post_emp/uploadfile', formData).subscribe(
+      (result: any) => {
+        this.imageurl = result['profile_url'];
+
+        // Set uploaded URL to form
+        this.postMapForm.patchValue({
+          NOC_reliving: this.imageurl,
+        });
+
+        Swal.fire('File uploaded successfully');
+      },
+      (error) => {
+        console.error('Upload error:', error);
+        Swal.fire('Upload failed', 'Please try again', 'error');
+      }
+    );
+  }
+
+  onSubmit() {
+    if (this.postMapForm.invalid) {
+      this.postMapForm.markAllAsTouched();
+      return;
+    }
+    if (this.selectedFile && !this.imageurl) {
+      return this.submitfile();
+    }
+    this.postMapForm.patchValue({
+      Join_date: this.datepipe.transform(
+        this.postMapForm.get('Join_date')?.value,
+        'yyyy-MM-dd'
+      ),
+      Reliving_date: this.datepipe.transform(
+        this.postMapForm.get('Reliving_date')?.value,
+        'yyyy-MM-dd'
+      ),
+      NOC_reliving: this.imageurl ?? ''
+    });
+    // Remove Financial_id and Project_ID before submit
+    const submitValue = { ...this.postMapForm.value };
+    delete submitValue.Financial_id;
+    delete submitValue.Project_ID;
+    this.ds.postData('map_post_emp/postMapPostEmp', submitValue)
+      .subscribe(
+        (res) => {
+          this.data = res;
+          if (this.data) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Data saved successfully.',
+              confirmButtonColor: '#3085d6',
+            });
+          }
+          this.getTable();
+          this.onClear();
+        },
+        (err) => {
+          Swal.fire('Error', 'Failed to save data.', 'error');
+        }
+      );
+  }
 
   onClear() {
-  this.postMapForm.reset();
-  this.selectedFile = null; // ✅ CLEAR SELECTED FILE
-  this.imageurl = null; // ✅ CLEAR IMAGE URL
-  this.uploadedimage = null; // ✅ CLEAR PREVIEW
+    this.postMapForm.reset();
+    this.selectedFile = null; // ✅ CLEAR SELECTED FILE
+    this.imageurl = null; // ✅ CLEAR IMAGE URL
+    this.uploadedimage = null; // ✅ CLEAR PREVIEW
 
-  Object.keys(this.postMapForm.controls).forEach((key) => {
-    this.postMapForm.get(key)?.markAsPristine();
-    this.postMapForm.get(key)?.markAsUntouched();
-    this.postMapForm.get(key)?.updateValueAndValidity();
-  });
-}
+    Object.keys(this.postMapForm.controls).forEach((key) => {
+      this.postMapForm.get(key)?.markAsPristine();
+      this.postMapForm.get(key)?.markAsUntouched();
+      this.postMapForm.get(key)?.updateValueAndValidity();
+    });
+  }
 
   getTable() {
     this.ds.getData('map_post_emp/getmapData').subscribe((result: any) => {
@@ -269,19 +283,16 @@ onSubmit() {
     this.MapDetaiDataByid = this.postEmpMapDetail.find(
       (f: any) => f.Map_post_emp_id === parseInt(Map_post_emp_id)
     );
-      this.iseditmode = true;
-    console.log(this.MapDetaiDataByid);
     this.iseditmode = true;
     this.data_id = Map_post_emp_id;
     document.getElementById('addnews')?.scrollIntoView();
-
-
     this.onChangeFYear(this.MapDetaiDataByid.Financial_id);
-
+    this.onChangeProject(this.MapDetaiDataByid.Project_ID);
     this.postMapForm.patchValue({
       Financial_id: this.MapDetaiDataByid.Financial_id,
+      Project_ID: this.MapDetaiDataByid.Project_ID,
       Emp_Id: this.MapDetaiDataByid.Emp_Id,
-      Post_id: this.MapDetaiDataByid.Post_id,
+      yearly_post_detail_id: this.MapDetaiDataByid.yearly_post_detail_id,
       Remark: this.MapDetaiDataByid.Remark,
       Active_yn: this.MapDetaiDataByid.Active_yn,
       Join_date: this.MapDetaiDataByid.Join_date,
@@ -290,8 +301,6 @@ onSubmit() {
       Appointment_order: this.MapDetaiDataByid.Appointment_order,
       NOC_reliving: this.MapDetaiDataByid.NOC_reliving,
     });
-
-
   }
 
   onupdate() {
@@ -316,21 +325,25 @@ onSubmit() {
     this.postMapForm.patchValue({
       NOC_reliving: this.imageurl,
     });
+    // Remove Financial_id and Project_ID before update
+    const updateValue = { ...this.postMapForm.value };
+    delete updateValue.Financial_id;
+    delete updateValue.Project_ID;
     this.ds
       .putData(
         'map_post_emp/updategetMapPostEmp/' + this.data_id,
-        this.postMapForm.value
+        updateValue
       )
       .subscribe((result) => {
         console.log(result);
         this.data = result;
         if (this.data) {
-         Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Data Updated Successfully.',
-          confirmButtonColor: '#3085d6',
-        });
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Data Updated Successfully.',
+            confirmButtonColor: '#3085d6',
+          });
         }
         this.getTable();
         this.onClear();

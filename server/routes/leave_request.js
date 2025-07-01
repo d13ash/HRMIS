@@ -16,7 +16,7 @@ router.get('/LeaveRequestEMP', async (req, res) => {
 });
 
 router.get('/LeaveRequestAdmin', async (req, res) => {
-    var query = 'SELECT l.leave_id,m.Emp_Id,m.Emp_First_Name_E,m.Emp_Middle_Name_E,m.Emp_Last_Name_E,lt.leave_type,lr.leave_reason,l.days_required,l.leave_from,l.leave_to,l.status,l.purpose_of_leave,l.supporting_document FROM leave_request_main l LEFT JOIN manpower_basic_detail m ON l.Emp_Id=m.Emp_Id LEFT JOIN m_leave_reason lr ON l.leave_reason_id=lr.leave_reason_id LEFT JOIN m_leave_type lt ON lr.leave_type_id=lt.leave_type_id order by l.leave_id desc';
+    var query = 'SELECT l.leave_id, m.Emp_Id,m.Emp_First_Name_E,m.Emp_Middle_Name_E,m.Emp_Last_Name_E,lt.leave_type_id,lt.leave_type,lr.leave_reason_id,lr.leave_reason,l.days_required,l.leave_from,l.leave_to,l.status,l.purpose_of_leave,l.supporting_document FROM leave_request_main l LEFT JOIN manpower_basic_detail m ON l.Emp_Id=m.Emp_Id LEFT JOIN m_leave_reason lr ON l.leave_reason_id=lr.leave_reason_id LEFT JOIN m_leave_type lt ON lr.leave_type_id=lt.leave_type_id order by l.leave_id desc';
     let result = await mysql.exec(query);
     if (result.length == 0)
         return res.status(404).send("data Not Found");
@@ -152,7 +152,7 @@ router.get('/LeaveRequestStatus/:empId', async (req, res) => {
     const empId = req.params.empId;
 
     const query = `
-        SELECT l.leave_id, lt.leave_type, lr.leave_reason, l.leave_from, l.leave_to, l.days_required, l.status
+        SELECT l.leave_id,l.days_avaliable, l.purpose_of_leave,l.supporting_document, lt.leave_type_id, lt.leave_type, lr.leave_reason_id, lr.leave_reason, l.leave_from, l.leave_to, l.days_required, l.status
         FROM leave_request_main l
         LEFT JOIN m_leave_reason lr ON l.leave_reason_id = lr.leave_reason_id
         LEFT JOIN m_leave_type lt ON lr.leave_type_id = lt.leave_type_id

@@ -46,6 +46,7 @@ export class FinancialPostComponent implements OnInit {
   projectType: any;
   FYear: any;
   postList: any;
+  projectList: any;
   allDetail: any;
   allPreviwDetail: any;
   useFinancialYear: any;
@@ -65,7 +66,6 @@ export class FinancialPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.postDetailsGroup();
-    this.getProjectMap();
     this.getYear();
     this.getonTable();
   }
@@ -81,10 +81,16 @@ export class FinancialPostComponent implements OnInit {
       postArray: this.fb.array([this.createPost()], Validators.minLength(1)), // ✅ At least one required
     });
   }
-  getProjectMap() {
-    this.ds.getData('Financialyear_post/getProject').subscribe((result) => {
+
+  onChangeProject(pid:any){
+    if(!pid){
+      Swal.fire('Invalid', 'Project not selected.', 'warning');
+      return;
+    }
+    this.ds.getData('Financialyear_post/getPost/'+ this.f_id + '/' + pid).subscribe((result) => {
+      this.postList = result;
       console.log(result);
-      this.projectType = result;
+      this.f_id = null;
     });
   }
 
@@ -92,7 +98,6 @@ export class FinancialPostComponent implements OnInit {
     this.ds
       .getData('Financialyear_post/getFinancialYear')
       .subscribe((result) => {
-        console.log(result);
         this.FYear = result;
       });
   }
@@ -131,11 +136,34 @@ export class FinancialPostComponent implements OnInit {
   }
 
   onChangeFYear(Financial_id: any) {
-    this.ds
-      .getData('Financialyear_post/getPost/' + Financial_id)
-      .subscribe((res) => {
-        this.postList = res;
+    // this.ds
+    //   .getData('Financialyear_post/getPost/' + Financial_id)
+    //   .subscribe((res) => {
+    //     this.postList = res;
+    //   });
+    if(!Financial_id){
+      Swal.fire('Invalid', 'Financial year not selected.', 'warning');
+      return;
+    }
+    this.f_id = Financial_id;
+    this.ds.getData('Financialyear_post/getProject/'+ Financial_id).subscribe((result) => {
+      this.projectType = result;
+    });
+  }
+
+  onChangePost(postIndex: number, postId: any) {
+    if (!postId || !this.postList) return;
+    // Find the post in postList by Post_id
+    const found = this.postList.find((p: any) => p.Post_ID == postId || p.Post_id == postId);
+    if (found) {
+      const postArray = this.form.get('postArray') as FormArray;
+      const postGroup = postArray.at(postIndex) as FormGroup;
+      // Patch Start_date and End_date
+      postGroup.patchValue({
+        Start_date: found.Start_date || '',
+        End_date: found.End_date || ''
       });
+    }
   }
 
   convertFormToFormData() {

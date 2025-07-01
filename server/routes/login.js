@@ -114,7 +114,7 @@ router.get("/allEmplogin/:id", async (req, resp) => {
         END AS FullName,
         CONCAT('${req.protocol}://${req.get(
     "host"
-  )}', mbd.Emp_Photo_Path) AS Emp_Photo_Path,
+  )}/api', mbd.Emp_Photo_Path) AS Emp_Photo_Path,
         mbd.Father_Name_E,
         mbd.Mother_Name_E,
         mbd.Guardian_Name_E,

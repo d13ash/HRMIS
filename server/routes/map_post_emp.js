@@ -7,34 +7,89 @@ const multer = require ('multer')
 const path = require('path')
 
 router.get('/getmapData', async (req, res) => {
-   var query = `
-  SELECT 
-    mp.Map_post_emp_id,
-    f.Financial_name,
-    f.Financial_id,
-    CONCAT('${req.protocol}://${req.get('host')}', mp.NOC_reliving) AS NOC_reliving_url,
-    mp.Remark,
-    mp.Join_date,
-    mp.Reliving_order,
-    mp.Appointment_order,
-    mp.Reliving_date,
-    mp.Active_yn,
-    mb.Emp_First_Name_E,
-    mb.Emp_Id,
-    mp.Post_Id,
-    p.Post_name
-  FROM map_post_emp mp
-  LEFT JOIN manpower_basic_detail mb ON mb.Emp_Id = mp.Emp_Id
-  LEFT JOIN m_post p ON p.Post_id = mp.Post_id
-  LEFT JOIN m_financial f ON f.Financial_id = mp.Financial_id
-  WHERE mp.Delete_YN IS NULL
-`;
+  var query = `
+    SELECT
+      ypd.yearly_post_detail_id, 
+      mp.Map_post_emp_id,
+      f.Financial_name,
+      f.Financial_id,
+      fpm.Project_ID,
+      mpj.Project_name,
+      CONCAT('${req.protocol}://${req.get('host')}/api', mp.NOC_reliving) AS NOC_reliving_url,
+      mp.Remark,
+      mp.Join_date,
+      mp.Reliving_order,
+      mp.Appointment_order,
+      mp.Reliving_date,
+      mp.Active_yn,
+      mb.Emp_First_Name_E,
+      mb.Emp_Id,
+      ypd.Post_id,
+      p.Post_name
+    FROM map_post_emp mp
+    LEFT JOIN yearly_post_detail ypd ON ypd.yearly_post_detail_id = mp.yearly_post_detail_id
+    LEFT JOIN finance_post_main fpm ON fpm.finance_post_main_id = ypd.finance_post_main_id
+    LEFT JOIN m_project mpj ON mpj.Project_ID = fpm.Project_ID
+    LEFT JOIN m_financial f ON f.Financial_id = fpm.Financial_id
+    LEFT JOIN m_post p ON p.Post_id = ypd.Post_id
+    LEFT JOIN manpower_basic_detail mb ON mb.Emp_Id = mp.Emp_Id
+    WHERE mp.Delete_YN IS NULL;
+  `;
   let result = await mysql.exec(query);
-    if (result.length == 0)
-        return res.status(404).send("data Not Found");
-    return res.json(result);
+  if (result.length == 0)
+    return res.status(404).send("data Not Found");
+  return res.json(result);
 });
  
+
+router.get('/getProject/:id', async (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    return res.status(404).send('Error: please send valid id');
+  }
+  const query = `SELECT DISTINCT 
+    mp.Project_ID,
+    mp.Project_name
+    FROM yearly_post_detail ypd
+    JOIN finance_post_main fpm ON fpm.finance_post_main_id = ypd.finance_post_main_id
+    JOIN m_project mp ON mp.Project_ID = fpm.Project_ID
+    WHERE fpm.Financial_id =  ?`;
+
+  try {
+    let result = await mysql.exec(query, [id])
+    if (result.length == 0) {
+      return res.status(405).send("Data not found");
+    }
+    return res.json(result);
+  }
+  catch (err) {
+    return resp.status(406).json(err);
+  }
+});
+
+router.get('/getPost/:financialId/:projectId', async (req, res) => {
+  const { financialId, projectId } = req.params;
+  const query = `
+    SELECT 
+    ypd.yearly_post_detail_id,
+    mpst.Post_id,
+    mpst.Post_name
+    FROM yearly_post_detail ypd
+    JOIN finance_post_main fpm ON fpm.finance_post_main_id = ypd.finance_post_main_id
+    JOIN m_post mpst ON mpst.Post_id = ypd.Post_id
+    WHERE fpm.Financial_id = ?   
+    AND fpm.Project_ID = ?; `;
+  try {
+    const result = await mysql.exec(query, [financialId, projectId]);
+    if (result.length === 0) {
+      return res.status(404).send("No records found");
+    }
+    return res.json(result);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 // get only two fields for post dropdown
 router.get('/allpost', async (req, res) => {
     var query = " SELECT Post_id,Post_name FROM  m_post";
@@ -62,6 +117,8 @@ router.get('/getMapPostEmp', async (req, res) => {
         return res.status(404).send("State Not Found");
     return res.json(result);
 });
+
+
 
 
 // post data in map_post_emp detail
@@ -163,16 +220,5 @@ router.post("/uploadfile", upload.single("NOC_reliving"), (req, resp, next) => {
     success: "File uploaded"
   });
 });
-
-
-
-
-
-
-
-
-
-
-      
 
 module.exports = router;

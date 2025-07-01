@@ -131,10 +131,16 @@ router.post('/postYearlyPostDetail', async (req, res) => {
 });
 
 
-router.get('/getProject', async (req, res) => {
-  var query = "SELECT Project_ID,Project_Name FROM m_project";
-  console.log("called");
-  let result = await mysql.exec(query);
+router.get('/getProject/:id', async (req, res) => {
+  const id = req.params.id;
+  var query = `SELECT DISTINCT 
+    mp.Project_ID,
+    mp.Project_name
+    FROM project_post_allotment ppa
+    JOIN m_project mp ON ppa.Project_ID = mp.Project_ID
+    WHERE ppa.Financial_id = ?`;
+
+  let result = await mysql.exec(query,[id]);
   if (result.length == 0)
     return res.status(404).send("Data Not Found");
   return res.json(result);
@@ -216,10 +222,10 @@ router.get('/PostPreviewDetail/:id', async (req, resp) => {
     if (result.length == 0) {
       return resp.status(405).send("Data not found");
     }
-    if(result[0].PI_refferal_doc){
+    if (result[0].PI_refferal_doc) {
       result[0].PI_refferal_doc = config.get('apiUrl') + 'Financialyear_post/' + result[0].PI_refferal_doc;
     }
-    if(result[0].Work_order_doc){
+    if (result[0].Work_order_doc) {
       result[0].Work_order_doc = config.get('apiUrl') + 'Financialyear_post/' + result[0].Work_order_doc;
     }
 
@@ -296,11 +302,11 @@ router.put('/updateFinancialPost/:id', uploadfiles.fields([
   };
 
   let id = req.params.id;
-  let data = await mysql.exec("SELECT * FROM finance_post_main WHERE finance_post_main_id = ? AND (Delete_YN IS NULL OR Delete_YN != 'Y')",[id]);
-  if(data.length == 0){
+  let data = await mysql.exec("SELECT * FROM finance_post_main WHERE finance_post_main_id = ? AND (Delete_YN IS NULL OR Delete_YN != 'Y')", [id]);
+  if (data.length == 0) {
     return res.status(405).send("Record not found");
   }
-  
+
 
   // Parse postArray if sent as string
   if (typeof postArray === 'string') {
@@ -316,7 +322,7 @@ router.put('/updateFinancialPost/:id', uploadfiles.fields([
   Object.keys(files).forEach(field => {
     values[field] = files[field][0].path.replace(/\\/, '/');
   });
-// function to delete existing files
+  // function to delete existing files
   // if(files){
   //   fd.deleteFiles([data[0].PI_refferal_doc, data[0].Work_order_doc]);
   // }
@@ -325,7 +331,7 @@ router.put('/updateFinancialPost/:id', uploadfiles.fields([
   // Insert into finance_post_main
   let query = "UPDATE finance_post_main SET ? WHERE finance_post_main_id = ?";
   try {
-    let mainResult = await mysql.exec(query, [values , id]);
+    let mainResult = await mysql.exec(query, [values, id]);
 
     // Prepare bulk insert into yearly_post_detail
     const postInsertQuery = `
@@ -344,7 +350,7 @@ router.put('/updateFinancialPost/:id', uploadfiles.fields([
     ]);
 
     query = 'DELETE FROM yearly_post_detail WHERE finance_post_main_id = ?';
-    await mysql.exec(query,[id]);
+    await mysql.exec(query, [id]);
     // Perform bulk insert
     await mysql.exec(postInsertQuery, [postValues]);
 
@@ -428,19 +434,31 @@ router.post("/uploadWOfile", upload.single("Work_order_doc"), (req, resp, next) 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-router.get('/getPost/:id', async (req, resp) => {
-  var query = "SELECT * FROM project_post_allotment y LEFT JOIN m_post p ON p.Post_id=y.Post_id WHERE y.Financial_id = ?";
-  var getitem = req.params.id;
-  
+// Modified: Accepts Financial_id and Project_ID, returns Start_date, End_date, Manpower_no
+router.get('/getPost/:financialId/:projectId', async (req, res) => {
+  const { financialId, projectId } = req.params;
+  const query = `
+    SELECT 
+      y.Project_post_allotment_ID,
+      y.Project_ID,
+      y.Financial_id,
+      y.Post_ID,
+      y.Start_date,
+      y.End_date,
+      y.Manpower_no,
+      p.Post_name
+    FROM project_post_allotment y
+    LEFT JOIN m_post p ON p.Post_id = y.Post_ID
+    WHERE y.Financial_id = ? AND y.Project_ID = ?
+  `;
   try {
-    let result = await mysql.exec(query, [getitem])
-    if (result.length == 0) {
-      return resp.status(405).send("item not found");
+    const result = await mysql.exec(query, [financialId, projectId]);
+    if (result.length === 0) {
+      return res.status(404).send("No records found");
     }
-    return resp.json(result);
-  }
-  catch (err) {
-    return resp.status(406).json(err);
+    return res.json(result);
+  } catch (err) {
+    return res.status(500).json(err);
   }
 });
 // ===================== post  ==================================
