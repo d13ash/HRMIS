@@ -433,10 +433,10 @@
   <!-- Download buttons -->
   <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
     <div class="col">
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="primary" (click)="downloadExcel()">
         <mat-icon>table_view</mat-icon> Download Excel
       </button>
-      <button mat-raised-button color="accent"  style="margin-left: 10px;">
+      <button mat-raised-button color="accent" (click)="downloadPDF()" style="margin-left: 10px;">
         <mat-icon>picture_as_pdf</mat-icon> Download PDF
       </button>
     </div>
