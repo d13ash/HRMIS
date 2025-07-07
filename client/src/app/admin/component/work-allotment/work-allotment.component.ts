@@ -226,15 +226,19 @@ export class WorkAllotmentComponent implements OnInit {
 
   // preview in table
   getPreview(Emp_Id: any) {
-    this.ds
-      .getData('projectWorkAllotment/view/' + Emp_Id)
-      .subscribe((result: any) => {
-        console.log(result)
-        this.useEmpId = Emp_Id;
-        this.previewData = result;
-        this.useEmpName = this.previewData[0]['Emp_First_Name_E'];
-        document.getElementById('addnews')?.scrollIntoView();
-      });
+    this.ds.getData('projectWorkAllotment/view/' + Emp_Id).subscribe((result: any) => {
+      console.log(result)
+      this.previewData = result;
+      this.useEmpName = this.previewData[0]['Emp_First_Name_E']
+      document.getElementById("addnews")?.scrollIntoView();
+    });
+    // Fetch designation for the selected employee
+    this.ds.getData('projectWorkAllotment/designation/' + Emp_Id).subscribe((res: any) => {
+      console.log(res);
+      this.designation = res.Post_name || '';
+    }, err => {
+      this.designation = '';
+    });
   }
 
   // mat Table filter
@@ -453,10 +457,11 @@ export class WorkAllotmentComponent implements OnInit {
       monthYear,
       startPeriod,
       endPeriod,
-      workPeriod: `Work period: Date ${startPeriod.toLocaleDateString()} to ${endPeriod.toLocaleDateString()}`
+      workPeriod: `Work period: Date ${startPeriod.toLocaleDateString('en-GB')} to ${endPeriod.toLocaleDateString('en-GB')}`
     };
   }
 
+  // Download Excel
   downloadExcel() {
     if (!this.previewData || this.previewData.length === 0) {
       return;
@@ -513,7 +518,6 @@ export class WorkAllotmentComponent implements OnInit {
     if (!this.previewData || this.previewData.length === 0) {
       return;
     }
-    const doc = new jsPDF();
     const projectName = this.previewData[0].Project_name || '';
     const empName = this.useEmpName || '';
     const designation = this.designation || this.AS.currentUser?.Designation || '';
@@ -524,48 +528,75 @@ export class WorkAllotmentComponent implements OnInit {
       const sd = new Date(row.Start_date);
       return sd >= startPeriod && sd <= endPeriod;
     });
-    // Prepare table data
-    const head = [['S No', 'Module Name', 'Work to be done', 'Start Date', 'End Date', 'Status', 'Remark']];
-    const body = filtered.map((row: any, idx: number) => [
+    const doc = new jsPDF();
+    let y = 15;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    // Centered header
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text(address, pageWidth / 2, y, { align: 'center' });
+    y += 9;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.text(projectName, pageWidth / 2, y, { align: 'center' });
+    y += 8;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.text('MONTHLY PROGRESS REPORT', pageWidth / 2, y, { align: 'center' });
+    y += 10;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.text(`Name of Employee: ${empName}`, pageWidth / 2, y, { align: 'center' });
+    y += 7;
+    doc.text(`Designation: ${designation}`, pageWidth / 2, y, { align: 'center' });
+    y += 7;
+    doc.text(`Month & year: ${monthYear}`, pageWidth / 2, y, { align: 'center' });
+    y += 7;
+    // Work period (left aligned, above table)
+    doc.setFont('helvetica', 'bold');
+    doc.text(workPeriod, 10, y);
+    y += 5;
+    // Table
+    const tableData = filtered.map((row: any, idx: number) => [
       idx + 1,
       row.module_name,
       row.Work_name,
-      row.Start_date ? new Date(row.Start_date).toLocaleDateString() : '',
-      row.End_date ? new Date(row.End_date).toLocaleDateString() : '',
+      row.Start_date ? new Date(row.Start_date).toLocaleDateString('en-GB') : '',
+      row.End_date ? new Date(row.End_date).toLocaleDateString('en-GB') : '',
       row.is_Work_complete || '',
       row.remark || ''
     ]);
-
-    // Set text for headers
-    doc.setFontSize(12);
-    doc.text(address, 14, 15);
-    doc.text(projectName, 14, 22);
-    doc.setFontSize(14).setFont('helvetica','bold');
-    doc.text('MONTHLY PROGRESS REPORT', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
-    doc.setFontSize(10).setFont('helvetica','normal');
-    doc.text(`Name of Employee: ${empName}`, 14, 40);
-    doc.text(`Designation: ${designation}`, 14, 45);
-    doc.text(`Month & year: ${monthYear}`, 14, 50);
-    doc.text(workPeriod, 14, 55);
-    
-    // Generate table with dark black borders
     autoTable(doc, {
-      head: head,
-      body: body,
-      startY: 60,
+      head: [[
+        'S No',
+        'Module Name',
+        'Work to be done',
+        'Start Date',
+        'End Date',
+        'Status',
+        'Remark'
+      ]],
+      body: tableData,
+      startY: y + 2,
+      headStyles: { fontStyle: 'bold', fontSize: 11, halign: 'center' },
+      bodyStyles: { fontSize: 9, halign: 'center' },
       theme: 'grid',
-      styles: {
-        lineWidth: 0.4, 
-        lineColor: [0, 0, 0], 
-      },
-      headStyles: {
-        fillColor: [200, 200, 200],
-        textColor: [0, 0, 0],
-        fontStyle: 'bold'
+      styles: { cellPadding: 2 },
+      didDrawPage: (data) => {
+        // No-op, but can be used for custom drawing
       }
     });
-
-    doc.save(`${empName}_Progress_Report.pdf`);
+    // Signature lines at the end
+    const finalY = (doc as any).lastAutoTable.finalY || y + 30;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    // Left: Project Incharge
+    doc.text(['Signature', '(Project Incharge)'], 10, finalY + 20);
+    // Left-middle: MIS Nodal Officer
+    doc.text(['Signature', '(MIS Nodal Officer)'], pageWidth / 2.7, finalY + 20);
+    // Right: Employee
+    doc.text(['Signature', '(Employee)'], pageWidth - 40, finalY + 20);
+    doc.save(`${projectName}_WorkAllotment.pdf`);
   }
 
 }
