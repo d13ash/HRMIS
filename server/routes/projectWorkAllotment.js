@@ -239,10 +239,9 @@ router.get('/designation/:empId', async (req, res) => {
     const empId = req.params.empId;
     const query = `
         SELECT p.Post_name
-        FROM project_work_allotment pwa
-        JOIN manpower_basic_detail mbd ON pwa.Emp_Id = mbd.Emp_Id
+        FROM manpower_basic_detail mbd
         JOIN m_post p ON mbd.Post_id = p.Post_id
-        WHERE pwa.Emp_Id = ?
+        WHERE mbd.Emp_Id = ?
     `;
     try {
         const result = await mysql.exec(query, [empId]);

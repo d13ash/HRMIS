@@ -19,7 +19,7 @@ function formatDateForMariaDB(date: any): string {
   templateUrl: './leave-request.component.html',
   styleUrls: ['./leave-request.component.scss']
 })
-export class LeaveRequestComponent implements OnInit {
+export class LeaveRequestComponent implements OnInit { 
   leaveForm: FormGroup;
   leaveTypes: any[] = [];
   leaveReasons: any[] = [];
@@ -29,17 +29,18 @@ export class LeaveRequestComponent implements OnInit {
   selectedLeaveType: any = null;
   activeUser: any = null;
   selectedFileName: string | null = null;
+  maxDaysAvailable: number | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private dataService: DataService,
+    public dataService: DataService,
     private snackBar: MatSnackBar,
     private AS: AuthService,
     @Optional() private dialogRef: MatDialogRef<LeaveRequestComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { leave?: any }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { leave?: any, viewOnly?: boolean } = {}
   ) {
     this.isDialog = !!this.dialogRef;
-
+    
     this.leaveForm = this.fb.group({
       leaveType: [''],
       daysAvailable: [{ value: 0, disabled: true }],
@@ -58,19 +59,49 @@ export class LeaveRequestComponent implements OnInit {
   async ngOnInit() {
     this.getActiveUserData();
     if (this.data?.leave) {
+      console.log('Leave object received in dialog:', this.data.leave);
+      console.log('Leave object keys:', Object.keys(this.data.leave));
       await this.loadLeaveTypes();
-      // Patch only available fields from data.leave
+      // Patch leaveType first
       this.leaveForm.patchValue({
-        leaveType: this.data.leave.leave_type || '',
-        leaveReason: this.data.leave.leave_reason || '',
+        leaveType: this.data.leave.leave_type_id || this.data.leave.leaveType || '',
         leaveFrom: this.data.leave.leave_from ? new Date(this.data.leave.leave_from) : '',
         leaveTo: this.data.leave.leave_to ? new Date(this.data.leave.leave_to) : '',
-        daysAvailable: this.data.leave.days_avaliable ?? '',
         daysRequired: this.data.leave.days_required ?? '',
         purpose: this.data.leave.purpose_of_leave ?? ''
       });
+      // Set daysAvailable from leave type for viewOnly mode
+      const leaveTypeId = this.data.leave.leave_type_id || this.data.leave.leaveType;
+      const selectedType = this.leaveTypes.find(type => type.leave_type_id === leaveTypeId || type.leave_type === this.data.leave.leave_type);
+      if (selectedType) {
+        this.leaveForm.patchValue({ daysAvailable: selectedType.max_days_available || 0 });
+        this.maxDaysAvailable = selectedType.max_days_available || 0;
+      } else {
+        console.warn('Leave type not found in leaveTypes array:', leaveTypeId, this.data.leave.leave_type);
+        this.maxDaysAvailable = null;
+      }
+      // Now load reasons for this type, then patch leaveReason
+      if (leaveTypeId) {
+        await new Promise(resolve => {
+          this.dataService.getLeaveReasons(leaveTypeId).subscribe({
+            next: (reasons: any) => {
+              this.leaveReasons = reasons;
+              this.leaveForm.patchValue({
+                leaveReason: this.data.leave.leave_reason_id || this.data.leave.leaveReason || ''
+              });
+              this.onLeaveReasonChange();
+              resolve(true);
+            },
+            error: () => resolve(true)
+          });
+        });
+      }
       if (this.data.leave.supporting_document) {
         this.selectedFileName = this.data.leave.supporting_document;
+      }
+      // If viewOnly, disable all form controls
+      if (this.data.viewOnly) {
+        this.leaveForm.disable();
       }
     } else {
       await this.loadLeaveTypes();
@@ -128,7 +159,7 @@ export class LeaveRequestComponent implements OnInit {
       // Check if the selected reason is "Others" to show purpose field
       const selectedReason = this.leaveReasons.find(reason => reason.leave_reason_id === leaveReasonId);
       this.showPurposeField = selectedReason?.leave_reason?.toLowerCase() === 'others';
-
+      
       if (this.showPurposeField) {
         this.leaveForm.get('purpose')?.setValidators([Validators.required]);
       } else {
@@ -162,7 +193,7 @@ export class LeaveRequestComponent implements OnInit {
     // Reset the file input for both dialog and standalone forms
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     const fileInputStandalone = document.getElementById('fileInputStandalone') as HTMLInputElement;
-
+    
     if (fileInput) {
       fileInput.value = '';
     }
@@ -237,5 +268,26 @@ export class LeaveRequestComponent implements OnInit {
       this.selectedLeaveType = null;
       this.removeFile(); // Reset file inputs
     }
+  }
+
+  // Add a method to download/view the uploaded file
+  viewUploadedFile() {
+    if (this.selectedFileName) {
+      window.open(`${this.dataService.configUrl}leave_request/LeaveDocument/${this.selectedFileName}`, '_blank');
+    }
+  }
+
+  get displayLeaveType(): string {
+    if (this.data?.leave?.leave_type) return this.data.leave.leave_type;
+    const id = this.data?.leave?.leave_type_id || this.data?.leave?.leaveType;
+    const found = this.leaveTypes?.find(type => type.leave_type_id === id);
+    return found ? found.leave_type : '';
+  }
+
+  get displayLeaveReason(): string {
+    if (this.data?.leave?.leave_reason) return this.data.leave.leave_reason;
+    const id = this.data?.leave?.leave_reason_id || this.data?.leave?.leaveReason;
+    const found = this.leaveReasons?.find(reason => reason.leave_reason_id === id);
+    return found ? found.leave_reason : '';
   }
 }

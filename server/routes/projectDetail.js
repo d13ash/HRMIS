@@ -32,15 +32,31 @@ router.post('/hello', async (req, res) => {
 
 
 router.get('/allProject', async (req, res) => {
-    // var query = " SELECT * FROM m_project";
-        var query = "SELECT p.Project_ID,p.Project_name,p.Project_Short_name,t.Project_Type_ID,p.Project_Discription,t.Project_Type_Name FROM  m_project p left JOIN m_project_type t ON t.Project_Type_ID= p.Project_Type_ID";
 
-    console.log("called");
-    let result = await mysql.exec(query);
-    if (result.length == 0)
-        return res.status(404).send("Data Not Found");
-    return res.json(result);
+    try {
+        const searchTerm = req.query.search;
+        let query = `
+      SELECT 
+        p.Project_ID, p.Project_name, p.Project_Short_name,
+        t.Project_Type_ID, p.Project_Discription, t.Project_Type_Name 
+      FROM m_project p 
+      LEFT JOIN m_project_type t ON t.Project_Type_ID = p.Project_Type_ID
+    `;
 
+        let params = [];
+
+        if (searchTerm && searchTerm.trim() !== '') {
+            query += ` WHERE p.Project_name LIKE ?`;
+            params.push(`%${searchTerm}%`);
+        }
+
+        let result = await mysql.exec(query, params);
+        if (result.length == 0)
+            return res.status(404).send("Data Not Found");
+        return res.json(result);
+    } catch (err) {
+        return res.status(404).send(err);
+    }
 });
 
 
@@ -55,26 +71,26 @@ router.get('/allProjectmap', async (req, res) => {
 });
 
 
-router.get('/allProject/:id',async (req,resp)=>{
+router.get('/allProject/:id', async (req, resp) => {
     var query = "SELECT * FROM m_project WHERE Project_ID = ?";
     var id = req.params.id;
 
-   try {
-        let result = await mysql.exec(query,[id])
-        if (result.length == 0){
-        return resp.status(405).send("Data not found");    
-        } 
-    return resp.json(result);
-  }
-  catch(err){
-         return resp.status(406).json(err);
+    try {
+        let result = await mysql.exec(query, [id])
+        if (result.length == 0) {
+            return resp.status(405).send("Data not found");
+        }
+        return resp.json(result);
     }
-  })
+    catch (err) {
+        return resp.status(406).json(err);
+    }
+})
 
 
 
 // Update Department Detail
-router.put('/updateProjectDetail/:id',async (req,resp)=>{
+router.put('/updateProjectDetail/:id', async (req, resp) => {
 
     // const {error} = validateCourse(req.body)
     // if (error){
@@ -84,38 +100,39 @@ router.put('/updateProjectDetail/:id',async (req,resp)=>{
     var value = req.body;
     var Project_ID = req.params.id;
 
-    try{
-        
-       let result = await mysql.exec(query,[value, Project_ID])
-        if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
+    try {
+
+        let result = await mysql.exec(query, [value, Project_ID])
+        if (result.affectedRows < 1) { //affectRows denote any changes is done through any operation (put,post)
             return resp.status(404).send('error....');
         }
-        return resp.json({status: "success" })    
-     }
-     catch(err){
-            if(err){
-                return resp.status(404).send('error');   
-  }
-}
+        return resp.json({ status: "success" })
+    }
+    catch (err) {
+        if (err) {
+            return resp.status(404).send('error');
+        }
+    }
 })
 
-  
+
 // Delete departmetnt detail
-router.delete('/deletedataByid/:id',async (req,res)=>{
+router.delete('/deletedataByid/:id', async (req, res) => {
     var query = "DELETE FROM m_project WHERE Project_ID = ?";
     var Project_ID = req.params.id;
-try{
-    let result = await mysql.exec(query, Project_ID)
-    if(result.affectedRows < 1){ //affectRows denote any changes is done through any operation (put,post)
-        return res.status(404).send('error...');     
+    try {
+        let result = await mysql.exec(query, Project_ID)
+        if (result.affectedRows < 1) { //affectRows denote any changes is done through any operation (put,post)
+            return res.status(404).send('error...');
+        }
+        return res.json({ status: "data deleted" })
     }
-    return res.json({status: "data deleted" })
-}
 
-catch(err){
-    if(err){
-        return res.status(404).send('error'); }
-  }
+    catch (err) {
+        if (err) {
+            return res.status(404).send('error');
+        }
+    }
 })
 
 
@@ -132,7 +149,7 @@ function validateprojectDetail(projectDetail) {
         category: Joi.string().min(3).required(),
         // dob: Joi.date().required(),
         Mobile_no: Joi.string().length(10).pattern(/^[0-9]+$/).required(),
-        Email_id:Joi.string().min(3).required().email(),
+        Email_id: Joi.string().min(3).required().email(),
         Address: Joi.string().required(),
         State: Joi.required(),
         District: Joi.required(),

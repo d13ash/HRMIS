@@ -10,7 +10,7 @@ const path = require('path');
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "./upload/profile");
+      cb(null, "uploads/employeedata");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + path.extname(file.originalname));
@@ -32,7 +32,7 @@ SELECT
             )
         ELSE '' 
     END AS FullName,
-    CONCAT('${req.protocol}://${req.get('host')}', mbd.Emp_Photo_Path) AS Emp_Photo_Path,
+    CONCAT('${req.protocol}://${req.get('host')}/api', mbd.Emp_Photo_Path) AS Emp_Photo_Path,
     mbd.Father_Name_E,
     mbd.Mother_Name_E,
     mbd.Guardian_Name_E,
@@ -70,7 +70,7 @@ router.put('/profile/pic/:id', upload.single('Emp_Photo_Path'), async (req, resp
     
     var query = "UPDATE manpower_basic_detail SET Emp_Photo_Path = ? WHERE Emp_Id = ?";
     var Emp_Photo_Path = req.file?.path || ''; 
-    Emp_Photo_Path = '/api/' + Emp_Photo_Path.replace(/\\/g, '/'); 
+    Emp_Photo_Path = '/' + Emp_Photo_Path.replace(/\\/g, '/'); 
     console.log(Emp_Photo_Path);
     try {
         let result = await mysql.exec(query, [Emp_Photo_Path, Emp_Id]);

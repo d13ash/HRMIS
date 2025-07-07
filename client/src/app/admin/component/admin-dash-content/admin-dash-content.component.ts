@@ -27,9 +27,7 @@ export class AdminDashContentComponent implements OnInit {
   openRelievingPopup() {
 
     this.ds.getData('dashboardContent/postMap').subscribe((result: any) => {
-      // console.log(result);
-
-      this.dialog.open(ReminderComponent, {
+        this.dialog.open(ReminderComponent, {
         width: '500px',
         data: result
       });

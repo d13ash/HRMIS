@@ -52,20 +52,61 @@ router.get('/getTabledata', async (req, res) => {
 });
 
 
-router.get('/view',async (req,resp)=>{
-    // var query = "SELECT p.Project_name,pm.module_name,apw.is_Work_complete,apw.alloted_project_work_id,apw.is_Work_complete,apw.approval,pwm.Work_name,mbd.Emp_Id,pwa.Start_date,pwa.End_date, mbd.Emp_First_Name_E,pwm.Description FROM project_work_allotment pwa LEFT JOIN alloted_project_work apw ON apw.Project_work_allotment_id = pwa.Project_work_allotment_id LEFT JOIN project_work_main pwm ON pwm.project_work_main_id = apw.Project_work_main_id LEFT JOIN manpower_basic_detail mbd ON mbd.Emp_Id = pwa.Emp_Id LEFT JOIN m_project p ON p.Project_ID=pwa.Project_ID LEFT JOIN project_module pm ON  pm.project_module_id = pwa.project_module_id WHERE pwa.End_date >= DATE_SUB(CURDATE(), INTERVAL 15 DAY)";
-    var query = "SELECT p.Project_name,pm.module_name,apw.is_Work_complete,apw.alloted_project_work_id,apw.is_Work_complete,apw.approval,pwm.Work_name,mbd.Emp_Id,pwa.Start_date,pwa.End_date, mbd.Emp_First_Name_E,pwm.Description FROM project_work_allotment pwa LEFT JOIN alloted_project_work apw ON apw.Project_work_allotment_id = pwa.Project_work_allotment_id LEFT JOIN project_work_main pwm ON pwm.project_work_main_id = apw.Project_work_main_id LEFT JOIN manpower_basic_detail mbd ON mbd.Emp_Id = pwa.Emp_Id LEFT JOIN m_project p ON p.Project_ID=pwa.Project_ID LEFT JOIN project_module pm ON  pm.project_module_id = pwa.project_module_id";
-   try {
-        let result = await mysql.exec(query,[])
-        if (result.length == 0){
-        return resp.status(405).send("Data not found");    
-        } 
-    return resp.json(result);
-  }
-  catch(err){
-         return resp.status(406).json(err);
+router.get('/view', async (req, resp) => {
+    const { projectName, empName, from, to } = req.query;
+
+    let query = `
+        SELECT 
+            p.Project_name,
+            pm.module_name,
+            apw.is_Work_complete,
+            apw.alloted_project_work_id,
+            apw.approval,
+            pwm.Work_name,
+            mbd.Emp_Id,
+            pwa.Start_date,
+            pwa.End_date,
+            mbd.Emp_First_Name_E,
+            pwm.Description 
+        FROM project_work_allotment pwa 
+        LEFT JOIN alloted_project_work apw ON apw.Project_work_allotment_id = pwa.Project_work_allotment_id 
+        LEFT JOIN project_work_main pwm ON pwm.project_work_main_id = apw.project_work_main_id 
+        LEFT JOIN manpower_basic_detail mbd ON mbd.Emp_Id = pwa.Emp_Id 
+        LEFT JOIN m_project p ON p.Project_ID = pwa.Project_ID 
+        LEFT JOIN project_module pm ON pm.project_module_id = pwa.project_module_id 
+        WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (projectName && projectName.trim() !== '') {
+        query += ` AND p.Project_name LIKE ?`;
+        params.push(`%${projectName}%`);
+    }
+
+    if (empName && empName.trim() !== '') {
+        query += ` AND mbd.Emp_First_Name_E LIKE ?`;
+        params.push(`%${empName}%`);
+    }
+
+    if (from && to) {
+        query += ` AND pwa.Start_date BETWEEN ? AND ?`;
+        params.push(from, to);
+    }
+
+    query += ` ORDER by pwa.Start_date DESC`;
+
+    try {
+        const result = await mysql.exec(query, params);
+        if (result.length === 0) {
+            return resp.status(405).send("Data not found");
+        }
+        return resp.json(result);
+    } catch (err) {
+        return resp.status(406).json(err);
     }
 });
+
 
 // Update Department Detail
 router.put('/updateMapProDetail/:id', async (req, resp) => {
