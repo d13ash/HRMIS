@@ -53,6 +53,7 @@ export class FinancialPostComponent implements OnInit {
   useProject: any;
   isEdit: boolean = false;
   f_id: any;
+  fm_id: any;
   fileUrl: { pi?: string; wo?: string } = {};
   files: { pi?: any; wo?: any } = {};
   formData: FormData = new FormData();
@@ -62,7 +63,7 @@ export class FinancialPostComponent implements OnInit {
     private ds: DataService,
     private datepipe: DatePipe,
     private cdRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.postDetailsGroup();
@@ -82,15 +83,13 @@ export class FinancialPostComponent implements OnInit {
     });
   }
 
-  onChangeProject(pid:any){
-    if(!pid){
+  onChangeProject(pid: any) {
+    if (!pid) {
       Swal.fire('Invalid', 'Project not selected.', 'warning');
       return;
     }
-    this.ds.getData('Financialyear_post/getPost/'+ this.f_id + '/' + pid).subscribe((result) => {
+    this.ds.getData('Financialyear_post/getPost/' + this.f_id + '/' + pid).subscribe((result) => {
       this.postList = result;
-      console.log(result);
-      this.f_id = null;
     });
   }
 
@@ -119,6 +118,7 @@ export class FinancialPostComponent implements OnInit {
 
   createPost(): FormGroup {
     return this.fb.group({
+      yearly_post_detail_id: [''],
       Post_id: ['', Validators.required],
       Start_date: ['', [Validators.required]],
       End_date: ['', Validators.required],
@@ -141,12 +141,12 @@ export class FinancialPostComponent implements OnInit {
     //   .subscribe((res) => {
     //     this.postList = res;
     //   });
-    if(!Financial_id){
+    if (!Financial_id) {
       Swal.fire('Invalid', 'Financial year not selected.', 'warning');
       return;
     }
     this.f_id = Financial_id;
-    this.ds.getData('Financialyear_post/getProject/'+ Financial_id).subscribe((result) => {
+    this.ds.getData('Financialyear_post/getProject/' + Financial_id).subscribe((result) => {
       this.projectType = result;
     });
   }
@@ -261,6 +261,7 @@ export class FinancialPostComponent implements OnInit {
     // Reset ID and edit mode
     this.isEdit = false;
     this.f_id = null;
+    this.fm_id = null;
 
     // Mark all controls as pristine and untouched
     this.markFormGroupPristine(this.form);
@@ -271,19 +272,17 @@ export class FinancialPostComponent implements OnInit {
     }
   }
 
-  async onedit(f_id: any) {
+  async onedit(fm_id: any) {
     this.isEdit = true;
-    this.f_id = f_id;
-
+    this.fm_id = fm_id;
     // Extract filename with extension from URL
     const getFileNameFromUrl = (url: string): string => {
       return url.split('/').pop() || 'downloaded_file';
     };
 
     this.ds
-      .getOne('Financialyear_post/PostPreviewDetail/', f_id)
+      .getOne('Financialyear_post/PostPreviewDetail/', fm_id)
       .subscribe(async (result: any) => {
-        console.log(result);
         document
           .getElementById('projectform')
           ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -316,9 +315,10 @@ export class FinancialPostComponent implements OnInit {
         this.form.get('Work_order_doc')?.updateValueAndValidity();
         this.form.get('PI_refferal_doc')?.updateValueAndValidity();
         this.onChangeFYear(result[0].Financial_id);
+        this.onChangeProject(result[0].Project_ID);
       });
 
-    this.ds.getData('Financialyear_post/postArray/' + f_id).subscribe(
+    this.ds.getData('Financialyear_post/postArray/' + fm_id).subscribe(
       (res) => {
         this.patchPostArray(res);
       },
@@ -337,7 +337,7 @@ export class FinancialPostComponent implements OnInit {
   }
 
   onUpdate() {
-    if (this.f_id == null) {
+    if (this.fm_id == null) {
       Swal.fire('Error', 'No ID Selected', 'error');
       return;
     }
@@ -353,7 +353,7 @@ export class FinancialPostComponent implements OnInit {
       this.convertFormToFormData();
       this.ds
         .put(
-          'Financialyear_post/updateFinancialPost/' + this.f_id,
+          'Financialyear_post/updateFinancialPost/' + this.fm_id,
           this.formData
         )
         .subscribe({
@@ -372,7 +372,7 @@ export class FinancialPostComponent implements OnInit {
             this.files = {};
             this.formData = new FormData();
             this.isEdit = false;
-            this.f_id = null;
+            this.fm_id = null;
             this.form.markAsPristine();
             this.form.markAsUntouched();
             this.cdRef.detectChanges();
@@ -385,10 +385,8 @@ export class FinancialPostComponent implements OnInit {
       Swal.fire('Invalid', 'Please fill all required fields.', 'warning');
     }
   }
-  ondelete(f_id: any) {
-    console.log('Delete requested for ID:', f_id);
-
-    this.ds.deleteFinancePostById(f_id).subscribe({
+  ondelete(fm_id: any) {
+    this.ds.deleteFinancePostById(fm_id).subscribe({
       next: (res: any) => {
         // console.log('Delete response:', res);
         if (res.success) {
@@ -419,7 +417,6 @@ export class FinancialPostComponent implements OnInit {
     this.ds
       .getData('Financialyear_post/bbbbbb/' + finance_post_main_id)
       .subscribe((result: any) => {
-        console.log(result);
         this.allPreviwDetail = result;
         // console.log(this.allPreviwDetail[0]['Project_name']);
         this.useProject = this.allPreviwDetail[0]['Project_name'];
@@ -459,6 +456,7 @@ export class FinancialPostComponent implements OnInit {
     posts.forEach((post) => {
       postArray.push(
         this.fb.group({
+          yearly_post_detail_id: [post.yearly_post_detail_id],
           Post_id: [post.Post_id],
           Start_date: [post.Start_date],
           End_date: [post.End_date],

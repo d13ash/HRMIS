@@ -17,10 +17,12 @@ router.use('/documents', express.static('documents'));
 const uploadfiles = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "documents");
+      cb(null, "uploads/financial_year");
     },
     filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname));
+      // file.fieldname contains the field name ('PI_refferal_doc' or 'Work_order_doc')
+      const fieldPrefix = file.fieldname === 'PI_refferal_doc' ? 'PI_' : 'WO_';
+      cb(null, fieldPrefix + Date.now() + path.extname(file.originalname));
     }
   }),
   limits: { fileSize: 5 * 1024 * 1024 }
@@ -223,10 +225,10 @@ router.get('/PostPreviewDetail/:id', async (req, resp) => {
       return resp.status(405).send("Data not found");
     }
     if (result[0].PI_refferal_doc) {
-      result[0].PI_refferal_doc = config.get('apiUrl') + 'Financialyear_post/' + result[0].PI_refferal_doc;
+      result[0].PI_refferal_doc = `${req.protocol}://${req.get('host')}/api/${result[0].PI_refferal_doc}`;
     }
     if (result[0].Work_order_doc) {
-      result[0].Work_order_doc = config.get('apiUrl') + 'Financialyear_post/' + result[0].Work_order_doc;
+      result[0].Work_order_doc = `${req.protocol}://${req.get('host')}/api/${result[0].Work_order_doc}`;
     }
 
     return resp.json(result);
@@ -269,25 +271,6 @@ router.get('/bbbbbb/:id1', async (req, resp) => {
 })
 
 
-// Update Department Detail
-// router.put('/updateFinancialPost/:id', async (req, resp) => {
-//   var query = "UPDATE financialyear_post SET ? WHERE financialyear_post_id = ? ";
-//   var value = req.body;
-//   var financialyear_post_id = req.params.id;
-//   try {
-//     let result = await mysql.exec(query, [value, financialyear_post_id])
-//     if (result.affectedRows < 1) { //affectRows denote any changes is done through any operation (put,post)
-//       return resp.status(404).send('error....');
-//     }
-//     return resp.json({ status: "success" })
-//   }
-//   catch (err) {
-//     if (err) {
-//       return resp.status(404).send('error');
-//     }
-//   }
-// })
-
 router.put('/updateFinancialPost/:id', uploadfiles.fields([
   { name: "PI_refferal_doc", maxCount: 1 },
   { name: "Work_order_doc", maxCount: 1 }
@@ -317,42 +300,63 @@ router.put('/updateFinancialPost/:id', uploadfiles.fields([
     }
   }
 
-  // Handle file uploads
+  // Validate postArray
+  if (!Array.isArray(postArray) || postArray.length === 0) {
+    return res.status(400).json({ error: "postArray must be a non-empty array" });
+  }
+
+  // Handle file uploads (only if files are provided)
   const files = req.files;
-  Object.keys(files).forEach(field => {
-    values[field] = files[field][0].path.replace(/\\/, '/');
-  });
+  if (files && Object.keys(files).length > 0) {
+    Object.keys(files).forEach(field => {
+      values[field] = files[field][0].path.replace(/\\/g, '/'); // Fix: replace ALL backslashes
+    });
+  }
   // function to delete existing files
-  // if(files){
-  //   fd.deleteFiles([data[0].PI_refferal_doc, data[0].Work_order_doc]);
-  // }
+  if(files){
+    fd.deleteFiles([data[0].PI_refferal_doc, data[0].Work_order_doc]);
+  }
   console.log(values);
   console.log(postArray);
-  // Insert into finance_post_main
+  // Update finance_post_main
   let query = "UPDATE finance_post_main SET ? WHERE finance_post_main_id = ?";
   try {
     let mainResult = await mysql.exec(query, [values, id]);
-
-    // Prepare bulk insert into yearly_post_detail
-    const postInsertQuery = `
-      INSERT INTO yearly_post_detail 
-      (finance_post_main_id, Post_id, Start_date, End_date, Salary, Description) 
-      VALUES ?
-    `;
-
-    const postValues = postArray.map(post => [
-      id,
-      post.Post_id,
-      post.Start_date,
-      post.End_date,
-      post.Salary,
-      post.Description || null
-    ]);
-
-    query = 'DELETE FROM yearly_post_detail WHERE finance_post_main_id = ?';
-    await mysql.exec(query, [id]);
-    // Perform bulk insert
-    await mysql.exec(postInsertQuery, [postValues]);
+    // Process postArray with upsert logic (insert or update based on yearly_post_detail_id)
+    for (const post of postArray) {
+      if (post.yearly_post_detail_id && post.yearly_post_detail_id !== '') {
+        // Update existing record
+        const updateQuery = `
+          UPDATE yearly_post_detail 
+          SET Post_id = ?, Start_date = ?, End_date = ?, Salary = ?, Description = ?
+          WHERE yearly_post_detail_id = ? AND finance_post_main_id = ?
+        `;
+        await mysql.exec(updateQuery, [
+          post.Post_id,
+          post.Start_date,
+          post.End_date,
+          post.Salary,
+          post.Description || null,
+          post.yearly_post_detail_id,
+          id
+        ]);
+      } else {
+        // Insert new record
+        const insertQuery = `
+          INSERT INTO yearly_post_detail 
+          (finance_post_main_id, Post_id, Start_date, End_date, Salary, Description) 
+          VALUES (?, ?, ?, ?, ?, ?)
+        `;
+        await mysql.exec(insertQuery, [
+          id,
+          post.Post_id,
+          post.Start_date,
+          post.End_date,
+          post.Salary,
+          post.Description || null
+        ]);
+      }
+    }
 
     return res.json({
       message: "Financial post and yearly details saved successfully",
