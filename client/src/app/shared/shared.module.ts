@@ -10,12 +10,16 @@ import { ProgressbarComponent } from './progressbar/progressbar.component';
 import { ResourceAllotmentComponent } from './resource-allotment/resource-allotment.component';
 import { ResourceShowComponent } from './resource-show/resource-show.component';
 import { CollectModule } from '../collect/collect.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkAllotmentDashboardComponent } from './work-allotment-dashboard/work-allotment-dashboard.component';
 import { LeaveStatusComponent } from './leave-status/leave-status.component';
 import { LeaveHrComponent } from './leave-hr/leave-hr.component';
 import { LeaveRequestComponent } from './leave-request/leave-request.component';
 import { LeaveRequestCheckComponent } from './leave-request-check/leave-request-check.component';
+import { AttendanceComponent } from './attendance/attendance.component';
+import { AttendanceEmpComponent } from './attendance-emp/attendance-emp.component';
+import { BirthdaypopUpComponent } from './birthdaypop-up/birthdaypop-up.component';
+import { ExportDialogComponent } from './export-dialog/export-dialog.component';
 
 
 @NgModule({
@@ -31,12 +35,17 @@ import { LeaveRequestCheckComponent } from './leave-request-check/leave-request-
     LeaveHrComponent,
     LeaveRequestComponent,
     LeaveRequestCheckComponent,
+    AttendanceComponent,
+    AttendanceEmpComponent,
+    BirthdaypopUpComponent,
+    ExportDialogComponent,
   ],
   imports: [
     CommonModule,
     SharedRoutingModule,
     CollectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports:[
     ProgressbarComponent,

@@ -39,6 +39,8 @@ const dashboardContent = require("./routes/dashboardContent");
 const category_subcategory = require("./routes/category_subcategory");
 const app_server = require("./routes/app_server");
 const leave_request = require("./routes/leave_request");
+const attendance = require('./routes/attendance');
+const birthdaypop = require('./routes/birthdaypop');
 
 
 
@@ -123,7 +125,9 @@ app.use("/api/employee_resource_allotment", employee_resource_allotment);
 app.use("/api/dashboardContent", dashboardContent);
 app.use("/api/category_subcategory", category_subcategory);
 app.use("/api/app", app_server);
-app.use("/api/leave_request",leave_request)
+app.use("/api/leave_request",leave_request);
+app.use('/api/attendance', attendance);
+app.use('/api/birthdaypop', birthdaypop);
 
 
  

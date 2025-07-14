@@ -19,6 +19,8 @@ import { ProgressComponent } from './component/progress/progress.component';
 import { LeaveRequestComponent } from '../shared/leave-request/leave-request.component';
 import { LeaveHrComponent } from '../shared/leave-hr/leave-hr.component';
 import { LeaveStatusComponent } from '../shared/leave-status/leave-status.component';
+import { AttendanceComponent } from '../shared/attendance/attendance.component';
+import { AttendanceEmpComponent } from '../shared/attendance-emp/attendance-emp.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'hrdashboard/content', pathMatch: 'full' },
@@ -46,6 +48,8 @@ const routes: Routes = [
       { path: 'progress', component: ProgressComponent },
       { path: 'leave-status', component:  LeaveStatusComponent},
       { path: 'leave-request', component: LeaveHrComponent },
+      { path: 'attendance', component: AttendanceComponent},
+      { path: 'attendance-emp', component: AttendanceEmpComponent}
     ],
   },
 ];

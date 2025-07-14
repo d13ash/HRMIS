@@ -24,8 +24,21 @@
                   <a mat-list-item routerLink="my-resource"><mat-icon class="design_icon">token</mat-icon>My Resource</a>
                   <!-- <a mat-list-item routerLink="employee-profile"><mat-icon >manage_accounts</mat-icon>Add Detail</a> -->
                   <!-- <a mat-list-item ><mat-icon class="design_icon">view_timeline</mat-icon> My Leaves</a> -->
-                   <a mat-list-item routerLink="leave-request"><mat-icon class="design_icon">view_timeline</mat-icon>Leave Request</a>
-                  <a mat-list-item routerLink="leave-status"><mat-icon class="design_icon">view_timeline</mat-icon>Leave Status</a>
+                   <!-- <a mat-list-item routerLink="leave-request"><mat-icon class="design_icon">view_timeline</mat-icon>Leave Request</a>
+                  <a mat-list-item routerLink="leave-status"><mat-icon class="design_icon">view_timeline</mat-icon>Leave Status</a> -->
+                  <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <mat-icon class="design_icon">view_timeline</mat-icon>
+                        Attendance & Leave
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <mat-nav-list>
+                      <a mat-list-item routerLink="leave-request" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Leave Request</a>
+                      <a mat-list-item routerLink="leave-status" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Leave Status</a>
+                      <a mat-list-item routerLink="attendance-emp" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Attendance</a>
+                    </mat-nav-list>
+                  </mat-expansion-panel>
                   <a mat-list-item routerLink="my-work"><mat-icon class="design_icon">token</mat-icon>My Tasks</a>
                   <a mat-list-item ><mat-icon class="design_icon">feed</mat-icon>Atendance</a>
                   <a mat-list-item ><mat-icon class="design_icon">account_balance_wallet</mat-icon>Salary</a>
