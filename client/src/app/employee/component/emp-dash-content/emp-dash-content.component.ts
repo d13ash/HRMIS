@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { BirthdaypopUpComponent } from '../../../shared/birthdaypop-up/birthdaypop-up.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DataService } from '../../../services/data.service';
 // import { ProgressComponent } from 'src/app/hr/component/progress/progress.component';
 @Component({
   selector: 'app-emp-dash-content',
@@ -9,20 +10,19 @@ import { MatSort } from '@angular/material/sort';
 })
 export class EmpDashContentComponent implements OnInit {
 
-  // displayedColumns=['Id','Name','Department','Email','Mobile','Joining Date','Education','Action'];
-  // dataSource: any;
-
-  //  @ViewChild(MatPaginator) paginator!: MatPaginator ;
-  //  @ViewChild(MatSort) MatSort!: MatSort ;
-  cunstructor(){}
+  constructor(private dialog: MatDialog, private ds: DataService){}
 
   ngOnInit(): void {
-
+    this.openbirthdyPopup();
   }
-
-//   applyFilter(event: Event) {
-//     const filterValue = (event.target as HTMLInputElement).value;
-//     this.dataSource.filter = filterValue.trim().toLowerCase();
-// }
-
+  openbirthdyPopup() {
+    this.ds.getData('birthdaypop/birthday-soon').subscribe((result: any) => {
+      console.log(result);
+      
+      this.dialog.open(BirthdaypopUpComponent, {
+        width: '500px',
+        data: result
+      });
+    })
+  }
 }

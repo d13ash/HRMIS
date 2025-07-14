@@ -65,18 +65,20 @@
                <!-- button 2 -->
                <a mat-list-item routerLink="progress"><mat-icon style="margin-left: 7px;" class="design_icon">cached</mat-icon>Progress</a>
 
-              <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
-                 <mat-expansion-panel-header>
-                   <mat-panel-title>
-                     <mat-icon>bedge</mat-icon>
-                     Leave
-                   </mat-panel-title>
-                 </mat-expansion-panel-header>
-                 <mat-nav-list>
-                  <a mat-list-item routerLink="leave-request">Leave Request</a>
-                  <a mat-list-item routerLink="leave-status">Leave Status</a>
-                 </mat-nav-list>
-               </mat-expansion-panel>
+               <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon>bedge</mat-icon>
+                    Attendance & Leave
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                 <a mat-list-item routerLink="leave-request" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Leave Request</a>
+                 <a mat-list-item routerLink="leave-status" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Leave Status</a>
+                 <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Attendance</a>
+                 <a mat-list-item routerLink="attendance-emp" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Self Attendance</a>
+                </mat-nav-list>
+              </mat-expansion-panel>
 
                 <!-- button 2 -->
               <mat-expansion-panel style="border-radius: 0%;" class="mat-elevation-z0">

@@ -1,0 +1,51 @@
+<!-- 🎂 Rotating Birthday Popup -->
+
+<!-- Overlay background, only visible when popup or modal is open -->
+<div *ngIf="showPopup || showAll" class="overlay-bg"></div>
+
+<div *ngIf="showPopup" class="birthday-popup">
+  <div class="popup-header">
+    <span class="emoji">🎉</span>
+    <span class="close-btn" (click)="showPopup = false">&times;</span>
+  </div>
+
+  <div class="popup-content" *ngIf="birthdays.length > 0">
+    <!-- Only show the personal message if the current user's birthday is in the list -->
+    <div *ngIf="isCurrentUserBirthday">
+      <h4>
+        {{ getBirthdayMessage(currentUserBirthdayEmp) }}
+      </h4>
+      <p class="msg">
+        Let's celebrate there special day with joy and happiness! 🥳
+      </p>
+    </div>
+    <!-- Otherwise, show general messages for others -->
+    <div *ngIf="!isCurrentUserBirthday">
+      <ng-container *ngFor="let emp of birthdays">
+        <h4>{{ getBirthdayMessage(emp) }}</h4>
+       
+        <p class="msg">
+          Let's celebrate {{ emp.name }}'s special day with joy and happiness! 🥳
+        </p>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="popup-actions">
+    <button class="view-more-btn" (click)="openAllBirthdays()">View More</button>
+  </div>
+</div>
+
+<!-- 🎯 Modal for All Birthdays -->
+<div *ngIf="showAll" class="birthday-modal">
+  <div class="modal-header">
+    <h3>🎂 Upcoming Birthdays</h3>
+    <span class="close-btn" (click)="showAll = false">&times;</span>
+  </div>
+  <ul>
+    <li *ngFor="let emp of allBirthdays">
+      <strong>{{ emp.name }}</strong> — {{ emp.birthday | date:'MM dd' }}
+    </li>
+  </ul>
+</div>
+<!-- 🎉 Birthday Popup Styles -->

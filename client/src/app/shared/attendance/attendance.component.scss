@@ -1,0 +1,260 @@
+
+// Variables
+$font-family:       'Roboto', sans-serif;
+$font-weight-base:  400;
+$font-weight-bold:  500;
+$font-size-base:    1rem;
+$font-size-lg:      1.5rem;
+$spacing:           1rem;
+
+$primary-color:     #1976d2;
+$warn-color:        #e53935;
+$bg-light:          #fafafa;
+$border-color:      #e0e0e0;
+$text-color:        #424242;
+$text-muted:        #757575;
+
+$status-present:    #43a047;
+$status-partial:    #fb8c00;
+$status-absent:     #e53935;
+
+// Page Title
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #3f51b5;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+// Filter Toolbar
+.filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing;
+  margin-bottom: $spacing;
+
+  mat-form-field {
+    // flex: 1 1 200px;
+    max-width: 240px;
+
+    .mat-form-field-flex {
+      background: #fff;
+      border-radius: 4px;
+    }
+
+    .mat-select-trigger,
+    .mat-input-element {
+      font-family: $font-family;
+      color: $text-color;
+    }
+  }
+
+  button[mat-raised-button] {
+    background-color: $warn-color;
+    color: #fff;
+    font-family: $font-family;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    // border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: $font-size-base;
+    cursor: pointer;
+    
+
+    &:hover {
+      background-color: darken($warn-color, 20%);
+    }
+  }
+}
+
+// Attendance Container
+.attendance-container {
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: $spacing;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+// Toolbar inside Attendance
+.attendance-container .toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing;
+  margin-bottom: $spacing;
+  justify-content: space-between;
+
+  .search-field {
+    // flex: 1 1 240px;
+    max-width: 300px;
+    
+
+    .mat-form-field-flex {
+      background: $bg-light;
+      border-radius: 4px;
+    }
+
+    mat-icon.mat-prefix,
+    button.mat-icon-button {
+      color: $text-muted;
+    }
+
+    input.mat-input-element {
+      color: $text-color;
+    }
+  }
+
+  button {
+    display: flex;
+    align-items: left;
+    font-family: $font-family;
+    font-size: $font-size-base;
+    text-transform: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 20px;
+    
+
+    
+
+    mat-icon {
+      margin-right: 0.25rem;
+    }
+  }
+
+  button[mat-stroked-button] {
+    color: $primary-color;
+    border-color: $primary-color;
+  }
+
+  button[mat-flat-button] {
+    background-color: $primary-color;
+    color: #fff;
+
+    &:hover {
+      background-color: darken($primary-color, 20%);
+    }
+  }
+}
+
+// Table Wrapper
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: $spacing;
+
+  .full-width-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th.mat-header-cell,
+    td.mat-cell {
+      padding: 0.75rem $spacing;
+      font-family: $font-family;
+      font-size: $font-size-base;
+      color: $text-color;
+      border-bottom: none;
+      text-align: left;
+    }
+
+    tr.mat-header-row {
+      border-bottom: 2px solid $border-color;
+    }
+
+    tr.data-row {
+      background: $bg-light;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: lighten($bg-light, 5%);
+      }
+
+      &.selected {
+        background: rgba($primary-color, 0.1);
+      }
+    }
+
+    // Status text styles
+    .status-present {
+      color: $status-present;
+      font-weight: $font-weight-bold;
+    }
+
+    .status-partial {
+      color: $status-partial;
+      font-weight: $font-weight-bold;
+    }
+
+    .status-absent {
+      color: $status-absent;
+      font-weight: $font-weight-bold;
+    }
+
+    // Sign-in image
+    .sign-img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid $border-color;
+    }
+  }
+
+  .table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing 0;
+
+    .export-tip {
+      display: flex;
+      align-items: center;
+      font-family: $font-family;
+      font-size: 0.875rem;
+      color: $text-muted;
+
+      mat-icon {
+        margin-right: 0.25rem;
+        font-size: 1rem;
+      }
+    }
+
+    button[mat-stroked-button] {
+      color: $warn-color;
+      border-color: $warn-color;
+
+      &:hover {
+        background-color: rgba($warn-color, 0.1);
+      }
+    }
+  }
+}
+
+// Paginator
+mat-paginator {
+  margin-top: $spacing;
+  font-family: $font-family;
+
+  .mat-paginator-range-label,
+  .mat-paginator-page-size-label {
+    font-size: $font-size-base;
+    color: $text-muted;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .filter-toolbar,
+  .attendance-container .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

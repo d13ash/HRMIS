@@ -1,0 +1,233 @@
+<h2 class="page-title">Manage Attendance</h2>
+
+<div class="filter-toolbar">
+  <mat-form-field appearance="outline">
+    <mat-label>Filter Type</mat-label>
+    <mat-select [(value)]="filterType" (selectionChange)="onFilterTypeChange()">
+      <mat-option value="daily">Daily</mat-option>
+      <mat-option value="monthly">Monthly</mat-option>
+      <mat-option value="yearly">Yearly</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container [ngSwitch]="filterType">
+    <mat-form-field *ngSwitchCase="'daily'" appearance="outline">
+      <mat-label>Select Date</mat-label>
+      <input matInput [matDatepicker]="dailyPicker"
+       [matDatepickerFilter]="dateFilter"
+       [max]="today"
+       [(ngModel)]="selectedDate"
+       (dateChange)="applyFilter()" />
+      <mat-datepicker-toggle matSuffix [for]="dailyPicker"></mat-datepicker-toggle>
+      <mat-datepicker #dailyPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'monthly'" appearance="outline">
+      <mat-label>Select Month</mat-label>
+      <input matInput [matDatepicker]="monthPicker"
+      [max]="today"
+      [(ngModel)]="selectedMonth"
+      (dateChange)="applyFilter()" />
+
+      <mat-datepicker-toggle matSuffix [for]="monthPicker"></mat-datepicker-toggle>
+      <mat-datepicker #monthPicker startView="multi-year" (monthSelected)="chosenMonthHandler($event)" panelClass="month-picker" > [maxDate]="today">
+      </mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'yearly'" appearance="outline">
+      <mat-label>Select Year</mat-label>
+      <input matInput [matDatepicker]="yearPicker"
+      [max]="today"
+      [(ngModel)]="selectedYear"
+      (dateChange)="applyFilter()" />
+      <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+      <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" panelClass="year-picker"> [maxDate]="today">
+      </mat-datepicker>
+    </mat-form-field>
+  </ng-container>
+  <button mat-raised-button color="warn" (click)="resetFilters()">Reset</button>
+</div>
+
+
+<div class="attendance-container">
+  <!-- Toolbar: Search, Select All, Export -->
+  <div class="toolbar">
+    <!-- <mat-form-field appearance="outline" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        matInput
+        placeholder="Search by ID, Name, Dept"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyTextFilter()"
+      />
+      <button
+        *ngIf="searchTerm"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clearSearch()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Status</mat-label>
+      <mat-select [(value)]="statusFilter" (selectionChange)="applyFilter()">
+        <mat-option value="">All</mat-option>
+        <mat-option value="present">Present</mat-option>
+        <mat-option value="absent">Absent</mat-option>
+        <mat-option value="partial">Present (No Sign-out)</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      *ngIf="selectionEnabled"
+      mat-stroked-button
+      color="primary"
+      (click)="masterToggle()"
+      [disabled]="!dataSource.data.length"
+    >
+      <mat-icon>select_all</mat-icon>
+      {{ isAllSelected() ? "Deselect All" : "Select All" }}
+    </button>
+
+    <button mat-flat-button color="primary" (click)="onExportClick()">
+      <mat-icon>file_download</mat-icon>
+      {{ selectionEnabled ? "Export Selected" : "Export" }}
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="mat-elevation-z8 full-width-table"
+    >
+      <!-- Selection Checkbox Column -->
+      <ng-container matColumnDef="select" *ngIf="selectionEnabled">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="masterToggle()"
+            [checked]="isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          ></mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="selection.toggle(row)"
+            [checked]="selection.isSelected(row)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+
+      <!-- Other Columns -->
+      <ng-container matColumnDef="employee_code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Emp ID</th>
+        <td mat-cell *matCellDef="let item">{{ item.employee_code }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="employee_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let item">{{ item.employee_name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="department_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+        <td mat-cell *matCellDef="let item">{{ item.department_name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.date | date : "dd-MM-yyyy" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="singInTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>In Time</th>
+        <td mat-cell *matCellDef="let item">{{ item.singInTime }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="singoutTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Out Time</th>
+        <td mat-cell *matCellDef="let item">{{ item.singoutTime }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="work_hours">
+        <th mat-header-cell *matHeaderCellDef>Work Hours</th>
+        <td mat-cell *matCellDef="let item">{{ item.work_hours }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let item">
+          <span
+            [ngClass]="{
+              'status-present': item.mark && item.singoutTime,
+              'status-partial': item.mark && !item.singoutTime,
+              'status-absent': !item.mark
+            }"
+          >
+            {{
+              !item.mark
+                ? "Absent"
+                : item.singoutTime
+                ? "Present"
+                : "Present (No Sign-out)"
+            }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="signin_image_url">
+        <th mat-header-cell *matHeaderCellDef>Image Url</th>
+        <td mat-cell *matCellDef="let item">
+          <img
+            [src]="'http://localhost:3000' + item.signin_image_url"
+            alt="Sign In"
+            class="sign-img"
+          />
+        </td>
+      </ng-container>
+
+      <!-- Header / Row Declarations -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="data-row"
+        (click)="toggleSelection(row, $event)"
+        [class.selected]="selection.isSelected(row)"
+      ></tr>
+
+      <!-- Table Actions hint -->
+      <div class="table-actions" *ngIf="selectionEnabled">
+        <div class="export-tip">
+          <mat-icon>info</mat-icon>
+          Ctrl+Click or Shift+Click to multi‐select rows
+        </div>
+        <button
+          mat-stroked-button
+          color="warn"
+          (click)="clearSelection()"
+          [disabled]="selection.isEmpty()"
+        >
+          <mat-icon>close</mat-icon>
+          Clear Selection
+        </button>
+      </div>
+    </table>
+  </div>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [length]="dataSource.data.length"
+    [pageSizeOptions]="[10, 20, 50, 100]"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>
