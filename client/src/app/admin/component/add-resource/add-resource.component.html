@@ -15,17 +15,32 @@
               <div class="col-md-2" style="padding-right: 0">
                 <div>
                   <mat-label>
-                    <h6 style="margin-left: 20px"><b>Stock Type :</b></h6>
+                    <h6
+                      style="
+                        margin-left: 10px;
+                        font-size: 18px;
+                        margin-bottom: 5px;
+                      "
+                    >
+                      Stock Type :
+                    </h6>
                   </mat-label>
                 </div>
                 <mat-radio-group
                   aria-label="Select an option"
                   formControlName="stock_type"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    font-size: 10px;
+                  "
                 >
                   <mat-radio-button value="O">Old</mat-radio-button>
                   <mat-radio-button value="N">New</mat-radio-button>
                 </mat-radio-group>
               </div>
+
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label> Purchase Order no </mat-label>
@@ -34,9 +49,16 @@
                     placeholder="Purchase Order no"
                     formControlName="purchase_order_no"
                   />
-                  <mat-error *ngIf="resource_stock_entryform.get('purchase_order_no')?.hasError('required') && resource_stock_entryform.get('purchase_order_no')?.touched">
- Purchase order no is required
-    </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('purchase_order_no')
+                        ?.hasError('required') &&
+                      resource_stock_entryform.get('purchase_order_no')?.touched
+                    "
+                  >
+                    Purchase order no is required
+                  </mat-error>
                   <mat-error
                     *ngIf="
                       resource_stock_entryform
@@ -57,9 +79,16 @@
                     placeholder="Purchase_Name"
                     formControlName="purachase_name"
                   />
-                 <mat-error *ngIf="resource_stock_entryform.get('purachase_name')?.hasError('required') && resource_stock_entryform.get('purachase_name')?.touched">
- Purchase name is required
-    </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('purachase_name')
+                        ?.hasError('required') &&
+                      resource_stock_entryform.get('purachase_name')?.touched
+                    "
+                  >
+                    Purchase name is required
+                  </mat-error>
                   <mat-error
                     *ngIf="
                       resource_stock_entryform
@@ -90,9 +119,16 @@
                     placeholder="Agency_Name"
                     formControlName="agency"
                   />
-                  <mat-error *ngIf="resource_stock_entryform.get('agency')?.hasError('required') && resource_stock_entryform.get('agency')?.touched">
- agency is required
-    </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('agency')
+                        ?.hasError('required') &&
+                      resource_stock_entryform.get('agency')?.touched
+                    "
+                  >
+                    agency is required
+                  </mat-error>
 
                   <mat-error
                     *ngIf="
@@ -112,9 +148,16 @@
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Billing Number</mat-label>
                   <input matInput formControlName="bill_no" />
-                  <mat-error *ngIf="resource_stock_entryform.get('bill_no')?.hasError('required') && resource_stock_entryform.get('bill_no')?.touched">
- Billing Number is required
- </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('bill_no')
+                        ?.hasError('required') &&
+                      resource_stock_entryform.get('bill_no')?.touched
+                    "
+                  >
+                    Billing Number is required
+                  </mat-error>
                   <mat-error
                     *ngIf="
                       resource_stock_entryform
@@ -136,9 +179,16 @@
                     placeholder="Amount"
                     formControlName="amount"
                   />
-                  <mat-error *ngIf="resource_stock_entryform.get('amount')?.hasError('required') && resource_stock_entryform.get('amount')?.touched">
- amount  is required
- </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('amount')
+                        ?.hasError('required') &&
+                      resource_stock_entryform.get('amount')?.touched
+                    "
+                  >
+                    amount is required
+                  </mat-error>
                   <mat-error
                     *ngIf="
                       resource_stock_entryform
@@ -169,9 +219,16 @@
                     [for]="picker"
                   ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
-                 <mat-error *ngIf="resource_stock_entryform.get('bill_date')?.hasError('required') && resource_stock_entryform.get('bill_date')?.touched">
-bill date is required
- </mat-error>
+                  <mat-error
+                    *ngIf="
+                      resource_stock_entryform
+                        .get('bill_date')
+                        ?.hasError('required') &&
+                      resource_stock_entryform.get('bill_date')?.touched
+                    "
+                  >
+                    bill date is required
+                  </mat-error>
                   <mat-error
                     *ngIf="
                       resource_stock_entryform
@@ -210,7 +267,7 @@ bill date is required
                     "
                   >
                     Item Category is required
-                    </mat-error>
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
@@ -255,8 +312,9 @@ bill date is required
                   multiple
                   formControlName="Payment_Receipt"
                   #profile
-                  (change)="selectimage($event)" #fileInput>
-
+                  (change)="selectimage($event)"
+                  #fileInput
+                />
               </div>
               <div class="col-md-2" style="margin-top: 20px">
                 <button
@@ -288,19 +346,25 @@ bill date is required
                 <mat-label>Select_Item</mat-label>
 
                 <mat-select
-                  #myuser formControlName="item_id"
+                  #myuser
+                  formControlName="item_id"
                   id="item"
                   matNativeControl
-
                 >
                   <mat-option *ngFor="let item of item" [value]="item.item_id">
                     {{ item.item_name }}</mat-option
                   >
                 </mat-select>
-<mat-error *ngIf="resource_stock_entryform.get('item_id')?.hasError('required') && resource_stock_entryform.get('item_id')?.touched">
-Select_Item is required
- </mat-error>
-
+                <mat-error
+                  *ngIf="
+                    resource_stock_entryform
+                      .get('item_id')
+                      ?.hasError('required') &&
+                    resource_stock_entryform.get('item_id')?.touched
+                  "
+                >
+                  Select_Item is required
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -309,14 +373,21 @@ Select_Item is required
                 <mat-label>Product_Description</mat-label>
                 <input
                   matInput
-                  #myuser1 formControlName="product_Description"
+                  #myuser1
+                  formControlName="product_Description"
                   [value]="val1"
                   placeholder="Product_Description"
-
                 />
-                <mat-error *ngIf="resource_stock_entryform.get('Product_Description')?.hasError('required') && resource_stock_entryform.get('Product_Description')?.touched">
-Product_Description is required
- </mat-error>
+                <mat-error
+                  *ngIf="
+                    resource_stock_entryform
+                      .get('Product_Description')
+                      ?.hasError('required') &&
+                    resource_stock_entryform.get('Product_Description')?.touched
+                  "
+                >
+                  Product_Description is required
+                </mat-error>
               </mat-form-field>
             </div>
 
@@ -325,15 +396,22 @@ Product_Description is required
                 <mat-label>Rate</mat-label>
                 <input
                   matInput
-                  #myuser4 formControlName="rate"
+                  #myuser4
+                  formControlName="rate"
                   [value]="val4"
                   id="rate"
                   placeholder="Rate"
                 />
-                <mat-error *ngIf="resource_stock_entryform.get('rate')?.hasError('required') && resource_stock_entryform.get('rate')?.touched">
-rate is required
- </mat-error>
-
+                <mat-error
+                  *ngIf="
+                    resource_stock_entryform
+                      .get('rate')
+                      ?.hasError('required') &&
+                    resource_stock_entryform.get('rate')?.touched
+                  "
+                >
+                  rate is required
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-3">
@@ -342,12 +420,20 @@ rate is required
                 <input
                   matInput
                   type="text"
-                  #myuser2 formControlName="quantity"
+                  #myuser2
+                  formControlName="quantity"
                   (change)="onChange_quantity($event)"
                 />
-                <mat-error *ngIf="resource_stock_entryform.get('quantity')?.hasError('required') && resource_stock_entryform.get('quantity')?.touched">
-quantity is required
- </mat-error>
+                <mat-error
+                  *ngIf="
+                    resource_stock_entryform
+                      .get('quantity')
+                      ?.hasError('required') &&
+                    resource_stock_entryform.get('quantity')?.touched
+                  "
+                >
+                  quantity is required
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-3">
@@ -358,13 +444,11 @@ quantity is required
                   type="number"
                   [value]="total"
                   (change)="($event)"
-                  #myuser2 formControlName="amount"
+                  #myuser2
+                  formControlName="amount"
                   [value]="total"
                   #myuser3
-
                   placeholder="Total Amount"
-
-
                 />
               </mat-form-field>
             </div>
@@ -534,7 +618,7 @@ quantity is required
                 </button>
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <br />

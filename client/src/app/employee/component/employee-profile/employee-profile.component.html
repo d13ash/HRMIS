@@ -355,7 +355,6 @@
           </div>
         </fieldset>
 
-
         <fieldset class="scheduler-border">
           <legend class="scheduler-border">Uploads</legend>
           <div class="control-group">
@@ -373,13 +372,13 @@
                   type="file"
                   multiple
                   #profile
-                  (change)="selectimage($event)"
+                  (change)="selectPhoto($event)"
                 />
                 <button
                   mat-raised-button
                   color="primary"
                   class="btn btn-secondary btn-sm"
-                  (click)="submitfile()"
+                  (click)="uploadPhoto()"
                   type="button"
                 >
                   Upload
@@ -405,13 +404,13 @@
                   type="file"
                   multiple
                   #profile
-                  (change)="selectimagesss($event)"
+                  (change)="selectSignature($event)"
                 />
                 <button
                   mat-raised-button
                   color="primary"
                   class="btn btn-secondary btn-sm"
-                  (click)="submitfilesig()"
+                  (click)="uploadSignature()"
                   type="button"
                 >
                   Upload
@@ -463,13 +462,13 @@
                       type="file"
                       multiple
                       #profile
-                      (change)="selectimages($event)"
+                      (change)="selectDocument($event)"
                     />
                     <button
                       mat-raised-button
                       color="primary"
                       class="btn btn-secondary btn-sm"
-                      (click)="submitfiles()"
+                      (click)="uploadDocument(i)"
                       type="button"
                     >
                       upload

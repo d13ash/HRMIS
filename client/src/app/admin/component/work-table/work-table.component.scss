@@ -27,11 +27,11 @@
   }
 
   mat-table {
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
     overflow: hidden;
 
     mat-header-row {
-      background-color: #1976d2;
+      background-color: #186fcc;
       color: #ffffff;
       font-weight: 600;
     }
@@ -94,7 +94,7 @@
 
     mat-header-cell,
     mat-cell {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
 
     .mat-column-approval mat-cell {
