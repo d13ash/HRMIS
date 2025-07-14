@@ -13,51 +13,51 @@
           <legend class="scheduler-border">Employee Post Mapping</legend>
           <div class="control-group">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Financial Year</mat-label>
-                  <mat-select
-                    matNativeControl
-                    formControlName="Financial_id"
-                    (valueChange)="onChangeFYear($event)"
-                  >
+                  <mat-select formControlName="Financial_id" (selectionChange)="onChangeFYear($event.value)">
                     <mat-option selected>Select Year</mat-option>
-                    <mat-option
-                      *ngFor="let year of FYear"
-                      [value]="year.Financial_id"
-                    >
-                      {{ year.Financial_name }}</mat-option
-                    >
+                    <mat-option *ngFor="let year of FYear" [value]="year.Financial_id">
+                      {{ year.Financial_name }}
+                    </mat-option>
                   </mat-select>
-                  <mat-error
-                    *ngIf="
-                      postMapForm.get('Financial_id')?.hasError('required') &&
-                      postMapForm.get('Financial_id')?.touched
-                    "
-                  >
+                  <mat-error *ngIf="postMapForm.get('Financial_id')?.hasError('required') && postMapForm.get('Financial_id')?.touched">
                     Financial Year is required
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
+                <mat-form-field appearance="outline" class="inputfieldsize">
+                  <mat-label>Project</mat-label>
+                  <mat-select formControlName="Project_ID" (selectionChange)="onChangeProject($event.value)">
+                    <mat-option selected>Select Project</mat-option>
+                    <mat-option *ngFor="let proj of projectType" [value]="proj.Project_ID">
+                      {{ proj.Project_name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="postMapForm.get('Project_ID')?.hasError('required') && postMapForm.get('Project_ID')?.touched">
+                    Project is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Choose Post </mat-label>
-                  <mat-select formControlName="Post_id">
-                    <mat-option *ngFor="let c of post" [value]="c.Post_id">
+                  <mat-select formControlName="yearly_post_detail_id">
+                    <mat-option *ngFor="let c of allPost" [value]="c.yearly_post_detail_id">
                       {{ c.Post_name }}
                     </mat-option>
                   </mat-select>
-                  <mat-error
-                    *ngIf="
-                      postMapForm.get('Post_id')?.hasError('required') &&
-                      postMapForm.get('Post_id')?.touched
-                    "
-                  >
+                  <mat-error *ngIf="
+                      postMapForm.get('yearly_post_detail_id')?.hasError('required') &&
+                      postMapForm.get('yearly_post_detail_id')?.touched
+                    ">
                     Post is required
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Choose Employee</mat-label>
                   <mat-select formControlName="Emp_Id">
@@ -65,12 +65,10 @@
                       {{ c.Emp_First_Name_E }}
                     </mat-option>
                   </mat-select>
-                  <mat-error
-                    *ngIf="
+                  <mat-error *ngIf="
                       postMapForm.get('Emp_Id')?.hasError('required') &&
                       postMapForm.get('Emp_Id')?.touched
-                    "
-                  >
+                    ">
                     Employee is required
                   </mat-error>
                 </mat-form-field>
@@ -78,29 +76,16 @@
             </div>
             <div class="row">
               <div class="col-md-3">
-                <mat-form-field
-                  color="accent"
-                  appearance="outline"
-                  class="inputfieldsize"
-                >
+                <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
                   <mat-label>Join Date</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker1"
-                    formControlName="Join_date"
-                  />
+                  <input matInput [matDatepicker]="picker1" formControlName="Join_date" />
                   <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker1"
-                  ></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                   <mat-datepicker #picker1></mat-datepicker>
-                  <mat-error
-                    *ngIf="
+                  <mat-error *ngIf="
                       postMapForm.get('Join_date')?.hasError('required') &&
                       postMapForm.get('Join_date')?.touched
-                    "
-                  >
+                    ">
                     Join Date is required
                   </mat-error>
                 </mat-form-field>
@@ -108,47 +93,28 @@
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label> Appointment Order </mat-label>
-                  <input
-                    matInput
-                    placeholder=" Appointment Order"
-                    formControlName="Appointment_order"
-                  />
-                  <mat-error
-                    *ngIf="
+                  <input matInput placeholder=" Appointment Order" formControlName="Appointment_order" />
+                  <mat-error *ngIf="
                       postMapForm
                         .get('Appointment_order')
                         ?.hasError('required') &&
                       postMapForm.get('Appointment_order')?.touched
-                    "
-                  >
+                    ">
                     Appointment Order is required
                   </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-3">
-                <mat-form-field
-                  color="accent"
-                  appearance="outline"
-                  class="inputfieldsize"
-                >
+                <mat-form-field color="accent" appearance="outline" class="inputfieldsize">
                   <mat-label>Reliving Date</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker"
-                    formControlName="Reliving_date"
-                  />
+                  <input matInput [matDatepicker]="picker" formControlName="Reliving_date" />
                   <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker"
-                  ></mat-datepicker-toggle>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
-                  <mat-error
-                    *ngIf="
+                  <mat-error *ngIf="
                       postMapForm.get('Reliving_date')?.hasError('required') &&
                       postMapForm.get('Reliving_date')?.touched
-                    "
-                  >
+                    ">
                     Reliving Date is required
                   </mat-error>
                 </mat-form-field>
@@ -156,17 +122,11 @@
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label> Reliving Order </mat-label>
-                  <input
-                    matInput
-                    placeholder=" Reliving Order"
-                    formControlName="Reliving_order"
-                  />
-                  <mat-error
-                    *ngIf="
+                  <input matInput placeholder=" Reliving Order" formControlName="Reliving_order" />
+                  <mat-error *ngIf="
                       postMapForm.get('Reliving_order')?.hasError('required') &&
                       postMapForm.get('Reliving_order')?.touched
-                    "
-                  >
+                    ">
                     Reliving Order is required
                   </mat-error>
                 </mat-form-field>
@@ -175,20 +135,17 @@
             <div class="row">
               <div class="col-md-2">
                 <div>
-                  <mat-label><h6>Active Status</h6></mat-label>
+                  <mat-label>
+                    <h6>Active Status</h6>
+                  </mat-label>
                 </div>
-                <mat-radio-group
-                  aria-label="Select an option"
-                  formControlName="Active_yn"
-                >
+                <mat-radio-group aria-label="Select an option" formControlName="Active_yn">
                   <mat-radio-button value="Y">Yes</mat-radio-button>
                   <mat-radio-button value="N">No</mat-radio-button>
-                  <mat-error
-                    *ngIf="
+                  <mat-error *ngIf="
                       postMapForm.get('Active_yn')?.hasError('required') &&
                       postMapForm.get('Active_yn')?.touched
-                    "
-                  >
+                    ">
                     Please select Active Status
                   </mat-error>
                 </mat-radio-group>
@@ -203,187 +160,154 @@
 
             <div class="row">
               <div class="col-md-4">
-  <mat-label *ngIf="iseditmode">Edit your NOC</mat-label>&nbsp;
-  <mat-label *ngIf="!iseditmode"><strong>NOC upload</strong></mat-label>&nbsp;
+                <mat-label *ngIf="iseditmode">Edit your NOC</mat-label>&nbsp;
+                <mat-label *ngIf="!iseditmode"><strong>NOC upload</strong></mat-label>&nbsp;
 
-  <input
-    type="file"
-    #profile
-    (change)="selectimage($event)"
-    accept=".pdf"
-    class="form-control"
-  />
+                <input type="file" #profile (change)="selectimage($event)" accept=".pdf" class="form-control" />
 
-  <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
+                <mat-error *ngIf="fileError">{{ fileError }}</mat-error>
 
-  <button
-    mat-raised-button
-    class="mt-2"
-    (click)="submitfile()"
-    type="button"
-    color="accent"
-    style="background-color: rgb(207, 112, 234)"
-  >
-    Upload
-  </button>
-</div>
+                <button mat-raised-button class="mt-2" (click)="submitfile()" type="button" color="accent"
+                  style="background-color: rgb(207, 112, 234)">
+                  Upload
+                </button>
+              </div>
 
-<!-- PDF Preview -->
-<div style="display: contents" *ngIf="imageurl">
-  <a [href]="imageurl" target="_blank">Preview PDF</a>
-</div>
+              <!-- PDF Preview -->
+              <div style="display: contents" *ngIf="imageurl">
+                <a [href]="imageurl" target="_blank">Preview PDF</a>
+              </div>
 
-          </div>
-
-          <div class="row">
-            <div class="col offset-5">
-              <button mat-raised-button type="button" (click)="onClear()">
-                Clear
-              </button>
-              &nbsp;&nbsp;
-              <button
-                mat-raised-button
-                color="primary"
-                *ngIf="!iseditmode"
-                type="submit"
-              >
-                Submit
-              </button>
-              <button
-                mat-raised-button
-                color="primary"
-                *ngIf="iseditmode"
-                (click)="onupdate()"
-                type="button"
-              >
-                Update
-              </button>
             </div>
-          </div>
+
+            <div class="row">
+              <div class="col offset-5">
+                <button mat-raised-button type="button" (click)="onClear()">
+                  Clear
+                </button>
+                &nbsp;&nbsp;
+                <button mat-raised-button color="primary" *ngIf="!iseditmode" type="submit">
+                  Submit
+                </button>
+                <button mat-raised-button color="primary" *ngIf="iseditmode" (click)="onupdate()" type="button">
+                  Update
+                </button>
+              </div>
+            </div>
 
 
-    </div>
+          </div> <!-- close .control-group -->
+        </fieldset> <!-- close fieldset -->
+      </form> <!-- close form -->
 
+      <br /><br />
 
-<br /><br />
+      <!-- mat table -->
+      <div class="container-fluid">
+        <mat-card style="margin-bottom: 40px">
+          <mat-toolbar>
+            <p>
+              <span>
+                <h5 class="title">Mapping Data</h5>
+              </span>
+            </p>
+          </mat-toolbar>
+          <div class="container">
+            <div class="row table-responsive">
+              <div class="search_container mt-2">
+                <mat-form-field class="example-full-width">
+                  <span matPrefix> </span>
+                  <input type="tel" matInput placeholder="Search" autocomplete="off"
+                    (keyup)="applyFilter($event)" />
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
 
-<!-- mat table -->
-<div class="container-fluid">
-  <mat-card style="margin-bottom: 40px">
-    <mat-toolbar>
-      <p>
-        <span><h5 class="title">Mapping Data</h5></span>
-      </p>
-    </mat-toolbar>
-    <div class="container">
-      <div class="row table-responsive">
-        <div class="search_container mt-2">
-          <mat-form-field class="example-full-width">
-            <span matPrefix> </span>
-            <input
-              type="tel"
-              matInput
-              placeholder="Search"
-              autocomplete="off"
-              (keyup)="applyFilter($event)"
-            />
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
-        </div>
+              <table class="con-table" mat-table matSort [dataSource]="dataSource">
+                    <ng-container matColumnDef="Map_post_emp_id">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>ID</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Map_post_emp_id }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Financial_name">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                        Financial Year
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Financial_name }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Emp_First_Name_E">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>Employee</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Emp_First_Name_E }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Post_name">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>Post</th>
+                      <td mat-cell *matCellDef="let element">{{ element.Post_name }}</td>
+                    </ng-container>
 
-        <table class="con-table" mat-table matSort [dataSource]="dataSource">
-          <ng-container matColumnDef="Map_post_emp_id">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Map_post_emp_id }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Financial_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Financial Year
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Financial_name }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Emp_First_Name_E">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Employee</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Emp_First_Name_E }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Post_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Post</th>
-            <td mat-cell *matCellDef="let element">{{ element.Post_name }}</td>
-          </ng-container>
+                    <ng-container matColumnDef="Join_date">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>Join Date</th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Join_date | date : "dd/MM/YYYY" }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Reliving_date">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                        Reliving Date
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Reliving_date | date : "dd/MM/YYYY" }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Appointment_order">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                        Appointment Order
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Appointment_order }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Reliving_order">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                        Reliving Order
+                      </th>
+                      <td mat-cell *matCellDef="let element">
+                        {{ element.Reliving_order }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Active_yn">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>Active</th>
+                      <td mat-cell *matCellDef="let element">{{ element.Active_yn }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Remark">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>
+                        Description
+                      </th>
+                      <td mat-cell *matCellDef="let element">{{ element.Remark }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="NOC_reliving" stickyEnd="true">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>NOC</th>
+                      <td mat-cell *matCellDef="let element">
+                        <a [href]="element.NOC_reliving_url" target="_blank"><mat-icon>tab</mat-icon></a>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Action" stickyEnd="true">
+                      <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="primary"
+                          (click)="onedit(element.Map_post_emp_id); scrollToBottom()">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" type="button" (click)="ondelete(element.Map_post_emp_id)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
 
-          <ng-container matColumnDef="Join_date">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Join Date</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Join_date | date : "dd/MM/YYYY" }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Reliving_date">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Reliving Date
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Reliving_date | date : "dd/MM/YYYY" }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Appointment_order">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Appointment Order
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Appointment_order }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Reliving_order">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Reliving Order
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Reliving_order }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Active_yn">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Active</th>
-            <td mat-cell *matCellDef="let element">{{ element.Active_yn }}</td>
-          </ng-container>
-          <ng-container matColumnDef="Remark">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Description
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.Remark }}</td>
-          </ng-container>
-          <ng-container matColumnDef="NOC_reliving" stickyEnd="true">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>NOC</th>
-            <td mat-cell *matCellDef="let element">
-              <a [href]="element.NOC_reliving" target="_blank"
-                ><mat-icon>tab</mat-icon></a
-              >
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="Action" stickyEnd="true">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
-            <td mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                color="primary"
-                (click)="onedit(element.Map_post_emp_id); scrollToBottom()"
-              >
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="ondelete(element.Map_post_emp_id)"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
-          </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -393,10 +317,10 @@
           class="paging"
           [pageSize]="5"
           [pageSizeOptions]="[5, 10, 25, 100]"
-          aria-label="Select page"
-        >
+          aria-label="Select page">
         </mat-paginator>
       </div>
     </div>
   </mat-card>
 </div>
+

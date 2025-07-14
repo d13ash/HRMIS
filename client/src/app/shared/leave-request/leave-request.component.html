@@ -1,6 +1,7 @@
 <div class="leave-request-container">
-  <h2 mat-dialog-title>{{ data && data.leave ? 'Update Leave Request' : 'New Leave Request' }}</h2>
-
+  <h2 mat-dialog-title>
+    {{ data && data.viewOnly ? 'View Leave Request' : (data && data.leave ? 'Update Leave Request' : 'New Leave Request') }}
+  </h2>
   <mat-dialog-content class="mat-typography">
     <form [formGroup]="leaveForm">
       <div class="form-grid">
@@ -71,26 +72,30 @@
 
       <div class="file-upload-section">
         <label for="fileInput" class="upload-label">
-          <button type="button" mat-stroked-button color="primary" (click)="fileInput.click()">
+          <button type="button" mat-stroked-button color="primary" (click)="fileInput.click()" [disabled]="data && data.viewOnly">
             <mat-icon>attach_file</mat-icon>
             Upload Document
           </button>
         </label>
-        <input hidden #fileInput id="fileInput" type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.jpg,.png">
-
+        <input hidden #fileInput id="fileInput" type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.jpg,.png" [disabled]="data && data.viewOnly">
         <div class="selected-file-display" *ngIf="selectedFile">
           <span class="file-name-text">{{selectedFile.name}}</span>
-          <button mat-icon-button (click)="removeFile()" aria-label="Remove selected file">
+          <button mat-icon-button (click)="removeFile()" aria-label="Remove selected file" [disabled]="data && data.viewOnly">
             <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="selected-file-display" *ngIf="!selectedFile && selectedFileName">
+          <span class="file-name-text">{{selectedFileName}}</span>
+          <button mat-icon-button (click)="viewUploadedFile()" aria-label="View uploaded file">
+            <mat-icon>visibility</mat-icon>
           </button>
         </div>
       </div>
     </form>
   </mat-dialog-content>
-
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!leaveForm.valid">
+    <button mat-button mat-dialog-close>Close</button>
+    <button *ngIf="!data || !data.viewOnly" mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!leaveForm.valid">
       {{ data && data.leave ? 'Update' : 'Submit' }}
     </button>
   </mat-dialog-actions>

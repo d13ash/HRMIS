@@ -273,9 +273,12 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon class="icon-design">calendar_month</mat-icon>
-              Leave
+              Attendance & Leave
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a mat-list-item routerLink="attendance" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Attendance</a>
+          </mat-nav-list>
           <mat-nav-list>
             <a
               mat-list-item

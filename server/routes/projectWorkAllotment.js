@@ -235,4 +235,21 @@ router.post('/PostProjectWorkAllotment', async (req, resp) => {
     }
 })
 
+router.get('/designation/:empId', async (req, res) => {
+    const empId = req.params.empId;
+    const query = `
+        SELECT p.Post_name
+        FROM manpower_basic_detail mbd
+        JOIN m_post p ON mbd.Post_id = p.Post_id
+        WHERE mbd.Emp_Id = ?
+    `;
+    try {
+        const result = await mysql.exec(query, [empId]);
+        if (result.length === 0) return res.status(404).send('Not found');
+        res.json(result[0]);
+    } catch (err) {
+        res.status(500).json({ error: 'Database error', details: err });
+    }
+});
+
 module.exports = router;
