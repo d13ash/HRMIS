@@ -291,6 +291,7 @@ onSubmit() {
       NOC_reliving: this.MapDetaiDataByid.NOC_reliving,
     });
 
+this.imageurl = this.MapDetaiDataByid.NOC_reliving;
 
   }
 

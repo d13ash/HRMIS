@@ -28,7 +28,7 @@ export class MyWorkComponent  implements OnInit{
   countLength: any;
   countApproval: any;
 
-  
+
 
   constructor(private fb:FormBuilder, private ds:DataService, private AS:AuthService){}
   ngOnInit(): void {
@@ -47,16 +47,15 @@ this.getPreview()
            console.log(result)
         this.previewData=result;
         this.useEmpName=this.previewData[0]['Emp_First_Name_E']
-        document.getElementById("addnews")?.scrollIntoView();      
+        document.getElementById("addnews")?.scrollIntoView();
             })
          }
 
-  //update in table  
+  //update in table
   submitForm(alloted_project_work_id:any){
       console.log(this.myWorkForm.value)
       console.log(alloted_project_work_id)
       console.log( this.myWorkForm.controls['is_Work_complete'].value);
-
       this.ds.putData("projectWorkAllotment/updateAllotedWork/" + alloted_project_work_id,{"is_Work_complete": this.myWorkForm.controls['is_Work_complete'].value}).subscribe((res:any)=>{
                 console.log(res)
               });
@@ -84,13 +83,13 @@ this.getPreview()
   //     })
   //   }
 
-   
+
 
 
   // newfunc(){
   //   this.countData.forEach((element:any) => {
   //     console.log(element);
-      
+
   //     this.countApproval.forEach((item:any)=>{
   //       if (element.Project_name == item.Project_name ){
   //         let a={Project_name:element.Project_name,percent:Math.floor((item.TotalWor/element.totalWork)*100)}
@@ -98,7 +97,7 @@ this.getPreview()
   //         this.arr.push(a);
   //         this.arr1.push(element.Project_name);
   //       }
-          
+
   //     })
   //     if(!this.arr1.includes(element.Project_name)){
   //       let a={Project_name:element.Project_name,percent:0}

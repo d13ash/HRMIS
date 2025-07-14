@@ -32,13 +32,13 @@
             <td>{{us.Start_date | date:'dd/mm/yyyy'}}</td>
             <td>{{us.End_date | date:'dd/mm/yyyy'}}</td>
             <td>{{us.Description}}</td>
-            <td> 
+            <td>
               <select name="language" id="language" formControlName="is_Work_complete">
-              <option value="Finish">Finished</option>
-              <option value="Running">Running</option>
-              <option value="Incomplete">Incomplete</option>F
+              <option value="finished">Finished</option>
+              <option value="running">Running</option>
+              <option value="incomplete">Incomplete</option>
             </select> &nbsp;
-            <button class="margin" mat-icon-button color="primary" type="button" (click)="submitForm(us.alloted_project_work_id)"> <mat-icon>save</mat-icon> </button>        
+            <button class="mt-1" mat-icon-button color="primary" type="button" (click)="submitForm(us.alloted_project_work_id)"> <mat-icon>save</mat-icon> </button>
           </td>
             <td>{{us.approval}}</td>
           </tr>
@@ -48,12 +48,12 @@
   </div>
   <br>
   <br>
-  
+
   <!-- progresbbar old code without chatgpt code its also run fine but need to click button to call funtion -->
   <!-- <div>
     <button (click)="newfunc()">click</button>
   </div> -->
-  
+
   <!-- <div class="row">
   <div class="col-md-6">
     <div *ngFor="let a of arr" >
@@ -68,9 +68,8 @@
     </div>
   </div>
   </div> -->
-  
-  
-  
-  
-  
-  
+
+
+
+
+

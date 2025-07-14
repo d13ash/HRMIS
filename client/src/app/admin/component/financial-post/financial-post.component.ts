@@ -246,6 +246,9 @@ export class FinancialPostComponent implements OnInit {
   async onedit(f_id: any) {
     this.isEdit = true;
     this.f_id = f_id;
+    document
+      .getElementById('projectform')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
     // Extract filename with extension from URL
     const getFileNameFromUrl = (url: string): string => {

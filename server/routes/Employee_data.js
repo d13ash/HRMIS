@@ -19,10 +19,7 @@ const upload = multer({
     },
     filename: function (req, file, cb) {
       // Modify the file name to include a timestamp
-      cb(
-        null,
-        file.originalname + Date.now() + path.extname(file.originalname)
-      );
+      cb(null, Date.now() + path.extname(file.originalname));
     },
   }),
   limits: { fileSize: 100 * 1024 }, // Limit file size to 100 KB
@@ -318,13 +315,13 @@ router.post("/user/addlogin", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: "mahim.test29@gmail.com", // generated ethereal user
-        pass: "ijiu gqcu pxaq oxlt", // generated ethereal password
+        user: "meghadewangan2512@gmail.com", // generated ethereal user
+        pass: "mxkw kpea dozg skpa", // generated ethereal password
       },
     });
 
     const mailOptions = {
-      from: "mahim.test29@gmail.com",
+      from: "meghadewangan2512@gmail.com",
       to: req.body.email,
       subject: "Your Userid And Password ",
       text: `Your User ID is ${username}. Your Password is ${decryptedPassword}.`,
@@ -366,7 +363,6 @@ router.put("/updateuserdata/:id", async (req, resp) => {
 });
 
 router.post("/documentsdetail/adddocuments", async (req, res) => {
- 
   var values = req.body;
   var query = "INSERT INTO manpower_document_detail SET ? ";
 
@@ -382,7 +378,15 @@ router.post("/documentsdetail/adddocuments", async (req, res) => {
 
 router.get("/documentsdetail/getdocuments/:Emp_Id", async (req, res) => {
   const Emp_Id = req.params.Emp_Id;
-  const query = "SELECT * FROM manpower_document_detail WHERE Emp_Id = ?";
+  const query = `SELECT 
+  Emp_Document_Detail_Id,
+  Document_Id,
+  CONCAT('${req.protocol}://${req.get("host")}', Document_Path) AS Document_Path
+FROM 
+  manpower_document_detail
+WHERE 
+  Emp_Id = ?;
+`;
   const result = await mysql.exec(query, [Emp_Id]);
 
   if (!result || result.length === 0) {
@@ -391,8 +395,6 @@ router.get("/documentsdetail/getdocuments/:Emp_Id", async (req, res) => {
 
   res.json(result);
 });
-
-
 
 router.put("/updatelogindata/:ID", async (req, res) => {
   const password = req.body.password;

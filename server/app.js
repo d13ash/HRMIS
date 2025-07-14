@@ -145,7 +145,7 @@ const upload = multer({
     filename: function (req, file, cb) {
       cb(
         null,
-        file.originalname + Date.now() + path.extname(file.originalname)
+         Date.now() + path.extname(file.originalname)
       ); 
     },
   }),

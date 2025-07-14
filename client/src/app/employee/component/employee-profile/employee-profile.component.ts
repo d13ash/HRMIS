@@ -1,5 +1,12 @@
-import { HttpEventType, HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  ElementRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -70,7 +77,8 @@ export class EmployeeProfileComponent implements OnInit {
     private ds: DataService,
     private AS: AuthService,
     private router: Router,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+      private cdRef: ChangeDetectorRef
   ) {}
 
   // Inside the component class
@@ -160,6 +168,8 @@ export class EmployeeProfileComponent implements OnInit {
       .getData(`Employee_data/documentsdetail/getdocuments/${value.Emp_Id}`)
       .subscribe(
         (documents: any[]) => {
+          console.log(documents);
+
           const documentsArray = this.registationForm.get(
             'Documents_Path_emp'
           ) as FormArray;
@@ -342,10 +352,37 @@ export class EmployeeProfileComponent implements OnInit {
     { value: '3', viewValue: 'OTHERS' },
   ];
 
-  onReset() {
-    this.submitted = false;
-    this.registationForm.reset();
-  }
+
+onReset(): void {
+  this.submitted = false;
+
+  /* 1. clear form values */
+  this.registationForm.reset();
+
+  /* 2. return controls to a pristine / untouched state */
+  this.registationForm.markAsPristine();
+  this.registationForm.markAsUntouched();
+  this.registationForm.updateValueAndValidity();
+
+  /* 3. clear file previews & arrays */
+  this.uploadedimage   = null;          // photo preview
+  this.uploadedimagess = null;          // signature preview
+  this.imageurls       = null;          // saved photo url
+  this.imageurlss      = null;          // saved signature url
+  this.images          = null;          // last selected File
+  this.imageurl.length = 0;             // document preview list
+
+  /* 4. reset document form‑array */
+  this.documentcontrol.clear();
+  this.addDocuments();                  // leave one empty row if you like
+
+  /* 5. reset helper flags */
+  this.useCurrentAddressAsPermanent = false;
+
+  /* 6. trigger change detection (only needed if you notice UI lag) */
+  this.cdRef.detectChanges();
+}
+
   selectDocument(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];

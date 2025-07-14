@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit,ViewEncapsulation, Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { AuthService } from '../../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-work-table',
   templateUrl: './work-table.component.html',
-  styleUrl: './work-table.component.scss'
+  styleUrl: './work-table.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class WorkTableComponent implements  OnInit {
   displayedColumns: string[] = [

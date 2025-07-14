@@ -437,15 +437,14 @@
                 "
                 [formGroupName]="i"
               >
-                <!--this is run as much we have formgroup in array-->
                 <div class="row">
                   <div
                     class="col-md-6"
                     style="margin-top: 5px; margin-bottom: 5px; width: 100%"
                   >
+                    <!-- Select Document Type -->
                     <mat-form-field appearance="outline" style="width: 30%">
                       <mat-label>Select Documents</mat-label>
-
                       <mat-select
                         matNativeControl
                         formControlName="Document_Id"
@@ -454,13 +453,15 @@
                           *ngFor="let Documents of documentsdata"
                           [value]="Documents.Document_Id"
                         >
-                          {{ Documents.Document_Name }}</mat-option
-                        >
-                      </mat-select> </mat-form-field
-                    >&nbsp;
+                          {{ Documents.Document_Name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <!-- File Upload -->
+                    &nbsp;
                     <input
                       type="file"
-                      multiple
                       #profile
                       (change)="selectDocument($event)"
                     />
@@ -471,8 +472,21 @@
                       (click)="uploadDocument(i)"
                       type="button"
                     >
-                      upload
+                      Upload
                     </button>
+
+                    <!-- View File -->
+                    <a
+                      *ngIf="addressGroup.get('Document_Path')?.value"
+                      [href]="addressGroup.get('Document_Path')?.value"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style="margin-left: 10px"
+                    >
+                      View File
+                    </a>
+
+                    <!-- Optional: File Icon or Fallback -->
                     <div style="display: contents">
                       <img
                         [src]="imagesphoto[i]"
@@ -480,16 +494,12 @@
                         *ngIf="imagesphoto[i]"
                         class="imgicon"
                       />
-                      <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWq1fCF7KbKYum0PRRMGKnq4EBj-QT_bcSLhLsIphPeQ&s"
-                        alt="Image Icon"
-                        class="imgicon"
-                        *ngIf="!imagesphoto[i]"
-                      />
                     </div>
                   </div>
                 </div>
               </ng-container>
+
+              <!-- Add More Button -->
               <button
                 btn-sm
                 class="primary"
@@ -501,6 +511,7 @@
             </div>
           </div>
         </fieldset>
+
         <div class="row">
           <div class="col offset-5">
             <button mat-raised-button type="button">Clear</button> &nbsp;&nbsp;
