@@ -10,6 +10,7 @@ import { ResourceShowComponent } from '../shared/resource-show/resource-show.com
 import { LeaveStatusComponent } from '../shared/leave-status/leave-status.component';
 import { LeaveHrComponent } from '../shared/leave-hr/leave-hr.component';
 import { LeaveRequestComponent } from '../shared/leave-request/leave-request.component';
+import { AttendanceEmpComponent } from '../shared/attendance-emp/attendance-emp.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-dash/content', pathMatch: 'full' },
@@ -27,7 +28,8 @@ const routes: Routes = [
       },
       { path: 'my-resource', component: ResourceShowComponent },
       { path: 'leave-status', component: LeaveStatusComponent },
-      { path: 'leave-request', component: LeaveRequestComponent }
+      { path: 'leave-request', component: LeaveRequestComponent },
+      { path: 'attendance-emp', component: AttendanceEmpComponent }
     ],
   },
 ];

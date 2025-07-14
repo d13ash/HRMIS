@@ -32,6 +32,7 @@ import { AddEmployeeComponent } from './component/add-employee/add-employee.comp
 import { PostDetailComponent } from './component/post-detail/post-detail.component';
 import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 import { LeaveRequestCheckComponent } from '../shared/leave-request-check/leave-request-check.component';
+import { AttendanceComponent } from '../shared/attendance/attendance.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'admindashboard/content', pathMatch: 'full' },
@@ -75,6 +76,7 @@ const routes: Routes = [
       { path: 'post-detail', component: PostDetailComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'leave-request-check', component: LeaveRequestCheckComponent },
+      { path: 'attendance', component: AttendanceComponent }
     ],
   },
 ];

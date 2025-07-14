@@ -1,0 +1,141 @@
+.birthday-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    background: #fffef9;
+    border-left: 5px solid #ffc107;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 16px;
+    z-index: 1050;
+    animation: slideIn 0.4s ease;
+    font-family: 'Segoe UI', sans-serif;
+  
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      .emoji {
+        font-size: 24px;
+      }
+  
+      .close-btn {
+        font-size: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #555;
+        transition: transform 0.2s;
+      }
+  
+      .close-btn:hover {
+        transform: scale(1.2);
+        color: red;
+      }
+    }
+  
+    .popup-content {
+      margin-top: 10px;
+  
+      h4 {
+        margin: 0;
+        font-size: 16px;
+        color: #333;
+      }
+  
+      .msg {
+        font-size: 14px;
+        color: #666;
+        margin-top: 6px;
+      }
+    }
+  
+    .popup-actions {
+      margin-top: 12px;
+      text-align: right;
+  
+      .view-more-btn {
+        background: #ffc107;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: background 0.3s;
+  
+        &:hover {
+          background: #e0a800;
+        }
+      }
+    }
+  }
+  
+  .birthday-modal {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    width: 360px;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    z-index: 1100;
+    padding: 20px;
+  
+    
+  .cdk-overlay-backdrop {
+    background: transparent !important;
+  }
+  
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+  
+      h3 {
+        margin: 0;
+      }
+  
+      .close-btn {
+        font-size: 22px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+    }
+  .birthday-popup-overlay,
+  .birthday-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    ul {
+      list-style: none;
+      padding: 0;
+  
+      li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+      }
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(50%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }
+  

@@ -5,6 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DatePipe } from '@angular/common';
 import { DataService } from '../../../services/data.service';
+import { BirthdaypopUpComponent } from '../../../shared/birthdaypop-up/birthdaypop-up.component'; 
+import { MatDialog } from '@angular/material/dialog';
 // DataService
 
 @Component({
@@ -23,10 +25,11 @@ export class HrDashContentComponent implements OnInit {
 
   projectWorkDetail: any;
   
-  constructor(private ds:DataService, private datepipe: DatePipe){}
+  constructor(private ds:DataService, private datepipe: DatePipe, private dialog: MatDialog){}
 
   ngOnInit(): void {
-    this.getTable()
+    this.getTable();
+    this.openbirthdyPopup();
   }
 
   applyFilter(event: Event) {
@@ -42,6 +45,17 @@ getTable(){
           this.dataSource.sort = this.MatSort;
       console.log(result);  
     })
+    }
+
+    openbirthdyPopup() {
+      this.ds.getData('birthdaypop/birthday-soon').subscribe((result: any) => {
+        console.log(result);
+        
+        this.dialog.open(BirthdaypopUpComponent, {
+          width: '500px',
+          data: result
+        });
+      })
     }
 
 }
