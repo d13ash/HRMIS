@@ -83,15 +83,7 @@ export class FinancialPostComponent implements OnInit {
     });
   }
 
-  onChangeProject(pid: any) {
-    if (!pid) {
-      Swal.fire('Invalid', 'Project not selected.', 'warning');
-      return;
-    }
-    this.ds.getData('Financialyear_post/getPost/' + this.f_id + '/' + pid).subscribe((result) => {
-      this.postList = result;
-    });
-  }
+
 
   getYear() {
     this.ds
@@ -136,11 +128,6 @@ export class FinancialPostComponent implements OnInit {
   }
 
   onChangeFYear(Financial_id: any) {
-    // this.ds
-    //   .getData('Financialyear_post/getPost/' + Financial_id)
-    //   .subscribe((res) => {
-    //     this.postList = res;
-    //   });
     if (!Financial_id) {
       Swal.fire('Invalid', 'Financial year not selected.', 'warning');
       return;
@@ -151,6 +138,16 @@ export class FinancialPostComponent implements OnInit {
     });
   }
 
+    onChangeProject(pid: any) {
+    if (!pid) {
+      Swal.fire('Invalid', 'Project not selected.', 'warning');
+      return;
+    }
+    this.ds.getData('Financialyear_post/getPost/' + this.f_id + '/' + pid).subscribe((result) => {
+      this.postList = result;
+    });
+  }
+  
   onChangePost(postIndex: number, postId: any) {
     if (!postId || !this.postList) return;
     // Find the post in postList by Post_id

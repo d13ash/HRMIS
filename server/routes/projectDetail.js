@@ -72,7 +72,11 @@ router.get('/allProjectmap', async (req, res) => {
 
 
 router.get('/allProject/:id', async (req, resp) => {
-    var query = "SELECT * FROM m_project WHERE Project_ID = ?";
+    var query = `SELECT 
+        p.Project_ID, p.Project_name, p.Project_Short_name,
+        t.Project_Type_ID, p.Project_Discription, t.Project_Type_Name 
+        FROM m_project p 
+        LEFT JOIN m_project_type t ON t.Project_Type_ID = p.Project_Type_ID WHERE p.Project_ID = ?`;
     var id = req.params.id;
 
     try {

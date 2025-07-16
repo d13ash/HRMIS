@@ -48,7 +48,38 @@ router.get('/allDepartmentWithType', async (req, res) => {
 
 
 router.get('/allDepartment/:id',async (req,resp)=>{
-    var query = "SELECT * FROM m_department WHERE Dept_ID = ?";
+    
+const query = `
+SELECT 
+    d.Dept_ID,
+    d.Dept_Name,
+    d.Dept_Type_ID,
+    d.Parent_Dept_ID,
+    d.Email_ID,
+    CONCAT('${req.protocol + '://' + req.get('host')}/api/uploads', d.Logo_Path) AS Logo_Path,
+    d.Website_Url,
+    d.About_Department,
+    d.Address,
+    d.State,
+    s.State_id,
+    s.State_name,
+    d.Pincode,
+    d.District,
+    dist.Distric_id,
+    dist.Distric_name,
+    d.Contact_Number,
+    d.Block,
+    d.Contact_Person_ID,
+    d2.Dept_Name AS Parent_Dept_Name,
+    d.Delete_YN,
+    t.Dept_Type_ID,
+    t.Dept_Type_Name
+    FROM m_department d
+    LEFT JOIN m_dept_type t ON t.Dept_Type_ID = d.Dept_Type_ID
+    LEFT JOIN m_department d2 ON d.Parent_Dept_ID = d2.Dept_ID
+    LEFT JOIN state s ON s.State_id = d.State
+    LEFT JOIN distric dist ON dist.Distric_id = d.District
+    WHERE d.Delete_YN IS NULL AND d.Dept_ID = ?  `;
     var id = req.params.id;
 
    try {
