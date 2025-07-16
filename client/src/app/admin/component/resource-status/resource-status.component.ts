@@ -57,13 +57,15 @@ submitted = false;
     element.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }
 
-  // get resource in dropdown
+
   assignResource() {
     this.ds.getData('resourceStatus/allResource').subscribe((result) => {
       console.log(result);
       this.resource = result;
     })
   }
+
+
 
   // get resource in dropdown
   Status() {

@@ -30,7 +30,7 @@ constructor(
     const Emp_Id = this.AS.currentUser.Emp_Id;
     if (Emp_Id == id) {
       return true; // User is the same as the employee
-    } 
+    }
     return false; // User is not the same as the employee
   }
 getBirthdayMessage(emp: any): string {
@@ -40,7 +40,7 @@ getBirthdayMessage(emp: any): string {
 console.log('Current Emp ID:', currentEmpId);
 console.log('Employee ID:', empId);
   console.log('emp:', emp);
- 
+
   if (currentEmpId === empId && days === 0) {
     return `🎉 Hey ${emp.name}, Happy Birthday to you! 🎂`;
   } else if (currentEmpId === empId && days === 1) {
@@ -51,15 +51,15 @@ console.log('Employee ID:', empId);
 
   if (currentEmpId !== empId) {
     if (days === 0) {
-      return `🎂 Today is ${emp.name}'s birthday!`;
+      return `🎂 Today is ${emp.name}'s Birthday!`;
     } else if (days === 1) {
-      return `📅 ${emp.name}'s birthday is tomorrow.`;
+      return `📅 ${emp.name}'s Birthday is tomorrow.`;
     } else if (days === 2) {
-      return `📅 ${emp.name}'s birthday is in 2 days.`;
+      return `📅 ${emp.name}'s Birthday is in 2 days.`;
     }
   }
 
-  
+
   return '';
 }
 
@@ -101,7 +101,7 @@ console.log('Employee ID:', empId);
   }
   setTimeout(() => {
     this.closeAll();
-  }, 5000);
+  }, 10000);
 }
 
   fetchBirthdaySoon() {
@@ -117,7 +117,7 @@ console.log('Employee ID:', empId);
     startRotation() {
     this.interval = setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % this.birthdays.length;
-    }, 4000);
+    }, 10000);
   }
 
   getDaysUntil(birthday: string): number {

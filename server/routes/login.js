@@ -175,12 +175,12 @@ router.get("/userlogindetail/:id", async (req, resp) => {
     mbd.Permanent_Address,
     mbd.Current_Address,
     mbd.Salutation_E,
+     CONCAT('${req.protocol}://${req.get(
+    "host"
+  )}/api', mbd.Emp_Photo_Path) AS Emp_Photo_Path,
     CONCAT('${req.protocol}://${req.get(
     "host"
-  )}', mbd.Emp_Photo_Path) AS Emp_Photo_Path,
-    CONCAT('${req.protocol}://${req.get(
-    "host"
-  )}', mbd.Emp_Signature_Path) AS Emp_Signature_Path,
+  )}/api', mbd.Emp_Signature_Path) AS Emp_Signature_Path,
     mbd.Permanent_Block_Id,
     mbd.Permanent_District_Id,
     mbd.Permanent_State_Id,

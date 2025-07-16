@@ -156,7 +156,7 @@ const upload = multer({
   limits: { fileSize: 1000000000000000 }, //this for limiting file size
 });
 
-app.use("/api/images", express.static("uploads")); 
+// app.use("/api/images", express.static("uploads")); 
 
 
 app.post("/api/uploadfile", upload.single("file_Path"), (req, resp, next) => {

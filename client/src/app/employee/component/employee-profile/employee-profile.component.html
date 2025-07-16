@@ -385,8 +385,9 @@
                 </button>
                 <div style="display: contents">
                   <img
+                    *ngIf="uploadedimage"
                     [src]="uploadedimage"
-                    alt="Profile Photo "
+                    alt="Profile Photo"
                     class="imgicon"
                   />
                 </div>
@@ -417,7 +418,7 @@
                 </button>
                 <div style="display: contents">
                   <img
-                    [src]="uploadedimagess"
+                    [src]="uploadedsignature"
                     alt=" Signature"
                     class="imgicon"
                   />

@@ -8,22 +8,33 @@ const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const { promisify } = require("util");
-const multer = require("multer");
+
 const path = require("path");
 
+const fs = require("fs");
+
+
+// Ensure folder exists
+const uploadPath = path.join(__dirname, "../uploads/employeedata");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+const multer = require("multer");
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      // Decide where to store the file
-      cb(null, "uploads/employeedata"); // "uploads" is the folder name
+      cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-      // Modify the file name to include a timestamp
-      cb(null, Date.now() + path.extname(file.originalname));
+      const originalName = path.parse(file.originalname).name.replace(/\s+/g, "_"); // remove spaces
+      const ext = path.extname(file.originalname);
+      const timestamp = Date.now();
+      cb(null, `${originalName}_${timestamp}${ext}`);
     },
   }),
-  limits: { fileSize: 100 * 1024 }, // Limit file size to 100 KB
+  limits: { fileSize: 100 * 1024 }, // 100 KB
 });
+
 
 // router.use("/images", express.static("uploads")); //by using this we can access the node file outside the application  // here we have to pass two parameter first is reference of image path and second is actual image path
 router.post(
@@ -35,7 +46,7 @@ router.post(
     if (!file) {
       return next("No File Found");
     }
-    const profileURL = "/api/uploads/employeedata/" + req.file.filename;
+    const profileURL = "/uploads/employeedata/" + req.file.filename;
     resp.json({
       profile_url: profileURL,
       success: "File Uploaded Successfully",
@@ -79,7 +90,7 @@ router.post(
     if (!file) {
       return next("No File Found");
     }
-    const profileURL = "/api/uploads/employeedata/" + req.file.filename;
+    const profileURL = "/uploads/employeedata/" + req.file.filename;
     resp.json({
       profile_url: profileURL,
       success: "File Uploaded Successfully",
@@ -100,7 +111,7 @@ router.get("/allempdetails", async (req, res) => {
         ELSE '' 
     END AS FullName,
     mbd.Emp_Photo_Path,
-    mbd.Emp_Signature_Path, -- Include the signature path
+    mbd.Emp_Signature_Path,
     mbd.Father_Name_E,
     mbd.Mother_Name_E,
     mbd.Guardian_Name_E,

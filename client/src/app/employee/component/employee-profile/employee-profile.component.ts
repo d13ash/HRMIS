@@ -58,7 +58,7 @@ export class EmployeeProfileComponent implements OnInit {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1VyCFr3rHLultu7DYy5oRiJlAO-eTOSdXLRhBIfhlGQ&s;';
   uploadedimages: any;
   imagesphoto: any[] = [];
-  uploadedimagess: any =
+  uploadedsignature: any =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWq1fCF7KbKYum0PRRMGKnq4EBj-QT_bcSLhLsIphPeQ&s;';
   imageurl: string[] = [];
   imageurls: any;
@@ -161,7 +161,7 @@ export class EmployeeProfileComponent implements OnInit {
 
     // Update image paths for preview
     this.uploadedimage = value.Emp_Photo_Path;
-    this.uploadedimagess = value.Emp_Signature_Path;
+    this.uploadedsignature = value.Emp_Signature_Path;
 
     // Fetch and populate documents dynamically using Emp_Id
     this.ds
@@ -366,7 +366,7 @@ onReset(): void {
 
   /* 3. clear file previews & arrays */
   this.uploadedimage   = null;          // photo preview
-  this.uploadedimagess = null;          // signature preview
+  this.uploadedsignature = null;          // signature preview
   this.imageurls       = null;          // saved photo url
   this.imageurlss      = null;          // saved signature url
   this.images          = null;          // last selected File
@@ -468,29 +468,27 @@ onReset(): void {
     }
   }
 
-  uploadPhoto() {
-    if (!this.images) {
-      Swal.fire(
-        'No file selected',
-        'Please select an image to upload',
-        'error'
-      );
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('Emp_Photo_Path', this.images);
-
-    this.ds.postData('Employee_data/uploadfile', formData).subscribe(
-      (result: any) => {
-        this.imageurls = result['profile_url'];
-        Swal.fire('Photo uploaded successfully');
-      },
-      (error) => {
-        Swal.fire('Upload failed', 'An error occurred during upload', 'error');
-      }
-    );
+ uploadPhoto() {
+  if (!this.images) {
+    Swal.fire('No file selected', 'Please select an image to upload', 'error');
+    return;
   }
+
+  const formData = new FormData();
+  formData.append('Emp_Photo_Path', this.images);
+
+  this.ds.postData('Employee_data/uploadfile', formData).subscribe(
+    (result: any) => {
+      const relativePath = result['profile_url']; // "/uploads/employeedata/profile_....jpg"
+      this.imageurls = environment.rootUrl + relativePath.replace(/^\/+/, ''); // full URL
+      this.uploadedimage = this.imageurls; // set preview
+      Swal.fire('Photo uploaded successfully');
+    },
+    (error) => {
+      Swal.fire('Upload failed', 'An error occurred during upload', 'error');
+    }
+  );
+}
 
   selectSignature(event: any) {
     if (event.target.files.length > 0) {
@@ -515,35 +513,41 @@ onReset(): void {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event: any) => {
-        this.uploadedimagess = event.target.result;
+        this.uploadedsignature
+         = event.target.result;
         this.images = file; // Store file for blob upload
       };
     }
   }
 
-  uploadSignature() {
-    if (!this.images) {
-      Swal.fire(
-        'No file selected',
-        'Please select an image to upload',
-        'error'
-      );
-      return;
-    }
 
-    const formData = new FormData();
-    formData.append('Emp_Signature_Path', this.images);
 
-    this.ds.postData('Employee_data/uploadfilesig', formData).subscribe(
-      (result: any) => {
-        this.imageurlss = result['profile_url'];
-        Swal.fire('Signature uploaded successfully');
-      },
-      (error) => {
-        Swal.fire('Upload failed', 'An error occurred during upload', 'error');
-      }
+uploadSignature() {
+  if (!this.images) {
+    Swal.fire(
+      'No file selected',
+      'Please select an image to upload',
+      'error'
     );
+    return;
   }
+
+  const formData = new FormData();
+  formData.append('Emp_Signature_Path', this.images);
+
+  this.ds.postData('Employee_data/uploadfilesig', formData).subscribe(
+    (result: any) => {
+      const relativePath = result['profile_url']; // e.g., /uploads/employeedata/signature_....jpg
+      this.imageurlss = environment.rootUrl + relativePath.replace(/^\/+/, '');
+      this.uploadedsignature = this.imageurlss; // used for preview
+      Swal.fire('Signature uploaded successfully');
+    },
+    (error) => {
+      Swal.fire('Upload failed', 'An error occurred during upload', 'error');
+    }
+  );
+}
+
 
   patchStdIdValue(index: number, stdId: any) {
     const control = this.documentcontrol.at(index).get('std_id');
