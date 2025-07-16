@@ -77,7 +77,6 @@ export class WorkAllotmentComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getTable();
-    this.getProject();
     this.getYear();
     this.arrafunc();
 
@@ -163,27 +162,68 @@ export class WorkAllotmentComponent implements OnInit {
   }
 
   // here using same API for project ,module  and work  dropdown which are defined in project work detail components
-  // get Project in dropdown
 
-  getProject() {
-    this.ds.getData('projectWorkDetail/allProjectmap').subscribe((result) => {
-      console.log(result);
+  // get project based on financial year
+  onChangeFYear(Financial_id: any) {
+    if (!Financial_id) {
+      Swal.fire('Invalid', 'Financial year not selected.', 'warning');
+      return;
+    }
+    this.projectWorkAllotForm.patchValue({ Financial_id });
+    this.ds.getData('map_post_emp/getProject/' + Financial_id).subscribe((result) => {
       this.project = result;
+      // Reset dependent dropdowns
+      this.ModuleData = null;
+      this.projectwork = null;
+      this.allemp = null;
+      this.projectWorkAllotForm.patchValue({ 
+        Project_ID: null, 
+        project_module_id: null,
+        Emp_Id: null
+      });
     });
+  }
+
+  // Load employees when both financial year and project are selected
+  loadEmployees() {
+    const Financial_id = this.projectWorkAllotForm.get('Financial_id')?.value;
+    const Project_ID = this.projectWorkAllotForm.get('Project_ID')?.value;
+    
+    if (Financial_id && Project_ID) {
+      this.onChangeEmp(Financial_id, Project_ID);
+    }
   }
 
   // get module in dropdown
   onChangeModule(Project_id: any) {
+    if (!Project_id) {
+      Swal.fire('Invalid', 'Project not selected.', 'warning');
+      return;
+    }
+    this.projectWorkAllotForm.patchValue({ Project_ID: Project_id });
     this.ds
       .getData('projectWorkDetail/allmodulemap/' + Project_id)
       .subscribe((result) => {
         console.log(result);
         this.ModuleData = result;
+        // Reset dependent dropdowns
+        this.projectwork = null;
+        this.projectWorkAllotForm.patchValue({ 
+          project_module_id: null
+        });
       });
+    
+    // Load employees when project changes
+    this.loadEmployees();
   }
 
   // get work in dropdown
   onChangeWork(project_module_id: any) {
+    if (!project_module_id) {
+      Swal.fire('Invalid', 'Module not selected.', 'warning');
+      return;
+    }
+    this.projectWorkAllotForm.patchValue({ project_module_id });
     this.ds
       .getData('projectWorkDetail/allWork/' + project_module_id)
       .subscribe((result) => {
@@ -202,10 +242,14 @@ export class WorkAllotmentComponent implements OnInit {
       });
   }
 
-  // get employee in dropdown
-  onChangeEmp(Financial_id: any) {
+  // get employee in dropdown based on financial year and project
+  onChangeEmp(Financial_id: any, Project_id: any) {
+    if (!Financial_id || !Project_id) {
+      Swal.fire('Invalid', 'Financial year and project must be selected first.', 'warning');
+      return;
+    }
     this.ds
-      .getData('projectWorkAllotment/allemp/' + Financial_id)
+      .getData('projectWorkAllotment/allemp/' + Financial_id + '/' + Project_id)
       .subscribe((res) => {
         this.allemp = res;
       });
@@ -360,24 +404,29 @@ export class WorkAllotmentComponent implements OnInit {
         Project_work_main_id: works
       });
     })
-    this.onChangeWork(this.WorkAllotDataByid.project_module_id);
-    this.onChangeEmp(this.WorkAllotDataByid.Financial_id);
-    this.onChangeModule(this.WorkAllotDataByid.Project_ID);
-    this.getPreview(this.WorkAllotDataByid.Emp_Id); //
-    this.projectWorkAllotForm.patchValue
-
-      ({
-        Financial_id: this.WorkAllotDataByid.Financial_id,
-        Project_ID: this.WorkAllotDataByid.Project_ID,
-        project_module_id: this.WorkAllotDataByid.project_module_id,
-        // Project_work_main_id:this.WorkAllotDataByid.Project_work_main_id,
-        Project_work_main_id: this.WorkAllotDataByid.Project_work_main_id,
-        Emp_Id: this.WorkAllotDataByid.Emp_Id,
-        Allotment_date: this.WorkAllotDataByid.Allotment_date,
-        Start_date: this.WorkAllotDataByid.Start_date,
-        End_date: this.WorkAllotDataByid.End_date,
-        Description: this.WorkAllotDataByid.Description
-      })
+    
+    // Load cascading dropdowns in the correct order
+    this.onChangeFYear(this.WorkAllotDataByid.Financial_id);
+    
+    // Use setTimeout to ensure the previous API calls complete before loading dependent data
+    setTimeout(() => {
+      this.onChangeModule(this.WorkAllotDataByid.Project_ID);
+      setTimeout(() => {
+        this.onChangeWork(this.WorkAllotDataByid.project_module_id);
+      }, 100);
+    }, 100);
+    
+    this.getPreview(this.WorkAllotDataByid.Emp_Id);
+    this.projectWorkAllotForm.patchValue({
+      Financial_id: this.WorkAllotDataByid.Financial_id,
+      Project_ID: this.WorkAllotDataByid.Project_ID,
+      project_module_id: this.WorkAllotDataByid.project_module_id,
+      Emp_Id: this.WorkAllotDataByid.Emp_Id,
+      Allotment_date: this.WorkAllotDataByid.Allotment_date,
+      Start_date: this.WorkAllotDataByid.Start_date,
+      End_date: this.WorkAllotDataByid.End_date,
+      Description: this.WorkAllotDataByid.Description
+    })
   }
 
   onupdate() {
