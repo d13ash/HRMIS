@@ -19,28 +19,72 @@ export class AdminDashContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.openRelievingPopup();
-    this.openbirthdyPopup();
+    this.openbirthdayPopup();
   }
 
   openRelievingPopup() {
+    // Check if popup was already shown today
+    const today = new Date().toDateString();
+    const lastShown = localStorage.getItem('relievingPopupLastShown');
+    
+    if (lastShown === today) {
+      return; // Don't show popup if already shown today
+    }
 
     this.ds.getData('dashboardContent/postMap').subscribe((result: any) => {
-        this.dialog.open(ReminderComponent, {
-        width: '500px',
-        data: result
-      });
-    })
+      if (result && result.length > 0) {
+        const dialogRef = this.dialog.open(ReminderComponent, {
+          width: '500px',
+          data: result
+        });
+
+        // Mark as shown today when dialog opens
+        localStorage.setItem('relievingPopupLastShown', today);
+      }
+    });
   }
 
-  openbirthdyPopup() {
+  openbirthdayPopup() {
+    // Check if popup was already shown today
+    const today = new Date().toDateString();
+    const lastShown = localStorage.getItem('birthdayPopupLastShown');
+    
+    if (lastShown === today) {
+      return; // Don't show popup if already shown today
+    }
+
     this.ds.getData('birthdaypop/birthday-soon').subscribe((result: any) => {
       console.log(result);
       
+      if (result && result.length > 0) {
+        const dialogRef = this.dialog.open(BirthdaypopUpComponent, {
+          width: '500px',
+          data: result
+        });
+
+        // Mark as shown today when dialog opens
+        localStorage.setItem('birthdayPopupLastShown', today);
+      }
+    });
+  }
+
+  // Manual methods to open popups (ignoring localStorage restrictions)
+  openRelievingPopupManually() {
+    this.ds.getData('dashboardContent/postMap').subscribe((result: any) => {
+      this.dialog.open(ReminderComponent, {
+        width: '500px',
+        data: result || []
+      });
+    });
+  }
+
+  openBirthdayPopupManually() {
+    this.ds.getData('birthdaypop/birthday-soon').subscribe((result: any) => {
       this.dialog.open(BirthdaypopUpComponent, {
         width: '500px',
-        data: result
+        data: result || []
       });
-    })
+    });
   }
 
 }

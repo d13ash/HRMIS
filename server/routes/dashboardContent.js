@@ -132,6 +132,9 @@ router.get('/postMap', async (req, res) => {
     mp.Map_post_emp_id,
     mp.Emp_Id, 
     mf.Financial_name, 
+    fpm.PI_ref_no,
+    fpm.Work_order_ref_no,
+    proj.Project_name,
     mp.Join_date,  
     mp.Reliving_date, 
     mb.Emp_First_Name_E, 
@@ -141,6 +144,7 @@ router.get('/postMap', async (req, res) => {
     FROM map_post_emp mp
     JOIN yearly_post_detail ypd ON mp.yearly_post_detail_id = ypd.yearly_post_detail_id
     JOIN finance_post_main fpm ON ypd.finance_post_main_id = fpm.finance_post_main_id
+    JOIN m_project proj ON fpm.Project_ID = proj.Project_ID
     JOIN m_financial mf ON fpm.Financial_id = mf.Financial_id
     LEFT JOIN manpower_basic_detail mb ON mb.Emp_Id = mp.Emp_Id
     LEFT JOIN m_post p ON ypd.Post_id = p.Post_id
@@ -148,7 +152,6 @@ router.get('/postMap', async (req, res) => {
     AND mp.Reliving_date IS NOT NULL
     AND mp.Reliving_date <= DATE_ADD(CURDATE(), INTERVAL 15 DAY)
     AND mp.Reliving_date >= CURDATE();`
-
     let result = await mysql.exec(query);
     if (result.length == 0)
         return res.status(404).send("data Not Found");

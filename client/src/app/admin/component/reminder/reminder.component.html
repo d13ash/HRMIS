@@ -5,38 +5,23 @@
 <mat-dialog-content *ngIf="data?.length; else noData">
   <div class="employee-list">
     <mat-card *ngFor="let emp of data" class="employee-card">
-      <mat-card-header>
-        <mat-card-title class="employee-name">
-          {{ emp.Emp_First_Name_E }}
-          <ng-container *ngIf="emp.Emp_Middle_Name_E">{{ emp.Emp_Middle_Name_E }} </ng-container>
-          {{ emp.Emp_Last_Name_E }}
-        </mat-card-title>
-        <mat-card-subtitle>ID: {{ emp.Emp_Id }}</mat-card-subtitle>
-      </mat-card-header>
-
       <mat-card-content>
         <div class="employee-details">
-          <div class="detail-row">
-            <span class="label">Position:</span>
-            <span class="value">{{ emp.Post_name }}</span>
+          <div class="employee-name">
+            {{ emp.Emp_First_Name_E }}
+            <ng-container *ngIf="emp.Emp_Middle_Name_E"> {{ emp.Emp_Middle_Name_E }}</ng-container>
+            {{ emp.Emp_Last_Name_E }}
+          </div>
+          <div class="employee-post">{{ emp.Post_name }}</div>
+          
+          <div class="info-grid">
+            <span class="project-name">{{ emp.Project_name }}</span>
+            <span class="financial-year">{{ emp.Financial_name }}</span>
+            <span class="ref-info">PI: {{ emp.PI_ref_no }}</span>
+            <span class="ref-info">WO: {{ emp.Work_order_ref_no }}</span>
           </div>
           
-          <div class="detail-row">
-            <span class="label">Financial Year:</span>
-            <span class="value">{{ emp.Financial_name }}</span>
-          </div>
-          
-          <div class="dates-section">
-            <div class="date-item">
-              <span class="label">Join Date:</span>
-              <span class="value">{{ emp.Join_date | date: 'mediumDate' }}</span>
-            </div>
-            
-            <div class="date-item relieving-date">
-              <span class="label">Relieving Date:</span>
-              <span class="value">{{ emp.Reliving_date | date: 'mediumDate' }}</span>
-            </div>
-          </div>
+          <div class="relieving-date">{{ emp.Reliving_date | date: 'dd/MM/yyyy' }}</div>
         </div>
       </mat-card-content>
     </mat-card>
