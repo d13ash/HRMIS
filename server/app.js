@@ -149,14 +149,14 @@ const upload = multer({
     filename: function (req, file, cb) {
       cb(
         null,
-        file.originalname + Date.now() + path.extname(file.originalname)
+         Date.now() + path.extname(file.originalname)
       ); 
     },
   }),
   limits: { fileSize: 1000000000000000 }, //this for limiting file size
 });
 
-app.use("/api/images", express.static("uploads")); 
+// app.use("/api/images", express.static("uploads")); 
 
 
 app.post("/api/uploadfile", upload.single("file_Path"), (req, resp, next) => {

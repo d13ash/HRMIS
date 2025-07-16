@@ -8,25 +8,33 @@ const bcrypt = require("bcrypt");
 const CryptoJS = require("crypto-js");
 const nodemailer = require("nodemailer");
 const { promisify } = require("util");
-const multer = require("multer");
+
 const path = require("path");
 
+const fs = require("fs");
+
+
+// Ensure folder exists
+const uploadPath = path.join(__dirname, "../uploads/employeedata");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+const multer = require("multer");
 const upload = multer({
   storage: multer.diskStorage({
     destination: function (req, file, cb) {
-      // Decide where to store the file
-      cb(null, "uploads/employeedata"); // "uploads" is the folder name
+      cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-      // Modify the file name to include a timestamp
-      cb(
-        null,
-        file.originalname + Date.now() + path.extname(file.originalname)
-      );
+      const originalName = path.parse(file.originalname).name.replace(/\s+/g, "_"); // remove spaces
+      const ext = path.extname(file.originalname);
+      const timestamp = Date.now();
+      cb(null, `${originalName}_${timestamp}${ext}`);
     },
   }),
-  limits: { fileSize: 100 * 1024 }, // Limit file size to 100 KB
+  limits: { fileSize: 100 * 1024 }, // 100 KB
 });
+
 
 // router.use("/images", express.static("uploads")); //by using this we can access the node file outside the application  // here we have to pass two parameter first is reference of image path and second is actual image path
 router.post(
@@ -38,7 +46,7 @@ router.post(
     if (!file) {
       return next("No File Found");
     }
-    const profileURL = "/api/uploads/employeedata/" + req.file.filename;
+    const profileURL = "/uploads/employeedata/" + req.file.filename;
     resp.json({
       profile_url: profileURL,
       success: "File Uploaded Successfully",
@@ -82,7 +90,7 @@ router.post(
     if (!file) {
       return next("No File Found");
     }
-    const profileURL = "/api/uploads/employeedata/" + req.file.filename;
+    const profileURL = "/uploads/employeedata/" + req.file.filename;
     resp.json({
       profile_url: profileURL,
       success: "File Uploaded Successfully",
@@ -103,7 +111,7 @@ router.get("/allempdetails", async (req, res) => {
         ELSE '' 
     END AS FullName,
     mbd.Emp_Photo_Path,
-    mbd.Emp_Signature_Path, -- Include the signature path
+    mbd.Emp_Signature_Path,
     mbd.Father_Name_E,
     mbd.Mother_Name_E,
     mbd.Guardian_Name_E,
@@ -318,13 +326,13 @@ router.post("/user/addlogin", async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: "mahim.test29@gmail.com", // generated ethereal user
-        pass: "ijiu gqcu pxaq oxlt", // generated ethereal password
+        user: "meghadewangan2512@gmail.com", // generated ethereal user
+        pass: "mxkw kpea dozg skpa", // generated ethereal password
       },
     });
 
     const mailOptions = {
-      from: "mahim.test29@gmail.com",
+      from: "meghadewangan2512@gmail.com",
       to: req.body.email,
       subject: "Your Userid And Password ",
       text: `Your User ID is ${username}. Your Password is ${decryptedPassword}.`,
@@ -366,7 +374,6 @@ router.put("/updateuserdata/:id", async (req, resp) => {
 });
 
 router.post("/documentsdetail/adddocuments", async (req, res) => {
- 
   var values = req.body;
   var query = "INSERT INTO manpower_document_detail SET ? ";
 
@@ -382,7 +389,15 @@ router.post("/documentsdetail/adddocuments", async (req, res) => {
 
 router.get("/documentsdetail/getdocuments/:Emp_Id", async (req, res) => {
   const Emp_Id = req.params.Emp_Id;
-  const query = "SELECT * FROM manpower_document_detail WHERE Emp_Id = ?";
+  const query = `SELECT 
+  Emp_Document_Detail_Id,
+  Document_Id,
+  CONCAT('${req.protocol}://${req.get("host")}', Document_Path) AS Document_Path
+FROM 
+  manpower_document_detail
+WHERE 
+  Emp_Id = ?;
+`;
   const result = await mysql.exec(query, [Emp_Id]);
 
   if (!result || result.length === 0) {
@@ -391,8 +406,6 @@ router.get("/documentsdetail/getdocuments/:Emp_Id", async (req, res) => {
 
   res.json(result);
 });
-
-
 
 router.put("/updatelogindata/:ID", async (req, res) => {
   const password = req.body.password;

@@ -87,12 +87,12 @@
         <mat-header-cell *matHeaderCellDef> Approval </mat-header-cell>
         <mat-cell *matCellDef="let us">
           <span style="color: grey;"><i>{{us.approval}}</i></span>
-          <button mat-icon-button color="primary" aria-label="Approve" 
+          <button mat-icon-button color="primary" aria-label="Approve"
             (click)="onApprovalChange('approved', us.alloted_project_work_id)"
             [disabled]="isEditable(us.is_Work_complete)">
             <mat-icon >check_circle</mat-icon>
           </button>
-          <button mat-icon-button color="warn" aria-label="Reject" 
+          <button mat-icon-button color="warn" aria-label="Reject"
             (click)="onApprovalChange('rejected', us.alloted_project_work_id)"
             [disabled]="isEditable(us.is_Work_complete)">
             <mat-icon>cancel</mat-icon>
@@ -102,7 +102,7 @@
 
 
       <!-- Header and Row Definitions -->
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
     </mat-table>
