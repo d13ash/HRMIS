@@ -98,9 +98,6 @@ router.get('/view', async (req, resp) => {
 
     try {
         const result = await mysql.exec(query, params);
-        if (result.length === 0) {
-            return resp.status(405).send("Data not found");
-        }
         return resp.json(result);
     } catch (err) {
         return resp.status(406).json(err);
@@ -132,21 +129,26 @@ router.put('/updateMapProDetail/:id', async (req, resp) => {
 router.get('/postMap', async (req, res) => {
     var query = `
     SELECT 
-        mp.Map_post_emp_id,
-        mp.Emp_Id, 
-        f.Financial_name, 
-        mp.Join_date,  
-        mp.Reliving_date, 
-        mb.Emp_First_Name_E, 
-        mb.Emp_Middle_Name_E,
-        mb.Emp_Last_Name_E,
-        p.Post_name
+    mp.Map_post_emp_id,
+    mp.Emp_Id, 
+    mf.Financial_name, 
+    mp.Join_date,  
+    mp.Reliving_date, 
+    mb.Emp_First_Name_E, 
+    mb.Emp_Middle_Name_E,
+    mb.Emp_Last_Name_E,
+    p.Post_name
     FROM map_post_emp mp
+    JOIN yearly_post_detail ypd ON mp.yearly_post_detail_id = ypd.yearly_post_detail_id
+    JOIN finance_post_main fpm ON ypd.finance_post_main_id = fpm.finance_post_main_id
+    JOIN m_financial mf ON fpm.Financial_id = mf.Financial_id
     LEFT JOIN manpower_basic_detail mb ON mb.Emp_Id = mp.Emp_Id
-    LEFT JOIN m_post p ON p.Post_id = mp.Post_id
-    LEFT JOIN m_financial f ON f.Financial_id = mp.Financial_id
-    WHERE mp.Delete_YN IS NULL AND mp.Reliving_date <= DATE_ADD(CURDATE(),INTERVAL 15 DAY) AND mp.Reliving_date >= CURDATE();`;
-    
+    LEFT JOIN m_post p ON ypd.Post_id = p.Post_id
+    WHERE mp.Delete_YN IS NULL 
+    AND mp.Reliving_date IS NOT NULL
+    AND mp.Reliving_date <= DATE_ADD(CURDATE(), INTERVAL 15 DAY)
+    AND mp.Reliving_date >= CURDATE();`
+
     let result = await mysql.exec(query);
     if (result.length == 0)
         return res.status(404).send("data Not Found");

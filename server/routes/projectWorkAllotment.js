@@ -18,7 +18,6 @@ router.get('/allProjectWorkAllotment', async (req, res) => {
 // for table Admin section
 router.get('/allProjectWorkdata', async (req, res) => {
     var query = "SELECT a.Project_work_allotment_id,f.Financial_id,f.Financial_name,p.Project_ID,p.Project_name,md.project_module_id,md.module_name,a.Allotment_date,a.Start_date,a.Allotment_by,a.End_date,a.Description, e.Emp_Id,e.Emp_First_Name_E FROM project_work_allotment a  LEFT JOIN project_module md ON md.project_module_id = a.project_module_id  LEFT JOIN  m_project p ON p.Project_ID = a.Project_ID LEFT JOIN m_financial f ON f.Financial_id=a.Financial_id left JOIN manpower_basic_detail e ON e.Emp_Id = a.Emp_Id  WHERE a.Delete_YN IS NULL";
-    console.log("called");
     let result = await mysql.exec(query);
 
     if (result.length == 0)
@@ -74,13 +73,27 @@ router.get('/getProjectWork', async (req, res) => {
 });
 
 // get employee dropdown
-router.get('/allemp/:Financial_id', async (req, resp) => {
-    var query = "SELECT me.Map_post_emp_id,me.Financial_id,f.Financial_name,m.Emp_First_Name_E,me.Emp_Id FROM map_post_emp me  LEFT JOIN m_financial f ON f.Financial_id=me.Financial_id LEFT JOIN manpower_basic_detail m ON m.Emp_Id=me.Emp_Id WHERE me.Financial_id = ?";
-    var Financial_id = req.params.Financial_id;
+router.get('/allemp/:Financial_id/:Project_id', async (req, resp) => {
+    const { Financial_id, Project_id } = req.params;
+    var query = `
+        SELECT 
+            me.Map_post_emp_id,
+            fpm.Financial_id,
+            f.Financial_name,
+            m.Emp_First_Name_E,
+            me.Emp_Id
+        FROM map_post_emp me
+        JOIN yearly_post_detail ypd ON me.yearly_post_detail_id = ypd.yearly_post_detail_id
+        JOIN finance_post_main fpm ON ypd.finance_post_main_id = fpm.finance_post_main_id
+        JOIN m_financial f ON f.Financial_id = fpm.Financial_id
+        JOIN manpower_basic_detail m ON m.Emp_Id = me.Emp_Id
+        WHERE fpm.Financial_id = ? AND fpm.Project_ID = ?
+        AND me.Delete_YN IS NULL`;
+    
     try {
-        let result = await mysql.exec(query, [Financial_id])
+        let result = await mysql.exec(query, [Financial_id, Project_id])
         if (result.length == 0) {
-            return resp.status(405).send("State");
+            return resp.status(404).send("Data not found");
         }
         return resp.json(result);
     }
