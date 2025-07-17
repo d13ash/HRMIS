@@ -2,6 +2,7 @@ import { AfterViewInit,ViewEncapsulation, Component, OnInit, ViewChild } from '@
 import { DataService } from '../../../services/data.service';
 import { AuthService } from '../../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -32,23 +33,74 @@ export class WorkTableComponent implements  OnInit {
 
   filterValues = {
     employee: '',
-    project: '',
-    module: ''
+    project: ''
   };
 
-  constructor(private ds: DataService, private as: AuthService, private http: HttpClient) { }
+  searchFromDate: Date | null = null;
+  searchToDate: Date | null = null;
+
+  constructor(private ds: DataService, private as: AuthService, private http: HttpClient, private datePipe: DatePipe) { }
   ngOnInit(): void {
-    this.getPreview();
+    this.setDefaultDates();
+    this.getTable();
   }
 
-  getPreview() {
-    this.ds.getData('dashboardContent/view').subscribe((result: any) => {
-      // this.dataSource = result;
-      this.dataSource = new MatTableDataSource(result);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.filterPredicate = this.createFilter();
-      // console.log(result);
-    })
+  setDefaultDates() {
+    const currentDate = new Date();
+    const fromDate = new Date();
+    fromDate.setDate(currentDate.getDate() - 30);
+    
+    this.searchFromDate = fromDate;
+    this.searchToDate = currentDate;
+  }
+
+  onFromDateChange() {
+    this.getTable();
+  }
+
+  onToDateChange() {
+    this.getTable();
+  }
+
+  getTable() {
+    // Build query string from search fields
+    let query = '';
+    const params: string[] = [];
+    
+    if (this.filterValues.project) {
+      params.push(`projectName=${encodeURIComponent(this.filterValues.project)}`);
+    }
+    
+    if (this.filterValues.employee) {
+      params.push(`empName=${encodeURIComponent(this.filterValues.employee)}`);
+    }
+    
+    // Format dates to yyyy-mm-dd before adding to query
+    if (this.searchFromDate && this.searchToDate) {
+      const formattedFromDate = this.datePipe.transform(this.searchFromDate, 'yyyy-MM-dd');
+      if (formattedFromDate) {
+        params.push(`from=${encodeURIComponent(formattedFromDate)}`);
+      }
+      const formattedToDate = this.datePipe.transform(this.searchToDate, 'yyyy-MM-dd');
+      if (formattedToDate) {
+        params.push(`to=${encodeURIComponent(formattedToDate)}`);
+      }
+    }
+    if (params.length) {
+      query = '?' + params.join('&');
+    }
+    
+    this.ds.getData('dashboardContent/view' + query).subscribe(
+      (result: any) => {
+        this.dataSource = new MatTableDataSource(result);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.filterPredicate = this.createFilter();
+        console.log(result);
+      },
+      (err) => {
+        console.error('Error fetching project work data:', err);
+      }
+    );
   }
 
   onApprovalChange(status: string, id: any): void {
@@ -68,7 +120,7 @@ export class WorkTableComponent implements  OnInit {
           `The status has been set to "${status}".`,
           'success'
         );
-        this.getPreview();
+        this.getTable();
         });
 
       }
@@ -82,20 +134,18 @@ export class WorkTableComponent implements  OnInit {
   }
 
    applyFilter() {
-    const filterString = JSON.stringify(this.filterValues);
-    this.dataSource.filter = filterString;
+    this.getTable();
   }
 
-  // Custom filter logic
+  // Custom filter logic (now used for client-side filtering of text fields only)
   createFilter(): (data: any, filter: string) => boolean {
     return (data, filter): boolean => {
       const searchTerms = JSON.parse(filter);
 
       const empMatch = data.Emp_First_Name_E?.toLowerCase().includes(searchTerms.employee.toLowerCase());
       const projMatch = data.Project_name?.toLowerCase().includes(searchTerms.project.toLowerCase());
-      const modMatch = data.module_name?.toLowerCase().includes(searchTerms.module.toLowerCase());
 
-      return empMatch && projMatch && modMatch;
+      return empMatch && projMatch;
     };
   }
 

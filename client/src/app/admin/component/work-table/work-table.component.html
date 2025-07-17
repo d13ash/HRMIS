@@ -17,9 +17,27 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Module Name</mat-label>
-        <mat-icon matPrefix>layers</mat-icon>
-        <input matInput (keyup)="applyFilter()" [(ngModel)]="filterValues.module" placeholder="Search module">
+        <mat-label>From Date</mat-label>
+        <mat-icon matPrefix>date_range</mat-icon>
+        <input matInput 
+               [matDatepicker]="fromPicker" 
+               [(ngModel)]="searchFromDate" 
+               (dateChange)="onFromDateChange()" 
+               placeholder="Select from date">
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <mat-icon matPrefix>date_range</mat-icon>
+        <input matInput 
+               [matDatepicker]="toPicker" 
+               [(ngModel)]="searchToDate" 
+               (dateChange)="onToDateChange()" 
+               placeholder="Select to date">
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
       </mat-form-field>
     </div>
 

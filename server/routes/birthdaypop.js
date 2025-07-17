@@ -26,7 +26,6 @@ router.get('/birthday-soon', async (req, res) => {
   
   try {
     let result = await mysql.exec(sql);
-    if (!result.length) return res.status(404).send("data not found");
     return res.json(result);
   } catch (err) {
     return res.status(500).json({ error: 'Failed to fetch upcoming birthdays' });
