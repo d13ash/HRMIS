@@ -4,6 +4,7 @@ import { DataService } from '../../../services/data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ReminderComponent } from '../reminder/reminder.component';
 import { BirthdaypopUpComponent } from '../../../shared/birthdaypop-up/birthdaypop-up.component';
+import Swal from 'sweetalert2';
 
 // DataService
 @Component({
@@ -71,19 +72,37 @@ export class AdminDashContentComponent implements OnInit {
   // Manual methods to open popups (ignoring localStorage restrictions)
   openRelievingPopupManually() {
     this.ds.getData('dashboardContent/postMap').subscribe((result: any) => {
-      this.dialog.open(ReminderComponent, {
-        width: '500px',
-        data: result || []
-      });
+      if (result && result.length > 0) {
+        this.dialog.open(ReminderComponent, {
+          width: '500px',
+          data: result
+        });
+      } else {
+        Swal.fire({
+          title: 'No Data Found',
+          text: 'No relieving employees found.',
+          icon: 'info',
+          confirmButtonText: 'OK'
+        });
+      }
     });
   }
 
   openBirthdayPopupManually() {
     this.ds.getData('birthdaypop/birthday-soon').subscribe((result: any) => {
-      this.dialog.open(BirthdaypopUpComponent, {
-        width: '500px',
-        data: result || []
-      });
+      if (result && result.length > 0) {
+        this.dialog.open(BirthdaypopUpComponent, {
+          width: '500px',
+          data: result
+        });
+      } else {
+        Swal.fire({
+          title: 'No Data Found',
+          text: 'No upcoming birthdays found.',
+          icon: 'info',
+          confirmButtonText: 'OK'
+        });
+      }
     });
   }
 
