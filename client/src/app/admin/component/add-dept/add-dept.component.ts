@@ -54,6 +54,7 @@ export class AddDeptComponent implements OnInit {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWq1fCF7KbKYum0PRRMGKnq4EBj-QT_bcSLhLsIphPeQ&s;';
   pDept: any;
   fileSizeError: boolean = false;
+  showForm: boolean = false; // Control form visibility
 
   constructor(
     private fb: FormBuilder,
@@ -192,6 +193,7 @@ export class AddDeptComponent implements OnInit {
             });
             this.getTable();
             this.onClear();
+            this.hideForm(); // Hide form after successful submission
           } else {
             Swal.fire({
               icon: 'error',
@@ -276,6 +278,7 @@ onedit(Dept_ID: any) {
 
   this.iseditmode = true;
   this.data_id = Dept_ID;
+  this.showForm = true; // Show form for editing
 
   // Scroll to the form
   document.getElementById('addnews')?.scrollIntoView();
@@ -340,6 +343,7 @@ onupdate() {
       Swal.fire('Data Updated Successfully');
       this.onClear();
       this.getTable();
+      this.hideForm(); // Hide form after successful update
     });
 }
 
@@ -406,5 +410,22 @@ onupdate() {
 
   nopath() {
     Swal.fire('Please select a file');
+  }
+
+  // Show the add department form
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear(); // Clear any existing data
+    setTimeout(() => {
+      document.getElementById('addnews')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+
+  // Hide the form
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear(); // Clear form data when hiding
   }
 }

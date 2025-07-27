@@ -1,13 +1,27 @@
 <div class="container-fluid" id="addnews">
-  <mat-card>
-    <form [formGroup]="projectPostForm" (ngSubmit)="onSubmit()" #projectPostFormRef>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 heading">
-            <h2 style="color:whitesmoke;"> Project Post Setup Allotment</h2>
-          </div>
+  <!-- Project Post Allotment Form (Hidden by default) -->
+  <mat-card *ngIf="showForm" class="form-card">
+    <mat-card-header class="form-header">
+      <div class="form-header-wrapper">
+        <div class="form-header-title">
+          <mat-icon class="form-header-icon">{{ iseditmode ? 'edit' : 'assignment' }}</mat-icon>
+          <h3 class="form-title">{{ iseditmode ? 'Edit Project Post Allotment' : 'Project Post Setup Allotment' }}</h3>
         </div>
-        <br>
+        <div class="form-header-actions">
+          <button 
+            mat-icon-button 
+            (click)="hideForm()" 
+            type="button"
+            title="Close Form"
+            class="close-btn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="form-content">
+      <form [formGroup]="projectPostForm" (ngSubmit)="onSubmit()" #projectPostFormRef>
         <fieldset class="scheduler-border">
           <legend class="scheduler-border">Project Post Setup Allotment</legend>
           <div class="control-group">
@@ -124,6 +138,9 @@
                 <button mat-raised-button (click)="onClear()" type="button">
                   Clear
                 </button> &nbsp;&nbsp;
+                <button mat-raised-button type="button" (click)="hideForm()">
+                  Cancel
+                </button> &nbsp;&nbsp;
                 <button mat-raised-button color="primary" *ngIf="!iseditmode" type="submit">
                   Submit
                 </button>
@@ -134,33 +151,49 @@
             </div>
           </div>
         </fieldset>
-      </div>
-    </form>
+      </form>
+    </mat-card-content>
   </mat-card>
 </div>
-<br> <br>
-
 
 <!-- mat table -->
-<div class="container-fluid">
-  <mat-card style="margin-bottom: 40px;">
-
-    <mat-toolbar>
-      <p><span>
-          <h5 class="title">All Post Setup Detail</h5>
-        </span> </p>
-    </mat-toolbar>
-    <div class="container ">
-      <div class="row table-responsive">
-
-        <div class="search_container mt-2">
-          <mat-form-field class="example-full-width">
-            <span matPrefix> </span>
-            <input type="tel" matInput placeholder="Search" autocomplete="off" (keyup)="applyFilter($event)">
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
+<div class="container-fluid" style="overflow: auto">
+  <mat-card class="table-card">
+    <mat-card-header class="table-header">
+      <div class="header-wrapper">
+        <div class="header-title">
+          <mat-icon class="header-icon">assignment</mat-icon>
+          <h3 class="table-title">Project Post Allotment Management</h3>
         </div>
-        <table class="con-table" mat-table matSort [dataSource]="dataSource">
+        <div class="header-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="showAddForm()" 
+            class="action-btn header-btn"
+            *ngIf="!showForm">
+            <mat-icon>add</mat-icon>
+            Add Post Allotment
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="table-content">
+      <div class="search-section">
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-label>Search Post Allotments</mat-label>
+          <input 
+            matInput 
+            placeholder="Search by project, post, financial year..." 
+            autocomplete="off" 
+            (keyup)="applyFilter($event)" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table" mat-table matSort [dataSource]="dataSource">
           <ng-container matColumnDef="Project_post_allotment_ID">
             <th mat-sort-header mat-header-cell *matHeaderCellDef> ID </th>
             <td mat-cell *matCellDef="let element">{{element.Project_post_allotment_ID}}</td>
@@ -211,17 +244,22 @@
             </td>
           </ng-container>
 
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-data-row"></tr>
+        </table>
+        
+        <div class="table-footer">
+          <mat-paginator 
+            class="paginator" 
+            [pageSize]="5" 
+            [pageSizeOptions]="[5, 10, 25, 100]" 
+            aria-label="Select page"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-<br>
-      <mat-paginator class="paging"
-              [pageSize]="5"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page">
-     </mat-paginator>
-</div>
-</div>
-    </mat-card>
-</div>
+<div id="endOfPage" style="height: 1px;"></div>

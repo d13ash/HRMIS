@@ -5,9 +5,14 @@
          <h5>DASHBOARD</h5>
       </div>
 
-      <div class="col-md-6  d-flex rowforpath">
-        <p style="margin-left:35vh;">  > home > Dashboard</p>
-     </div>
+      <div class="col-md-6 d-flex justify-content-end align-items-center rowforpath">
+        <button mat-icon-button matTooltip="View Birthday Reminders" (click)="openBirthdayPopupManually()" color="accent"
+          class="me-2">
+          <mat-icon>cake</mat-icon>
+        </button>
+
+        <p style="margin-left: 2rem; margin-bottom: 0;"> > home > Dashboard</p>
+      </div>
     </div>
 
     <!-- row 1 -->

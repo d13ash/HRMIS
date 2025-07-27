@@ -1,201 +1,180 @@
-<div class="container-fluid" id="addnews">
-  <mat-card>
-    <form [formGroup]="Budget_Allotment_Form" (ngSubmit)="onSubmit()">
-      <div class="container">
+<div class="container-fluid" #topOfForm>
+  <!-- Add/Edit Form -->
+  <mat-card *ngIf="showForm" class="form-card" id="addnews">
+    <mat-card-header class="form-header">
+      <div class="form-header-wrapper">
+        <div class="form-header-title">
+          <mat-icon class="form-header-icon">{{ isEditMode ? 'edit' : 'account_balance' }}</mat-icon>
+          <h3 class="form-title">{{ isEditMode ? 'Edit Budget Allotment' : 'Add Budget Allotment' }}</h3>
+        </div>
+        <div class="form-header-actions">
+          <button 
+            mat-icon-button 
+            (click)="hideForm()" 
+            type="button"
+            title="Close Form"
+            class="close-btn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="form-content">
+      <form [formGroup]="Budget_Allotment_Form" (ngSubmit)="onSubmit()" class="mat-form">
         <div class="row">
-          <div class="col-md-12 heading">
-            <h2 style="color: whitesmoke">Budget Allotment</h2>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Budget Head Name</mat-label>
+              <mat-select formControlName="budget_head_id">
+                <mat-option *ngFor="let c of head_name" [value]="c.budget_head_id">
+                  {{ c.budget_head_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="Budget_Allotment_Form.get('budget_head_id')?.hasError('required')">
+                Budget Head Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Amount</mat-label>
+              <span matPrefix>
+                <span class="ps-1">INR(₹)</span>
+              </span>
+              <input
+                matInput
+                type="number"
+                formControlName="amount"
+              />
+              <mat-error *ngIf="Budget_Allotment_Form.get('amount')?.hasError('required')">
+                Amount is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Financial Year</mat-label>
+              <mat-select formControlName="Financial_id">
+                <mat-option *ngFor="let c of year" [value]="c.Financial_id">
+                  {{ c.Financial_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="Budget_Allotment_Form.get('Financial_id')?.hasError('required')">
+                Financial Year is required
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
-        <br />
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Budget Allotment</legend>
-          <div class="control-group">
-            <div class="row">
-              <div class="col-md-4">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Budeget Head Name</mat-label>
-                  <mat-select formControlName="budget_head_id">
-                    <mat-option
-                      *ngFor="let c of head_name"
-                      [value]="c.budget_head_id"
-                    >
-                      {{ c.budget_head_name }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error
-                    *ngIf="
-                      Budget_Allotment_Form.get('budget_head_id')?.hasError(
-                        'required'
-                      )
-                    "
-                  >
-                    Budget Head Name is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-4">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Amount</mat-label>
-                  <span matPrefix>
-                    <span class="ps-1">INR(₹)</span>
-                  </span>
-                  <input
-                    matInput
-                    type="number"
-                    value="9090"
-                    formControlName="amount"
-                  />
-                  <mat-error
-                    *ngIf="
-                      Budget_Allotment_Form.get('amount')?.hasError('required')
-                    "
-                  >
-                    Amount is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-4">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Financial Year</mat-label>
-                  <mat-select formControlName="Financial_id">
-                    <mat-option *ngFor="let c of year" [value]="c.Financial_id">
-                      {{ c.Financial_name }}
-                    </mat-option>
-                  </mat-select>
-                   <mat-error
-                    *ngIf="
-                      Budget_Allotment_Form.get('Financial_id')?.hasError('required')
-                    "
-                  >
-                    Financial Year is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
 
-            <br />
-            <div class="row">
-              <div class="col offset-5">
-                <button mat-raised-button type="button" (click)="onClear()">
-                  Clear
-                </button>
-                &nbsp;&nbsp;
-                <button
-                  mat-raised-button
-                  color="primary"
-                  type="submit"
-                  *ngIf="!isEditMode"
-                >
-                  Submit
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  type="button"
-                  [disabled]="!Budget_Allotment_Form.valid"
-                  *ngIf="isEditMode"
-                  (click)="onUpdate()"
-                >
-                  Update
-                </button>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-      </div>
-    </form>
+        <div class="form-actions">
+          <button mat-raised-button class="secondary" type="button" (click)="onClear()">
+            <mat-icon>clear</mat-icon>
+            Clear
+          </button>
+
+          <button mat-raised-button class="secondary" type="button" (click)="hideForm()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+
+          <button *ngIf="!isEditMode" mat-raised-button class="primary" type="submit">
+            <mat-icon>save</mat-icon>
+            Submit
+          </button>
+
+          <button *ngIf="isEditMode" mat-raised-button class="primary" (click)="onUpdate()" type="button">
+            <mat-icon>update</mat-icon>
+            Update
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
   </mat-card>
 </div>
-<br />
-<br />
-<!-- mat table -->
-<div class="container-fluid">
-  <mat-card style="margin-bottom: 40px">
-    <mat-toolbar>
-      <p>
-        <span><h5 class="title">Budget</h5></span>
-      </p>
-    </mat-toolbar>
-    <div class="container">
-      <div class="row table-responsive">
-        <div class="search_container mt-2">
-          <mat-form-field class="example-full-width">
-            <span matPrefix> </span>
-            <input
-              type="tel"
-              matInput
-              placeholder="Search"
-              autocomplete="off"
-              (keyup)="applyFilter($event)"
-            />
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
+<div class="container-fluid" style="overflow: auto">
+  <mat-card class="table-card">
+    <mat-card-header class="table-header">
+      <div class="header-wrapper">
+        <div class="header-title">
+          <mat-icon class="header-icon">account_balance</mat-icon>
+          <h3 class="table-title">Budget Allotment Management</h3>
         </div>
-        <table class="con-table" mat-table matSort [dataSource]="dataSource">
+        <div class="header-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="showAddForm()" 
+            class="action-btn header-btn"
+            *ngIf="!showForm">
+            <mat-icon>add</mat-icon>
+            Add Budget Allotment
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="table-content">
+      <div class="search-section">
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-label>Search Budget Allotments</mat-label>
+          <input 
+            matInput 
+            placeholder="Search by budget head, amount, financial year..." 
+            autocomplete="off" 
+            (keyup)="applyFilter($event)" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="data-table">
           <ng-container matColumnDef="budget_allotment_id">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Allotment_Id
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.budget_allotment_id }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Allotment ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.budget_allotment_id }}</td>
           </ng-container>
 
           <ng-container matColumnDef="budget_head_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Budget_Head_Name
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.budget_head_name }}
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="amount">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Amount</th>
-            <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
-          </ng-container>
-          <ng-container matColumnDef="Financial_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Financial year
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Financial_name }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Budget Head Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.budget_head_name }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="Action">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+            <td mat-cell *matCellDef="let element">₹{{ element.amount | number }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Financial_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Financial Year</th>
+            <td mat-cell *matCellDef="let element">{{ element.Financial_name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Action" stickyEnd="true">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                color="primary"
-                (click)="onedit(element.budget_allotment_id)"
-              >
+              <button mat-icon-button color="primary" (click)="onedit(element.budget_allotment_id)">
                 <mat-icon>edit</mat-icon>
               </button>
-
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="ondelete(element.budget_allotment_id)"
-              >
+              <button mat-icon-button color="warn" (click)="ondelete(element.budget_allotment_id)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-data-row"></tr>
         </table>
-        <br />
-        <mat-paginator
-          class="paging"
-          [pageSize]="5"
-          [pageSizeOptions]="[5, 10, 25, 100]"
-          aria-label="Select page"
-        >
-        </mat-paginator>
+        
+        <div class="table-footer">
+          <mat-paginator 
+            class="paginator" 
+            [pageSize]="5" 
+            [pageSizeOptions]="[5, 10, 25, 100]" 
+            aria-label="Select page"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
       </div>
-    </div>
+    </mat-card-content>
   </mat-card>
 </div>

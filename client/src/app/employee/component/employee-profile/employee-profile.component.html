@@ -1,177 +1,186 @@
-<div class="container-fluid">
-  <mat-card>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 heading">
-          <h2 style="color: whitesmoke">Add Employee</h2>
+<div class="container-fluid" #topOfForm>
+  <!-- Employee Profile Form -->
+  <mat-card class="form-card">
+    <mat-card-header class="form-header">
+      <div class="form-header-wrapper">
+        <div class="form-header-title">
+          <mat-icon class="form-header-icon">person</mat-icon>
+          <h3 class="form-title">Employee Profile</h3>
         </div>
       </div>
+    </mat-card-header>
+    
+    <mat-card-content class="form-content">
       <form
-        class="my-form"
+        class="mat-form"
         [formGroup]="registationForm"
         (ngSubmit)="Registration()"
       >
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Employee Details</legend>
-          <div class="control-group">
-            <div class="row">
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label>Select Salutation</mat-label>
-                  <mat-select
-                    [disabled]="isReadOnly"
-                    formControlName="Salutation_E"
-                  >
-                    <mat-option
-                      *ngFor="let salutation of salutationdata"
-                      [value]="salutation.Id"
-                    >
-                      {{ salutation.Salutation_Name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> First Name </mat-label>
-                  <input
-                    matInput
-                    formControlName="Emp_First_Name_E"
-                    [readonly]="isReadOnly"
-                  />
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Middle Name </mat-label>
-                  <input
-                    matInput
-                    formControlName="Emp_Middle_Name_E"
-                    [readonly]="isReadOnly"
-                  />
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Last Name </mat-label>
-                  <input
-                    matInput
-                    formControlName="Emp_Last_Name_E"
-                    [readonly]="isReadOnly"
-                  />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Father Name </mat-label>
-                  <input matInput formControlName="Father_Name_E" />
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Mother Name </mat-label>
-                  <input matInput formControlName="Mother_Name_E" />
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label>Guardian_Name</mat-label>
-                  <input matInput formControlName="Guardian_Name_E" required />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Mobile No</mat-label>
-                  <input
-                    matInput
-                    formControlName="Mobile_No"
-                    [readonly]="isReadOnly"
-                    required
-                  />
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="namewidth">
-                  <mat-label> Email_Id</mat-label>
-                  <input
-                    matInput
-                    formControlName="Email_Id"
-                    [readonly]="isReadOnly"
-                    required
-                  />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <mat-label><b> Gender :</b></mat-label>
-                <mat-radio-group
-                  aria-label="Select an option"
-                  matNativeControl
-                  formControlName="Gender_Id"
+        <!-- Employee Details Section -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <mat-icon>person</mat-icon>
+            Employee Details
+          </h4>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Select Salutation</mat-label>
+                <mat-select
+                  [disabled]="isReadOnly"
+                  formControlName="Salutation_E"
                 >
-                  <mat-radio-button
-                    *ngFor="let g of Gender"
-                    [value]="g.value"
-                    >{{ g.viewValue }}</mat-radio-button
+                  <mat-option
+                    *ngFor="let salutation of salutationdata"
+                    [value]="salutation.Id"
                   >
-                </mat-radio-group>
-              </div>
-              <div class="col-md-4">
-                <mat-label><b> DOB : </b></mat-label>
-                <mat-form-field appearance="outline">
-                  <mat-label>Choose a date</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker"
-                    formControlName="DOB"
-                  />
-                  <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-              </div>
+                    {{ salutation.Salutation_Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> First Name </mat-label>
+                <input
+                  matInput
+                  formControlName="Emp_First_Name_E"
+                  [readonly]="isReadOnly"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Middle Name </mat-label>
+                <input
+                  matInput
+                  formControlName="Emp_Middle_Name_E"
+                  [readonly]="isReadOnly"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Last Name </mat-label>
+                <input
+                  matInput
+                  formControlName="Emp_Last_Name_E"
+                  [readonly]="isReadOnly"
+                />
+              </mat-form-field>
             </div>
           </div>
-        </fieldset>
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Current Address</legend>
-          <div class="control-group">
-            <div class="row">
-              <div class="col">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Current Address</mat-label>
-                  <textarea matInput formControlName="Current_Address" required>
-                  </textarea>
-                </mat-form-field>
-              </div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Father Name </mat-label>
+                <input matInput formControlName="Father_Name_E" />
+              </mat-form-field>
             </div>
-            <div class="row">
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Select Country</mat-label>
-                  <mat-select
-                    matNativeControl
-                    formControlName="Current_Country_Id"
-                    (valueChange)="onChangeCountry($event)"
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Mother Name </mat-label>
+                <input matInput formControlName="Mother_Name_E" />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Guardian Name</mat-label>
+                <input matInput formControlName="Guardian_Name_E" required />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Mobile No</mat-label>
+                <input
+                  matInput
+                  formControlName="Mobile_No"
+                  [readonly]="isReadOnly"
+                  required
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label> Email ID</mat-label>
+                <input
+                  matInput
+                  formControlName="Email_Id"
+                  [readonly]="isReadOnly"
+                  required
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-label><b> DOB : </b></mat-label>
+              <mat-form-field appearance="outline">
+                <mat-label>Choose a date</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="DOB"
+                />
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-5 ">
+              <mat-label><b> Gender :</b></mat-label>
+              <mat-radio-group
+                aria-label="Select an option"
+                matNativeControl
+                formControlName="Gender_Id"
+              >
+                <mat-radio-button
+                  *ngFor="let g of Gender"
+                  [value]="g.value"
+                  >{{ g.viewValue }}</mat-radio-button
+                >
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current Address Section -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <mat-icon>location_on</mat-icon>
+            Current Address
+          </h4>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Current Address</mat-label>
+                <textarea matInput formControlName="Current_Address" required>
+                </textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Select Country</mat-label>
+                <mat-select
+                  matNativeControl
+                  formControlName="Current_Country_Id"
+                  (valueChange)="onChangeCountry($event)"
+                >
+                  <mat-option value="" selected>Select Country</mat-option>
+                  <mat-option
+                    *ngFor="let country of country"
+                    [value]="country.Country_id"
                   >
-                    <mat-option value="" selected>Select Country</mat-option>
-                    <mat-option
-                      *ngFor="let country of country"
-                      [value]="country.Country_id"
-                    >
-                      {{ country.Country_name }}</mat-option
-                    >
-                  </mat-select>
-                </mat-form-field>
-              </div>
+                    {{ country.Country_name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
                   <mat-label>Select State</mat-label>
@@ -224,46 +233,50 @@
                     >
                   </mat-select>
                 </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Pin Code</mat-label>
-                  <input matInput formControlName="Current_Pin_Code" />
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>City</mat-label>
-                  <input matInput formControlName="Current_City" />
-                </mat-form-field>
-              </div>
             </div>
           </div>
-        </fieldset>
 
-        <mat-checkbox (change)="onChangeUseCurrentAddressAsPermanent($event)">
-          Use Current Address as Permanent Address
-        </mat-checkbox>
-
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Permanent Address</legend>
-          <div class="control-group">
-            <div class="row">
-              <div class="col">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Permanent Address</mat-label>
-                  <textarea
-                    matInput
-                    formControlName="Permanent_Address"
-                    required
-                  >
-                  </textarea>
-                </mat-form-field>
-              </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Pin Code</mat-label>
+                <input matInput formControlName="Current_Pin_Code" />
+              </mat-form-field>
             </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="Current_City" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <mat-checkbox (change)="onChangeUseCurrentAddressAsPermanent($event)">
+            Use Current Address as Permanent Address
+          </mat-checkbox>
+        </div>
+
+        <!-- Permanent Address Section -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <mat-icon>home</mat-icon>
+            Permanent Address
+          </h4>
+          <div class="row">
+            <div class="col">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Permanent Address</mat-label>
+                <textarea
+                  matInput
+                  formControlName="Permanent_Address"
+                  required
+                >
+                </textarea>
+              </mat-form-field>
+            </div>
+          </div>
             <div class="row">
               <div class="col-md-3">
                 <mat-form-field appearance="outline" class="inputfieldsize">
@@ -338,129 +351,125 @@
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Pin Code</mat-label>
-                  <input matInput formControlName="Permanent_Pin_Code" />
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>City</mat-label>
-                  <input matInput formControlName="Permanent_City" />
-                </mat-form-field>
-              </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Pin Code</mat-label>
+                <input matInput formControlName="Permanent_Pin_Code" />
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="Permanent_City" />
+              </mat-form-field>
             </div>
           </div>
-        </fieldset>
+        </div>
 
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Uploads</legend>
-          <div class="control-group">
-            <div class="row">
-              <div
-                class="col-md-6"
-                style="margin-top: 5px; margin-bottom: 5px; width: 100%"
-              >
-                <mat-label *ngIf="iseditmode">Upload your Photo :</mat-label
-                >&nbsp;
-                <mat-label *ngIf="!iseditmode"
-                  ><strong>Image Uploaded:</strong></mat-label
-                >&nbsp;
-                <input
-                  type="file"
-                  multiple
-                  #profile
-                  (change)="selectPhoto($event)"
-                />
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="btn btn-secondary btn-sm"
-                  (click)="uploadPhoto()"
-                  type="button"
-                >
-                  Upload
-                </button>
-                <div style="display: contents">
+        <!-- Uploads Section -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <mat-icon>cloud_upload</mat-icon>
+            Uploads
+          </h4>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="upload-section">
+                <mat-label *ngIf="iseditmode">Upload your Photo :</mat-label>
+                <mat-label *ngIf="!iseditmode"><strong>Image Uploaded:</strong></mat-label>
+                <div class="upload-controls">
+                  <input
+                    type="file"
+                    multiple
+                    #profile
+                    (change)="selectPhoto($event)"
+                  />
+                  <button
+                    mat-raised-button
+                    class="secondary"
+                    (click)="uploadPhoto()"
+                    type="button"
+                  >
+                    <mat-icon>cloud_upload</mat-icon>
+                    Upload
+                  </button>
+                </div>
+                <div class="image-preview" *ngIf="uploadedimage">
                   <img
-                    *ngIf="uploadedimage"
                     [src]="uploadedimage"
                     alt="Profile Photo"
                     class="imgicon"
                   />
                 </div>
               </div>
-              <div
-                class="col-md-6"
-                style="margin-top: 5px; margin-bottom: 5px; width: 100%"
-              >
-                <mat-label *ngIf="iseditmode">Upload your Signature :</mat-label
-                >&nbsp;
-                <mat-label *ngIf="!iseditmode"
-                  ><strong>Image uploaded:</strong></mat-label
-                >&nbsp;
-                <input
-                  type="file"
-                  multiple
-                  #profile
-                  (change)="selectSignature($event)"
-                />
-                <button
-                  mat-raised-button
-                  color="primary"
-                  class="btn btn-secondary btn-sm"
-                  (click)="uploadSignature()"
-                  type="button"
-                >
-                  Upload
-                </button>
-                <div style="display: contents">
+            </div>
+            <div class="col-md-6">
+              <div class="upload-section">
+                <mat-label *ngIf="iseditmode">Upload your Signature :</mat-label>
+                <mat-label *ngIf="!iseditmode"><strong>Image uploaded:</strong></mat-label>
+                <div class="upload-controls">
+                  <input
+                    type="file"
+                    multiple
+                    #profile
+                    (change)="selectSignature($event)"
+                  />
+                  <button
+                    mat-raised-button
+                    class="secondary"
+                    (click)="uploadSignature()"
+                    type="button"
+                  >
+                    <mat-icon>cloud_upload</mat-icon>
+                    Upload
+                  </button>
+                </div>
+                <div class="image-preview">
                   <img
                     [src]="uploadedsignature"
-                    alt=" Signature"
+                    alt="Signature"
                     class="imgicon"
                   />
                 </div>
               </div>
             </div>
           </div>
-        </fieldset>
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Documents</legend>
-          <div class="control-group">
-            <div formArrayName="Documents_Path_emp">
-              <ng-container
-                *ngFor="
-                  let addressGroup of documentcontrol.controls;
-                  let i = index
-                "
-                [formGroupName]="i"
-              >
-                <div class="row">
-                  <div
-                    class="col-md-6"
-                    style="margin-top: 5px; margin-bottom: 5px; width: 100%"
-                  >
-                    <!-- Select Document Type -->
-                    <mat-form-field appearance="outline" style="width: 30%">
-                      <mat-label>Select Documents</mat-label>
-                      <mat-select
-                        matNativeControl
-                        formControlName="Document_Id"
-                      >
-                        <mat-option
-                          *ngFor="let Documents of documentsdata"
-                          [value]="Documents.Document_Id"
-                        >
-                          {{ Documents.Document_Name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+        </div>
 
-                    <!-- File Upload -->
-                    &nbsp;
+        <!-- Documents Section -->
+        <div class="form-section">
+          <h4 class="section-title">
+            <mat-icon>attachment</mat-icon>
+            Documents
+          </h4>
+          <div formArrayName="Documents_Path_emp">
+            <ng-container
+              *ngFor="
+                let addressGroup of documentcontrol.controls;
+                let i = index
+              "
+              [formGroupName]="i"
+            >
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="inputfieldsize">
+                    <mat-label>Select Documents</mat-label>
+                    <mat-select
+                      matNativeControl
+                      formControlName="Document_Id"
+                    >
+                      <mat-option
+                        *ngFor="let Documents of documentsdata"
+                        [value]="Documents.Document_Id"
+                      >
+                        {{ Documents.Document_Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <div class="upload-section">
                     <input
                       type="file"
                       #profile
@@ -468,60 +477,63 @@
                     />
                     <button
                       mat-raised-button
-                      color="primary"
-                      class="btn btn-secondary btn-sm"
+                      class="secondary"
                       (click)="uploadDocument(i)"
                       type="button"
                     >
+                      <mat-icon>cloud_upload</mat-icon>
                       Upload
                     </button>
 
-                    <!-- View File -->
                     <a
                       *ngIf="addressGroup.get('Document_Path')?.value"
                       [href]="addressGroup.get('Document_Path')?.value"
                       target="_blank"
                       rel="noopener noreferrer"
-                      style="margin-left: 10px"
+                      class="view-file-link"
                     >
+                      <mat-icon>visibility</mat-icon>
                       View File
                     </a>
 
-                    <!-- Optional: File Icon or Fallback -->
-                    <div style="display: contents">
+                    <div class="image-preview" *ngIf="imagesphoto[i]">
                       <img
                         [src]="imagesphoto[i]"
                         alt="Selected Image"
-                        *ngIf="imagesphoto[i]"
                         class="imgicon"
                       />
                     </div>
                   </div>
                 </div>
-              </ng-container>
+              </div>
+            </ng-container>
 
-              <!-- Add More Button -->
+            <div class="add-more-section">
               <button
-                btn-sm
-                class="primary"
+                mat-raised-button
+                class="secondary"
                 type="button"
                 (click)="addDocuments()"
               >
-                Add More
+                <mat-icon>add</mat-icon>
+                Add More Documents
               </button>
             </div>
           </div>
-        </fieldset>
+        </div>
 
-        <div class="row">
-          <div class="col offset-5">
-            <button mat-raised-button type="button">Clear</button> &nbsp;&nbsp;
-            <button mat-raised-button color="primary" type="submit">
-              Submit
-            </button>
-          </div>
+        <div class="form-actions">
+          <button mat-raised-button class="secondary" type="button">
+            <mat-icon>clear</mat-icon>
+            Clear
+          </button>
+          
+          <button mat-raised-button class="primary" type="submit">
+            <mat-icon>save</mat-icon>
+            Submit
+          </button>
         </div>
       </form>
-    </div>
+    </mat-card-content>
   </mat-card>
 </div>

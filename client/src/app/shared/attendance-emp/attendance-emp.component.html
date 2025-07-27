@@ -1,52 +1,77 @@
-<h2 class="page-title">Manage Attendance</h2>
+<div class="container-fluid" style="overflow: auto">
+  <mat-card class="table-card">
+    <mat-card-header class="table-header">
+      <div class="header-wrapper">
+        <div class="header-title">
+          <mat-icon class="header-icon">schedule</mat-icon>
+          <h3 class="table-title">Employee Attendance</h3>
+        </div>
+        <div class="header-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="onExportClick()" 
+            class="action-btn header-btn">
+            <mat-icon>file_download</mat-icon>
+            {{ selectionEnabled ? "Export Selected" : "Export" }}
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="table-content">
+      <!-- Filter Section -->
+      <div class="search-section">
+        <div class="filter-row">
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Filter Type</mat-label>
+            <mat-select [(value)]="filterType" (selectionChange)="onFilterTypeChange()">
+              <mat-option value="daily">Daily</mat-option>
+              <mat-option value="monthly">Monthly</mat-option>
+              <mat-option value="yearly">Yearly</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-<div class="filter-toolbar">
-  <mat-form-field appearance="outline">
-    <mat-label>Filter Type</mat-label>
-    <mat-select [(value)]="filterType" (selectionChange)="onFilterTypeChange()">
-      <mat-option value="daily">Daily</mat-option>
-      <mat-option value="monthly">Monthly</mat-option>
-      <mat-option value="yearly">Yearly</mat-option>
-    </mat-select>
-  </mat-form-field>
+          <ng-container [ngSwitch]="filterType">
+            <mat-form-field *ngSwitchCase="'daily'" appearance="outline" class="filter-field">
+              <mat-label>Select Date</mat-label>
+              <input matInput [matDatepicker]="dailyPicker"
+               [matDatepickerFilter]="dateFilter"
+               [max]="today"
+               [(ngModel)]="selectedDate"
+               (dateChange)="applyFilter()" />
+              <mat-datepicker-toggle matSuffix [for]="dailyPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dailyPicker></mat-datepicker>
+            </mat-form-field>
 
-  <ng-container [ngSwitch]="filterType">
-    <mat-form-field *ngSwitchCase="'daily'" appearance="outline">
-      <mat-label>Select Date</mat-label>
-      <input matInput [matDatepicker]="dailyPicker"
-       [matDatepickerFilter]="dateFilter"
-       [max]="today"
-       [(ngModel)]="selectedDate"
-       (dateChange)="applyFilter()" />
-      <mat-datepicker-toggle matSuffix [for]="dailyPicker"></mat-datepicker-toggle>
-      <mat-datepicker #dailyPicker></mat-datepicker>
-    </mat-form-field>
+            <mat-form-field *ngSwitchCase="'monthly'" appearance="outline" class="filter-field">
+              <mat-label>Select Month</mat-label>
+              <input matInput [matDatepicker]="monthPicker"
+              [max]="today"
+              [(ngModel)]="selectedMonth"
+              (dateChange)="applyFilter()" />
+              <mat-datepicker-toggle matSuffix [for]="monthPicker"></mat-datepicker-toggle>
+              <mat-datepicker #monthPicker startView="multi-year" (monthSelected)="chosenMonthHandler($event)" panelClass="month-picker" > [maxDate]="today">
+              </mat-datepicker>
+            </mat-form-field>
 
-    <mat-form-field *ngSwitchCase="'monthly'" appearance="outline">
-      <mat-label>Select Month</mat-label>
-      <input matInput [matDatepicker]="monthPicker"
-      [max]="today"
-      [(ngModel)]="selectedMonth"
-      (dateChange)="applyFilter()" />
+            <mat-form-field *ngSwitchCase="'yearly'" appearance="outline" class="filter-field">
+              <mat-label>Select Year</mat-label>
+              <input matInput [matDatepicker]="yearPicker"
+              [max]="today"
+              [(ngModel)]="selectedYear"
+              (dateChange)="applyFilter()" />
+              <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+              <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" panelClass="year-picker"> [maxDate]="today">
+              </mat-datepicker>
+            </mat-form-field>
+          </ng-container>
 
-      <mat-datepicker-toggle matSuffix [for]="monthPicker"></mat-datepicker-toggle>
-      <mat-datepicker #monthPicker startView="multi-year" (monthSelected)="chosenMonthHandler($event)" panelClass="month-picker" > [maxDate]="today">
-      </mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field *ngSwitchCase="'yearly'" appearance="outline">
-      <mat-label>Select Year</mat-label>
-      <input matInput [matDatepicker]="yearPicker"
-      [max]="today"
-      [(ngModel)]="selectedYear"
-      (dateChange)="applyFilter()" />
-      <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
-      <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" panelClass="year-picker"> [maxDate]="today">
-      </mat-datepicker>
-    </mat-form-field>
-  </ng-container>
-  <button mat-raised-button color="warn" (click)="resetFilters()">Reset</button>
-</div>
+          <button mat-raised-button class="secondary" (click)="resetFilters()">
+            <mat-icon>refresh</mat-icon>
+            Reset
+          </button>
+        </div>
 
 
 <div class="attendance-container">

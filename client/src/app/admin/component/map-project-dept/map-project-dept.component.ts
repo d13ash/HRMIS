@@ -41,6 +41,7 @@ export class MapProjectDeptComponent implements OnInit {
   MapDetaiDataByid: any;
   data_id: any;
   iseditmode: boolean = false;
+  showForm: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -107,6 +108,7 @@ export class MapProjectDeptComponent implements OnInit {
           Swal.fire('Success', 'Data saved successfully.', 'success');
           this.getTable();
           this.onClear();
+          this.hideForm();
         }
       });
   }
@@ -152,6 +154,7 @@ export class MapProjectDeptComponent implements OnInit {
       (f: any) => f.ID === parseInt(ID)
     );
     this.iseditmode = true;
+    this.showForm = true;
     this.data_id = ID;
     document.getElementById('addnews')?.scrollIntoView();
     this.projectMapForm.patchValue({
@@ -179,5 +182,18 @@ export class MapProjectDeptComponent implements OnInit {
         }
       });
     this.iseditmode = false;
+    this.hideForm();
+  }
+
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
   }
 }

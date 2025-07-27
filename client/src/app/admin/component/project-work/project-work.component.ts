@@ -39,6 +39,7 @@ export class ProjectWorkComponent implements OnInit {
   datePipe: any;
   data: any;
   iseditmode: boolean = false;
+  showForm: boolean = false;
   WorkDataByid: any;
   data_id: any;
   project: any;
@@ -108,6 +109,18 @@ export class ProjectWorkComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
 onInputChange(controlName: string): void {
   const control = this.projrctWorkForm.get(controlName);
   if (control) {
@@ -142,6 +155,7 @@ onSubmit() {
     if (this.data) Swal.fire('Success', 'Data saved successfully!', 'success');
     this.getTable();
     this.onClear();
+    this.hideForm();
   });
 }
 
@@ -166,6 +180,7 @@ onSubmit() {
     );
     console.log(this.WorkDataByid);
     this.iseditmode = true;
+    this.showForm = true;
     document.getElementById('addnews')?.scrollIntoView();
 
     this.data_id = Project_work_main_id;
@@ -213,6 +228,7 @@ onSubmit() {
         this.onClear();
       });
     this.iseditmode = false;
+    this.hideForm();
   }
 
   // Delete Resource detail

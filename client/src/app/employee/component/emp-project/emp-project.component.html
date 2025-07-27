@@ -1,0 +1,96 @@
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            <i class="fas fa-project-diagram me-2"></i>
+            My Projects
+          </h4>
+        </div>
+        <div class="card-body">
+          
+          <!-- Search Container -->
+          <div class="search-container mb-3">
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Search Projects</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Search by project name, type, or financial year">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+
+          <!-- Projects Table -->
+          <div class="table-container" id="projectTable">
+            <mat-table [dataSource]="dataSource" matSort class="mat-elevation-4">
+              
+              <!-- Serial Number Column -->
+              <ng-container matColumnDef="sr">
+                <mat-header-cell *matHeaderCellDef class="text-center"> Sr. No. </mat-header-cell>
+                <mat-cell *matCellDef="let element; let i = index" class="text-center"> 
+                  {{ (paginator?.pageIndex || 0) * (paginator?.pageSize || 10) + i + 1 }} 
+                </mat-cell>
+              </ng-container>
+
+              <!-- Project Name Column -->
+              <ng-container matColumnDef="Project_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Project Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                  <div class="project-name">
+                    <i class="fas fa-folder-open me-2 text-primary"></i>
+                    {{ element.Project_name }} 
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Financial Year Column -->
+              <ng-container matColumnDef="Financial_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Financial Year </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="badge bg-info text-dark">
+                    <i class="fas fa-calendar me-1"></i>
+                    {{ element.Financial_name }}
+                  </span>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Project Type Column -->
+              <ng-container matColumnDef="Project_Type_Name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Project Type </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="badge bg-success">
+                    <i class="fas fa-tag me-1"></i>
+                    {{ element.Project_Type_Name }}
+                  </span>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Header and Row Definitions -->
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></mat-row>
+              
+            </mat-table>
+
+            <!-- Paginator -->
+            <mat-paginator 
+              #paginator
+              [pageSizeOptions]="[5, 10, 25, 100]" 
+              [pageSize]="10"
+              showFirstLastButtons
+              class="mat-elevation-2">
+            </mat-paginator>
+
+            <!-- No Data Message -->
+            <div *ngIf="dataSource.data.length === 0" class="no-data-container">
+              <div class="text-center py-5">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">No Projects Found</h5>
+                <p class="text-muted">You don't have any projects assigned yet.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

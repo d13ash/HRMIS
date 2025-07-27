@@ -24,7 +24,8 @@ export class ProjectModuleComponent implements OnInit {
 
   project_moduleform!: FormGroup;
 
-  iseditmode: boolean = false
+  iseditmode: boolean = false;
+  showForm: boolean = false; // Add showForm property
   project: any;
   allprojectPostDetail: any;
   data: any;
@@ -50,6 +51,19 @@ export class ProjectModuleComponent implements OnInit {
     });
     this.getTable()
     this.getModule()
+  }
+
+  // Show/Hide form methods
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
   }
 
   // get resource in dropdown
@@ -106,6 +120,7 @@ export class ProjectModuleComponent implements OnInit {
         control?.markAsUntouched();
         control?.updateValueAndValidity(); // optional: re-evaluate validators
       });
+      this.hideForm(); // Hide form after successful submission
     }
 this.cdRef.detectChanges();
     this.getTable(); // refresh table
@@ -133,6 +148,7 @@ onInputChange(controlName: string): void {
     this.projectPostDataByidd = this.allprojectPostDetail.find((f: any) => f.project_module_id === parseInt(project_module_id));
     console.log(this.projectPostDataByidd)
     this.iseditmode = true;
+    this.showForm = true; // Show form when editing
     this.data_id = project_module_id;
     document.getElementById("addnews")?.scrollIntoView();
 
@@ -155,6 +171,7 @@ onupdate() {
         this.getTable();
         this.onClear();  // Clear form state
         this.iseditmode = false;
+        this.hideForm(); // Hide form after successful update
 
         this.cdRef.detectChanges();  // Force view update to remove red errors
       }

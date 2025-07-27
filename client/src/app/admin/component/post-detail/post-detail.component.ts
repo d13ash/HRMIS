@@ -33,6 +33,7 @@ export class PostDetailComponent implements OnInit {
   data: any;
   posttype: any[] = [];
   dataSource!: MatTableDataSource<any>;
+  showForm = false;
 
   PostdetailsForm!: FormGroup;
 
@@ -46,6 +47,18 @@ export class PostDetailComponent implements OnInit {
     this.initForm();
     this.getposttype();
     this.getTable();
+  }
+
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onReset();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onReset();
   }
 
   initForm() {
@@ -129,6 +142,7 @@ export class PostDetailComponent implements OnInit {
         Swal.fire('Data saved successfully');
         this.getTable();
         this.onReset(); // clears form and validation states
+        this.hideForm(); // Hide form after successful submission
       },
       error: (err) => {
         console.error('Save failed', err);
@@ -212,6 +226,7 @@ export class PostDetailComponent implements OnInit {
     if (!postDataByid) return;
     console.log('Edit Data:', postDataByid);
 
+    this.showForm = true;
     this.data_id = Post_id;
     this.iseditmode = true;
     this.getposttype();
@@ -251,6 +266,7 @@ export class PostDetailComponent implements OnInit {
         Swal.fire('Data updated successfully');
         this.getTable(); // Refresh the list/table
         this.onReset(); // Clear the form and exit edit mode
+        this.hideForm(); // Hide form after successful update
       },
       error: (err) => {
         console.error('Update failed', err);

@@ -13,6 +13,19 @@ export class BirthdaypopUpComponent implements OnInit, OnDestroy {
   birthdays: any[] = [];
   allBirthdays: any[] = [];
   showPopup = false;
+  showToast = true;
+ totalBirthdays = 0;
+  showToastMessage = '';
+  
+  toastPosition = 'top'; // Position of the toast
+  toastType = 'info'; // Type of the toast (info, success, error, warning)
+  toastTitle = 'Birthday Reminder'; // Title of the toast
+  toastIcon = 'cake'; // Icon for the toast
+  toastActions = []; // Actions for the toast
+  toastActionLabel = 'View All Birthdays'; // Label for the action button
+  toastActionCallback = () => this.openAllBirthdays(); // Callback for the action button
+  toastCloseButton = true; // Show close button on the toast
+  toastCloseCallback = () => this.dismissToast(); // Callback for the close button
 showAll = false;
 currentIndex = 0;
 interval: any;
@@ -23,14 +36,16 @@ constructor(
     private dataservice: DataService,
     private AS: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any[],
-    public dialogRef: MatDialogRef<BirthdaypopUpComponent>
+    public dialogRef: MatDialogRef<BirthdaypopUpComponent>,
+   
   ) {}
+  
 
   checkUserRole(id:any): boolean {
     const Emp_Id = this.AS.currentUser.Emp_Id;
     if (Emp_Id == id) {
       return true; // User is the same as the employee
-    }
+    } 
     return false; // User is not the same as the employee
   }
 getBirthdayMessage(emp: any): string {
@@ -40,7 +55,7 @@ getBirthdayMessage(emp: any): string {
 console.log('Current Emp ID:', currentEmpId);
 console.log('Employee ID:', empId);
   console.log('emp:', emp);
-
+ 
   if (currentEmpId === empId && days === 0) {
     return `🎉 Hey ${emp.name}, Happy Birthday to you! 🎂`;
   } else if (currentEmpId === empId && days === 1) {
@@ -51,15 +66,15 @@ console.log('Employee ID:', empId);
 
   if (currentEmpId !== empId) {
     if (days === 0) {
-      return `🎂 Today is ${emp.name}'s Birthday!`;
+      return `🎂 Today is ${emp.name}'s birthday!`;
     } else if (days === 1) {
-      return `📅 ${emp.name}'s Birthday is tomorrow.`;
+      return `📅 ${emp.name}'s birthday is tomorrow.`;
     } else if (days === 2) {
-      return `📅 ${emp.name}'s Birthday is in 2 days.`;
+      return `📅 ${emp.name}'s birthday is in 2 days.`;
     }
   }
 
-
+  
   return '';
 }
 
@@ -101,7 +116,10 @@ console.log('Employee ID:', empId);
   }
   setTimeout(() => {
     this.closeAll();
-  }, 10000);
+  }, 55000);
+}
+dismissToast(): void {
+  this.showToast = false;
 }
 
   fetchBirthdaySoon() {
@@ -117,7 +135,7 @@ console.log('Employee ID:', empId);
     startRotation() {
     this.interval = setInterval(() => {
       this.currentIndex = (this.currentIndex + 1) % this.birthdays.length;
-    }, 10000);
+    }, 4000);
   }
 
   getDaysUntil(birthday: string): number {

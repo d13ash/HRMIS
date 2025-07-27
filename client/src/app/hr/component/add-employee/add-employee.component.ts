@@ -35,6 +35,8 @@ interface Salutation {
   styleUrls: ['./add-employee.component.scss'],
 })
 export class AddEmployeeComponent implements OnInit {
+  showForm: boolean = false;
+  iseditmode: boolean = false;
   passwordsMatching = false;
   isConfirmPasswordDirty = false;
   confirmPasswordClass = 'form-control';
@@ -103,6 +105,17 @@ export class AddEmployeeComponent implements OnInit {
     this.getPostdata();
     this.getSalutations();
   }
+
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+  }
+
   createForm() {
     this.RegistationForm = this.fb.group({
       Salutation_E: this.Salutation_E,
@@ -149,7 +162,7 @@ export class AddEmployeeComponent implements OnInit {
         text: 'Please fill all required fields correctly.',
       }).then(() => {
         // After alert closes, remove red dirty error states
-        this.onReset();
+        this.onClear();
       });
       return; // Stop form submission
     }
@@ -182,13 +195,17 @@ export class AddEmployeeComponent implements OnInit {
       console.log(response2);
       Swal.fire('Data Saved successfully');
       this.getTable();
-      this.onReset();
+      this.onClear();
+      this.hideForm();
     } catch (error) {
       console.error('Error', error);
     }
   }
 
-  onReset() {
+  onClear() {
+    this.submitted = false;
+    this.RegistationForm.reset();
+    this.Registationpass.reset();
     // Reset all controls to pristine and untouched to clear red borders
     Object.values(this.RegistationForm.controls).forEach((control) => {
       control.markAsPristine();

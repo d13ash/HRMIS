@@ -41,6 +41,7 @@ export class ProjectWorkDetailComponent implements OnInit {
   datePipe: any;
   data: any;
   iseditmode: boolean = false;
+  showForm: boolean = false;
   WorkDataByid: any;
   data_id: any;
   ModuleData: any;
@@ -126,6 +127,18 @@ export class ProjectWorkDetailComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
   onSubmit() {
     if (this.projectWorkDetailForm.invalid) {
       Swal.fire({
@@ -160,6 +173,7 @@ export class ProjectWorkDetailComponent implements OnInit {
           Swal.fire('Success', 'Data saved successfully.', 'success');
           this.getTable();
           this.onClear();
+          this.hideForm();
         }
       });
   }
@@ -198,6 +212,7 @@ export class ProjectWorkDetailComponent implements OnInit {
     );
     console.log(this.WorkDataByid);
     this.iseditmode = true;
+    this.showForm = true;
     this.data_id = Project_work_detail_id;
     this.projectWorkDetailForm.patchValue({
       Project_ID: this.WorkDataByid.Project_ID,
@@ -245,6 +260,7 @@ export class ProjectWorkDetailComponent implements OnInit {
         this.onClear();
       });
     this.iseditmode = false;
+    this.hideForm();
   }
 
   // Delete Resource detail

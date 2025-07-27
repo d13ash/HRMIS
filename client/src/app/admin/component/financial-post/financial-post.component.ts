@@ -52,6 +52,7 @@ export class FinancialPostComponent implements OnInit {
   useFinancialYear: any;
   useProject: any;
   isEdit: boolean = false;
+  showForm: boolean = false;
   f_id: any;
   fm_id: any;
   fileUrl: { pi?: string; wo?: string } = {};
@@ -206,11 +207,8 @@ export class FinancialPostComponent implements OnInit {
             // Reload data
             this.getonTable();
 
-            // Scroll to top
-            const el = document.getElementById('projectform');
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            // Hide form after successful submission
+            this.hideForm();
 
             // Update UI
             this.cdRef.detectChanges();
@@ -271,6 +269,7 @@ export class FinancialPostComponent implements OnInit {
 
   async onedit(fm_id: any) {
     this.isEdit = true;
+    this.showForm = true;
     this.fm_id = fm_id;
     // Extract filename with extension from URL
     const getFileNameFromUrl = (url: string): string => {
@@ -361,18 +360,7 @@ export class FinancialPostComponent implements OnInit {
               'success'
             );
             this.getonTable();
-            this.resetFormState();
-            this.cdRef.detectChanges();
-            (this.form.get('postArray') as FormArray).clear();
-            this.addPost();
-            this.fileUrl = {};
-            this.files = {};
-            this.formData = new FormData();
-            this.isEdit = false;
-            this.fm_id = null;
-            this.form.markAsPristine();
-            this.form.markAsUntouched();
-            this.cdRef.detectChanges();
+            this.hideForm(); // Hide form after successful update
           },
           error: (err) => {
             Swal.fire('Error', 'Failed to add Financial Post', 'error');
@@ -462,5 +450,17 @@ export class FinancialPostComponent implements OnInit {
         })
       );
     });
+  }
+
+  // Show/Hide Form Methods
+  showAddForm() {
+    this.showForm = true;
+    this.isEdit = false;
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.isEdit = false;
+    this.onClear();
   }
 }
