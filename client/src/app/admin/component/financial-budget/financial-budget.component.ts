@@ -31,6 +31,7 @@ export class FinancialBudgetComponent implements OnInit {
   isEditMode: boolean = false;
   update1:any;
   data2:any;
+  showForm: boolean = false;
 
   ngOnInit(): void {
     this.BudgetForm = this.fb.group({
@@ -131,6 +132,7 @@ getTable(){
      console.log(this.budget_1.Financial_id)
     this.editproject = updatedit
     this.isEditMode = true;
+    this.showForm = true;
     this.BudgetForm.patchValue
     ({
      budget_head_name:this.budget_1.budget_head_name,
@@ -169,4 +171,18 @@ getTable(){
            Swal.fire('Data Deleted...');
      });
    }
+
+  // Show the add budget form
+  showAddForm() {
+    this.showForm = true;
+    this.isEditMode = false;
+    this.onClear(); // Clear any existing data
+  }
+
+  // Hide the form
+  hideForm() {
+    this.showForm = false;
+    this.isEditMode = false;
+    this.onClear(); // Clear form data when hiding
+  }
 }

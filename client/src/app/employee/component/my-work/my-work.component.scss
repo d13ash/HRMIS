@@ -2,6 +2,63 @@
 mat-card{
     background-color: rgb(240, 242, 243);
   }
+  
+  // Material table styling to match work-allotment
+  .con-table {
+    width: 100%;
+    background-color: white;
+    
+    .mat-header-cell {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+    }
+    
+    .mat-cell {
+      border-bottom: 1px solid #dee2e6;
+      padding: 12px 8px;
+    }
+    
+    .mat-row:hover {
+      background-color: #f8f9fa;
+    }
+  }
+  
+  .table-header {
+    background-color: #f8f9fa !important;
+  }
+  
+  // Search container styling
+  .search_container {
+    .example-full-width {
+      width: 300px;
+      
+      .mat-form-field-wrapper {
+        padding-bottom: 0;
+      }
+    }
+  }
+  
+  // Mat-card and toolbar styling
+  mat-toolbar {
+    background-color: #ffffff !important;
+    color: #495057;
+    border-bottom: 1px solid #dee2e6;
+    
+    .title {
+      font-weight: 600;
+      margin: 0;
+      color: #495057;
+    }
+  }
+  
+  // Pagination styling
+  .paging {
+    background-color: white;
+    border-top: 1px solid #dee2e6;
+  }
+  
   .heading{
     text-align: center;
     background-color: #ffffff;
@@ -45,7 +102,64 @@ mat-card{
   color:blue;
   }
 
+  // Status buttons styling
+  .status-buttons {
+    padding: 8px;
+    min-width: 200px;
+    gap: 8px;
+    
+    .status-btn {
+      width: 40px !important;
+      height: 40px !important;
+      
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+      
+      &:hover {
+        transform: scale(1.1);
+        transition: transform 0.2s ease-in-out;
+      }
+    }
+    
+    small {
+      font-size: 10px;
+      font-weight: 500;
+      text-align: center;
+      display: block;
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+  }
   
+  .finished-icon {
+    font-size: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  // Table styling improvements
+  table {
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 12px 8px;
+    }
+  }
+
+  // Responsive design
+  .table-responsive {
+    overflow-x: auto;
+  }
+
  
 // table color
 

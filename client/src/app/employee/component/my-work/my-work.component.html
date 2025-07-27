@@ -1,51 +1,155 @@
 
 <!-- Data Table -->
-<div class="container mb-0" id="addnews">
-    <div class="row ">
-      <div class="col-md-12 heading">
-          <h2 style="color:rgb(114, 175, 224);">My Works</h2>
+<div class="container-fluid mb-0" id="addnews">
+  <mat-card style="margin-bottom: 40px">
+    <mat-toolbar>
+      <p>
+        <span>
+          <h5 class="title">My Works</h5>
+        </span>
+      </p>
+    </mat-toolbar>
+    <div class="container">
+      <div class="row table-responsive">
+        <div class="search_container mt-2">
+          <mat-form-field class="example-full-width">
+            <span matPrefix> </span>
+            <input
+              type="tel"
+              matInput
+              placeholder="Search"
+              autocomplete="off"
+              (keyup)="applyFilter($event)"
+            />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+        <table class="con-table" mat-table matSort [dataSource]="dataSource">
+          
+          <!-- Serial Number Column -->
+          <ng-container matColumnDef="sr">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Sr.</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+
+          <!-- Project Column -->
+          <ng-container matColumnDef="Project_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Project</th>
+            <td mat-cell *matCellDef="let element">{{ element.Project_name }}</td>
+          </ng-container>
+
+          <!-- Module Column -->
+          <ng-container matColumnDef="module_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Module</th>
+            <td mat-cell *matCellDef="let element">{{ element.module_name }}</td>
+          </ng-container>
+
+          <!-- Work Column -->
+          <ng-container matColumnDef="Work_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Work</th>
+            <td mat-cell *matCellDef="let element">{{ element.Work_name }}</td>
+          </ng-container>
+
+          <!-- Start Date Column -->
+          <ng-container matColumnDef="Start_date">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Start Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.Start_date | date:'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <!-- End Date Column -->
+          <ng-container matColumnDef="End_date">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>End Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.End_date | date:'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="Description">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.Description }}</td>
+          </ng-container>
+
+          <!-- Set Status Column -->
+          <ng-container matColumnDef="status_actions" stickyEnd="true">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Set Status</th>
+            <td mat-cell *matCellDef="let element">
+              <!-- Status Icon Buttons -->
+              <div class="status-buttons d-flex flex-row justify-content-center align-items-center" 
+                   *ngIf="isStatusEditable(element.is_Work_complete); else statusDisabled">
+                
+                <!-- Finished Button -->
+                <div class="text-center me-2">
+                  <button mat-mini-fab 
+                          color="primary" 
+                          matTooltip="Mark as Finished"
+                          (click)="updateWorkStatus(element.alloted_project_work_id, 'finished', 'Finished')"
+                          class="status-btn">
+                    <mat-icon>check_circle</mat-icon>
+                  </button>
+                  <br>
+                  <small class="text-muted">Finished</small>
+                </div>
+                
+                <!-- Running Button -->
+                <div class="text-center me-2">
+                  <button mat-mini-fab 
+                          color="accent" 
+                          matTooltip="Mark as Running"
+                          (click)="updateWorkStatus(element.alloted_project_work_id, 'running', 'Running')"
+                          class="status-btn">
+                    <mat-icon>play_circle</mat-icon>
+                  </button>
+                  <br>
+                  <small class="text-muted">Running</small>
+                </div>
+                
+                <!-- Incomplete Button -->
+                <div class="text-center">
+                  <button mat-mini-fab 
+                          color="warn" 
+                          matTooltip="Mark as Incomplete"
+                          (click)="updateWorkStatus(element.alloted_project_work_id, 'incomplete', 'Incomplete')"
+                          class="status-btn">
+                    <mat-icon>pause_circle</mat-icon>
+                  </button>
+                  <br>
+                  <small class="text-muted">Incomplete</small>
+                </div>
+              </div>
+              
+              <!-- Disabled state for finished work -->
+              <ng-template #statusDisabled>
+                <div class="text-center">
+                  <mat-icon color="primary" class="finished-icon">check_circle</mat-icon>
+                  <br>
+                  <small class="text-success fw-bold">Work Finished</small>
+                  <br>
+                  <small class="text-muted">Status cannot be changed</small>
+                </div>
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <!-- Approval Column -->
+          <ng-container matColumnDef="approval">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Approval</th>
+            <td mat-cell *matCellDef="let element">{{ element.approval }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <br />
+        <mat-paginator
+          class="paging"
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page"
+        >
+        </mat-paginator>
       </div>
-  </div>
-  </div>
-  <div style="overflow-x:auto; margin-top: 0;">
-    <form [formGroup]="myWorkForm" >
-      <table class="table table-bordered mt-3 scroll-down ">
-        <thead>
-          <tr >
-            <th>Sr.</th>
-            <th>Project</th>
-            <th>Module</th>
-            <th>Work</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Description</th>
-            <th>Set Status</th>
-            <th> Approval</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let us of previewData; let ind=index;" >
-            <td>{{ind+1}}</td>
-            <td>{{us.Project_name}}</td>
-            <td>{{us.module_name}}</td>
-            <td>{{us.Work_name}}</td>
-            <td>{{us.Start_date | date:'dd/mm/yyyy'}}</td>
-            <td>{{us.End_date | date:'dd/mm/yyyy'}}</td>
-            <td>{{us.Description}}</td>
-            <td>
-              <select name="language" id="language" formControlName="is_Work_complete">
-              <option value="finished">Finished</option>
-              <option value="running">Running</option>
-              <option value="incomplete">Incomplete</option>
-            </select> &nbsp;
-            <button class="mt-1" mat-icon-button color="primary" type="button" (click)="submitForm(us.alloted_project_work_id)"> <mat-icon>save</mat-icon> </button>
-          </td>
-            <td>{{us.approval}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </div>
+    </div>
+  </mat-card>
+</div>
   <br>
   <br>
 

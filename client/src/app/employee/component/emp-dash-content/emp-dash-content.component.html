@@ -5,17 +5,22 @@
          <h5>DASHBOARD</h5>
       </div>
 
-      <div class="col-md-6  d-flex rowforpath">
-        <p style="margin-left:35vh;">  > home > Dashboard</p>
-     </div>
+      <div class="col-md-6 d-flex justify-content-end align-items-center rowforpath">
+        <button mat-icon-button matTooltip="View Birthday Reminders" (click)="openBirthdayPopupManually()" color="accent"
+          class="me-2">
+          <mat-icon>cake</mat-icon>
+        </button>
+
+        <p style="margin-left: 2rem; margin-bottom: 0;"> > home > Dashboard</p>
+      </div>
     </div>
 
     <!-- row 1 -->
-      <div class="row card-row">
+      <!-- <div class="row card-row">
         <div class="col-md-12 col-lg-12">
           <app-main-dash-card></app-main-dash-card>
         </div>
-      </div>
+      </div> -->
 
       <!-- row 2 -->
       <!-- <div class="row progress-row">

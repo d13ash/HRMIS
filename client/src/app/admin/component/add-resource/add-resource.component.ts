@@ -80,6 +80,9 @@ export class AddResourceComponent implements OnInit {
   name1: any;
   show_item_details: boolean = false;
   show_view_details: boolean = false;
+  resource_unit: any[] = [];
+  // Remove selectedUnitId property if present
+  // Use only Unit_ID form control
 
   constructor(
     private fb: FormBuilder,
@@ -111,9 +114,17 @@ export class AddResourceComponent implements OnInit {
       total_amount: ['', Validators.required],
       item_id: [null, Validators.required],
       product_Description: ['', Validators.required],
+      Unit_ID: [null,Validators.required]
     });
     this.getTable();
     this.getcategory();
+    this.getUnits();
+  }
+
+  getUnits() {
+    this.ds.getData('resource_stock_entry/getallunit').subscribe((res) => {
+      this.resource_unit = res;
+    });
   }
 
   nopath() {
@@ -289,7 +300,18 @@ export class AddResourceComponent implements OnInit {
     amount: any,
     name1: any
   ) {
-    this.userlist.push({ name, desc, rate, quant, amount, name1 });
+    const unitId = this.resource_stock_entryform.get('Unit_ID')?.value;
+    const unitName = this.resource_unit.find(u => u.Unit_ID === unitId)?.Unit_Name || '';
+    this.userlist.push({
+      name,
+      desc,
+      rate,
+      quant,
+      amount,
+      name1,
+      Unit_ID: unitId,
+      unit_name: unitName
+    });
 
     // <-- Add this block to update form control when adding first item
     if (

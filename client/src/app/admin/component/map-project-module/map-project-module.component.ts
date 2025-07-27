@@ -19,6 +19,7 @@ export class MapProjectModuleComponent implements OnInit{
 deptType:any
 projectType: any;
 data:any;
+showForm: boolean = false;
 
 
   displayedColumns=['ID','Project_Name','module_name','Description','Action'];
@@ -59,6 +60,18 @@ applyFilter(event: Event) {
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
   getModule(){
     this.ds.getData('map_project_module/getallModule').subscribe((result)=>{
       console.log(result);
@@ -88,6 +101,7 @@ onSubmit(){
   });
   this.getTable();
   this.onClear();
+  this.hideForm();
   }
  onClear() {
   this.projectMapmodForm.reset();
@@ -138,6 +152,7 @@ onedit(Map_module_id: any){
   this.MapDetaiDataByid = this.projectMapDetail.find((f : any) => f.Map_module_id === parseInt(Map_module_id));
   console.log(this.MapDetaiDataByid);
   this.iseditmode = true;
+  this.showForm = true;
   this.data_id = Map_module_id;
 
   this.projectMapmodForm.patchValue({
@@ -164,6 +179,7 @@ onupdate(){
   this.onClear();
    })
   this.iseditmode = false;
+  this.hideForm();
  }
 
 

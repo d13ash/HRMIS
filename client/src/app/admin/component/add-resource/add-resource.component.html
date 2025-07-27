@@ -390,6 +390,20 @@
                 </mat-error>
               </mat-form-field>
             </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="inputfieldsize">
+                <mat-label>Unit Name</mat-label>
+                <mat-select placeholder="Select Unit" formControlName="Unit_ID">
+                  <mat-option *ngFor="let unit of resource_unit" [value]="unit.Unit_ID">
+                    {{ unit.Unit_Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="resource_stock_entryform.get('Unit_ID')?.hasError('required') && resource_stock_entryform.get('Unit_ID')?.touched">
+                  Unit is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
 
             <div class="col-md-2">
               <mat-form-field appearance="outline" class="inputfieldsize">
@@ -414,8 +428,8 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="col-md-3">
-              <mat-form-field class="inputfieldsize">
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="inputfieldsize">
                 <mat-label>Total Quantity</mat-label>
                 <input
                   matInput
@@ -436,8 +450,8 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="col-md-3">
-              <mat-form-field appearance="outline" class="inputfieldsize">
+            <div class="col-md-2">
+              <mat-form-field class="inputfieldsize">
                 <mat-label> Total Amount</mat-label>
                 <input
                   matInput

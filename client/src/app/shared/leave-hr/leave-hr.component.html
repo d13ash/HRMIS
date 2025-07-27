@@ -1,72 +1,84 @@
 <div class="leave-hr-container">
   <!-- Leave Request Form Section -->
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Submit Leave Request</mat-card-title>
+  <mat-card class="form-card">
+    <mat-card-header class="form-header">
+      <div class="form-header-wrapper">
+        <div class="form-header-title">
+          <mat-icon class="form-header-icon">add_circle</mat-icon>
+          <h3 class="form-title">Submit Leave Request</h3>
+        </div>
+      </div>
     </mat-card-header>
 
-    <mat-card-content>
+    <mat-card-content class="form-content">
       <app-leave-request></app-leave-request>
     </mat-card-content>
   </mat-card>
 
   <!-- Leave Request Management Section -->
-  <mat-card style="margin-top: 20px;">
-    <mat-card-header>
-      <mat-card-title>Leave Requests Management</mat-card-title>
+  <mat-card class="table-card" style="margin-top: 20px;">
+    <mat-card-header class="table-header">
+      <div class="table-header-wrapper">
+        <div class="table-header-title">
+          <mat-icon class="table-header-icon">manage_accounts</mat-icon>
+          <h3 class="table-title">Leave Requests Management</h3>
+        </div>
+      </div>
     </mat-card-header>
 
-    <mat-card-content>
-
+    <mat-card-content class="table-content">
+      <!-- Data Table -->
       <div class="table-container">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" class="professional-table">
           <!-- Leave ID Column -->
           <ng-container matColumnDef="leaveId">
-            <th mat-header-cell *matHeaderCellDef>Leave ID</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave ID</th>
             <td mat-cell *matCellDef="let element">{{element.leave_id}}</td>
           </ng-container>
 
           <!-- Employee ID Column -->
           <ng-container matColumnDef="employeeId">
-            <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee ID</th>
             <td mat-cell *matCellDef="let element">{{element.Emp_Id}}</td>
           </ng-container>
 
           <!-- Employee Name Column -->
           <ng-container matColumnDef="employeeName">
-            <th mat-header-cell *matHeaderCellDef>Employee Name</th>
-            <td mat-cell *matCellDef="let element"> {{element.Emp_First_Name_E}} {{element.Emp_Middle_Name_E}} {{element.Emp_Last_Name_E}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.Emp_First_Name_E}} {{element.Emp_Middle_Name_E}} {{element.Emp_Last_Name_E}}
+            </td>
           </ng-container>
 
           <!-- Leave Type Column -->
           <ng-container matColumnDef="leaveType">
-            <th mat-header-cell *matHeaderCellDef>Leave Type</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Type</th>
             <td mat-cell *matCellDef="let element">{{element.leave_type}}</td>
           </ng-container>
 
           <!-- Leave Reason Column -->
           <ng-container matColumnDef="leaveReason">
-            <th mat-header-cell *matHeaderCellDef>Leave Reason</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Reason</th>
             <td mat-cell *matCellDef="let element">{{element.leave_reason}}</td>
           </ng-container>
 
           <!-- Leave From Column -->
           <ng-container matColumnDef="leaveFrom">
-            <th mat-header-cell *matHeaderCellDef>From Date</th>
-            <td mat-cell *matCellDef="let element">{{element.leave_from | date}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>From Date</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_from | date: 'dd/MM/yyyy'}}</td>
           </ng-container>
 
           <!-- Leave To Column -->
           <ng-container matColumnDef="leaveTo">
-            <th mat-header-cell *matHeaderCellDef>To Date</th>
-            <td mat-cell *matCellDef="let element">{{element.leave_to | date}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>To Date</th>
+            <td mat-cell *matCellDef="let element">{{element.leave_to | date: 'dd/MM/yyyy'}}</td>
           </ng-container>
 
           <!-- Status Column -->
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
             <td mat-cell *matCellDef="let element">
-              <span [class]="'status-' + element.status.toLowerCase()">
+              <span [class]="'status-' + element.status?.toLowerCase()">
                 {{element.status}}
               </span>
             </td>
@@ -76,8 +88,12 @@
           <ng-container matColumnDef="document">
             <th mat-header-cell *matHeaderCellDef>Document</th>
             <td mat-cell *matCellDef="let element">
-              <button mat-icon-button (click)="viewDocument(element.supporting_document)"
-                      [disabled]="!element.supporting_document">
+              <button 
+                mat-icon-button 
+                (click)="viewDocument(element.supporting_document)"
+                [disabled]="!element.supporting_document"
+                matTooltip="View Document"
+                class="action-btn-icon view">
                 <mat-icon>description</mat-icon>
               </button>
             </td>
@@ -85,19 +101,31 @@
 
           <!-- Actions Column -->
           <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let element">
+            <th mat-header-cell *matHeaderCellDef class="action-column">Actions</th>
+            <td mat-cell *matCellDef="let element" class="action-column">
               <div class="action-buttons" *ngIf="element.status && element.status.toLowerCase() === 'pending'">
-                <button mat-icon-button color="primary" (click)="approveLeave(element.leave_id)"
-                        matTooltip="Approve Leave">
-                  <mat-icon>check</mat-icon>
+                <button 
+                  mat-icon-button 
+                  color="primary" 
+                  (click)="approveLeave(element.leave_id)"
+                  matTooltip="Approve Leave"
+                  class="action-btn-icon approve">
+                  <mat-icon>check_circle</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="rejectLeave(element.leave_id)"
-                        matTooltip="Reject Leave">
-                  <mat-icon>close</mat-icon>
+                <button 
+                  mat-icon-button 
+                  color="warn" 
+                  (click)="rejectLeave(element.leave_id)"
+                  matTooltip="Reject Leave"
+                  class="action-btn-icon reject">
+                  <mat-icon>cancel</mat-icon>
                 </button>
               </div>
-              <span *ngIf="!element.status || element.status.toLowerCase() !== 'pending'">{{element.status}}</span>
+              <span 
+                *ngIf="!element.status || element.status.toLowerCase() !== 'pending'"
+                [class]="'status-' + element.status?.toLowerCase()">
+                {{element.status}}
+              </span>
             </td>
           </ng-container>
 

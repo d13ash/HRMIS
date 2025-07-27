@@ -16,6 +16,15 @@ router.get('/allstock_entry', async (req, res) => {
     return res.json(result);
 });
 
+router.get('/getallunit', async (req, res) => {
+    var query = "SELECT * FROM resource_unit";
+    console.log("called");
+    let result = await mysql.exec(query);
+    if (result.length == 0)
+        return res.status(404).send("Data Not Found");
+    return res.json(result);
+});
+
 // Get all the major category of stock
 router.get('/getstock_category', async (req, res) => {
     var query = "SELECT * FROM resource_stock_category";
@@ -123,7 +132,7 @@ router.post('/post', async (req, res) => {
     console.log("POST /post route hit");
     var values = req.body;
   //  let {purchase_order_no,}= values;
-    let {purchase_order_no,purachase_name, agency, bill_no,bill_date, bill_attatchment, amount, category_id, entrydate,subcategory_id, item_id,stock_type,product_Description ,rate,quantity} = values;
+    let {purchase_order_no,purachase_name, agency, bill_no,bill_date, bill_attatchment, amount, category_id, entrydate,subcategory_id, Unit_ID, item_id,stock_type,product_Description ,rate,quantity} = values;
     console.log("Request body:", values);
     var query = `INSERT INTO  resource_stock_entry(purchase_order_no, purachase_name,agency,stock_type,bill_no,entrydate,amount,bill_date,bill_attachment,category_id,subcategory_id) 
     values("${purchase_order_no}","${purachase_name}","${agency}",'${stock_type}',"${bill_no}",'${entrydate}',${amount},'${bill_date}',"${bill_attatchment}",${category_id},${subcategory_id})`; ;
@@ -134,8 +143,8 @@ router.post('/post', async (req, res) => {
         let purchase_id = data.insertId; // Get the last inserted ID
         console.log("Inserted purchase_id:", purchase_id);
 
-         var query1 = `INSERT INTO resource_stock_detail(purchase_id,item_id,description,quantity,amount,rate)
-    values( ${purchase_id},${item_id}, "${product_Description}", ${quantity}, ${amount}, ${rate})`;
+        var query1 = `INSERT INTO resource_stock_detail(purchase_id,item_id,description,quantity,Unit_ID,amount,rate)
+    values( ${purchase_id},${item_id}, "${product_Description}", ${quantity}, ${Unit_ID}, ${amount}, ${rate})`;
         let data1 = await mysql.exec(query1);
         res.json({
             id : data.insertId,
@@ -155,9 +164,9 @@ router.post('/post1/:id', async (req, res) => {
        const arr=req.body.paramArray;
        var id = req.params.id;
     try {
-      var query = "INSERT INTO resource_stock_detail (purchase_id,item_id,description,rate,quantity,amount) VALUES (?,?,?,?,?,?) ";
+      var query = "INSERT INTO resource_stock_detail (purchase_id,item_id,description,rate,quantity,amount,Unit_ID) VALUES (?,?,?,?,?,?,?) ";
       for (const item of arr) {
-        await mysql.exec(query,[id,item.name,item.desc,item.rate,item.quant,item.amount]);
+        await mysql.exec(query,[id,item.name,item.desc,item.rate,item.quant,item.amount,item.Unit_ID]);
       }
         let data =
         res.json({
@@ -171,18 +180,18 @@ router.post('/post1/:id', async (req, res) => {
 
 // File upload setup
 const upload = multer({
-    storage: multer.diskStorage({
-        destination: function (req, file, cb) {
-            cb(null, "upload_section/bill_attachment");
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname + Date.now() + path.extname(file.originalname));
-        }
-    }),
-    limits: { fileSize: 100000000 }
+  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "uploads/resource");
+    },
+    filename: function (req, file, cb) {
+      cb(null, 'BILL_' + Date.now() + path.extname(file.originalname));
+    }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }
 });
 
-router.use('/api/images', express.static('upload_section/bill_attachment'));
+router.use('/api/resource-images', express.static('uploads/resource'));
 
 router.post("/uploadfile", upload.single("Logo_Path"), (req, resp, next) => {
     const file = req.file;

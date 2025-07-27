@@ -36,6 +36,7 @@ export class ProPostAllotComponent implements OnInit {
   projectPostForm!: FormGroup;
 
   iseditmode: boolean = false;
+  showForm: boolean = false;
   project: any;
   allprojectPostDetail: any;
   data: any;
@@ -157,7 +158,7 @@ onSubmit() {
           showConfirmButton: true,
         }).then(() => {
           this.getTable();
-          this.onClear(); // Clear form after success
+          this.hideForm(); // Hide form after successful submission
         });
       }
     });
@@ -206,6 +207,7 @@ onSubmit() {
     );
     console.log(this.projectPostDataByid);
     this.iseditmode = true;
+    this.showForm = true;
     this.data_id = Project_post_allotment_ID;
     this.projectPostForm.patchValue({
       Post_id: this.projectPostDataByid.Post_id,
@@ -237,11 +239,10 @@ onSubmit() {
           showConfirmButton: true,
         }).then(() => {
           this.getTable();
-          this.onClear(); // <- move here
+          this.hideForm(); // Hide form after successful update
         });
       }
     });
-  this.iseditmode = false;
 }
 
 
@@ -263,5 +264,17 @@ onSubmit() {
         }
         this.getTable();
       });
+  }
+
+  // Show/Hide Form Methods
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
   }
 }

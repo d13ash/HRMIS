@@ -51,6 +51,7 @@ export class MapPostEmpComponent implements OnInit {
   MapDetaiDataByid: any;
   data_id: any;
   iseditmode: boolean = false;
+  showForm: boolean = false;
   allemp: any;
   allPost: any;
   uploadedimage: any;
@@ -229,6 +230,7 @@ export class MapPostEmpComponent implements OnInit {
           }
           this.getTable();
           this.onClear();
+          this.hideForm(); // Hide form after successful submission
         },
         (err) => {
           Swal.fire('Error', 'Failed to save data.', 'error');
@@ -284,6 +286,7 @@ export class MapPostEmpComponent implements OnInit {
       (f: any) => f.Map_post_emp_id === parseInt(Map_post_emp_id)
     );
     this.iseditmode = true;
+    this.showForm = true;
     this.data_id = Map_post_emp_id;
     document.getElementById('addnews')?.scrollIntoView();
     this.onChangeFYear(this.MapDetaiDataByid.Financial_id);
@@ -347,6 +350,7 @@ export class MapPostEmpComponent implements OnInit {
         }
         this.getTable();
         this.onClear();
+        this.hideForm(); // Hide form after successful update
       });
     this.iseditmode = false;
   }
@@ -381,5 +385,17 @@ export class MapPostEmpComponent implements OnInit {
 
   nopath() {
     Swal.fire('please select a file');
+  }
+
+  // Show/Hide Form Methods
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
   }
 }

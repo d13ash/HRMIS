@@ -1,352 +1,274 @@
 <div class="container-fluid">
-  <mat-card>
-    <form [formGroup]="projectWorkDetailForm" (ngSubmit)="onSubmit()">
-      <div class="container">
+  <!-- Add/Edit Form -->
+  <mat-card *ngIf="showForm" class="form-card" id="addnews">
+    <mat-card-header class="form-header">
+      <div class="form-header-wrapper">
+        <div class="form-header-title">
+          <mat-icon class="form-header-icon">{{ iseditmode ? 'edit' : 'work_outline' }}</mat-icon>
+          <h3 class="form-title">{{ iseditmode ? 'Edit Work Detail' : 'Project Work Detail' }}</h3>
+        </div>
+        <div class="form-header-actions">
+          <button 
+            mat-icon-button 
+            (click)="hideForm()" 
+            type="button"
+            title="Close Form"
+            class="close-btn">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="form-content">
+      <form [formGroup]="projectWorkDetailForm" (ngSubmit)="onSubmit()" class="mat-form">
         <div class="row">
-          <div class="col-md-12 heading">
-            <h2 style="color: whitesmoke">Project Work Detail</h2>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Choose Project</mat-label>
+              <mat-select formControlName="Project_ID" (valueChange)="onChangeModule($event)">
+                <mat-option value="">Select Project</mat-option>
+                <mat-option *ngFor="let c of project" [value]="c.Project_ID">
+                  {{ c.Project_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="projectWorkDetailForm.get('Project_ID')?.hasError('required')">
+                Project is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Choose Module</mat-label>
+              <mat-select formControlName="project_module_id" (valueChange)="onChangeWork($event)">
+                <mat-option value="">Select Module</mat-option>
+                <mat-option *ngFor="let c of ModuleData" [value]="c.project_module_id">
+                  {{ c.module_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="projectWorkDetailForm.get('project_module_id')?.hasError('required')">
+                Module is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Choose Work</mat-label>
+              <mat-select formControlName="Project_work_main_id">
+                <mat-option *ngFor="let c of projectwork" [value]="c.Project_work_main_id">
+                  {{ c.Work_name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="projectWorkDetailForm.get('Project_work_main_id')?.hasError('required')">
+                Work is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Detail Work Name</mat-label>
+              <input
+                matInput
+                placeholder="Detail Work Name"
+                formControlName="Detail_work_name"
+                (keyup)="onInputChange('Detail_work_name')"
+                autocomplete="off" />
+              <mat-error *ngIf="projectWorkDetailForm.get('Detail_work_name')?.hasError('required')">
+                Detail Work Name is required
+              </mat-error>
+              <mat-error *ngIf="projectWorkDetailForm.get('Detail_work_name')?.hasError('pattern')">
+                Only letters and spaces allowed
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
-        <br />
-        <fieldset class="scheduler-border">
-          <legend class="scheduler-border">Work Detail</legend>
-          <div class="control-group">
-            <div class="row">
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Choose Project </mat-label>
-                  <mat-select
-                    formControlName="Project_ID"
-                    (valueChange)="onChangeModule($event)"
-                  >
-                    <mat-option value="" selected>Select Project</mat-option>
-                    <mat-option
-                      *ngFor="let c of project"
-                      [value]="c.Project_ID"
-                    >
-                      {{ c.Project_name }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('Project_ID')
-                        ?.hasError('required')
-                    "
-                  >
-                    Project is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Choose Module </mat-label>
-                  <mat-select
-                    formControlName="project_module_id"
-                    (valueChange)="onChangeWork($event)"
-                  >
-                    <mat-option value="" selected>Select Module</mat-option>
-                    <mat-option
-                      *ngFor="let c of ModuleData"
-                      [value]="c.project_module_id"
-                    >
-                      {{ c.module_name }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('project_module_id')
-                        ?.hasError('required')
-                    "
-                  >
-                    Module is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label>Choose Work</mat-label>
-                  <mat-select formControlName="Project_work_main_id">
-                    <mat-option
-                      *ngFor="let c of projectwork"
-                      [value]="c.Project_work_main_id"
-                    >
-                      {{ c.Work_name }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('Project_work_main_id')
-                        ?.hasError('required')
-                    "
-                  >
-                    Work is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label> Detail Work Name </mat-label>
-                  <input
-                    matInput
-                    placeholder="Detail Work Name"
-                    formControlName="Detail_work_name"
-                    (keyup)="onInputChange('Detail_work_name')"
-                    autocomplete="off"
-                  />
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('Detail_work_name')
-                        ?.hasError('required')
-                    "
-                  >
-                    Detail Work Name is required
-                  </mat-error>
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('Detail_work_name')
-                        ?.hasError('pattern')
-                    "
-                  >
-                    Only letters and spaces allowed
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field
-                  color="accent"
-                  appearance="outline"
-                  class="inputfieldsize"
-                >
-                  <mat-label>Start Date</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker1"
-                    formControlName="Start_date"
-                  />
-                  <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker1"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker1></mat-datepicker>
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('Start_date')
-                        ?.hasError('required')
-                    "
-                  >
-                    Start Date is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field
-                  color="accent"
-                  appearance="outline"
-                  class="inputfieldsize"
-                >
-                  <mat-label>End Date</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker"
-                    formControlName="End_date"
-                  />
-                  <mat-hint>DD/MM/YYYY</mat-hint>
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    [for]="picker"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                  <mat-error
-                    *ngIf="
-                      projectWorkDetailForm
-                        .get('End_date')
-                        ?.hasError('required')
-                    "
-                  >
-                    End Date is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label> Description</mat-label>
-                  <textarea
-                    matInput
-                    placeholder="Description"
-                    formControlName="Description"
-                  ></textarea>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field appearance="outline" class="inputfieldsize">
-                  <mat-label> Remark</mat-label>
-                  <textarea
-                    matInput
-                    placeholder="Remark"
-                    formControlName="remark"
-                  ></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col offset-5">
-                <button mat-raised-button type="button" (click)="onClear()">
-                  Clear
-                </button>
-                &nbsp;&nbsp;
-                <button
-                  mat-raised-button
-                  color="primary"
-                  *ngIf="!iseditmode"
-                  type="submit"
-                >
-                  Submit
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  *ngIf="iseditmode"
-                  (click)="onupdate()"
-                  type="button"
-                >
-                  Update
-                </button>
-              </div>
-            </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Start Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker1"
+                formControlName="Start_date" />
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error *ngIf="projectWorkDetailForm.get('Start_date')?.hasError('required')">
+                Start Date is required
+              </mat-error>
+            </mat-form-field>
           </div>
-        </fieldset>
-      </div>
-    </form>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>End Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="End_date" />
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="projectWorkDetailForm.get('End_date')?.hasError('required')">
+                End Date is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                placeholder="Description"
+                formControlName="Description"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Remark</mat-label>
+              <textarea
+                matInput
+                placeholder="Remark"
+                formControlName="remark"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center mb-10">
+          <button mat-raised-button type="button" (click)="onClear()">
+            Clear
+          </button>
+
+          <button mat-raised-button type="button" (click)="hideForm()">
+            Cancel
+          </button>
+
+          <button *ngIf="!iseditmode" mat-raised-button color="primary" type="submit">
+            Submit
+          </button>
+
+          <button *ngIf="iseditmode" mat-raised-button color="primary" (click)="onupdate()" type="button">
+            Update
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
   </mat-card>
 </div>
-<br />
-<br />
 
-<!-- mat table -->
-<div class="container-fluid">
-  <mat-card style="margin-bottom: 40px">
-    <mat-toolbar>
-      <p>
-        <span><h5 class="title">All Work Detail</h5></span>
-      </p>
-    </mat-toolbar>
-    <div class="container">
-      <div class="row table-responsive">
-        <div class="search_container mt-2">
-          <mat-form-field class="example-full-width">
-            <span matPrefix> </span>
-            <input
-              type="tel"
-              matInput
-              placeholder="Search"
-              autocomplete="off"
-              (keyup)="applyFilter($event)"
-            />
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
+<div class="container-fluid" style="overflow: auto">
+  <mat-card class="table-card">
+    <mat-card-header class="table-header">
+      <div class="header-wrapper">
+        <div class="header-title">
+          <mat-icon class="header-icon">work_outline</mat-icon>
+          <h3 class="table-title">Project Work Detail Management</h3>
         </div>
+        <div class="header-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="showAddForm()" 
+            class="action-btn header-btn"
+            *ngIf="!showForm">
+            <mat-icon>add</mat-icon>
+            Add Work Detail
+          </button>
+        </div>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content class="table-content">
+      <div class="search-section">
+        <mat-form-field class="search-field" appearance="outline">
+          <mat-label>Search Work Details</mat-label>
+          <input 
+            matInput 
+            placeholder="Search by project, module, work name..." 
+            autocomplete="off" 
+            (keyup)="applyFilter($event)" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
 
-        <table class="con-table" mat-table matSort [dataSource]="dataSource">
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="data-table">
           <ng-container matColumnDef="Project_work_detail_id">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Project_work_detail_id }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let element">{{ element.Project_work_detail_id }}</td>
           </ng-container>
+
           <ng-container matColumnDef="Project_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Project</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Project_name }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Project</th>
+            <td mat-cell *matCellDef="let element">{{ element.Project_name }}</td>
           </ng-container>
+
           <ng-container matColumnDef="module_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Module</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.module_name }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Module</th>
+            <td mat-cell *matCellDef="let element">{{ element.module_name }}</td>
           </ng-container>
+
           <ng-container matColumnDef="Work_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Work</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Work</th>
             <td mat-cell *matCellDef="let element">{{ element.Work_name }}</td>
           </ng-container>
+
           <ng-container matColumnDef="Detail_work_name">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Work Detail Name
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Detail_work_name }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Detail Work</th>
+            <td mat-cell *matCellDef="let element">{{ element.Detail_work_name }}</td>
           </ng-container>
+
           <ng-container matColumnDef="Start_date">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Start Date
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Start_date | date : "dd/MM/YYYY" }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.Start_date | date : "dd/MM/YYYY" }}</td>
           </ng-container>
+
           <ng-container matColumnDef="End_date">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>End Date</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.End_date | date : "dd/MM/YYYY" }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+            <td mat-cell *matCellDef="let element">{{ element.End_date | date : "dd/MM/YYYY" }}</td>
           </ng-container>
+
           <ng-container matColumnDef="Description">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>
-              Description
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.Description }}
-            </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let element">{{ element.Description }}</td>
           </ng-container>
+
           <ng-container matColumnDef="remark">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Remark</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Remark</th>
             <td mat-cell *matCellDef="let element">{{ element.remark }}</td>
           </ng-container>
+
           <ng-container matColumnDef="Action" stickyEnd="true">
-            <th mat-sort-header mat-header-cell *matHeaderCellDef>Action</th>
+            <th mat-header-cell *matHeaderCellDef>Action</th>
             <td mat-cell *matCellDef="let element">
-              <button
-                mat-icon-button
-                color="primary"
-                (click)="onedit(element.Project_work_detail_id)"
-              >
+              <button mat-icon-button color="primary" (click)="onedit(element.Project_work_detail_id)">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="ondelete(element.Project_work_detail_id)"
-              >
+              <button mat-icon-button color="warn" (click)="ondelete(element.Project_work_detail_id)">
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header-row"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="table-data-row"></tr>
         </table>
-        <br />
-        <mat-paginator
-          class="paging"
-          [pageSize]="5"
-          [pageSizeOptions]="[5, 10, 25, 100]"
-          aria-label="Select page"
-        >
-        </mat-paginator>
+        
+        <div class="table-footer">
+          <mat-paginator 
+            class="paginator" 
+            [pageSize]="5" 
+            [pageSizeOptions]="[5, 10, 25, 100]" 
+            aria-label="Select page"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
       </div>
-    </div>
+    </mat-card-content>
   </mat-card>
 </div>
+
+

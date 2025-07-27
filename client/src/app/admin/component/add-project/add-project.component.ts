@@ -53,6 +53,7 @@ export class AddProjectComponent implements OnInit {
   projectDataByid: any;
   allProjectDetail: any;
   projectType: any;
+  showForm: boolean = false; // Control form visibility
 
   ngOnInit(): void {
     this.projectDetailForm = this.fb.group({
@@ -125,6 +126,7 @@ export class AddProjectComponent implements OnInit {
           Swal.fire('Data Saved Successfully');
           this.getTable();
           this.onClear();
+          this.hideForm(); // Hide form after successful submission
         }
       });
   }
@@ -157,6 +159,7 @@ export class AddProjectComponent implements OnInit {
     console.log(this.projectDataByid);
     this.iseditmode = true;
     this.data_id = Project_ID;
+    this.showForm = true; // Show form for editing
     document.getElementById('addnews')?.scrollIntoView();
     this.projectDetailForm.patchValue({
       Project_name: this.projectDataByid.Project_name,
@@ -183,6 +186,7 @@ export class AddProjectComponent implements OnInit {
         }
         this.getTable();
         this.onClear();
+        this.hideForm(); // Hide form after successful update
       });
     this.iseditmode = false;
   }
@@ -211,5 +215,22 @@ export class AddProjectComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  // Show the add project form
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear(); // Clear any existing data
+    setTimeout(() => {
+      document.getElementById('addnews')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+
+  // Hide the form
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear(); // Clear form data when hiding
   }
 }

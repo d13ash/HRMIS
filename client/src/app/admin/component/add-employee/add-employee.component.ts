@@ -85,6 +85,8 @@ export class AddEmployeeComponent implements OnInit {
   alluserdetail: any;
   EmployeeDataByid: any;
   postdata: any;
+  showForm: boolean = false; // Control form visibility
+  iseditmode: boolean = false; // Track edit mode
 
   constructor(
     private fb: FormBuilder,
@@ -183,6 +185,7 @@ export class AddEmployeeComponent implements OnInit {
       Swal.fire('Data Saved successfully');
       this.getTable();
       this.onReset();
+      this.hideForm(); // Hide form after successful submission
     } catch (error) {
       console.error('Error', error);
     }
@@ -293,5 +296,24 @@ export class AddEmployeeComponent implements OnInit {
         viewValue: item.Salutation_Name,
       }));
     });
+  }
+
+  // Clear form data
+  onClear() {
+    this.onReset();
+  }
+
+  // Show the add employee form
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onReset(); // Clear any existing data
+  }
+
+  // Hide the form
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onReset(); // Clear form data when hiding
   }
 }

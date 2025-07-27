@@ -44,6 +44,7 @@ export class WorkAllotmentComponent implements OnInit {
   datePipe: any;
   data: any;
   iseditmode: boolean = false;
+  showForm: boolean = false;
   WorkAllotDataByid: any;
   data_id: any;
   ModuleData: any;
@@ -291,6 +292,18 @@ export class WorkAllotmentComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  showAddForm() {
+    this.showForm = true;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
+  hideForm() {
+    this.showForm = false;
+    this.iseditmode = false;
+    this.onClear();
+  }
+
   newfunc() {
     let val = this.nestedform.value;
     console.log('val of nested', val.Project_work_main_id);
@@ -374,6 +387,7 @@ export class WorkAllotmentComponent implements OnInit {
     }
     this.getTable();
     this.onClear();
+    this.hideForm();
   }
 
   onClear() {
@@ -397,6 +411,7 @@ export class WorkAllotmentComponent implements OnInit {
     this.WorkAllotDataByid = this.projectWorkDetaildata.find((f: any) => f.Project_work_allotment_id === parseInt(Project_work_allotment_id));
     console.log(this.WorkAllotDataByid)
     this.iseditmode = true;
+    this.showForm = true;
     this.data_id = Project_work_allotment_id;
     this.ds.getData('projectWorkAllotment/getAllotedWork/' + this.data_id).subscribe((result: any) => {
       const works = result.map((item: any) => item.Project_work_main_id);
@@ -472,6 +487,7 @@ export class WorkAllotmentComponent implements OnInit {
         this.onClear();
       });
     this.iseditmode = false;
+    this.hideForm();
   }
 
   // Delete Resource detail

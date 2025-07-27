@@ -1,0 +1,169 @@
+// Search Container Styling
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  width: 300px;
+}
+
+// Material Table Styling
+.table-container {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mat-table {
+  width: 100%;
+  background: white;
+  
+  .mat-header-cell {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 16px;
+    border: none;
+  }
+  
+  .mat-cell {
+    padding: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14px;
+  }
+  
+  .mat-row {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: #f8f9ff;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &:nth-child(even) {
+      background-color: #fafafa;
+    }
+  }
+}
+
+// Project Name Styling
+.project-name {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+}
+
+// Badge Styling
+.badge {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  
+  &.bg-info {
+    background-color: #17a2b8 !important;
+    color: white !important;
+  }
+  
+  &.bg-success {
+    background-color: #28a745 !important;
+    color: white !important;
+  }
+}
+
+// Card Styling
+.card {
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  
+  .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 20px;
+    
+    h4 {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 18px;
+    }
+  }
+  
+  .card-body {
+    padding: 25px;
+  }
+}
+
+// No Data Container
+.no-data-container {
+  background: white;
+  border-radius: 8px;
+  margin-top: 20px;
+  
+  i {
+    opacity: 0.5;
+  }
+  
+  h5, p {
+    margin: 0;
+  }
+}
+
+// Paginator Styling
+.mat-paginator {
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  
+  .mat-paginator-page-size-select {
+    margin: 8px;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .search-field {
+    width: 100%;
+  }
+  
+  .mat-table {
+    .mat-header-cell,
+    .mat-cell {
+      padding: 12px 8px;
+      font-size: 12px;
+    }
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+}
+
+// Material Form Field Styling
+.mat-form-field {
+  .mat-form-field-outline {
+    color: #ddd;
+  }
+  
+  .mat-form-field-label {
+    color: #666;
+  }
+  
+  &.mat-focused {
+    .mat-form-field-outline-thick {
+      color: #667eea;
+    }
+    
+    .mat-form-field-label {
+      color: #667eea;
+    }
+  }
+}

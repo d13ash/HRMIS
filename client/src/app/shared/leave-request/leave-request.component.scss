@@ -1,10 +1,51 @@
-.card {
-    background-color: #fff;
-    border-radius: 10px;
-    border: none;
-    position: relative;
-    margin-bottom: 30px;
-    box-shadow: 0 0.46875rem 2.1875rem rgba(90,97,105,0.1), 0 0.9375rem 1.40625rem rgba(90,97,105,0.1), 0 0.25rem 0.53125rem rgba(90,97,105,0.12), 0 0.125rem 0.1875rem rgba(90,97,105,0.1);
+// All styles handled by global styles.scss
+// Component uses global classes: form-card, form-header, form-content, etc.
+
+.inputfieldsize {
+  width: 100%;
+}
+
+.leave-request-container {
+  min-width: 500px;
+  max-width: 800px;
+}
+
+.file-upload-section {
+  margin: 16px 0;
+  
+  .upload-label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .upload-btn {
+    margin-bottom: 8px;
+  }
+  
+  .selected-file-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    margin-top: 8px;
+    
+    .file-name-text {
+      flex: 1;
+      font-size: 14px;
+      color: #555;
+    }
+    
+    .remove-file-btn,
+    .view-file-btn {
+      color: #666;
+      
+      &:hover {
+        color: #333;
+      }
+    }
+  }
 }
 
 .l-bg-cherry {

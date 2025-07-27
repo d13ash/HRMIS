@@ -1,19 +1,12 @@
 
-mat-card{
-    background-color: rgb(255, 255, 255);
-  }
+// Component-specific styling for financial-post
+mat-card {
+  background-color: rgb(255, 255, 255);
+}
 
-  .heading{
-    text-align: center;
-    background-color: #576CBC;
-    h2{
-        padding-top: 10px;
-        color: beige;
-    }
-  }
-  mat-form-field{
-    margin-bottom:16px;
-  }
+mat-form-field {
+  margin-bottom: 16px;
+}
   fieldset.scheduler-border {
     border: 2px solid gray !important;
     padding: 1.4em 1.4em 1.4em 1.4em !important;

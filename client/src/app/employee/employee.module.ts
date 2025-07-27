@@ -12,6 +12,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { EmployeeProfileComponent } from './component/employee-profile/employee-profile.component';
 import { ProfileViewComponent } from './component/profile-view/profile-view.component';
 import { SharedModule } from '../shared/shared.module';
+import { EmpProjectComponent } from './component/emp-project/emp-project.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     MyWorkComponent,
     EmployeeProfileComponent,
     ProfileViewComponent,
+    EmpProjectComponent,
  
   
   ],

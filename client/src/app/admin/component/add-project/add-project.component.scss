@@ -1,37 +1,5 @@
-.card-content {
-  padding: 10px;
-  display: flex;
-}
-
-.example-card {
-  margin-right: 20px;
-}
-
-mat-form-field {
-  margin-bottom: 16px;
-}
-
-.example-card-new {
-  max-width: 250px;
-  margin-left: 20px;
-}
-
-.example-header-image {
-  background-image: url('https://images-platform.99static.com/P-fsdjQU-s6B1EHCG9Fog7uV4PU=/500x500/smart/99designs-contests-files/contests/13/1395/139500/brief/b9e6be225d76c21d90a8cabd0239aa61');
-  background-size: cover;
-}
-
 mat-card {
   background-color: rgb(255, 255, 255);
-}
-
-.heading {
-  text-align: center;
-  background-color: #576cbc;
-}
-.heading h2 {
-  padding-top: 10px;
-  color: beige;
 }
 
 fieldset.scheduler-border {
@@ -57,8 +25,10 @@ legend.scheduler-border {
   width: 100%;
 }
 
+mat-form-field {
+  margin-bottom: 16px;
+}
+
 mat-hint {
   color: blue;
 }
-
-/* Removed mat-table-specific styles */

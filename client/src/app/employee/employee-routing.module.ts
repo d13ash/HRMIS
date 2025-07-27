@@ -11,6 +11,7 @@ import { LeaveStatusComponent } from '../shared/leave-status/leave-status.compon
 import { LeaveHrComponent } from '../shared/leave-hr/leave-hr.component';
 import { LeaveRequestComponent } from '../shared/leave-request/leave-request.component';
 import { AttendanceEmpComponent } from '../shared/attendance-emp/attendance-emp.component';
+import { EmpProjectComponent } from './component/emp-project/emp-project.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-dash/content', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
     children: [
       { path: 'content', component: EmpDashContentComponent },
       { path: 'my-work', component: MyWorkComponent },
+      { path: 'emp-project', component: EmpProjectComponent },
       { path: 'profile-view', component: ProfileViewComponent },
       {
         path: 'profile-view/employee-profile',

@@ -35,6 +35,8 @@ export class FinancialBudgetAllotmentComponent implements OnInit {
   editproject: any;
   update1: any;
   isEditMode: boolean = false;
+  showForm: boolean = false; // Property to control form visibility
+
   ngOnInit(): void {
     this.Budget_Allotment_Form = this.fb.group({
       budget_head_id: [null, Validators.required],
@@ -196,5 +198,19 @@ export class FinancialBudgetAllotmentComponent implements OnInit {
         if (result) this.getTable();
         Swal.fire('Data Deleted...');
       });
+  }
+
+  // Show the add form
+  showAddForm() {
+    this.showForm = true;
+    this.isEditMode = false;
+    this.onClear();
+  }
+
+  // Hide the form
+  hideForm() {
+    this.showForm = false;
+    this.isEditMode = false;
+    this.onClear();
   }
 }

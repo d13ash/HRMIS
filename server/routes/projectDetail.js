@@ -161,4 +161,35 @@ function validateprojectDetail(projectDetail) {
     }).unknown(true);
     return schema.validate(projectDetail);
 }
+
+router.get('/employeeProjects/:empId', async (req, resp) => {
+    const empId = req.params.empId;
+
+    const query = `
+        SELECT DISTINCT
+            mp.Project_ID,
+            mp.Project_name,
+            mf.Financial_name,
+            mpt.Project_Type_Name
+        FROM m_project mp
+        LEFT JOIN m_project_type mpt ON mp.Project_Type_ID = mpt.Project_Type_ID
+        LEFT JOIN project_work_allotment pwa ON mp.Project_ID = pwa.Project_ID AND pwa.Emp_Id = ?
+        LEFT JOIN m_financial mf ON pwa.Financial_id = mf.Financial_id
+        WHERE pwa.Emp_Id IS NOT NULL 
+          AND (pwa.Delete_YN IS NULL OR pwa.Delete_YN != 'Y')
+        ORDER BY mp.Project_name
+    `;
+
+    try {
+        const result = await mysql.exec(query, [empId]);
+        if (result.length === 0) {
+            return resp.status(404).send("No projects found for this employee.");
+        }
+        return resp.json(result);
+    } catch (err) {
+        console.error("Error fetching employee projects:", err);
+        return resp.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 module.exports = router;

@@ -1,85 +1,69 @@
+
 <div class="container-fluid" *ngFor="let s of roles">
-  <mat-card>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 heading">
-          <h2>Employee Profile</h2>
+  <mat-card class="table-card">
+    <mat-card-header class="table-header">
+      <div class="header-wrapper">
+        <div class="header-title">
+          <mat-icon class="header-icon">person</mat-icon>
+          <h2 class="table-title">Employee Profile</h2>
         </div>
       </div>
-      <form>
-        <!-- Employee Profile -->
-        <div class="student-profile py-4">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="card shadow-sm">
-                  <div class="card-header bg-transparent text-center">
-                    <img
-                      class="profile-img"
-                      src="{{ s.Emp_Photo_Path }}"
-                      alt=""
-                    />
-                    <h3>{{ s.FullName }}</h3>
-                    <h3>{{ s.Post_Name }}</h3>
-                  </div>
-                  <div class="card-body">
-                    <p class="mb-0">
-                      <strong>Employee ID:</strong> {{ s.username }}
-                    </p>
+    </mat-card-header>
+    <mat-card-content class="table-content">
 
-                    <!-- <p class="mb-0"><strong>Father Name:</strong> {{s.Father_Name_E}}</p>
-                      <p class="mb-0"><strong>Mother Name:</strong> {{s.Mother_Name_E}}</p>
-                      <p class="mb-0"><strong>Guardian Name:</strong> {{s.Guardian_Name_E}}</p> -->
-                  </div>
-                </div>
+      <section class="profile-section" aria-label="Employee Profile Details">
+        <aside class="profile-left">
+          <mat-card class="profile-photo-card" aria-label="Employee Photo and Basic Info">
+            <mat-card-header class="photo-header">
+              <img class="profile-img" src="{{ s.Emp_Photo_Path }}" alt="Photo of {{ s.FullName }}" />
+              <h3 class="profile-name">{{ s.FullName }}</h3>
+              <h4 class="profile-post">{{ s.Post_Name }}</h4>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="profile-id"><strong>Employee ID:</strong> {{ s.username }}</p>
+            </mat-card-content>
+          </mat-card>
+        </aside>
+        <main class="profile-right">
+          <mat-card class="profile-info-card" aria-label="General Information">
+            <mat-card-header class="info-header">
+              <mat-icon class="info-icon" aria-hidden="true">info</mat-icon>
+              <h3 class="info-title">General Information</h3>
+            </mat-card-header>
+            <mat-card-content>
+              <table class="mat-elevation-z1 info-table" aria-label="General Information Table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Father Name:</th>
+                    <td>{{ s.Father_Name_E }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mother Name:</th>
+                    <td>{{ s.Mother_Name_E }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Date of Birth:</th>
+                    <td>{{ s.DOB | date : 'dd-MM-yyyy' }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Email :</th>
+                    <td>{{ s.Email_Id }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mobile No. :</th>
+                    <td>{{ s.Mobile_No }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="profile-action">
+                <button mat-raised-button color="warn" routerLink="employee-profile">
+                  UPDATE PROFILE
+                </button>
               </div>
-              <div class="col-lg-8">
-                <div class="card shadow-sm">
-                  <div class="card-header bg-transparent border-0">
-                    <h3 class="mb-0">
-                      <i class="far fa-clone pr-1"></i>General Information
-                    </h3>
-                  </div>
-                  <div class="card-body pt-0">
-                    <table class="table table-bordered">
-                      <tr>
-                        <th>Father Name:</th>
-                        <td>{{ s.Father_Name_E }}</td>
-                      </tr>
-                      <tr>
-                        <th>Mother Name:</th>
-                        <td>{{ s.Mother_Name_E }}</td>
-                      </tr>
-                      <tr>
-                        <th>Date of Birth:</th>
-                        <td>{{ s.DOB | date : "dd-MM-yyyy" }}</td>
-                      </tr>
-
-                      <tr>
-                        <th>Email :</th>
-                        <td>{{ s.Email_Id }}</td>
-                      </tr>
-                      <tr>
-                        <th>Mobile No. :</th>
-                        <td>{{ s.Mobile_No }}</td>
-                      </tr>
-                    </table>
-                    <div class="text-center">
-                      <button
-                        mat-raised-button
-                        color="warn"
-                        routerLink="employee-profile"
-                      >
-                        UPDATE PROFILE
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+            </mat-card-content>
+          </mat-card>
+        </main>
+      </section>
+    </mat-card-content>
   </mat-card>
 </div>
