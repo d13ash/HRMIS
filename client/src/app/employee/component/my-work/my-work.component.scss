@@ -3,32 +3,6 @@ mat-card{
     background-color: rgb(240, 242, 243);
   }
   
-  // Material table styling to match work-allotment
-  .con-table {
-    width: 100%;
-    background-color: white;
-    
-    .mat-header-cell {
-      background-color: #f8f9fa;
-      font-weight: 600;
-      color: #495057;
-      border-bottom: 2px solid #dee2e6;
-    }
-    
-    .mat-cell {
-      border-bottom: 1px solid #dee2e6;
-      padding: 12px 8px;
-    }
-    
-    .mat-row:hover {
-      background-color: #f8f9fa;
-    }
-  }
-  
-  .table-header {
-    background-color: #f8f9fa !important;
-  }
-  
   // Search container styling
   .search_container {
     .example-full-width {
@@ -53,56 +27,7 @@ mat-card{
     }
   }
   
-  // Pagination styling
-  .paging {
-    background-color: white;
-    border-top: 1px solid #dee2e6;
-  }
-  
-  .heading{
-    text-align: center;
-    background-color: #ffffff;
-    h2{
-        padding-top: 10px;
-        color: beige;
-    }
-  }
-  
-  fieldset.scheduler-border {
-    border: 2px solid gray !important;
-    padding: 0 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow: 0px 0px 0px 0px #000;
-    box-shadow: 0px 0px 0px 0px #000;
-    margin-top: 30px !important;
-  }
-  
-  legend.scheduler-border {
-    font-size: 1.2em !important;
-    font-weight: 500 !important;
-    // text-align: left !important;
-    width: auto;
-    padding: 0 5px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    border-bottom: none;
-    margin-top: -14px;
-    margin-bottom: 15px;
-    background-color: rgb(203, 206, 249);
-    border-radius: 5px;
-    color: black;
-  }
-  
-  .inputfieldsize{
-    width: 100%;
-  }
-  
-  
-  mat-hint{
-  color:blue;
-  }
-
-  // Status buttons styling
+  // Status buttons styling (component-specific)
   .status-buttons {
     padding: 8px;
     min-width: 200px;
@@ -140,49 +65,8 @@ mat-card{
     height: 30px !important;
   }
 
-  // Table styling improvements
-  table {
-    th {
-      background-color: #f8f9fa;
-      font-weight: 600;
-      text-align: center;
-    }
-    
-    td {
-      text-align: center;
-      vertical-align: middle;
-      padding: 12px 8px;
-    }
-  }
-
-  // Responsive design
-  .table-responsive {
-    overflow-x: auto;
-  }
-
- 
-// table color
-
-tr:nth-child(odd){
-  background-color:#f9f9f9;
-}
-
-tr:nth-child(even){
-  background-color:  rgb(228, 228, 228);
-}
-
-
-table{
-  th{
-    color: #333232;
-    background-color:hsl(214, 63%, 77%)
-  }
-
-}
-
-// dropdown
-/* Styling the dropdown container */
-#language {
+  // Dropdown styling (component-specific)
+  #language {
   width: 150px;
   padding: 8px;
   font-size: 16px;
