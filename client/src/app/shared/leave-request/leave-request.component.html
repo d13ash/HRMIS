@@ -69,7 +69,7 @@
         </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-4">
             <mat-form-field appearance="outline" class="inputfieldsize">
               <mat-label>Leave Reason</mat-label>
               <mat-select formControlName="leaveReason" (selectionChange)="onLeaveReasonChange()">
@@ -82,35 +82,19 @@
               </mat-error>
             </mat-form-field>
           </div>
-        </div>
-
-        <div class="row" *ngIf="showPurposeField">
-          <div class="col-md-12">
-            <mat-form-field appearance="outline" class="inputfieldsize">
-              <mat-label>Purpose of Leave</mat-label>
-              <textarea matInput formControlName="purpose" rows="3"></textarea>
-              <mat-error *ngIf="leaveForm.get('purpose')?.hasError('required')">
-                Purpose is required for this reason
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="file-upload-section">
-              <label class="upload-label">
-                <button 
-                  type="button" 
-                  mat-stroked-button 
-                  color="primary" 
-                  (click)="fileInput.click()" 
-                  [disabled]="data && data.viewOnly"
-                  class="upload-btn">
-                  <mat-icon>attach_file</mat-icon>
-                  Upload Document
-                </button>
-              </label>
+              <label class="upload-label">Upload Document</label>
+              <button 
+                type="button" 
+                mat-stroked-button 
+                color="primary" 
+                (click)="fileInput.click()" 
+                [disabled]="data && data.viewOnly"
+                class="upload-btn">
+                <mat-icon>attach_file</mat-icon>
+                Choose File
+              </button>
               <input 
                 hidden 
                 #fileInput 
@@ -142,6 +126,18 @@
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="showPurposeField">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="inputfieldsize">
+              <mat-label>Purpose of Leave</mat-label>
+              <textarea matInput formControlName="purpose" rows="3"></textarea>
+              <mat-error *ngIf="leaveForm.get('purpose')?.hasError('required')">
+                Purpose is required for this reason
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
 
